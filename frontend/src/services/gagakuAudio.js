@@ -22,14 +22,8 @@ class GagakuAudioManager {
   async init() {
     if (this.isInitialized) return;
 
-    try {
-      // iframe内で実際の雅楽音源を再生
-      this.setupIframePlayer();
-    } catch (error) {
-      console.error('雅楽プレーヤーの初期化に失敗:', error);
-      // フォールバックとして直接Audio要素を使用
-      this.setupDirectAudio();
-    }
+    // 直接Audio要素を使用
+    this.setupDirectAudio();
   }
 
   // iframeプレーヤーのセットアップ
@@ -54,31 +48,27 @@ class GagakuAudioManager {
   async setupDirectAudio() {
     this.audio = new Audio();
     
-    // 実際の雅楽演奏音源
+    // フリーの和風BGM音源
     const audioSources = [
-      '/audio/gagaku-etenraku.mp3',
-      'https://ia801309.us.archive.org/7/items/gagaku-etenraku/etenraku.mp3'
+      'https://dova-s.jp/_contents/audio/mp3/11843.mp3', // DOVA-SYNDROMEの和風BGM
+      'https://pocket-se.info/wp-content/uploads/2022/08/kokyuu.mp3', // ポケットサウンドの和風
+      '/audio/gagaku-etenraku.mp3' // ローカルファイル
     ];
 
-    for (const source of audioSources) {
-      try {
-        this.audio.src = source;
-        this.audio.loop = true;
-        this.audio.volume = 0.3;
-        
-        await new Promise((resolve, reject) => {
-          this.audio.addEventListener('canplay', resolve, { once: true });
-          this.audio.addEventListener('error', reject, { once: true });
-          this.audio.load();
-        });
-        
-        console.log('雅楽音源を読み込みました:', source);
-        this.isInitialized = true;
-        break;
-      } catch (error) {
-        console.log('音源の読み込みに失敗:', source);
+    // 最初に利用可能な音源を使用
+    this.audio.src = audioSources[0];
+    this.audio.loop = true;
+    this.audio.volume = 0.3;
+    this.isInitialized = true;
+    
+    // エラーハンドリング
+    this.audio.addEventListener('error', () => {
+      console.log('音源の読み込みエラー、代替音源を試します');
+      const currentIndex = audioSources.indexOf(this.audio.src);
+      if (currentIndex < audioSources.length - 1) {
+        this.audio.src = audioSources[currentIndex + 1];
       }
-    }
+    });
   }
 
 

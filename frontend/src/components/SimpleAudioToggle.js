@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import gagakuAudio from '../services/gagakuAudio';
+import simpleGagaku from '../services/simpleGagaku';
 import './SimpleAudioToggle.css';
 
 const SimpleAudioToggle = () => {
-  const [isEnabled, setIsEnabled] = useState(gagakuAudio.getState());
+  const [isEnabled, setIsEnabled] = useState(simpleGagaku.getState());
   const [hasInteracted, setHasInteracted] = useState(false);
 
   useEffect(() => {
@@ -11,7 +11,7 @@ const SimpleAudioToggle = () => {
     const handleFirstInteraction = async () => {
       if (!hasInteracted && isEnabled) {
         setHasInteracted(true);
-        await gagakuAudio.play();
+        await simpleGagaku.play();
       }
       document.removeEventListener('click', handleFirstInteraction);
     };
@@ -24,7 +24,7 @@ const SimpleAudioToggle = () => {
   }, [hasInteracted, isEnabled]);
 
   const handleToggle = () => {
-    const newState = gagakuAudio.toggle();
+    const newState = simpleGagaku.toggle();
     setIsEnabled(newState);
     
     if (!hasInteracted) {
