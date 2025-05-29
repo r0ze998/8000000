@@ -1,4 +1,6 @@
 import React, { useState, useRef } from 'react';
+import { verificationService } from '../services/verificationService';
+import { VERIFICATION_CONFIG } from '../constants/culturalActivities';
 import './VisitVerification.css';
 
 const VisitVerification = ({ shrine, onVerified, onCancel }) => {
@@ -23,88 +25,61 @@ const VisitVerification = ({ shrine, onVerified, onCancel }) => {
     }
   };
 
-  // 写真から位置情報を抽出（実際にはEXIF.jsなどのライブラリを使用）
+  // 写真から位置情報を抽出
   const extractLocationFromPhoto = async (file) => {
-    // 簡略化された実装
     setVerificationStatus('写真から位置情報を確認中...');
-    setTimeout(() => {
+    const result = await verificationService.extractLocationFromPhoto(file);
+    if (result.hasLocation) {
+      setVerificationStatus('✅ 写真の位置情報が確認されました');
+    } else {
       setVerificationStatus('写真が確認されました');
-    }, 1500);
+    }
   };
 
   // GPS位置情報取得
-  const getGPSLocation = () => {
+  const getGPSLocation = async () => {
     setIsVerifying(true);
     setVerificationStatus('現在地を取得中...');
 
-    if ("geolocation" in navigator) {
-      navigator.geolocation.getCurrentPosition(
-        (position) => {
-          const { latitude, longitude } = position.coords;
-          setGpsLocation({ latitude, longitude });
-          
-          // 神社の位置と比較
-          const distance = calculateDistance(
-            latitude, 
-            longitude, 
-            shrine.location.lat, 
-            shrine.location.lng
-          );
-
-          if (distance < 500) { // 500m以内
-            setVerificationStatus(`✅ ${shrine.name}の近くにいることを確認しました（${Math.round(distance)}m）`);
-          } else {
-            setVerificationStatus(`❌ ${shrine.name}から離れています（${Math.round(distance)}m）`);
-          }
-          setIsVerifying(false);
-        },
-        (error) => {
-          setVerificationStatus('❌ 位置情報の取得に失敗しました');
-          setIsVerifying(false);
-        },
-        {
-          enableHighAccuracy: true,
-          timeout: 10000,
-          maximumAge: 0
-        }
+    try {
+      const position = await verificationService.getCurrentPosition();
+      setGpsLocation(position);
+      
+      // 神社の位置と比較
+      const verification = await verificationService.verifyLocation(
+        position.latitude,
+        position.longitude,
+        shrine.location.lat,
+        shrine.location.lng
       );
-    } else {
-      setVerificationStatus('❌ このブラウザは位置情報をサポートしていません');
+
+      if (verification.isValid) {
+        setVerificationStatus(`✅ ${shrine.name}の近くにいることを確認しました（${verification.distance}m）`);
+      } else {
+        setVerificationStatus(`❌ ${shrine.name}から離れています（${verification.distance}m）`);
+      }
+    } catch (error) {
+      setVerificationStatus('❌ 位置情報の取得に失敗しました');
+    } finally {
       setIsVerifying(false);
     }
   };
 
-  // 2点間の距離を計算（メートル単位）
-  const calculateDistance = (lat1, lon1, lat2, lon2) => {
-    const R = 6371e3; // 地球の半径（メートル）
-    const φ1 = lat1 * Math.PI/180;
-    const φ2 = lat2 * Math.PI/180;
-    const Δφ = (lat2-lat1) * Math.PI/180;
-    const Δλ = (lon2-lon1) * Math.PI/180;
-
-    const a = Math.sin(Δφ/2) * Math.sin(Δφ/2) +
-              Math.cos(φ1) * Math.cos(φ2) *
-              Math.sin(Δλ/2) * Math.sin(Δλ/2);
-    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
-
-    return R * c;
-  };
 
   // 参拝を確認
   const confirmVisit = () => {
-    if (verificationMethod === 'photo' && photoPreview) {
-      onVerified({
-        method: 'photo',
-        photo: photoPreview,
-        timestamp: new Date().toISOString()
-      });
-    } else if (verificationMethod === 'gps' && gpsLocation) {
-      onVerified({
-        method: 'gps',
-        location: gpsLocation,
-        timestamp: new Date().toISOString()
-      });
+    const verificationData = {
+      method: verificationMethod,
+      timestamp: new Date().toISOString()
+    };
+
+    if (verificationMethod === VERIFICATION_CONFIG.VERIFICATION_METHODS.PHOTO && photoPreview) {
+      verificationData.photo = photoPreview;
+    } else if (verificationMethod === VERIFICATION_CONFIG.VERIFICATION_METHODS.GPS && gpsLocation) {
+      verificationData.location = gpsLocation;
     }
+
+    onVerified(verificationData);
   };
 
   return (

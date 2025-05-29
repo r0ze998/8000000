@@ -1,11 +1,9 @@
 import React, { useState, useMemo } from 'react';
 import { 
   SHRINE_TEMPLE_DATABASE, 
-  getShrinesByPrefecture, 
-  getShrinesByType, 
   searchShrines,
   RARITY_MULTIPLIERS 
-} from '../data/shrineTempleDatabase';
+} from '../data/shrineDatabase';
 import './ShrineSelector.css';
 
 const ShrineSelector = ({ onShrineSelect, onClose }) => {

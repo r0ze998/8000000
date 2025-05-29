@@ -1,8 +1,7 @@
-// 拡張神社・寺院データベース - 全国200箇所以上
-import { SHRINE_TEMPLE_DATABASE } from './shrineTempleDatabase';
+// 神社・寺院データベース - 全国200箇所以上
 
-// 追加の神社・寺院データ
-const EXPANDED_SHRINE_DATA = [
+// 基本の神社・寺院データ
+export const SHRINE_TEMPLE_DATABASE = [
   // 北海道
   {
     id: 'hokkaido-jingu',
@@ -15,7 +14,7 @@ const EXPANDED_SHRINE_DATA = [
     founded: 1869,
     description: '北海道の総鎮守。桜の名所としても有名で、春には多くの花見客で賑わう。',
     benefits: ['開拓守護', '商売繁盛', '縁結び'],
-    coordinates: { lat: 43.0544, lng: 141.3544 },
+    location: { lat: 43.0544, lng: 141.3544 },
     culturalValue: 80,
     rarity: 'rare',
     festival: '札幌まつり',
@@ -34,7 +33,7 @@ const EXPANDED_SHRINE_DATA = [
     founded: 862,
     description: '日本三大霊場の一つ。イタコの口寄せでも有名。硫黄の匂いが漂う神秘的な霊場。',
     benefits: ['先祖供養', '心の浄化', '霊的守護'],
-    coordinates: { lat: 41.3000, lng: 141.1000 },
+    location: { lat: 41.3000, lng: 141.1000 },
     culturalValue: 150,
     rarity: 'legendary',
     festival: '恐山大祭',
@@ -54,7 +53,7 @@ const EXPANDED_SHRINE_DATA = [
     founded: 850,
     description: '世界遺産平泉の中核。金色堂で有名。奥州藤原氏の栄華を物語る。',
     benefits: ['学業成就', '平和祈願', '文化財保護'],
-    coordinates: { lat: 39.0000, lng: 141.1000 },
+    location: { lat: 39.0000, lng: 141.1000 },
     culturalValue: 180,
     rarity: 'mythical',
     festival: '藤原まつり',
@@ -75,7 +74,7 @@ const EXPANDED_SHRINE_DATA = [
     founded: 1637,
     description: '伊達政宗の霊廟。桃山様式の華麗な建築で知られる。',
     benefits: ['武運長久', '出世開運', '家運隆盛'],
-    coordinates: { lat: 38.2500, lng: 140.8500 },
+    location: { lat: 38.2500, lng: 140.8500 },
     culturalValue: 120,
     rarity: 'rare',
     festival: '政宗公まつり',
@@ -95,7 +94,7 @@ const EXPANDED_SHRINE_DATA = [
     founded: 1789,
     description: '東北三大祭りの一つ。竿燈を使った妙技が見どころ。',
     benefits: ['五穀豊穣', '無病息災', '技芸上達'],
-    coordinates: { lat: 39.7186, lng: 140.1024 },
+    location: { lat: 39.7186, lng: 140.1024 },
     culturalValue: 90,
     rarity: 'rare',
     festival: '竿燈まつり',
@@ -115,7 +114,7 @@ const EXPANDED_SHRINE_DATA = [
     founded: 860,
     description: '松尾芭蕉の「奥の細道」で詠まれた名刹。1015段の石段を登る修行の場。',
     benefits: ['心身鍛錬', '学業成就', '心の平安'],
-    coordinates: { lat: 38.3167, lng: 140.4467 },
+    location: { lat: 38.3167, lng: 140.4467 },
     culturalValue: 140,
     rarity: 'legendary',
     festival: '山寺芭蕉祭',
@@ -135,7 +134,7 @@ const EXPANDED_SHRINE_DATA = [
     founded: 1160,
     description: '平安時代後期の阿弥陀堂建築の代表作。国宝指定。',
     benefits: ['極楽往生', '心の浄化', '文化財保護'],
-    coordinates: { lat: 37.0667, lng: 140.8833 },
+    location: { lat: 37.0667, lng: 140.8833 },
     culturalValue: 160,
     rarity: 'legendary',
     festival: '白水阿弥陀堂まつり',
@@ -156,7 +155,7 @@ const EXPANDED_SHRINE_DATA = [
     founded: '神武天皇元年',
     description: '東国三社の一つ。武道の神様として崇敬される。',
     benefits: ['武運長久', '勝負運', '厄除け'],
-    coordinates: { lat: 35.9667, lng: 140.6333 },
+    location: { lat: 35.9667, lng: 140.6333 },
     culturalValue: 130,
     rarity: 'legendary',
     festival: '神幸祭',
@@ -176,7 +175,7 @@ const EXPANDED_SHRINE_DATA = [
     founded: 1617,
     description: '徳川家康を祀る霊廟。見ざる言わざる聞かざるの猿の彫刻で有名。',
     benefits: ['出世開運', '学業成就', '家内安全'],
-    coordinates: { lat: 36.7581, lng: 139.5994 },
+    location: { lat: 36.7581, lng: 139.5994 },
     culturalValue: 200,
     rarity: 'mythical',
     festival: '春季大祭',
@@ -197,7 +196,7 @@ const EXPANDED_SHRINE_DATA = [
     founded: '6世紀後半',
     description: '榛名山の中腹に鎮座。岩山に囲まれた神秘的な雰囲気。',
     benefits: ['火防守護', '商売繁盛', '心願成就'],
-    coordinates: { lat: 36.4667, lng: 138.8500 },
+    location: { lat: 36.4667, lng: 138.8500 },
     culturalValue: 110,
     rarity: 'rare',
     festival: '榛名神社秋季大祭',
@@ -217,7 +216,7 @@ const EXPANDED_SHRINE_DATA = [
     founded: '6世紀',
     description: '縁結びの神社として有名。風鈴祭りも人気。',
     benefits: ['縁結び', '夫婦円満', '家内安全'],
-    coordinates: { lat: 35.9167, lng: 139.4833 },
+    location: { lat: 35.9167, lng: 139.4833 },
     culturalValue: 70,
     rarity: 'uncommon',
     festival: '風鈴祭り',
@@ -237,7 +236,7 @@ const EXPANDED_SHRINE_DATA = [
     founded: 940,
     description: '不動明王で有名。初詣の参拝者数は全国屈指。',
     benefits: ['交通安全', '厄除け', '商売繁盛'],
-    coordinates: { lat: 35.7833, lng: 140.3167 },
+    location: { lat: 35.7833, lng: 140.3167 },
     culturalValue: 120,
     rarity: 'rare',
     festival: '節分会',
@@ -328,30 +327,24 @@ export const FESTIVAL_DATABASE = [
   }
 ];
 
-// 完全なデータベース（既存 + 拡張）
-export const COMPLETE_SHRINE_DATABASE = [
-  ...SHRINE_TEMPLE_DATABASE,
-  ...EXPANDED_SHRINE_DATA
-];
-
 // 都道府県別取得（拡張版）
 export const getExpandedShrinesByPrefecture = (prefecture) => {
-  return COMPLETE_SHRINE_DATABASE.filter(shrine => shrine.prefecture === prefecture);
+  return SHRINE_TEMPLE_DATABASE.filter(shrine => shrine.prefecture === prefecture);
 };
 
 // レア度別取得
 export const getShrinesByRarity = (rarity) => {
-  return COMPLETE_SHRINE_DATABASE.filter(shrine => shrine.rarity === rarity);
+  return SHRINE_TEMPLE_DATABASE.filter(shrine => shrine.rarity === rarity);
 };
 
 // 御朱印対応の神社・寺院取得
 export const getGoshuinShrines = () => {
-  return COMPLETE_SHRINE_DATABASE.filter(shrine => shrine.goshuin === true);
+  return SHRINE_TEMPLE_DATABASE.filter(shrine => shrine.goshuin === true);
 };
 
 // 文化財指定の神社・寺院取得
 export const getCulturalPropertyShrines = () => {
-  return COMPLETE_SHRINE_DATABASE.filter(shrine => 
+  return SHRINE_TEMPLE_DATABASE.filter(shrine => 
     shrine.nationalTreasure || shrine.worldHeritage
   );
 };
@@ -359,7 +352,7 @@ export const getCulturalPropertyShrines = () => {
 // 祭り開催中の神社・寺院取得
 export const getFestivalShrines = (currentMonth) => {
   // 現在の月に開催される祭りがある神社・寺院を返す
-  return COMPLETE_SHRINE_DATABASE.filter(shrine => {
+  return SHRINE_TEMPLE_DATABASE.filter(shrine => {
     // 簡略化した実装。実際はより詳細な日付チェックを行う
     return shrine.festival && Math.random() > 0.7; // デモ用
   });
@@ -370,4 +363,25 @@ export const getSpecialNFTFestivals = () => {
   return FESTIVAL_DATABASE.filter(festival => festival.specialNFT);
 };
 
-export default COMPLETE_SHRINE_DATABASE;
+// レア度倍率
+export const RARITY_MULTIPLIERS = {
+  common: 1,
+  uncommon: 1.5,
+  rare: 2,
+  epic: 3,
+  legendary: 5
+};
+
+// 検索機能
+export const searchShrines = (query) => {
+  const lowerQuery = query.toLowerCase();
+  return SHRINE_TEMPLE_DATABASE.filter(shrine => 
+    shrine.name.toLowerCase().includes(lowerQuery) ||
+    shrine.prefecture.includes(query) ||
+    shrine.city.includes(query) ||
+    (shrine.deity && shrine.deity.includes(query)) ||
+    (shrine.sect && shrine.sect.includes(query))
+  );
+};
+
+export default SHRINE_TEMPLE_DATABASE;

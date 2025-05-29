@@ -1,169 +1,103 @@
 import React, { useState, useEffect } from 'react';
 import soundEffects from './utils/soundEffects';
-import { BuildingComponents } from './components/ShrineGraphics';
-import { ActivityIconComponents } from './components/ActivityIcons';
 import { SakuraParticles, LightParticles } from './components/ParticleEffects';
-import CulturalBelt, { getBeltRank } from './components/CulturalBelt';
+import CulturalBelt from './components/CulturalBelt';
 import ShrineSelector from './components/ShrineSelector';
 import GameCanvas from './components/GameCanvas';
 import VisitVerification from './components/VisitVerification';
+import ShrineSetup from './components/ShrineSetup';
+import ShrineView from './components/ShrineView';
+import ActivityButtons from './components/ActivityButtons';
+import ActivityModal from './components/ActivityModal';
+import NFTCollection from './components/NFTCollection';
+import VillageMembersSection from './components/VillageMembersSection';
+
+// Hooks
+import { useShrine } from './hooks/useShrine';
+import { useNotification } from './hooks/useNotification';
+
+// Constants
+import { CULTURAL_ACTIVITIES } from './constants/culturalActivities';
+
+// Styles
 import './App.css';
 import './ShrineVillage.css';
 
-// 文化活動のカテゴリー
-const CULTURAL_ACTIVITIES = {
-  shrine: { emoji: '⛩️', name: '神社参拝', exp: 50, building: 'torii' },
-  temple: { emoji: '🏛️', name: '寺院参拝', exp: 50, building: 'pagoda' },
-  festival: { emoji: '🎋', name: '祭り・伝統行事', exp: 70, building: 'yagura' },
-  craft: { emoji: '🎨', name: '伝統工芸体験', exp: 60, building: 'workshop' },
-  tea: { emoji: '🍵', name: '茶道・華道', exp: 40, building: 'teahouse' },
-  garden: { emoji: '🌸', name: '庭園散策', exp: 30, building: 'garden' },
-  history: { emoji: '📜', name: '歴史探訪', exp: 45, building: 'museum' },
-  onsen: { emoji: '♨️', name: '温泉文化', exp: 35, building: 'bathhouse' }
-};
-
-// 建物のレベルと外観
-const BUILDING_LEVELS = {
-  torii: ['⛩️', '🏮⛩️', '🏮⛩️🏮', '✨⛩️✨'],
-  pagoda: ['🏛️', '🏯', '🏯🌸', '🏯🌸✨'],
-  yagura: ['🎪', '🎊🎪', '🎊🎪🎊', '🎆🎪🎆'],
-  workshop: ['🏚️', '🏠', '🏡', '🏘️'],
-  teahouse: ['🍵', '🏠🍵', '🏡🍵', '🏯🍵'],
-  garden: ['🌱', '🌿', '🌸🌿', '🌸🌺🌿'],
-  museum: ['📜', '🏛️📜', '🏛️📜🖼️', '🏛️✨📜✨'],
-  bathhouse: ['♨️', '🏠♨️', '🏯♨️', '🏯♨️✨']
-};
-
 function ShrineVillageApp() {
-  const [myShrine, setMyShrine] = useState({
-    name: '',
-    level: 1,
-    buildings: {},
-    culturalCapital: 0,
-    visitors: 0,
-    blessings: 0
-  });
+  // カスタムフック使用
+  const {
+    shrine: myShrine,
+    showShrineSetup,
+    createShrine,
+    updateBuilding,
+    addCulturalCapital,
+    addBlessings
+  } = useShrine();
   
-  const [activities, setActivities] = useState([]);
-  const [villageMembers, setVillageMembers] = useState([
+  const { notification: showNotification, showNotification: showTemporaryNotification } = useNotification();
+  
+  // UI状態
+  const [activeTab, setActiveTab] = useState('shrine');
+  const [showActivityModal, setShowActivityModal] = useState(false);
+  const [selectedActivity, setSelectedActivity] = useState(null);
+  const [showShrineSelector, setShowShrineSelector] = useState(false);
+  const [showVerification, setShowVerification] = useState(false);
+  const [selectedShrineForVerification, setSelectedShrineForVerification] = useState(null);
+  
+  // データ状態
+  const [nftCollection, setNftCollection] = useState([]);
+  const [villageMembers] = useState([
     { id: 1, name: '山田さん', shrine: '豊穣神社', level: 5, culturalCapital: 450 },
     { id: 2, name: '鈴木さん', shrine: '学問神社', level: 3, culturalCapital: 280 },
     { id: 3, name: '佐藤さん', shrine: '芸術神社', level: 4, culturalCapital: 380 }
   ]);
   
-  const [showActivityModal, setShowActivityModal] = useState(false);
-  const [selectedActivity, setSelectedActivity] = useState(null);
-  const [activityDetails, setActivityDetails] = useState({
-    location: '',
-    description: '',
-    wisdom: '',
-    blessing: ''
+  // プレイヤープロファイル（ゲーム用）
+  const [playerProfile] = useState({
+    name: '文化探求者',
+    level: 1,
+    culturalCapital: 100,
+    beltColor: '#FFFFFF'
   });
-  
-  const [showNotification, setShowNotification] = useState(null);
-  const [nftCollection, setNftCollection] = useState([]);
-  const [sharedWisdom, setSharedWisdom] = useState([]);
-  const [showShrineSetup, setShowShrineSetup] = useState(true);
-  const [shrineName, setShrineName] = useState('');
-  const [showShrineSelector, setShowShrineSelector] = useState(false);
-  const [activeTab, setActiveTab] = useState('shrine'); // New state for tab navigation
-  const [showVerification, setShowVerification] = useState(false);
-  const [selectedShrineForVerification, setSelectedShrineForVerification] = useState(null);
 
   useEffect(() => {
     soundEffects.init();
   }, []);
 
-  const showTemporaryNotification = (message) => {
-    setShowNotification(message);
-    setTimeout(() => setShowNotification(null), 3000);
+  // ハンドラー関数
+  const handleActivitySelect = (activityKey) => {
+    setSelectedActivity(activityKey);
+    setShowActivityModal(true);
   };
 
-  const playSound = (type) => {
-    soundEffects.playSound(type);
-  };
-
-  const createShrine = (e) => {
-    e.preventDefault();
-    setMyShrine({
-      ...myShrine,
-      name: shrineName
-    });
-    setShowShrineSetup(false);
-    showTemporaryNotification(`⛩️ ${shrineName}が創建されました！`);
-    playSound('achievement');
-  };
-
-  const handleActivitySubmit = (e) => {
-    e.preventDefault();
+  const handleActivitySubmit = (activityKey, details) => {
+    const activity = CULTURAL_ACTIVITIES[activityKey];
     
-    const activity = CULTURAL_ACTIVITIES[selectedActivity];
-    const timestamp = Date.now();
+    // 建物のレベルアップ
+    const currentLevel = myShrine.buildings[activity.building] || 0;
+    const newLevel = Math.min(currentLevel + 1, 3);
+    updateBuilding(activity.building, newLevel);
     
-    // NFTとして文化活動を記録
-    const newNFT = {
-      id: timestamp,
-      type: selectedActivity,
-      activity: activity.name,
-      location: activityDetails.location,
-      description: activityDetails.description,
-      wisdom: activityDetails.wisdom,
-      blessing: activityDetails.blessing,
-      date: new Date().toLocaleDateString('ja-JP'),
-      emoji: activity.emoji,
-      exp: activity.exp,
-      tokenId: `SHRINE-${timestamp}`,
-      owner: myShrine.name
-    };
-
-    setNftCollection([...nftCollection, newNFT]);
+    // 文化資本とご利益を追加
+    addCulturalCapital(activity.exp);
+    addBlessings(10);
     
-    // 建物をアップグレード
-    const buildingType = activity.building;
-    const currentLevel = myShrine.buildings[buildingType] || 0;
-    const newLevel = Math.min(currentLevel + 1, BUILDING_LEVELS[buildingType].length - 1);
+    // NFTとして記録
+    setNftCollection(prev => [...prev, {
+      id: Date.now(),
+      ...activity,
+      ...details,
+      timestamp: new Date().toISOString()
+    }]);
     
-    setMyShrine(prev => ({
-      ...prev,
-      buildings: {
-        ...prev.buildings,
-        [buildingType]: newLevel
-      },
-      culturalCapital: prev.culturalCapital + activity.exp,
-      level: Math.floor((prev.culturalCapital + activity.exp) / 100) + 1,
-      blessings: prev.blessings + 1
-    }));
-
-    // 知恵を共有プールに追加
-    if (activityDetails.wisdom) {
-      setSharedWisdom([...sharedWisdom, {
-        id: timestamp,
-        wisdom: activityDetails.wisdom,
-        author: myShrine.name,
-        activity: activity.name,
-        likes: 0
-      }]);
-    }
-
-    showTemporaryNotification(`⛩️ ${activity.name}を記録しました！`);
-    playSound('treeGrow');
+    showTemporaryNotification(`✨ ${activity.name}を記録しました！ +${activity.exp} 文化資本`);
+    soundEffects.play('treeGrow');
     
     setShowActivityModal(false);
-    setActivityDetails({ location: '', description: '', wisdom: '', blessing: '' });
     setSelectedActivity(null);
   };
 
-  const visitFriendShrine = (friend) => {
-    setMyShrine(prev => ({
-      ...prev,
-      visitors: prev.visitors + 1
-    }));
-    showTemporaryNotification(`🎋 ${friend.name}の${friend.shrine}を訪問しました！`);
-    playSound('complete');
-  };
-
   const handleShrineVisit = (shrine) => {
-    // 参拝証明画面を表示
     setSelectedShrineForVerification(shrine);
     setShowVerification(true);
     setShowShrineSelector(false);
@@ -171,27 +105,19 @@ function ShrineVillageApp() {
 
   const handleVerificationComplete = (verificationData) => {
     const shrine = selectedShrineForVerification;
-    const experience = 50; // 基本経験値
-    
-    const activity = shrine.type === 'shrine' ? CULTURAL_ACTIVITIES.shrine : CULTURAL_ACTIVITIES.temple;
+    const experience = 50;
     const buildingType = shrine.type === 'shrine' ? 'torii' : 'pagoda';
     
     // 建物のレベルアップ
     const currentLevel = myShrine.buildings[buildingType] || 0;
     const newLevel = Math.min(currentLevel + 1, 3);
+    updateBuilding(buildingType, newLevel);
     
-    setMyShrine(prev => ({
-      ...prev,
-      buildings: {
-        ...prev.buildings,
-        [buildingType]: newLevel
-      },
-      culturalCapital: prev.culturalCapital + experience,
-      level: Math.floor((prev.culturalCapital + experience) / 100) + 1,
-      blessings: prev.blessings + 1
-    }));
-
-    // NFTとして記録（証明データ付き）
+    // 文化資本とご利益を追加
+    addCulturalCapital(experience);
+    addBlessings(1);
+    
+    // NFTとして記録
     setNftCollection(prev => [...prev, {
       id: verificationData.timestamp,
       type: shrine.type,
@@ -209,46 +135,34 @@ function ShrineVillageApp() {
     }]);
 
     showTemporaryNotification(`⛩️ ${shrine.name}への参拝を記録しました！ +${experience} 文化資本`);
-    playSound('treeGrow');
+    soundEffects.play('treeGrow');
     
-    // 証明画面を閉じる
     setShowVerification(false);
     setSelectedShrineForVerification(null);
   };
 
-  const renderShrine = () => {
-    return Object.entries(myShrine.buildings).map(([type, level]) => {
-      const BuildingComponent = BuildingComponents[type];
-      if (!BuildingComponent) return null;
-      
-      return (
-        <div key={type} className="building">
-          <BuildingComponent level={level + 1} size={120} />
-        </div>
-      );
-    });
+  const handleVisitFriend = (friend) => {
+    addCulturalCapital(20);
+    showTemporaryNotification(`🎋 ${friend.name}の${friend.shrine}を訪問しました！`);
+    soundEffects.play('complete');
   };
 
+  const handleGameActivity = (activityData) => {
+    const { type, culturalCapital } = activityData;
+    addCulturalCapital(culturalCapital);
+    showTemporaryNotification(`🎮 ${type}で +${culturalCapital} 文化資本を獲得！`);
+  };
+
+  // セットアップ画面
   if (showShrineSetup) {
     return (
       <div className="App shrine-village">
-        <div className="shrine-setup">
-          <h1>⛩️ あなたの神社を創建しよう</h1>
-          <form onSubmit={createShrine}>
-            <input
-              type="text"
-              placeholder="神社の名前を入力（例：文化神社）"
-              value={shrineName}
-              onChange={(e) => setShrineName(e.target.value)}
-              required
-            />
-            <button type="submit">創建する</button>
-          </form>
-        </div>
+        <ShrineSetup onCreateShrine={createShrine} />
       </div>
     );
   }
 
+  // メイン画面
   return (
     <div className="App shrine-village">
       {/* パーティクルエフェクト */}
@@ -266,7 +180,7 @@ function ShrineVillageApp() {
           </div>
         </div>
 
-        {/* Tab Navigation */}
+        {/* タブナビゲーション */}
         <div className="tab-navigation">
           <button 
             className={`tab-button ${activeTab === 'shrine' ? 'active' : ''}`}
@@ -282,6 +196,7 @@ function ShrineVillageApp() {
           </button>
         </div>
 
+        {/* 通知 */}
         {showNotification && (
           <div className="notification">
             {showNotification}
@@ -291,224 +206,52 @@ function ShrineVillageApp() {
         {/* 文化帯ランク */}
         <CulturalBelt culturalCapital={myShrine.culturalCapital} />
 
-        {/* Tab Content */}
+        {/* タブコンテンツ */}
         {activeTab === 'shrine' ? (
           <>
-            {/* 自分の神社エリア */}
+            {/* 神社ビュー */}
             <div className="my-shrine-area">
               <h2>あなたの神社</h2>
-              <div className="shrine-view">
-                {renderShrine()}
-                {Object.keys(myShrine.buildings).length === 0 && (
-                  <p>文化活動を記録して神社を発展させましょう</p>
-                )}
-              </div>
+              <ShrineView buildings={myShrine.buildings} />
             </div>
 
-        {/* 文化活動記録ボタン */}
-        <div className="activity-section">
-          <h2>文化活動を記録</h2>
-          
-          {/* 神社・寺院データベースから選択 */}
-          <div className="special-activity-section">
-            <button
-              className="shrine-database-btn"
-              onClick={() => {
-                setShowShrineSelector(true);
-                playSound('click');
-              }}
-            >
-              <div className="shrine-db-icon">⛩️🏛️</div>
-              <span className="shrine-db-name">神社・寺院データベースから選択</span>
-              <span className="shrine-db-desc">実在する神社・寺院への参拝を記録</span>
-            </button>
-          </div>
+            {/* 文化活動ボタン */}
+            <ActivityButtons
+              onActivitySelect={handleActivitySelect}
+              onShrineSelect={() => setShowShrineSelector(true)}
+            />
 
-          <div className="activity-grid">
-            {Object.entries(CULTURAL_ACTIVITIES).map(([key, activity]) => {
-              const IconComponent = ActivityIconComponents[key];
-              return (
-                <button
-                  key={key}
-                  className="activity-btn"
-                  onClick={() => {
-                    setSelectedActivity(key);
-                    setShowActivityModal(true);
-                    playSound('click');
-                  }}
-                >
-                  <div className="activity-icon">
-                    {IconComponent ? <IconComponent size={60} /> : <span className="activity-emoji">{activity.emoji}</span>}
-                  </div>
-                  <span className="activity-name">{activity.name}</span>
-                  <span className="activity-exp">+{activity.exp} 文化資本</span>
-                </button>
-              );
-            })}
-          </div>
-        </div>
+            {/* NFTコレクション */}
+            <NFTCollection collection={nftCollection} />
 
-        {/* 村のメンバー */}
-        <div className="village-section">
-          <h2>🏘️ 文化村のメンバー</h2>
-          <div className="village-grid">
-            {villageMembers.map((member) => {
-              const beltRank = getBeltRank(member.culturalCapital);
-              return (
-                <div key={member.id} className="member-card">
-                  <h3>{member.shrine}</h3>
-                  <p>管理者: {member.name}</p>
-                  <div className="member-belt-info">
-                    <div 
-                      className="mini-belt"
-                      style={{ 
-                        background: beltRank.gradient,
-                        padding: '4px 8px',
-                        borderRadius: '4px',
-                        display: 'inline-block',
-                        fontWeight: 'bold',
-                        color: beltRank.level >= 8 ? '#fff' : '#333',
-                        boxShadow: '0 2px 4px rgba(0,0,0,0.2)'
-                      }}
-                    >
-                      {beltRank.name}
-                    </div>
-                  </div>
-                  <p>レベル: {member.level}</p>
-                  <p>文化資本: {member.culturalCapital}</p>
-                  <button onClick={() => visitFriendShrine(member)}>
-                    参拝する
-                  </button>
-                </div>
-              );
-            })}
-          </div>
-        </div>
-
-        {/* 共有された知恵 */}
-        <div className="wisdom-section">
-          <h2>📜 共有された知恵</h2>
-          {sharedWisdom.length === 0 ? (
-            <p>まだ知恵が共有されていません</p>
-          ) : (
-            <div className="wisdom-list">
-              {sharedWisdom.map((item) => (
-                <div key={item.id} className="wisdom-card">
-                  <p className="wisdom-text">"{item.wisdom}"</p>
-                  <div className="wisdom-meta">
-                    <span>{item.author}</span>
-                    <span>{item.activity}</span>
-                  </div>
-                </div>
-              ))}
-            </div>
-          )}
-        </div>
-
-        {/* NFTコレクション */}
-        <div className="nft-section">
-          <h2>🎋 文化活動NFTコレクション</h2>
-          {nftCollection.length === 0 ? (
-            <p>まだ記録がありません</p>
-          ) : (
-            <div className="nft-grid">
-              {nftCollection.map((nft) => (
-                <div key={nft.id} className="nft-card">
-                  <div className="nft-header">
-                    <span className="nft-emoji">{nft.emoji}</span>
-                    <span className="nft-id">#{nft.tokenId}</span>
-                  </div>
-                  <h4>{nft.activity}</h4>
-                  <p>📍 {nft.location}</p>
-                  <p>{nft.description}</p>
-                  {nft.wisdom && (
-                    <div className="nft-wisdom">
-                      <span>📜</span>
-                      <p>{nft.wisdom}</p>
-                    </div>
-                  )}
-                  {nft.blessing && (
-                    <div className="nft-blessing">
-                      <span>🙏</span>
-                      <p>{nft.blessing}</p>
-                    </div>
-                  )}
-                  <div className="nft-footer">
-                    <span>{nft.date}</span>
-                    <span>+{nft.exp} 文化資本</span>
-                  </div>
-                </div>
-              ))}
-            </div>
-          )}
-        </div>
+            {/* 村のメンバー */}
+            <VillageMembersSection
+              members={villageMembers}
+              playerShrine={myShrine}
+              onVisitFriend={handleVisitFriend}
+            />
           </>
         ) : (
-          /* Game Tab Content */
-          <div className="game-container">
-            <GameCanvas 
-              playerProfile={{
-                name: myShrine.name,
-                culturalCapital: myShrine.culturalCapital,
-                level: myShrine.level,
-                blessings: myShrine.blessings
-              }}
-              onCulturalActivity={(activityData) => {
-                // Handle cultural activities from the game
-                setMyShrine(prev => ({
-                  ...prev,
-                  culturalCapital: prev.culturalCapital + (activityData.exp || 10),
-                  blessings: prev.blessings + 1
-                }));
-                showTemporaryNotification(`⛩️ ${activityData.message || '文化活動を完了しました！'}`);
-                playSound('complete');
-              }}
-            />
-          </div>
+          // ゲームタブ
+          <GameCanvas 
+            userProfile={playerProfile}
+            onCulturalActivity={handleGameActivity}
+          />
         )}
 
-        {/* 文化活動入力モーダル */}
+        {/* モーダル */}
         {showActivityModal && (
-          <div className="modal-overlay" onClick={() => setShowActivityModal(false)}>
-            <div className="modal-content" onClick={(e) => e.stopPropagation()}>
-              <h2>{CULTURAL_ACTIVITIES[selectedActivity]?.emoji} {CULTURAL_ACTIVITIES[selectedActivity]?.name}</h2>
-              <form onSubmit={handleActivitySubmit}>
-                <input
-                  type="text"
-                  placeholder="場所（例：明治神宮）"
-                  value={activityDetails.location}
-                  onChange={(e) => setActivityDetails({...activityDetails, location: e.target.value})}
-                  required
-                />
-                <textarea
-                  placeholder="体験の詳細"
-                  value={activityDetails.description}
-                  onChange={(e) => setActivityDetails({...activityDetails, description: e.target.value})}
-                  rows={3}
-                  required
-                />
-                <textarea
-                  placeholder="得た知恵・学び（村で共有されます）"
-                  value={activityDetails.wisdom}
-                  onChange={(e) => setActivityDetails({...activityDetails, wisdom: e.target.value})}
-                  rows={2}
-                />
-                <input
-                  type="text"
-                  placeholder="願い事・祈り（オプション）"
-                  value={activityDetails.blessing}
-                  onChange={(e) => setActivityDetails({...activityDetails, blessing: e.target.value})}
-                />
-                <div className="modal-actions">
-                  <button type="submit">NFTとして記録</button>
-                  <button type="button" onClick={() => setShowActivityModal(false)}>キャンセル</button>
-                </div>
-              </form>
-            </div>
-          </div>
+          <ActivityModal
+            activity={selectedActivity}
+            onClose={() => {
+              setShowActivityModal(false);
+              setSelectedActivity(null);
+            }}
+            onSubmit={handleActivitySubmit}
+          />
         )}
 
-        {/* 神社・寺院選択モーダル */}
+        {/* 神社選択モーダル */}
         {showShrineSelector && (
           <ShrineSelector
             onShrineSelect={handleShrineVisit}
