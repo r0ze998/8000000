@@ -1,0 +1,583 @@
+/* Shrine Village 専用スタイル */
+
+.shrine-village {
+  background: linear-gradient(180deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+  min-height: 100vh;
+  position: relative;
+}
+
+.shrine-village::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image: 
+    radial-gradient(circle at 20% 50%, rgba(255, 255, 255, 0.1) 0%, transparent 50%),
+    radial-gradient(circle at 80% 50%, rgba(255, 255, 255, 0.05) 0%, transparent 50%);
+  pointer-events: none;
+}
+
+/* 神社設定画面 */
+.shrine-setup {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  padding: 2rem;
+}
+
+.shrine-setup h1 {
+  font-size: 3rem;
+  margin-bottom: 3rem;
+  text-shadow: 0 0 20px rgba(255, 215, 0, 0.5);
+}
+
+.shrine-setup form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  width: 100%;
+  max-width: 400px;
+}
+
+.shrine-setup input {
+  padding: 1rem;
+  font-size: 1.2rem;
+  border: 2px solid rgba(255, 215, 0, 0.3);
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.1);
+  color: white;
+  text-align: center;
+}
+
+.shrine-setup input::placeholder {
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.shrine-setup button {
+  padding: 1rem 2rem;
+  font-size: 1.2rem;
+  background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%);
+  border: none;
+  border-radius: 10px;
+  color: #1a1a2e;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.shrine-setup button:hover {
+  transform: scale(1.05);
+  box-shadow: 0 5px 20px rgba(255, 215, 0, 0.5);
+}
+
+/* ヘッダー */
+.village-header {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.village-header h1 {
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+  background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-shadow: 0 0 30px rgba(255, 215, 0, 0.5);
+}
+
+.shrine-stats {
+  display: flex;
+  gap: 2rem;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.shrine-stats span {
+  background: rgba(255, 255, 255, 0.1);
+  padding: 0.5rem 1rem;
+  border-radius: 20px;
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 215, 0, 0.3);
+}
+
+/* 神社エリア */
+.my-shrine-area {
+  margin: 3rem auto;
+  text-align: center;
+  max-width: 800px;
+}
+
+.shrine-view {
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 20px;
+  padding: 3rem;
+  min-height: 200px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 2rem;
+  backdrop-filter: blur(10px);
+  border: 2px solid rgba(255, 215, 0, 0.2);
+  position: relative;
+  overflow: hidden;
+}
+
+.shrine-view::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle, rgba(255, 215, 0, 0.1) 0%, transparent 70%);
+  animation: glow 4s ease-in-out infinite;
+}
+
+@keyframes glow {
+  0%, 100% { opacity: 0.5; }
+  50% { opacity: 1; }
+}
+
+.building {
+  position: relative;
+  animation: float 3s ease-in-out infinite;
+  margin: 0 1rem;
+}
+
+.building:nth-child(odd) {
+  animation-delay: 1s;
+}
+
+.building:nth-child(even) {
+  animation-delay: 0.5s;
+}
+
+.building svg {
+  filter: drop-shadow(0 5px 15px rgba(0, 0, 0, 0.5));
+  transition: all 0.3s ease;
+}
+
+.building:hover svg {
+  transform: scale(1.1);
+  filter: drop-shadow(0 8px 25px rgba(255, 215, 0, 0.5));
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+
+/* 活動セクション */
+.activity-section {
+  margin: 3rem auto;
+  max-width: 1000px;
+  text-align: center;
+}
+
+.activity-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1.5rem;
+  margin-top: 2rem;
+}
+
+.activity-btn {
+  background: rgba(255, 255, 255, 0.1);
+  border: 2px solid rgba(255, 215, 0, 0.3);
+  border-radius: 15px;
+  padding: 1.5rem;
+  color: white;
+  cursor: pointer;
+  transition: all 0.3s;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.activity-btn:hover {
+  background: rgba(255, 215, 0, 0.2);
+  transform: translateY(-5px);
+  box-shadow: 0 10px 30px rgba(255, 215, 0, 0.3);
+}
+
+.activity-icon {
+  margin-bottom: 0.5rem;
+  transition: all 0.3s ease;
+}
+
+.activity-btn:hover .activity-icon {
+  transform: scale(1.1) rotate(5deg);
+}
+
+.activity-emoji {
+  font-size: 3rem;
+}
+
+.activity-name {
+  font-weight: bold;
+  font-size: 1rem;
+}
+
+.activity-exp {
+  font-size: 0.9rem;
+  opacity: 0.8;
+}
+
+/* 村セクション */
+.village-section {
+  margin: 3rem auto;
+  max-width: 1000px;
+  text-align: center;
+}
+
+.village-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 2rem;
+  margin-top: 2rem;
+}
+
+.member-card {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 15px;
+  padding: 1.5rem;
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 215, 0, 0.3);
+  transition: all 0.3s;
+}
+
+.member-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 30px rgba(255, 215, 0, 0.3);
+}
+
+.member-card h3 {
+  margin-bottom: 1rem;
+  color: #FFD700;
+}
+
+.member-card p {
+  margin: 0.5rem 0;
+  opacity: 0.9;
+}
+
+.member-card button {
+  margin-top: 1rem;
+  padding: 0.5rem 1rem;
+  background: rgba(255, 215, 0, 0.3);
+  border: 1px solid #FFD700;
+  border-radius: 8px;
+  color: white;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.member-card button:hover {
+  background: rgba(255, 215, 0, 0.5);
+}
+
+/* 知恵セクション */
+.wisdom-section {
+  margin: 3rem auto;
+  max-width: 800px;
+  text-align: center;
+}
+
+.wisdom-list {
+  margin-top: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.wisdom-card {
+  background: rgba(255, 255, 255, 0.05);
+  border-left: 4px solid #FFD700;
+  padding: 1.5rem;
+  border-radius: 10px;
+  text-align: left;
+}
+
+.wisdom-text {
+  font-size: 1.1rem;
+  font-style: italic;
+  margin-bottom: 1rem;
+  line-height: 1.6;
+}
+
+.wisdom-meta {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.9rem;
+  opacity: 0.7;
+}
+
+/* NFTセクション */
+.nft-section {
+  margin: 3rem auto;
+  max-width: 1200px;
+  text-align: center;
+}
+
+.nft-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 2rem;
+  margin-top: 2rem;
+}
+
+.nft-card {
+  background: rgba(255, 255, 255, 0.95);
+  color: #1a1a2e;
+  border-radius: 15px;
+  padding: 1.5rem;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+  transition: all 0.3s;
+}
+
+.nft-card:hover {
+  transform: scale(1.02);
+  box-shadow: 0 10px 30px rgba(255, 215, 0, 0.5);
+}
+
+.nft-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.nft-emoji {
+  font-size: 2rem;
+}
+
+.nft-id {
+  font-size: 0.8rem;
+  opacity: 0.6;
+  font-family: monospace;
+}
+
+.nft-card h4 {
+  margin: 0.5rem 0;
+  color: #8B4513;
+}
+
+.nft-wisdom,
+.nft-blessing {
+  background: rgba(255, 215, 0, 0.1);
+  border-radius: 8px;
+  padding: 0.75rem;
+  margin: 0.5rem 0;
+  display: flex;
+  gap: 0.5rem;
+  align-items: flex-start;
+}
+
+.nft-wisdom span,
+.nft-blessing span {
+  font-size: 1.2rem;
+}
+
+.nft-wisdom p,
+.nft-blessing p {
+  margin: 0;
+  flex: 1;
+  font-size: 0.9rem;
+}
+
+.nft-footer {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
+  font-size: 0.9rem;
+  opacity: 0.7;
+}
+
+/* モーダル */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.9);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 2rem;
+}
+
+.modal-content {
+  background: #1a1a2e;
+  border: 2px solid rgba(255, 215, 0, 0.3);
+  border-radius: 20px;
+  padding: 2rem;
+  max-width: 500px;
+  width: 100%;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: 0 0 50px rgba(255, 215, 0, 0.5);
+}
+
+.modal-content h2 {
+  margin-bottom: 1.5rem;
+  text-align: center;
+  color: #FFD700;
+}
+
+.modal-content input,
+.modal-content textarea {
+  width: 100%;
+  padding: 0.75rem;
+  margin: 0.5rem 0;
+  border: 1px solid rgba(255, 215, 0, 0.3);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.05);
+  color: white;
+  font-size: 1rem;
+}
+
+.modal-content input::placeholder,
+.modal-content textarea::placeholder {
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.modal-actions {
+  display: flex;
+  gap: 1rem;
+  margin-top: 1.5rem;
+}
+
+.modal-actions button {
+  flex: 1;
+  padding: 0.75rem;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.modal-actions button[type="submit"] {
+  background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%);
+  color: #1a1a2e;
+}
+
+.modal-actions button[type="submit"]:hover {
+  box-shadow: 0 5px 20px rgba(255, 215, 0, 0.5);
+}
+
+.modal-actions button[type="button"] {
+  background: rgba(255, 255, 255, 0.1);
+  color: white;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.modal-actions button[type="button"]:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+/* レスポンシブ */
+@media (max-width: 768px) {
+  .shrine-stats {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .activity-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .village-grid,
+  .nft-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .building-icon {
+    font-size: 2.5rem;
+  }
+}
+
+/* 神社データベース選択ボタン */
+.special-activity-section {
+  margin-bottom: 2rem;
+}
+
+.shrine-database-btn {
+  width: 100%;
+  padding: 1.5rem;
+  background: linear-gradient(135deg, #ff6b6b 0%, #ff8e53 50%, #ffa726 100%);
+  border: none;
+  border-radius: 15px;
+  color: white;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  box-shadow: 0 10px 30px rgba(255, 107, 107, 0.3);
+  position: relative;
+  overflow: hidden;
+}
+
+.shrine-database-btn::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: linear-gradient(45deg, transparent 30%, rgba(255, 255, 255, 0.3) 50%, transparent 70%);
+  transform: rotate(45deg);
+  transition: all 0.6s ease;
+  opacity: 0;
+}
+
+.shrine-database-btn:hover::before {
+  animation: shrine-db-shine 0.6s ease-out;
+}
+
+@keyframes shrine-db-shine {
+  0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); opacity: 0; }
+  50% { opacity: 1; }
+  100% { transform: translateX(100%) translateY(100%) rotate(45deg); opacity: 0; }
+}
+
+.shrine-database-btn:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 15px 40px rgba(255, 107, 107, 0.4);
+  background: linear-gradient(135deg, #ff5252 0%, #ff7043 50%, #ff9800 100%);
+}
+
+.shrine-db-icon {
+  font-size: 3rem;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+  position: relative;
+  z-index: 1;
+}
+
+.shrine-db-name {
+  font-size: 1.3rem;
+  font-weight: bold;
+  text-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+  position: relative;
+  z-index: 1;
+}
+
+.shrine-db-desc {
+  font-size: 0.9rem;
+  opacity: 0.9;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+  position: relative;
+  z-index: 1;
+}

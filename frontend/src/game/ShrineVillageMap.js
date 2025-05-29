@@ -492,7 +492,7 @@ export class ShrineVillageMap {
   }
   
   showUpgradeOption(building, data, cost) {
-    if (confirm(`${data.name}をレベル${data.level + 1}にアップグレードしますか？（${cost}文化資本）`)) {
+    if (window.confirm(`${data.name}をレベル${data.level + 1}にアップグレードしますか？（${cost}文化資本）`)) {
       this.upgradeBuilding(building, data);
     }
   }

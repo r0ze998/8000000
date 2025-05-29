@@ -1,0 +1,70 @@
+.leaderboard {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 20px;
+  padding: 1.5rem;
+  backdrop-filter: blur(10px);
+  margin: 2rem 0;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.leaderboard h3 {
+  text-align: center;
+  font-size: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.leaderboard-table {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.leaderboard-header {
+  display: grid;
+  grid-template-columns: 60px 1fr 60px 60px 60px;
+  gap: 1rem;
+  padding: 0.75rem;
+  font-weight: bold;
+  opacity: 0.8;
+  font-size: 0.9rem;
+}
+
+.leaderboard-row {
+  display: grid;
+  grid-template-columns: 60px 1fr 60px 60px 60px;
+  gap: 1rem;
+  padding: 0.75rem;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 10px;
+  transition: all 0.3s ease;
+}
+
+.leaderboard-row:hover {
+  background: rgba(255, 255, 255, 0.1);
+  transform: translateX(5px);
+}
+
+.leaderboard-row.current-user {
+  background: rgba(76, 175, 80, 0.2);
+  border: 1px solid rgba(76, 175, 80, 0.5);
+  font-weight: bold;
+}
+
+.rank {
+  font-weight: bold;
+  color: #FFD700;
+}
+
+.leaderboard-row:nth-child(2) .rank {
+  font-size: 1.2rem;
+}
+
+.leaderboard-row:nth-child(3) .rank {
+  color: #C0C0C0;
+}
+
+.leaderboard-row:nth-child(4) .rank {
+  color: #CD7F32;
+}

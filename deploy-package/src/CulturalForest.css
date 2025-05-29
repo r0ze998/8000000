@@ -1,0 +1,345 @@
+/* Cultural Forest 専用スタイル */
+
+.cultural-forest {
+  background: linear-gradient(135deg, #8B4513 0%, #D2691E 50%, #FFD700 100%);
+  min-height: 100vh;
+}
+
+.cultural-header {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.header-stats {
+  display: flex;
+  gap: 2rem;
+  justify-content: center;
+  margin-top: 1rem;
+  font-size: 1.1rem;
+}
+
+.header-stats span {
+  background: rgba(255, 255, 255, 0.2);
+  padding: 0.5rem 1rem;
+  border-radius: 20px;
+  backdrop-filter: blur(10px);
+}
+
+.cultural-status {
+  margin: 2rem 0;
+}
+
+.status-card {
+  background: rgba(255, 255, 255, 0.1);
+  padding: 2rem;
+  border-radius: 20px;
+  backdrop-filter: blur(10px);
+  text-align: center;
+  max-width: 400px;
+  margin: 0 auto;
+}
+
+.status-card h3 {
+  font-size: 2rem;
+  margin-bottom: 0.5rem;
+}
+
+/* 文化活動ボタン */
+.activity-buttons {
+  margin: 3rem 0;
+  text-align: center;
+}
+
+.activity-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 1rem;
+  max-width: 800px;
+  margin: 2rem auto;
+}
+
+.activity-btn {
+  background: rgba(255, 255, 255, 0.2);
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-radius: 15px;
+  padding: 1.5rem 1rem;
+  color: white;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.activity-btn:hover {
+  background: rgba(255, 255, 255, 0.3);
+  transform: translateY(-5px);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+}
+
+.activity-emoji {
+  font-size: 2.5rem;
+}
+
+.activity-name {
+  font-weight: bold;
+  font-size: 0.9rem;
+}
+
+.activity-exp {
+  font-size: 0.8rem;
+  opacity: 0.8;
+}
+
+/* NFTギャラリー */
+.nft-gallery {
+  margin: 3rem auto;
+  max-width: 1200px;
+  text-align: center;
+}
+
+.nft-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 2rem;
+  margin-top: 2rem;
+}
+
+.nft-card {
+  background: rgba(255, 255, 255, 0.95);
+  color: #333;
+  border-radius: 20px;
+  padding: 1.5rem;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.nft-card.rare {
+  background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%);
+  color: white;
+  box-shadow: 0 5px 30px rgba(255, 215, 0, 0.5);
+}
+
+.nft-card:hover {
+  transform: scale(1.02);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+}
+
+.nft-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.nft-emoji {
+  font-size: 2rem;
+}
+
+.nft-date {
+  font-size: 0.9rem;
+  opacity: 0.7;
+}
+
+.nft-card h4 {
+  margin: 0.5rem 0;
+  font-size: 1.3rem;
+}
+
+.nft-location {
+  font-size: 0.9rem;
+  margin: 0.5rem 0;
+  opacity: 0.8;
+}
+
+.nft-description {
+  margin: 1rem 0;
+  line-height: 1.5;
+}
+
+.nft-inspiration {
+  background: rgba(0, 0, 0, 0.05);
+  border-radius: 10px;
+  padding: 1rem;
+  margin-top: 1rem;
+  display: flex;
+  gap: 0.5rem;
+  align-items: flex-start;
+}
+
+.nft-card.rare .nft-inspiration {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.nft-inspiration span {
+  font-size: 1.2rem;
+}
+
+.nft-inspiration p {
+  margin: 0;
+  flex: 1;
+  font-style: italic;
+}
+
+.rarity-badge {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  background: rgba(255, 255, 255, 0.9);
+  color: #FFD700;
+  padding: 0.25rem 0.75rem;
+  border-radius: 20px;
+  font-weight: bold;
+  font-size: 0.9rem;
+}
+
+/* モーダル */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 2rem;
+}
+
+.modal-content {
+  background: white;
+  color: #333;
+  border-radius: 20px;
+  padding: 2rem;
+  max-width: 500px;
+  width: 100%;
+  max-height: 90vh;
+  overflow-y: auto;
+}
+
+.modal-content h2 {
+  margin-bottom: 1.5rem;
+  text-align: center;
+}
+
+.modal-content input,
+.modal-content textarea {
+  width: 100%;
+  padding: 0.75rem;
+  margin: 0.5rem 0;
+  border: 2px solid #ddd;
+  border-radius: 10px;
+  font-size: 1rem;
+  transition: border-color 0.3s;
+}
+
+.modal-content input:focus,
+.modal-content textarea:focus {
+  outline: none;
+  border-color: #8B4513;
+}
+
+.modal-actions {
+  display: flex;
+  gap: 1rem;
+  margin-top: 1.5rem;
+}
+
+.modal-actions button {
+  flex: 1;
+  padding: 0.75rem;
+  border: none;
+  border-radius: 10px;
+  font-size: 1rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.modal-actions button[type="submit"] {
+  background: #8B4513;
+  color: white;
+}
+
+.modal-actions button[type="submit"]:hover {
+  background: #A0522D;
+}
+
+.modal-actions button[type="button"] {
+  background: #ddd;
+  color: #333;
+}
+
+.modal-actions button[type="button"]:hover {
+  background: #ccc;
+}
+
+/* ブロックチェーン機能 */
+.blockchain-features {
+  margin: 3rem auto;
+  max-width: 1000px;
+  text-align: center;
+}
+
+.feature-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1.5rem;
+  margin-top: 2rem;
+}
+
+.feature-card {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 15px;
+  padding: 1.5rem;
+  backdrop-filter: blur(10px);
+  transition: all 0.3s ease;
+}
+
+.feature-card:hover {
+  background: rgba(255, 255, 255, 0.2);
+  transform: translateY(-5px);
+}
+
+.feature-card span {
+  font-size: 2.5rem;
+  display: block;
+  margin-bottom: 1rem;
+}
+
+.feature-card h4 {
+  margin: 0.5rem 0;
+  font-size: 1.1rem;
+}
+
+.feature-card p {
+  margin: 0;
+  font-size: 0.9rem;
+  opacity: 0.9;
+  line-height: 1.4;
+}
+
+/* レスポンシブ */
+@media (max-width: 768px) {
+  .header-stats {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .activity-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .nft-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .feature-grid {
+    grid-template-columns: 1fr;
+  }
+}
