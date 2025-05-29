@@ -1,6 +1,7 @@
 import React, { useState, useRef } from 'react';
 import { verificationService } from '../services/verificationService';
 import { VERIFICATION_CONFIG } from '../constants/culturalActivities';
+import nativeServices from '../services/nativeServices';
 import './VisitVerification.css';
 
 const VisitVerification = ({ shrine, onVerified, onCancel }) => {
