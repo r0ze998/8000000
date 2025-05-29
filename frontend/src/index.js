@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
+import './App.mobile.css';
 // import App from './App'; // ブロックチェーン接続版
 // import MockApp from './MockApp'; // デモモード版
 // import CulturalForestApp from './CulturalForestApp'; // 文化資本特化版
