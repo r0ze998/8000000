@@ -93,6 +93,15 @@ temp/
 ehthumbs.db
 Thumbs.db
 
+# Cache directories
+.cache/
+frontend/.cache/
+frontend/build/
+
+# Large files and directories to exclude
+frontend/public/
+target/
+
 # Starknet specific
 target/
 **/target/
