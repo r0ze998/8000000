@@ -5,6 +5,7 @@ import { ActivityIconComponents } from './components/ActivityIcons';
 import { SakuraParticles, LightParticles } from './components/ParticleEffects';
 import CulturalBelt, { getBeltRank } from './components/CulturalBelt';
 import ShrineSelector from './components/ShrineSelector';
+import GameCanvas from './components/GameCanvas';
 import './App.css';
 import './ShrineVillage.css';
 
@@ -64,6 +65,7 @@ function ShrineVillageApp() {
   const [showShrineSetup, setShowShrineSetup] = useState(true);
   const [shrineName, setShrineName] = useState('');
   const [showShrineSelector, setShowShrineSelector] = useState(false);
+  const [activeTab, setActiveTab] = useState('shrine'); // New state for tab navigation
 
   useEffect(() => {
     soundEffects.init();
@@ -246,6 +248,22 @@ function ShrineVillageApp() {
           </div>
         </div>
 
+        {/* Tab Navigation */}
+        <div className="tab-navigation">
+          <button 
+            className={`tab-button ${activeTab === 'shrine' ? 'active' : ''}`}
+            onClick={() => setActiveTab('shrine')}
+          >
+            ⛩️ 神社村
+          </button>
+          <button 
+            className={`tab-button ${activeTab === 'game' ? 'active' : ''}`}
+            onClick={() => setActiveTab('game')}
+          >
+            🎮 文化探索ゲーム
+          </button>
+        </div>
+
         {showNotification && (
           <div className="notification">
             {showNotification}
@@ -255,16 +273,19 @@ function ShrineVillageApp() {
         {/* 文化帯ランク */}
         <CulturalBelt culturalCapital={myShrine.culturalCapital} />
 
-        {/* 自分の神社エリア */}
-        <div className="my-shrine-area">
-          <h2>あなたの神社</h2>
-          <div className="shrine-view">
-            {renderShrine()}
-            {Object.keys(myShrine.buildings).length === 0 && (
-              <p>文化活動を記録して神社を発展させましょう</p>
-            )}
-          </div>
-        </div>
+        {/* Tab Content */}
+        {activeTab === 'shrine' ? (
+          <>
+            {/* 自分の神社エリア */}
+            <div className="my-shrine-area">
+              <h2>あなたの神社</h2>
+              <div className="shrine-view">
+                {renderShrine()}
+                {Object.keys(myShrine.buildings).length === 0 && (
+                  <p>文化活動を記録して神社を発展させましょう</p>
+                )}
+              </div>
+            </div>
 
         {/* 文化活動記録ボタン */}
         <div className="activity-section">
@@ -403,6 +424,30 @@ function ShrineVillageApp() {
             </div>
           )}
         </div>
+          </>
+        ) : (
+          /* Game Tab Content */
+          <div className="game-container">
+            <GameCanvas 
+              playerProfile={{
+                name: myShrine.name,
+                culturalCapital: myShrine.culturalCapital,
+                level: myShrine.level,
+                blessings: myShrine.blessings
+              }}
+              onCulturalActivity={(activityData) => {
+                // Handle cultural activities from the game
+                setMyShrine(prev => ({
+                  ...prev,
+                  culturalCapital: prev.culturalCapital + (activityData.exp || 10),
+                  blessings: prev.blessings + 1
+                }));
+                showTemporaryNotification(`⛩️ ${activityData.message || '文化活動を完了しました！'}`);
+                playSound('complete');
+              }}
+            />
+          </div>
+        )}
 
         {/* 文化活動入力モーダル */}
         {showActivityModal && (
