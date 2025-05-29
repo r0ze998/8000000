@@ -6,6 +6,7 @@ import { SakuraParticles, LightParticles } from './components/ParticleEffects';
 import CulturalBelt, { getBeltRank } from './components/CulturalBelt';
 import ShrineSelector from './components/ShrineSelector';
 import GameCanvas from './components/GameCanvas';
+import VisitVerification from './components/VisitVerification';
 import './App.css';
 import './ShrineVillage.css';
 
@@ -66,6 +67,8 @@ function ShrineVillageApp() {
   const [shrineName, setShrineName] = useState('');
   const [showShrineSelector, setShowShrineSelector] = useState(false);
   const [activeTab, setActiveTab] = useState('shrine'); // New state for tab navigation
+  const [showVerification, setShowVerification] = useState(false);
+  const [selectedShrineForVerification, setSelectedShrineForVerification] = useState(null);
 
   useEffect(() => {
     soundEffects.init();
@@ -159,8 +162,17 @@ function ShrineVillageApp() {
     playSound('complete');
   };
 
-  const handleShrineVisit = (visitData) => {
-    const { shrine, experience, timestamp } = visitData;
+  const handleShrineVisit = (shrine) => {
+    // 参拝証明画面を表示
+    setSelectedShrineForVerification(shrine);
+    setShowVerification(true);
+    setShowShrineSelector(false);
+  };
+
+  const handleVerificationComplete = (verificationData) => {
+    const shrine = selectedShrineForVerification;
+    const experience = 50; // 基本経験値
+    
     const activity = shrine.type === 'shrine' ? CULTURAL_ACTIVITIES.shrine : CULTURAL_ACTIVITIES.temple;
     const buildingType = shrine.type === 'shrine' ? 'torii' : 'pagoda';
     
@@ -179,23 +191,29 @@ function ShrineVillageApp() {
       blessings: prev.blessings + 1
     }));
 
-    // NFTとして記録
+    // NFTとして記録（証明データ付き）
     setNftCollection(prev => [...prev, {
-      id: timestamp,
+      id: verificationData.timestamp,
       type: shrine.type,
       name: shrine.name,
+      verificationMethod: verificationData.method,
+      verificationData: verificationData,
       location: `${shrine.city}, ${shrine.prefecture}`,
       description: shrine.description,
       rarity: shrine.rarity,
       culturalValue: shrine.culturalValue,
       experience: experience,
-      timestamp: timestamp,
+      timestamp: verificationData.timestamp,
       deity: shrine.deity || shrine.sect,
       benefits: shrine.benefits
     }]);
 
     showTemporaryNotification(`⛩️ ${shrine.name}への参拝を記録しました！ +${experience} 文化資本`);
     playSound('treeGrow');
+    
+    // 証明画面を閉じる
+    setShowVerification(false);
+    setSelectedShrineForVerification(null);
   };
 
   const renderShrine = () => {
@@ -495,6 +513,18 @@ function ShrineVillageApp() {
           <ShrineSelector
             onShrineSelect={handleShrineVisit}
             onClose={() => setShowShrineSelector(false)}
+          />
+        )}
+
+        {/* 参拝証明モーダル */}
+        {showVerification && selectedShrineForVerification && (
+          <VisitVerification
+            shrine={selectedShrineForVerification}
+            onVerified={handleVerificationComplete}
+            onCancel={() => {
+              setShowVerification(false);
+              setSelectedShrineForVerification(null);
+            }}
           />
         )}
       </header>
