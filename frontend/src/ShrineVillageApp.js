@@ -11,6 +11,7 @@ import ActivityButtons from './components/ActivityButtons';
 import ActivityModal from './components/ActivityModal';
 import NFTCollection from './components/NFTCollection';
 import VillageMembersSection from './components/VillageMembersSection';
+import AudioControls from './components/AudioControls';
 
 // Hooks
 import { useShrine } from './hooks/useShrine';
@@ -18,6 +19,9 @@ import { useNotification } from './hooks/useNotification';
 
 // Constants
 import { CULTURAL_ACTIVITIES } from './constants/culturalActivities';
+
+// Services
+import audioManager from './services/audioManager';
 
 // Styles
 import './App.css';
@@ -92,6 +96,7 @@ function ShrineVillageApp() {
     
     showTemporaryNotification(`✨ ${activity.name}を記録しました！ +${activity.exp} 文化資本`);
     soundEffects.play('treeGrow');
+    audioManager.playSFX('bell');
     
     setShowActivityModal(false);
     setSelectedActivity(null);
@@ -101,6 +106,8 @@ function ShrineVillageApp() {
     setSelectedShrineForVerification(shrine);
     setShowVerification(true);
     setShowShrineSelector(false);
+    // 神社参拝BGMに切り替え
+    audioManager.playBGM('shrine');
   };
 
   const handleVerificationComplete = (verificationData) => {
@@ -136,9 +143,12 @@ function ShrineVillageApp() {
 
     showTemporaryNotification(`⛩️ ${shrine.name}への参拝を記録しました！ +${experience} 文化資本`);
     soundEffects.play('treeGrow');
+    audioManager.playSFX('gong');
     
     setShowVerification(false);
     setSelectedShrineForVerification(null);
+    // メインBGMに戻す
+    audioManager.playBGM('main');
   };
 
   const handleVisitFriend = (friend) => {
@@ -271,6 +281,9 @@ function ShrineVillageApp() {
           />
         )}
       </header>
+
+      {/* オーディオコントロール */}
+      <AudioControls />
     </div>
   );
 }
