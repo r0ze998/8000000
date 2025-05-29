@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>⛩️ Shrine Village - 神社村プレビュー</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+            background: linear-gradient(180deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+            color: white;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            text-align: center;
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 0 30px rgba(255, 215, 0, 0.5);
+        }
+
+        .stats {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-bottom: 3rem;
+            flex-wrap: wrap;
+        }
+
+        .stat {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 215, 0, 0.3);
+        }
+
+        .shrine-area {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 20px;
+            padding: 3rem;
+            margin-bottom: 3rem;
+            text-align: center;
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(255, 215, 0, 0.2);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .buildings {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            font-size: 3rem;
+            margin: 2rem 0;
+        }
+
+        .building {
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .activities {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .activity-btn {
+            background: rgba(255, 255, 255, 0.1);
+            border: 2px solid rgba(255, 215, 0, 0.3);
+            border-radius: 15px;
+            padding: 1.5rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-align: center;
+        }
+
+        .activity-btn:hover {
+            background: rgba(255, 215, 0, 0.2);
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(255, 215, 0, 0.3);
+        }
+
+        .emoji {
+            font-size: 3rem;
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+
+        .village {
+            margin: 3rem 0;
+        }
+
+        .village-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .member-card {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 1.5rem;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 215, 0, 0.3);
+        }
+
+        .nft-section {
+            margin: 3rem 0;
+        }
+
+        .nft-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .nft-card {
+            background: rgba(255, 255, 255, 0.95);
+            color: #1a1a2e;
+            border-radius: 15px;
+            padding: 1.5rem;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .wisdom-box {
+            background: rgba(255, 215, 0, 0.1);
+            border-radius: 10px;
+            padding: 1rem;
+            margin: 1rem 0;
+            border-left: 4px solid #FFD700;
+        }
+
+        h2 {
+            text-align: center;
+            margin: 2rem 0 1rem;
+            font-size: 2rem;
+        }
+
+        .setup-form {
+            max-width: 400px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .setup-form input {
+            width: 100%;
+            padding: 1rem;
+            font-size: 1.2rem;
+            border: 2px solid rgba(255, 215, 0, 0.3);
+            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            margin-bottom: 1rem;
+        }
+
+        .setup-form button {
+            padding: 1rem 2rem;
+            font-size: 1.2rem;
+            background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%);
+            border: none;
+            border-radius: 10px;
+            color: #1a1a2e;
+            font-weight: bold;
+            cursor: pointer;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- 神社名設定画面 -->
+        <div id="setup" style="display: none;">
+            <h1>⛩️ あなたの神社を創建しよう</h1>
+            <div class="setup-form">
+                <input type="text" placeholder="神社の名前を入力（例：文化神社）" id="shrineName">
+                <button onclick="createShrine()">創建する</button>
+            </div>
+        </div>
+
+        <!-- メイン画面 -->
+        <div id="main">
+            <h1>⛩️ 文化継承神社</h1>
+            
+            <div class="stats">
+                <span class="stat">🏛️ レベル 3</span>
+                <span class="stat">📚 文化資本 280</span>
+                <span class="stat">🙏 ご利益 12</span>
+                <span class="stat">👥 参拝者 45</span>
+            </div>
+
+            <div class="shrine-area">
+                <h2>あなたの神社</h2>
+                <div class="buildings">
+                    <div class="building">⛩️</div>
+                    <div class="building">🏯</div>
+                    <div class="building">🍵</div>
+                    <div class="building">🌸</div>
+                </div>
+                <p>文化活動を続けて神社を発展させましょう</p>
+            </div>
+
+            <section>
+                <h2>文化活動を記録</h2>
+                <div class="activities">
+                    <div class="activity-btn">
+                        <span class="emoji">⛩️</span>
+                        <strong>神社参拝</strong>
+                        <div>+50 文化資本</div>
+                    </div>
+                    <div class="activity-btn">
+                        <span class="emoji">🏛️</span>
+                        <strong>寺院参拝</strong>
+                        <div>+50 文化資本</div>
+                    </div>
+                    <div class="activity-btn">
+                        <span class="emoji">🎋</span>
+                        <strong>祭り・伝統行事</strong>
+                        <div>+70 文化資本</div>
+                    </div>
+                    <div class="activity-btn">
+                        <span class="emoji">🎨</span>
+                        <strong>伝統工芸体験</strong>
+                        <div>+60 文化資本</div>
+                    </div>
+                    <div class="activity-btn">
+                        <span class="emoji">🍵</span>
+                        <strong>茶道・華道</strong>
+                        <div>+40 文化資本</div>
+                    </div>
+                    <div class="activity-btn">
+                        <span class="emoji">🌸</span>
+                        <strong>庭園散策</strong>
+                        <div>+30 文化資本</div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="village">
+                <h2>🏘️ 文化村のメンバー</h2>
+                <div class="village-grid">
+                    <div class="member-card">
+                        <h3>豊穣神社</h3>
+                        <p>管理者: 山田さん</p>
+                        <p>レベル: 5</p>
+                        <p>文化資本: 450</p>
+                        <button>参拝する</button>
+                    </div>
+                    <div class="member-card">
+                        <h3>学問神社</h3>
+                        <p>管理者: 鈴木さん</p>
+                        <p>レベル: 3</p>
+                        <p>文化資本: 280</p>
+                        <button>参拝する</button>
+                    </div>
+                    <div class="member-card">
+                        <h3>芸術神社</h3>
+                        <p>管理者: 佐藤さん</p>
+                        <p>レベル: 4</p>
+                        <p>文化資本: 380</p>
+                        <button>参拝する</button>
+                    </div>
+                </div>
+            </section>
+
+            <section class="nft-section">
+                <h2>🎋 文化活動NFTコレクション</h2>
+                <div class="nft-grid">
+                    <div class="nft-card">
+                        <div style="display: flex; justify-content: space-between; margin-bottom: 1rem;">
+                            <span style="font-size: 2rem;">⛩️</span>
+                            <span style="font-size: 0.8rem; opacity: 0.6;">#SHRINE-001</span>
+                        </div>
+                        <h4>明治神宮参拝</h4>
+                        <p>📍 東京都渋谷区</p>
+                        <p>原宿の喧騒から一歩入ると、深い森に包まれた神聖な空間が広がっていました。</p>
+                        <div class="wisdom-box">
+                            <strong>📜 得た知恵</strong>
+                            <p>都会の中にも自然と調和した聖域があることを学びました。静寂の中で心が清められました。</p>
+                        </div>
+                        <div style="display: flex; justify-content: space-between; margin-top: 1rem; font-size: 0.9rem; opacity: 0.7;">
+                            <span>2025/1/15</span>
+                            <span>+50 文化資本</span>
+                        </div>
+                    </div>
+                    
+                    <div class="nft-card">
+                        <div style="display: flex; justify-content: space-between; margin-bottom: 1rem;">
+                            <span style="font-size: 2rem;">🍵</span>
+                            <span style="font-size: 0.8rem; opacity: 0.6;">#SHRINE-002</span>
+                        </div>
+                        <h4>茶道体験</h4>
+                        <p>📍 京都市東山区</p>
+                        <p>300年の歴史を持つ茶室で、本格的な茶道を体験しました。</p>
+                        <div class="wisdom-box">
+                            <strong>📜 得た知恵</strong>
+                            <p>一期一会の精神と、おもてなしの心の深さを学びました。</p>
+                        </div>
+                        <div style="display: flex; justify-content: space-between; margin-top: 1rem; font-size: 0.9rem; opacity: 0.7;">
+                            <span>2025/1/10</span>
+                            <span>+40 文化資本</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+
+    <script>
+        function createShrine() {
+            const name = document.getElementById('shrineName').value;
+            if (name) {
+                document.getElementById('setup').style.display = 'none';
+                document.getElementById('main').style.display = 'block';
+                document.querySelector('h1').textContent = `⛩️ ${name}`;
+            }
+        }
+
+        // ボタンにクリックイベントを追加
+        document.querySelectorAll('.activity-btn, button').forEach(btn => {
+            btn.addEventListener('click', function() {
+                alert('この機能は実際のアプリで動作します！');
+            });
+        });
+    </script>
+</body>
+</html>
