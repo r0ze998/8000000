@@ -8,35 +8,43 @@ class AudioManager {
     this.sfxVolume = 0.5;
     this.currentBGM = null;
     this.audioContext = null;
-    this.gainNodes = {};
+    this.bgmAudio = null;
+    this.sfxAudios = {};
     
     // 雅楽BGMトラック
     this.bgmTracks = {
       main: {
         name: '越天楽',
         description: '最も有名な雅楽の曲。荘厳で神聖な雰囲気',
-        // Web Audio APIで生成される雅楽風の音
-        tempo: 60,
-        instruments: ['sho', 'hichiriki', 'ryuteki', 'biwa', 'koto']
+        file: '/audio/etenraku.mp3',
+        fallbackUrl: 'https://www.youtube.com/watch?v=3jPPZKsVhIs' // 越天楽の例
       },
       shrine: {
         name: '平調音取',
         description: '神社参拝時の静かな雅楽',
-        tempo: 50,
-        instruments: ['sho', 'ryuteki']
+        file: '/audio/heicho.mp3',
+        fallbackUrl: 'https://www.youtube.com/watch?v=kEj6IQz4qYc'
       },
       festival: {
         name: '陵王',
         description: '祭りの雰囲気に合う活発な雅楽',
-        tempo: 80,
-        instruments: ['taiko', 'hichiriki', 'sho']
+        file: '/audio/ryoou.mp3',
+        fallbackUrl: 'https://www.youtube.com/watch?v=fGPQ9CpWz74'
       },
       meditation: {
         name: '黄鐘調',
         description: '瞑想的で穏やかな雅楽',
-        tempo: 40,
-        instruments: ['sho', 'koto']
+        file: '/audio/oshikicho.mp3',
+        fallbackUrl: 'https://www.youtube.com/watch?v=YI0Dk3Cav5U'
       }
+    };
+    
+    // 効果音ファイル
+    this.sfxFiles = {
+      bell: '/audio/suzu.mp3',
+      gong: '/audio/kane.mp3',
+      drum: '/audio/taiko.mp3',
+      chime: '/audio/fue.mp3'
     };
 
     // 初期化
@@ -65,164 +73,108 @@ class AudioManager {
     }));
   }
 
-  // Web Audio APIの初期化
-  async initAudioContext() {
-    if (this.audioContext) return;
-    
-    try {
-      this.audioContext = new (window.AudioContext || window.webkitAudioContext)();
-      
-      // マスターゲインノード
-      this.gainNodes.master = this.audioContext.createGain();
-      this.gainNodes.master.connect(this.audioContext.destination);
-      
-      // BGM用ゲインノード
-      this.gainNodes.bgm = this.audioContext.createGain();
-      this.gainNodes.bgm.gain.value = this.bgmVolume;
-      this.gainNodes.bgm.connect(this.gainNodes.master);
-      
-      // SFX用ゲインノード
-      this.gainNodes.sfx = this.audioContext.createGain();
-      this.gainNodes.sfx.gain.value = this.sfxVolume;
-      this.gainNodes.sfx.connect(this.gainNodes.master);
-      
-    } catch (error) {
-      console.error('Failed to initialize audio context:', error);
+  // Audio要素の初期化
+  async initAudio() {
+    // BGM用Audio要素
+    if (!this.bgmAudio) {
+      this.bgmAudio = new Audio();
+      this.bgmAudio.loop = true;
+      this.bgmAudio.volume = this.bgmVolume;
     }
+    
+    // 効果音用Audio要素をプリロード
+    Object.entries(this.sfxFiles).forEach(([name, file]) => {
+      if (!this.sfxAudios[name]) {
+        this.sfxAudios[name] = new Audio(file);
+        this.sfxAudios[name].volume = this.sfxVolume;
+      }
+    });
   }
 
-  // 雅楽風の音を生成
-  createGagakuSound(instrumentType, frequency, duration) {
-    if (!this.audioContext) return null;
-
+  // 音源ファイルの存在確認
+  async checkAudioFile(url) {
+    try {
+      const response = await fetch(url, { method: 'HEAD' });
+      return response.ok;
+    } catch (error) {
+      return false;
+    }
+  }
+  
+  // フォールバック用の合成音を生成（音源ファイルがない場合）
+  createSynthesizedGagaku(trackName) {
+    if (!this.audioContext) {
+      this.audioContext = new (window.AudioContext || window.webkitAudioContext)();
+    }
+    
+    // シンプルな雅楽風の音を生成
     const oscillator = this.audioContext.createOscillator();
     const gainNode = this.audioContext.createGain();
-    const filter = this.audioContext.createBiquadFilter();
-
-    // 楽器ごとの設定
-    switch (instrumentType) {
-      case 'sho': // 笙
-        oscillator.type = 'sine';
-        filter.type = 'bandpass';
-        filter.frequency.value = frequency;
-        filter.Q.value = 10;
-        // 和音を追加
-        const harmonic = this.audioContext.createOscillator();
-        harmonic.type = 'sine';
-        harmonic.frequency.value = frequency * 1.5;
-        harmonic.connect(gainNode);
-        harmonic.start();
-        harmonic.stop(this.audioContext.currentTime + duration);
-        break;
-        
-      case 'hichiriki': // 篳篥
-        oscillator.type = 'sawtooth';
-        filter.type = 'lowpass';
-        filter.frequency.value = 2000;
-        filter.Q.value = 5;
-        break;
-        
-      case 'ryuteki': // 龍笛
-        oscillator.type = 'triangle';
-        filter.type = 'highpass';
-        filter.frequency.value = 800;
-        break;
-        
-      case 'biwa': // 琵琶
-        oscillator.type = 'triangle';
-        filter.type = 'lowpass';
-        filter.frequency.value = 1500;
-        // 弦楽器のアタック
-        gainNode.gain.setValueAtTime(0, this.audioContext.currentTime);
-        gainNode.gain.linearRampToValueAtTime(0.3, this.audioContext.currentTime + 0.01);
-        gainNode.gain.exponentialRampToValueAtTime(0.01, this.audioContext.currentTime + duration);
-        break;
-        
-      case 'koto': // 琴
-        oscillator.type = 'sine';
-        filter.type = 'lowpass';
-        filter.frequency.value = 3000;
-        // 琴のアタック
-        gainNode.gain.setValueAtTime(0, this.audioContext.currentTime);
-        gainNode.gain.linearRampToValueAtTime(0.2, this.audioContext.currentTime + 0.005);
-        gainNode.gain.exponentialRampToValueAtTime(0.01, this.audioContext.currentTime + duration);
-        break;
-        
-      case 'taiko': // 太鼓
-        oscillator.type = 'sine';
-        oscillator.frequency.value = 60;
-        filter.type = 'lowpass';
-        filter.frequency.value = 150;
-        // 太鼓のアタック
-        gainNode.gain.setValueAtTime(0.5, this.audioContext.currentTime);
-        gainNode.gain.exponentialRampToValueAtTime(0.01, this.audioContext.currentTime + 0.3);
-        break;
-    }
-
-    oscillator.frequency.value = frequency;
-    oscillator.connect(filter);
-    filter.connect(gainNode);
-    gainNode.connect(this.gainNodes.bgm);
-
-    // フェードイン・フェードアウト
-    if (instrumentType !== 'biwa' && instrumentType !== 'koto' && instrumentType !== 'taiko') {
-      gainNode.gain.setValueAtTime(0, this.audioContext.currentTime);
-      gainNode.gain.linearRampToValueAtTime(0.1, this.audioContext.currentTime + 0.1);
-      gainNode.gain.linearRampToValueAtTime(0.1, this.audioContext.currentTime + duration - 0.1);
-      gainNode.gain.linearRampToValueAtTime(0, this.audioContext.currentTime + duration);
-    }
-
+    
+    oscillator.type = 'sine';
+    oscillator.frequency.value = trackName === 'shrine' ? 220 : 440;
+    gainNode.gain.value = 0.1;
+    
+    oscillator.connect(gainNode);
+    gainNode.connect(this.audioContext.destination);
+    
     oscillator.start();
-    oscillator.stop(this.audioContext.currentTime + duration);
-
-    return { oscillator, gainNode, filter };
+    
+    // 1分後に停止
+    setTimeout(() => {
+      oscillator.stop();
+    }, 60000);
+    
+    return oscillator;
   }
 
   // BGMを再生
   async playBGM(trackName = 'main') {
     if (!this.bgmEnabled) return;
     
-    await this.initAudioContext();
+    await this.initAudio();
     this.stopBGM();
 
     const track = this.bgmTracks[trackName];
     if (!track) return;
 
-    this.currentBGM = {
-      name: trackName,
-      instruments: [],
-      intervalId: null
-    };
-
-    // 雅楽の音階（平調）
-    const gagakuScale = [261.63, 293.66, 329.63, 349.23, 392.00, 440.00, 493.88];
+    this.currentBGM = trackName;
     
-    // リズムパターンを生成
-    const playPattern = () => {
-      track.instruments.forEach((instrument, index) => {
-        setTimeout(() => {
-          const note = gagakuScale[Math.floor(Math.random() * gagakuScale.length)];
-          const duration = instrument === 'taiko' ? 0.3 : 2 + Math.random() * 2;
-          this.createGagakuSound(instrument, note, duration);
-        }, index * 200);
+    // 音源ファイルの存在確認
+    const fileExists = await this.checkAudioFile(track.file);
+    
+    if (fileExists) {
+      // 実際の音源ファイルを再生
+      this.bgmAudio.src = track.file;
+      this.bgmAudio.play().catch(error => {
+        console.log('BGM再生エラー:', error);
+        // エラー時は合成音にフォールバック
+        this.createSynthesizedGagaku(trackName);
       });
-    };
-
-    // 初回再生
-    playPattern();
-
-    // ループ再生
-    this.currentBGM.intervalId = setInterval(() => {
-      playPattern();
-    }, (60 / track.tempo) * 4 * 1000); // 4拍子
+    } else {
+      // 音源ファイルがない場合は案内を表示
+      console.log(`BGM音源ファイルが見つかりません: ${track.file}`);
+      console.log(`YouTube参考音源: ${track.fallbackUrl}`);
+      
+      // 合成音を再生
+      this.createSynthesizedGagaku(trackName);
+    }
   }
 
   // BGMを停止
   stopBGM() {
-    if (this.currentBGM && this.currentBGM.intervalId) {
-      clearInterval(this.currentBGM.intervalId);
-      this.currentBGM = null;
+    if (this.bgmAudio) {
+      this.bgmAudio.pause();
+      this.bgmAudio.currentTime = 0;
     }
+    
+    // 合成音も停止
+    if (this.audioContext) {
+      this.audioContext.close();
+      this.audioContext = null;
+    }
+    
+    this.currentBGM = null;
   }
 
   // BGMを一時停止/再開
@@ -239,17 +191,17 @@ class AudioManager {
   // 音量設定
   setBGMVolume(volume) {
     this.bgmVolume = Math.max(0, Math.min(1, volume));
-    if (this.gainNodes.bgm) {
-      this.gainNodes.bgm.gain.value = this.bgmVolume;
+    if (this.bgmAudio) {
+      this.bgmAudio.volume = this.bgmVolume;
     }
     this.saveSettings();
   }
 
   setSFXVolume(volume) {
     this.sfxVolume = Math.max(0, Math.min(1, volume));
-    if (this.gainNodes.sfx) {
-      this.gainNodes.sfx.gain.value = this.sfxVolume;
-    }
+    Object.values(this.sfxAudios).forEach(audio => {
+      audio.volume = this.sfxVolume;
+    });
     this.saveSettings();
   }
 
@@ -257,9 +209,29 @@ class AudioManager {
   async playSFX(soundName, options = {}) {
     if (!this.sfxEnabled) return;
     
-    await this.initAudioContext();
+    await this.initAudio();
 
-    // 効果音の定義
+    const audio = this.sfxAudios[soundName];
+    if (audio) {
+      // 音源ファイルが存在する場合
+      audio.currentTime = 0;
+      audio.play().catch(error => {
+        console.log('効果音再生エラー:', error);
+        // エラー時は合成音を再生
+        this.playSynthesizedSFX(soundName);
+      });
+    } else {
+      // 音源ファイルがない場合は合成音を再生
+      this.playSynthesizedSFX(soundName);
+    }
+  }
+  
+  // 合成効果音を再生（フォールバック用）
+  playSynthesizedSFX(soundName) {
+    if (!this.audioContext) {
+      this.audioContext = new (window.AudioContext || window.webkitAudioContext)();
+    }
+    
     const sfxDefinitions = {
       bell: { frequency: 800, duration: 1.5, type: 'triangle' },
       gong: { frequency: 150, duration: 3, type: 'sine' },
@@ -276,7 +248,7 @@ class AudioManager {
     oscillator.type = sfx.type;
     oscillator.frequency.value = sfx.frequency;
     oscillator.connect(gainNode);
-    gainNode.connect(this.gainNodes.sfx);
+    gainNode.connect(this.audioContext.destination);
 
     // エンベロープ
     gainNode.gain.setValueAtTime(0, this.audioContext.currentTime);
@@ -290,6 +262,18 @@ class AudioManager {
   // クリーンアップ
   destroy() {
     this.stopBGM();
+    
+    // Audio要素をクリア
+    if (this.bgmAudio) {
+      this.bgmAudio.pause();
+      this.bgmAudio = null;
+    }
+    
+    Object.values(this.sfxAudios).forEach(audio => {
+      audio.pause();
+    });
+    this.sfxAudios = {};
+    
     if (this.audioContext) {
       this.audioContext.close();
       this.audioContext = null;

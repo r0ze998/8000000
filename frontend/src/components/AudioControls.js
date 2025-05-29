@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import audioManager from '../services/audioManager';
+import AudioSetupGuide from './AudioSetupGuide';
 import './AudioControls.css';
 
 const AudioControls = () => {
@@ -9,11 +10,12 @@ const AudioControls = () => {
   const [bgmVolume, setBgmVolume] = useState(audioManager.bgmVolume * 100);
   const [sfxVolume, setSfxVolume] = useState(audioManager.sfxVolume * 100);
   const [currentTrack, setCurrentTrack] = useState('main');
+  const [showSetupGuide, setShowSetupGuide] = useState(false);
 
   useEffect(() => {
     // 初回BGM再生
     const startAudio = async () => {
-      await audioManager.initAudioContext();
+      await audioManager.initAudio();
       if (bgmEnabled) {
         audioManager.playBGM('main');
       }
@@ -168,7 +170,18 @@ const AudioControls = () => {
               {audioManager.bgmTracks[currentTrack].description}
             </p>
           </div>
+
+          <button 
+            className="setup-guide-btn"
+            onClick={() => setShowSetupGuide(true)}
+          >
+            📖 音源セットアップガイド
+          </button>
         </div>
+      )}
+
+      {showSetupGuide && (
+        <AudioSetupGuide onClose={() => setShowSetupGuide(false)} />
       )}
     </div>
   );
