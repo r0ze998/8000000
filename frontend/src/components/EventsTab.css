@@ -1,0 +1,262 @@
+/* イベントタブのスタイル */
+.events-tab {
+  width: 100%;
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+.events-tab h2 {
+  color: white;
+  text-align: center;
+  margin-bottom: 30px;
+  font-size: 2rem;
+  font-weight: 700;
+}
+
+.events-tab h3 {
+  color: white;
+  margin-bottom: 20px;
+  font-size: 1.5rem;
+  font-weight: 600;
+}
+
+/* 現在開催中のイベント */
+.current-events {
+  margin-bottom: 40px;
+}
+
+.event-card {
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(20px);
+  border-radius: 20px;
+  padding: 25px;
+  margin-bottom: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.event-card:hover {
+  transform: translateY(-3px);
+  background: rgba(255, 255, 255, 0.08);
+  box-shadow: 0 10px 30px rgba(233, 69, 96, 0.2);
+}
+
+.event-card.featured {
+  background: linear-gradient(135deg, rgba(233, 69, 96, 0.1), rgba(103, 58, 183, 0.1));
+  border: 2px solid rgba(233, 69, 96, 0.3);
+  box-shadow: 0 8px 25px rgba(233, 69, 96, 0.2);
+}
+
+.event-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.event-card h4 {
+  color: white;
+  margin: 0;
+  font-size: 1.4rem;
+  font-weight: 700;
+}
+
+.event-period,
+.event-date {
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 0.9rem;
+  font-weight: 500;
+  background: rgba(255, 255, 255, 0.1);
+  padding: 5px 12px;
+  border-radius: 15px;
+}
+
+.event-description {
+  color: rgba(255, 255, 255, 0.8);
+  line-height: 1.6;
+  margin-bottom: 20px;
+  font-size: 1rem;
+}
+
+.event-rewards {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+}
+
+.reward {
+  background: rgba(76, 175, 80, 0.2);
+  border: 1px solid rgba(76, 175, 80, 0.4);
+  color: #81c784;
+  padding: 8px 15px;
+  border-radius: 20px;
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+.event-join-btn {
+  padding: 12px 30px;
+  font-size: 1.1rem;
+  font-weight: 700;
+  border: none;
+  border-radius: 25px;
+  background: linear-gradient(135deg, #4caf50, #8bc34a);
+  color: white;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 6px 20px rgba(76, 175, 80, 0.3);
+}
+
+.event-join-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 30px rgba(76, 175, 80, 0.4);
+}
+
+/* 今後のイベント */
+.upcoming-events {
+  margin-bottom: 40px;
+}
+
+.events-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 20px;
+}
+
+.events-grid .event-card {
+  padding: 20px;
+}
+
+.events-grid .event-card h4 {
+  font-size: 1.2rem;
+  margin-bottom: 10px;
+}
+
+.events-grid .event-card p {
+  color: rgba(255, 255, 255, 0.7);
+  line-height: 1.5;
+  margin: 0;
+  font-size: 0.95rem;
+}
+
+/* 期間限定イベント */
+.limited-events {
+  margin-bottom: 30px;
+}
+
+.limited-event-card {
+  background: linear-gradient(135deg, rgba(255, 152, 0, 0.1), rgba(255, 193, 7, 0.1));
+  backdrop-filter: blur(20px);
+  border-radius: 20px;
+  padding: 25px;
+  border: 2px solid rgba(255, 152, 0, 0.3);
+  box-shadow: 0 8px 25px rgba(255, 152, 0, 0.2);
+  animation: urgentPulse 2s ease-in-out infinite;
+}
+
+@keyframes urgentPulse {
+  0%, 100% { 
+    box-shadow: 0 8px 25px rgba(255, 152, 0, 0.2);
+  }
+  50% { 
+    box-shadow: 0 12px 35px rgba(255, 152, 0, 0.4);
+  }
+}
+
+.event-timer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 15px;
+  background: rgba(255, 152, 0, 0.1);
+  padding: 10px 20px;
+  border-radius: 20px;
+}
+
+.timer-label {
+  color: rgba(255, 255, 255, 0.8);
+  font-weight: 500;
+}
+
+.timer-value {
+  color: #ffb74d;
+  font-weight: 700;
+  font-size: 1.1rem;
+  font-family: 'Courier New', monospace;
+}
+
+.limited-event-card h4 {
+  color: white;
+  text-align: center;
+  margin: 0 0 15px 0;
+  font-size: 1.3rem;
+  font-weight: 700;
+}
+
+.limited-event-card p {
+  color: rgba(255, 255, 255, 0.8);
+  text-align: center;
+  line-height: 1.6;
+  margin-bottom: 20px;
+}
+
+.urgent-join-btn {
+  display: block;
+  width: 100%;
+  padding: 15px 30px;
+  font-size: 1.2rem;
+  font-weight: 700;
+  border: none;
+  border-radius: 25px;
+  background: linear-gradient(135deg, #ff9800, #ffc107);
+  color: white;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 6px 20px rgba(255, 152, 0, 0.4);
+  animation: buttonPulse 1.5s ease-in-out infinite;
+}
+
+@keyframes buttonPulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.02); }
+}
+
+.urgent-join-btn:hover {
+  transform: translateY(-3px) scale(1.05);
+  box-shadow: 0 12px 35px rgba(255, 152, 0, 0.5);
+}
+
+/* レスポンシブ対応 */
+@media (max-width: 768px) {
+  .events-tab {
+    padding: 0 15px;
+  }
+  
+  .event-card,
+  .limited-event-card {
+    padding: 20px;
+  }
+  
+  .event-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  
+  .events-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .event-rewards {
+    justify-content: center;
+  }
+  
+  .event-timer {
+    flex-direction: column;
+    gap: 5px;
+  }
+}

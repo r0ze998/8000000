@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import { FESTIVAL_DATABASE, getSpecialNFTFestivals } from '../data/expandedShrineDatabase';
 import './SpecialEvents.css';
 
 const SpecialEvents = ({ onEventParticipate, userLocation }) => {
@@ -7,43 +6,43 @@ const SpecialEvents = ({ onEventParticipate, userLocation }) => {
   const [showEventDetails, setShowEventDetails] = useState(null);
   const [currentSeason, setCurrentSeason] = useState('spring');
 
-  // 季節別特別イベント
+  // 季節別特別イベント（神社・寺院のみ）
   const seasonalEvents = {
     spring: [
       {
-        id: 'sakura-festival',
-        name: '桜まつり特別NFT',
-        description: '全国の桜の名所で開催される桜まつり期間中に参拝すると獲得できる限定NFT',
+        id: 'shrine-spring',
+        name: '春季大祭特別記録',
+        description: '全国の神社で開催される春季大祭期間中に参拝すると獲得できる限定記録',
         period: '3月下旬〜5月上旬',
         rarity: 'legendary',
         culturalValue: 180,
-        specialReward: 'さくらの精霊NFT',
-        participating_shrines: ['上野公園', '吉野山', '弘前公園'],
-        requirements: '桜まつり期間中の参拝証明'
+        specialReward: '春季参拝記録',
+        participating_shrines: ['伊勢神宮', '明治神宮', '出雲大社'],
+        requirements: '春季大祭期間中の参拝証明'
       }
     ],
     summer: [
       {
-        id: 'summer-festival',
-        name: '夏祭り特別NFT',
-        description: '日本三大祭りや地域の夏祭りに参加すると獲得できる限定NFT',
+        id: 'temple-summer',
+        name: '夏季法会特別記録',
+        description: '全国の寺院で開催される夏季法会期間中に参拝すると獲得できる限定記録',
         period: '7月〜8月',
         rarity: 'mythical',
         culturalValue: 250,
-        specialReward: '祭り神輿NFT',
-        participating_shrines: ['祇園祭', '天神祭', '神田祭'],
-        requirements: '祭り参加証明または神輿担ぎ参加'
+        specialReward: '夏季法会記録',
+        participating_shrines: ['東大寺', '清水寺', '金閣寺'],
+        requirements: '夏季法会期間中の参拝証明'
       }
     ],
     autumn: [
       {
         id: 'autumn-leaves',
-        name: '紅葉狩り特別NFT',
-        description: '全国の紅葉名所の神社・寺院を巡ると獲得できる限定NFT',
+        name: '紅葉寺社巡り特別記録',
+        description: '全国の紅葉名所の神社・寺院を巡ると獲得できる限定記録',
         period: '10月〜11月',
         rarity: 'rare',
         culturalValue: 120,
-        specialReward: 'もみじの妖精NFT',
+        specialReward: '紅葉参拝記録',
         participating_shrines: ['清水寺', '東福寺', '高台寺'],
         requirements: '紅葉期間中の複数箇所参拝'
       }
@@ -51,12 +50,12 @@ const SpecialEvents = ({ onEventParticipate, userLocation }) => {
     winter: [
       {
         id: 'hatsumode',
-        name: '初詣特別NFT',
-        description: '新年の初詣で特別な御利益を込めた限定NFT',
+        name: '初詣特別記録',
+        description: '新年の初詣で特別な御利益を込めた限定記録',
         period: '1月1日〜1月15日',
         rarity: 'legendary',
         culturalValue: 200,
-        specialReward: '開運招福NFT',
+        specialReward: '開運招福記録',
         participating_shrines: ['明治神宮', '伊勢神宮', '出雲大社'],
         requirements: '元旦〜三が日の参拝'
       }

@@ -1,77 +1,147 @@
 {
-  "short_name": "Shrine Village",
-  "name": "Cultural Shrine Village - 文化をつなぐ神社村",
-  "description": "ブロックチェーン技術で日本の文化活動を永続記録するアプリ",
+  "short_name": "神社村",
+  "name": "文化神社村 - Cultural Shrine Village",
+  "description": "ブロックチェーン技術で日本の神社・寺院への参拝を記録し、自分だけの文化村を育てるアプリ",
   "icons": [
     {
-      "src": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E⛩️%3C/text%3E%3C/svg%3E",
-      "sizes": "192x192",
-      "type": "image/svg+xml",
-      "purpose": "any maskable"
+      "src": "icon-72.png",
+      "sizes": "72x72",
+      "type": "image/png",
+      "purpose": "any"
     },
     {
-      "src": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E⛩️%3C/text%3E%3C/svg%3E",
+      "src": "icon-96.png",
+      "sizes": "96x96",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "icon-128.png",
+      "sizes": "128x128",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "icon-144.png",
+      "sizes": "144x144",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "icon-152.png",
+      "sizes": "152x152",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "icon-384.png",
+      "sizes": "384x384",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "icon-512.png",
       "sizes": "512x512",
-      "type": "image/svg+xml",
-      "purpose": "any maskable"
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
     }
   ],
-  "start_url": ".",
+  "start_url": "/",
   "display": "standalone",
-  "theme_color": "#d32f2f",
-  "background_color": "#ffffff",
+  "display_override": ["standalone", "minimal-ui"],
+  "theme_color": "#e94560",
+  "background_color": "#1a1a2e",
   "orientation": "portrait-primary",
-  "categories": ["culture", "education", "travel", "lifestyle"],
+  "categories": ["culture", "education", "travel", "lifestyle", "entertainment"],
   "lang": "ja",
   "dir": "ltr",
   "scope": "/",
+  "id": "cultural-shrine-village",
   "prefer_related_applications": false,
-  "related_applications": [],
+  "edge_side_panel": {
+    "preferred_width": 480
+  },
   "shortcuts": [
     {
       "name": "神社参拝記録",
       "short_name": "参拝記録",
-      "description": "新しい神社参拝を記録する",
+      "description": "神社・寺院への参拝を記録してNFTを取得",
       "url": "/?action=record",
       "icons": [
         {
-          "src": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E📿%3C/text%3E%3C/svg%3E",
-          "sizes": "96x96"
+          "src": "icon-96.png",
+          "sizes": "96x96",
+          "type": "image/png"
         }
       ]
     },
     {
-      "name": "コミュニティ",
-      "short_name": "コミュニティ",
-      "description": "文化体験を共有する",
-      "url": "/?tab=community",
+      "name": "村建設",
+      "short_name": "村建設",
+      "description": "自分だけの文化村を建設・カスタマイズ",
+      "url": "/?tab=builder",
       "icons": [
         {
-          "src": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E👥%3C/text%3E%3C/svg%3E",
-          "sizes": "96x96"
+          "src": "icon-96.png",
+          "sizes": "96x96",
+          "type": "image/png"
         }
       ]
     },
     {
-      "name": "特別イベント",
-      "short_name": "イベント",
-      "description": "限定NFTイベントを確認",
-      "url": "/?tab=events",
+      "name": "コレクション",
+      "short_name": "コレクション",
+      "description": "取得したNFTとコレクションを確認",
+      "url": "/?tab=collection",
       "icons": [
         {
-          "src": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E🎌%3C/text%3E%3C/svg%3E",
-          "sizes": "96x96"
+          "src": "icon-96.png",
+          "sizes": "96x96",
+          "type": "image/png"
         }
       ]
     }
   ],
   "screenshots": [
     {
-      "src": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 800'%3E%3Crect fill='%23f0f0f0' width='400' height='800'/%3E%3Ctext x='200' y='400' text-anchor='middle' font-size='30'%3ECultural Shrine Village%3C/text%3E%3C/svg%3E",
-      "sizes": "400x800",
-      "type": "image/svg+xml",
+      "src": "screenshot-mobile.png",
+      "sizes": "390x844",
+      "type": "image/png",
       "form_factor": "narrow",
-      "label": "メイン画面"
+      "label": "メイン画面 - 神社村"
+    },
+    {
+      "src": "screenshot-builder.png",
+      "sizes": "390x844",
+      "type": "image/png",
+      "form_factor": "narrow",
+      "label": "村建設画面"
+    }
+  ],
+  "protocol_handlers": [
+    {
+      "protocol": "web+shrine",
+      "url": "/?shrine=%s"
+    }
+  ],
+  "file_handlers": [
+    {
+      "action": "/",
+      "accept": {
+        "image/*": [".jpg", ".jpeg", ".png", ".webp"]
+      }
     }
   ]
 }

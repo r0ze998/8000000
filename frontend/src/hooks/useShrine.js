@@ -21,7 +21,7 @@ export const useShrine = () => {
         name: name.trim()
       }));
       setShowShrineSetup(false);
-      soundEffects.play('treeGrow');
+      soundEffects.playSound('treeGrow');
     }
   }, []);
 

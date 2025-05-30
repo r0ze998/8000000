@@ -1,5 +1,5 @@
 [package]
-name = "focus_tree"
+name = "cultural_shrine_contracts"
 version = "0.1.0"
 edition = "2023_11"
 
@@ -7,3 +7,9 @@ edition = "2023_11"
 starknet = ">=2.6.0"
 
 [[target.starknet-contract]]
+sierra = true
+casm = true
+
+[scripts]
+test = "scarb cairo-test"
+build = "scarb build"

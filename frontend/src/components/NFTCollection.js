@@ -4,15 +4,16 @@ const NFTCollection = ({ collection }) => {
   if (collection.length === 0) {
     return (
       <div className="nft-section">
-        <h2>文化活動NFTコレクション</h2>
-        <p className="empty-collection">まだコレクションがありません</p>
+        <h2>参拝記録コレクション</h2>
+        <p className="empty-collection">まだ参拝記録がありません</p>
+        <p className="empty-description">神社や寺院を参拝して記録を残しましょう</p>
       </div>
     );
   }
 
   return (
     <div className="nft-section">
-      <h2>文化活動NFTコレクション</h2>
+      <h2>参拝記録コレクション</h2>
       <div className="nft-grid">
         {collection.map((nft) => (
           <div key={nft.id} className="nft-card">

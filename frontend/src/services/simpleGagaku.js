@@ -36,9 +36,26 @@ class SimpleGagakuManager {
     this.init();
     
     try {
-      await this.audio.play();
+      // ブラウザの自動再生ポリシーに対応
+      if (this.audio.paused) {
+        const playPromise = this.audio.play();
+        
+        if (playPromise !== undefined) {
+          playPromise
+            .then(() => {
+              console.log('🎵 雅楽BGM再生開始');
+            })
+            .catch(error => {
+              console.log('🔇 音楽の再生にはユーザー操作が必要です');
+              // ユーザー操作後に再試行
+              document.addEventListener('click', () => {
+                this.audio.play().catch(() => {});
+              }, { once: true });
+            });
+        }
+      }
     } catch (error) {
-      console.log('音楽の再生待機中（ユーザー操作が必要）');
+      console.log('音楽の再生エラー:', error);
     }
   }
 

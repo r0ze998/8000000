@@ -1,0 +1,11 @@
+{
+  "network": "starknet-sepolia",
+  "deployed_at": "2025-05-30T05:00:00Z",
+  "deployer": "0x033904fd0d7F57614A4AE9340Aa72B61a9e960DBcE38a67e13d6d36Daf6ce14E",
+  "contract": {
+    "name": "SimpleShrine",
+    "address": "0x04640e78f99427bca06749e90cf1f4a68163de68230f224b631137ef8b39f403",
+    "class_hash": "0x0775fbcdb16292b83ab5493e0a20cac9b8ad378ce2cdd8b193930f7e06c98687"
+  },
+  "explorer": "https://sepolia.starkscan.co/contract/0x04640e78f99427bca06749e90cf1f4a68163de68230f224b631137ef8b39f403"
+}

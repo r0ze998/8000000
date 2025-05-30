@@ -1,0 +1,24 @@
+/* 季節エフェクトのスタイル */
+.seasonal-effects-canvas {
+  mix-blend-mode: screen;
+  opacity: 0.8;
+}
+
+/* 季節ごとの背景色調整 */
+.seasonal-effects-canvas.spring {
+  filter: hue-rotate(0deg) brightness(1.1);
+}
+
+.seasonal-effects-canvas.summer {
+  filter: hue-rotate(120deg) brightness(0.9);
+  mix-blend-mode: normal;
+}
+
+.seasonal-effects-canvas.autumn {
+  filter: hue-rotate(30deg) brightness(1.05);
+}
+
+.seasonal-effects-canvas.winter {
+  filter: brightness(1.2);
+  mix-blend-mode: normal;
+}

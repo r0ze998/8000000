@@ -1,0 +1,145 @@
+/* アカウント状態表示 */
+.account-status {
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  padding: 16px;
+  margin: 16px 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.account-info {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  flex: 1;
+}
+
+.account-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.account-label {
+  font-size: 14px;
+  color: #a1a1aa;
+  font-weight: 500;
+  min-width: 70px;
+}
+
+.account-value {
+  font-size: 14px;
+  color: #ffffff;
+  font-weight: 600;
+  font-family: 'Courier New', monospace;
+  background: rgba(255, 255, 255, 0.1);
+  padding: 4px 8px;
+  border-radius: 6px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.network-info {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.network-icon {
+  font-size: 16px;
+}
+
+.network-name {
+  font-size: 13px;
+  color: #10b981;
+  font-weight: 600;
+  background: rgba(16, 185, 129, 0.1);
+  padding: 3px 8px;
+  border-radius: 12px;
+  border: 1px solid rgba(16, 185, 129, 0.2);
+}
+
+.connection-indicator {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.status-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  animation: pulse 2s infinite;
+}
+
+.status-dot.connected {
+  background: #10b981;
+}
+
+.status-text {
+  font-size: 12px;
+  color: #10b981;
+  font-weight: 600;
+}
+
+@keyframes pulse {
+  0% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.5;
+    transform: scale(1.2);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* レスポンシブ対応 */
+@media (max-width: 640px) {
+  .account-status {
+    flex-direction: column;
+    align-items: stretch;
+    text-align: center;
+  }
+  
+  .account-item {
+    justify-content: center;
+  }
+  
+  .account-label {
+    min-width: auto;
+  }
+  
+  .connection-indicator {
+    justify-content: center;
+  }
+}
+
+@media (max-width: 480px) {
+  .account-status {
+    padding: 12px;
+    margin: 12px 0;
+  }
+  
+  .account-item {
+    flex-direction: column;
+    gap: 4px;
+  }
+  
+  .account-value {
+    font-size: 12px;
+  }
+  
+  .network-name {
+    font-size: 12px;
+  }
+}

@@ -1,17 +1,19 @@
-import React, { useState, useEffect } from 'react';
-import simpleGagaku from '../services/simpleGagaku';
+import React, { useState, useEffect, useRef } from 'react';
+import webAudioGagaku from '../services/webAudioGagaku';
 import './SimpleAudioToggle.css';
 
 const SimpleAudioToggle = () => {
-  const [isEnabled, setIsEnabled] = useState(simpleGagaku.getState());
+  const [isEnabled, setIsEnabled] = useState(webAudioGagaku.getState());
   const [hasInteracted, setHasInteracted] = useState(false);
+  const [isAnimating, setIsAnimating] = useState(false);
+  const buttonRef = useRef(null);
 
   useEffect(() => {
     // ユーザーインタラクション後に音声を開始
     const handleFirstInteraction = async () => {
       if (!hasInteracted && isEnabled) {
         setHasInteracted(true);
-        await simpleGagaku.play();
+        await webAudioGagaku.play();
       }
       document.removeEventListener('click', handleFirstInteraction);
     };
@@ -24,7 +26,21 @@ const SimpleAudioToggle = () => {
   }, [hasInteracted, isEnabled]);
 
   const handleToggle = () => {
-    const newState = simpleGagaku.toggle();
+    setIsAnimating(true);
+    
+    // リップルエフェクトを作成
+    const button = buttonRef.current;
+    const ripple = document.createElement('span');
+    ripple.classList.add('ripple');
+    button.appendChild(ripple);
+    
+    // アニメーション後に削除
+    setTimeout(() => {
+      ripple.remove();
+      setIsAnimating(false);
+    }, 600);
+    
+    const newState = webAudioGagaku.toggle();
     setIsEnabled(newState);
     
     if (!hasInteracted) {
@@ -33,13 +49,37 @@ const SimpleAudioToggle = () => {
   };
 
   return (
-    <button
-      className={`audio-toggle ${isEnabled ? 'enabled' : 'disabled'}`}
-      onClick={handleToggle}
-      title={isEnabled ? '雅楽をオフにする' : '雅楽をオンにする'}
-    >
-      {isEnabled ? '🎵' : '🔇'}
-    </button>
+    <div className="audio-controls">
+      <div className="audio-toggle-wrapper">
+        <button
+          ref={buttonRef}
+          className={`audio-toggle ${isEnabled ? 'enabled' : 'disabled'} ${isAnimating ? 'animating' : ''}`}
+          onClick={handleToggle}
+          title={isEnabled ? '雅楽をオフにする' : '雅楽をオンにする'}
+        >
+          <span className="icon-wrapper">
+            <span className={`icon music ${isEnabled ? 'active' : ''}`}>🎵</span>
+            <span className={`icon mute ${!isEnabled ? 'active' : ''}`}>🔇</span>
+          </span>
+          {isEnabled && (
+            <div className="sound-waves">
+              <span className="wave"></span>
+              <span className="wave"></span>
+              <span className="wave"></span>
+            </div>
+          )}
+        </button>
+        {isEnabled && <div className="glow-effect"></div>}
+      </div>
+      {!hasInteracted && isEnabled && (
+        <div className="audio-hint-wrapper">
+          <span className="audio-hint">
+            <span className="hint-icon">👆</span>
+            クリックして音楽を開始
+          </span>
+        </div>
+      )}
+    </div>
   );
 };
 

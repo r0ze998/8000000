@@ -1,14 +1,14 @@
 import React from 'react';
 import './CulturalBelt.css';
 
-// 文化帯のランクシステム（空手の帯システムをオマージュ）
+// 参拝帯のランクシステム（空手の帯システムをオマージュ）
 const BELT_RANKS = [
   { 
     level: 0, 
     name: '白帯', 
     color: '#FFFFFF', 
     gradient: 'linear-gradient(45deg, #FFFFFF 0%, #F0F0F0 100%)',
-    description: '初心者 - 文化の道への第一歩',
+    description: '初心者 - 参拝の道への第一歩',
     minCapital: 0,
     borderColor: '#CCCCCC'
   },
@@ -17,7 +17,7 @@ const BELT_RANKS = [
     name: '黄帯', 
     color: '#FFD700', 
     gradient: 'linear-gradient(45deg, #FFD700 0%, #FFA500 100%)',
-    description: '初級者 - 文化の基礎を学ぶ',
+    description: '初級者 - 神社寺院の基礎を学ぶ',
     minCapital: 100,
     borderColor: '#FFA500'
   },
@@ -26,7 +26,7 @@ const BELT_RANKS = [
     name: '橙帯', 
     color: '#FF8C00', 
     gradient: 'linear-gradient(45deg, #FF8C00 0%, #FF6347 100%)',
-    description: '初級者 - 文化への理解が深まる',
+    description: '初級者 - 参拝への理解が深まる',
     minCapital: 300,
     borderColor: '#FF6347'
   },

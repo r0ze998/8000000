@@ -1,11 +1,16 @@
 .cultural-belt-container {
-  background: linear-gradient(135deg, #f5f5f5 0%, #e8e8e8 100%);
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(20px);
   border-radius: 20px;
   padding: 30px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-  margin: 20px 0;
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  margin: 20px auto;
   position: relative;
   overflow: hidden;
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
 }
 
 .cultural-belt-container::before {
@@ -34,9 +39,9 @@
 .belt-title {
   font-size: 24px;
   font-weight: bold;
-  color: #333;
+  color: white;
   margin-bottom: 10px;
-  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
 }
 
 .current-rank {
@@ -121,14 +126,14 @@
 .rank-name {
   font-size: 28px;
   font-weight: bold;
-  color: #333;
+  color: white;
   margin-bottom: 5px;
-  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
 }
 
 .cultural-capital {
   font-size: 16px;
-  color: #666;
+  color: rgba(255, 255, 255, 0.8);
 }
 
 .capital-value {
@@ -148,7 +153,7 @@
   justify-content: space-between;
   margin-bottom: 10px;
   font-size: 14px;
-  color: #666;
+  color: rgba(255, 255, 255, 0.7);
 }
 
 .progress-bar {
@@ -193,7 +198,7 @@
 .history-title {
   font-size: 18px;
   font-weight: bold;
-  color: #333;
+  color: white;
   margin-bottom: 20px;
   text-align: center;
 }
@@ -255,13 +260,13 @@
 
 .belt-label {
   font-size: 12px;
-  color: #666;
+  color: rgba(255, 255, 255, 0.6);
   white-space: nowrap;
 }
 
 .belt-label.achieved {
   font-weight: bold;
-  color: #333;
+  color: rgba(255, 255, 255, 0.9);
 }
 
 .belt-label.current {
@@ -295,10 +300,25 @@
   100% { transform: rotate(360deg); }
 }
 
+/* Progress info styling */
+.progress-info {
+  text-align: center;
+  margin-top: 10px;
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.progress-info strong {
+  color: #4CAF50;
+  font-weight: 700;
+}
+
 /* Responsive design */
 @media (max-width: 768px) {
   .cultural-belt-container {
-    padding: 20px;
+    padding: 20px 15px;
+    margin: 20px 0;
+    width: 100%;
   }
 
   .belt-display {
@@ -313,10 +333,16 @@
   .belt-timeline {
     overflow-x: auto;
     padding-bottom: 10px;
+    -webkit-overflow-scrolling: touch;
   }
 
   .belt-node {
     margin: 0 10px;
+  }
+  
+  .current-rank {
+    flex-direction: column;
+    gap: 15px;
   }
 }
 

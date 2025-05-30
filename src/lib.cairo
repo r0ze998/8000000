@@ -1,1 +1,1 @@
-mod habit_tracker;
+pub mod simple_shrine;

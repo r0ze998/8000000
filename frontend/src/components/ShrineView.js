@@ -19,7 +19,7 @@ const ShrineView = ({ buildings }) => {
     <div className="shrine-view">
       {renderBuildings()}
       {Object.keys(buildings).length === 0 && (
-        <p>文化活動を記録して神社を発展させましょう</p>
+        <p>神社・寺院への参拝を記録して神社村を発展させましょう</p>
       )}
     </div>
   );
