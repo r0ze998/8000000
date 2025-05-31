@@ -84,11 +84,5 @@
     "REACT_APP_VERSION": "1.0.0",
     "REACT_APP_BUILD_TIME": "$VERCEL_GITHUB_COMMIT_TIMESTAMP",
     "REACT_APP_COMMIT_SHA": "$VERCEL_GITHUB_COMMIT_SHA"
-  },
-  "functions": {
-    "frontend/src/api/**/*.js": {
-      "runtime": "nodejs18.x",
-      "maxDuration": 30
-    }
   }
 }
