@@ -18,6 +18,8 @@ import VisitTab from './components/VisitTab';
 import ExploreTab from './components/ExploreTab';
 import LearnTab from './components/LearnTab';
 import ProfileTab from './components/ProfileTab';
+import BGMController from './components/BGMController';
+import BGMManager from './components/BGMManager';
 
 // スタイル
 import './components/VisitTab.css';
@@ -786,6 +788,12 @@ function ShrineVillageApp() {
 
       {/* オーディオトグル */}
       <SimpleAudioToggle />
+      
+      {/* BGM管理システム */}
+      <BGMManager activeTab={activeTab} />
+      
+      {/* BGMコントローラー */}
+      <BGMController />
       
       {/* ボトムナビゲーション */}
       <BottomNavigation
