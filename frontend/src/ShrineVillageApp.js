@@ -398,9 +398,9 @@ function ShrineVillageApp() {
       addBlessings(20); // 認証済みは通常の2倍
       
       // リソース獲得（認証による豪華報酬）
-      Object.entries(rewards).forEach(([resource, amount]) => {
-        handleResourceGain(resource, amount);
-      });
+      // Object.entries(rewards).forEach(([resource, amount]) => {
+      //   handleResourceGain(resource, amount);
+      // });
       
       // 参拝統計を更新
       setPlayerStats(prev => ({
