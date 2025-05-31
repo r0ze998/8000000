@@ -1,0 +1,410 @@
+.shrine-selector-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  padding: 20px;
+}
+
+.shrine-selector-modal {
+  background: white;
+  border-radius: 20px;
+  width: 90%;
+  max-width: 800px;
+  max-height: 90vh;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+  overflow: hidden;
+}
+
+.shrine-selector-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 30px;
+  background: linear-gradient(135deg, #ff6b6b 0%, #ff8e53 100%);
+  color: white;
+}
+
+.shrine-selector-header h2 {
+  margin: 0;
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.close-btn {
+  background: none;
+  border: none;
+  color: white;
+  font-size: 32px;
+  cursor: pointer;
+  padding: 0;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  transition: background-color 0.3s ease;
+}
+
+.close-btn:hover {
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+.search-filters {
+  padding: 20px 30px;
+  background: #f8f9fa;
+  border-bottom: 1px solid #e9ecef;
+}
+
+.search-bar {
+  margin-bottom: 15px;
+}
+
+.search-input {
+  width: 100%;
+  padding: 12px 16px;
+  border: 2px solid #ddd;
+  border-radius: 10px;
+  font-size: 16px;
+  transition: border-color 0.3s ease;
+}
+
+.search-input:focus {
+  outline: none;
+  border-color: #ff6b6b;
+}
+
+.filter-row {
+  display: flex;
+  gap: 15px;
+}
+
+.prefecture-select,
+.type-select {
+  flex: 1;
+  padding: 10px 12px;
+  border: 2px solid #ddd;
+  border-radius: 8px;
+  font-size: 14px;
+  background: white;
+  cursor: pointer;
+  transition: border-color 0.3s ease;
+}
+
+.prefecture-select:focus,
+.type-select:focus {
+  outline: none;
+  border-color: #ff6b6b;
+}
+
+.shrine-results {
+  flex: 1;
+  overflow-y: auto;
+  padding: 0 30px 30px;
+}
+
+.results-header {
+  padding: 20px 0 15px;
+  color: #666;
+  font-size: 14px;
+  border-bottom: 1px solid #e9ecef;
+  margin-bottom: 20px;
+}
+
+.shrine-list {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.shrine-item {
+  border: 2px solid #e9ecef;
+  border-radius: 15px;
+  padding: 20px;
+  background: white;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.shrine-item:hover {
+  border-color: #ff6b6b;
+  transform: translateY(-2px);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+}
+
+.shrine-item-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 15px;
+}
+
+.shrine-name-section {
+  flex: 1;
+}
+
+.shrine-name {
+  margin: 0 0 8px 0;
+  font-size: 20px;
+  font-weight: bold;
+  color: #333;
+}
+
+.shrine-location {
+  display: flex;
+  gap: 10px;
+  font-size: 14px;
+  color: #666;
+}
+
+.prefecture {
+  background: #e3f2fd;
+  color: #1976d2;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-weight: 500;
+}
+
+.city {
+  background: #f3e5f5;
+  color: #7b1fa2;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-weight: 500;
+}
+
+.shrine-meta {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 8px;
+}
+
+.rarity-badge {
+  color: white;
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+.cultural-value {
+  background: linear-gradient(45deg, #4caf50, #8bc34a);
+  color: white;
+  padding: 6px 12px;
+  border-radius: 15px;
+  font-size: 14px;
+  font-weight: bold;
+  box-shadow: 0 2px 8px rgba(76, 175, 80, 0.3);
+}
+
+.shrine-description {
+  color: #555;
+  line-height: 1.6;
+  margin-bottom: 12px;
+  font-size: 15px;
+}
+
+.shrine-benefits {
+  color: #666;
+  font-size: 14px;
+  margin-bottom: 15px;
+  padding: 10px;
+  background: #f8f9fa;
+  border-radius: 8px;
+}
+
+.shrine-item-actions {
+  display: flex;
+  gap: 12px;
+  justify-content: flex-end;
+}
+
+.details-btn,
+.select-btn {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.details-btn {
+  background: #6c757d;
+  color: white;
+}
+
+.details-btn:hover {
+  background: #5a6268;
+  transform: translateY(-1px);
+}
+
+.select-btn {
+  background: linear-gradient(45deg, #ff6b6b, #ff8e53);
+  color: white;
+  font-weight: bold;
+}
+
+.select-btn:hover {
+  background: linear-gradient(45deg, #ff5252, #ff7043);
+  transform: translateY(-1px);
+  box-shadow: 0 5px 15px rgba(255, 107, 107, 0.4);
+}
+
+.shrine-details {
+  margin-top: 20px;
+  padding: 20px;
+  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+  border-radius: 10px;
+  border-top: 3px solid #ff6b6b;
+}
+
+.details-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 15px;
+}
+
+.detail-item {
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.detail-item strong {
+  color: #333;
+  display: block;
+  margin-bottom: 4px;
+}
+
+.no-results {
+  text-align: center;
+  padding: 60px 20px;
+  color: #666;
+}
+
+.no-results p {
+  margin: 10px 0;
+  font-size: 16px;
+}
+
+/* レスポンシブデザイン */
+@media (max-width: 768px) {
+  .shrine-selector-overlay {
+    padding: 10px;
+  }
+
+  .shrine-selector-modal {
+    width: 95%;
+    max-height: 95vh;
+  }
+
+  .shrine-selector-header {
+    padding: 15px 20px;
+  }
+
+  .shrine-selector-header h2 {
+    font-size: 20px;
+  }
+
+  .search-filters {
+    padding: 15px 20px;
+  }
+
+  .filter-row {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .shrine-results {
+    padding: 0 20px 20px;
+  }
+
+  .shrine-item {
+    padding: 15px;
+  }
+
+  .shrine-item-header {
+    flex-direction: column;
+    gap: 15px;
+  }
+
+  .shrine-meta {
+    align-items: flex-start;
+    flex-direction: row;
+    justify-content: space-between;
+  }
+
+  .shrine-item-actions {
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .details-btn,
+  .select-btn {
+    width: 100%;
+    padding: 12px;
+  }
+
+  .details-grid {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+}
+
+/* ダークモード対応 */
+@media (prefers-color-scheme: dark) {
+  .shrine-selector-modal {
+    background: #2a2a2a;
+    color: #f0f0f0;
+  }
+
+  .search-filters {
+    background: #333;
+    border-bottom-color: #444;
+  }
+
+  .search-input,
+  .prefecture-select,
+  .type-select {
+    background: #444;
+    border-color: #555;
+    color: #f0f0f0;
+  }
+
+  .shrine-item {
+    background: #333;
+    border-color: #444;
+  }
+
+  .shrine-item:hover {
+    border-color: #ff6b6b;
+  }
+
+  .shrine-benefits {
+    background: #444;
+  }
+
+  .shrine-details {
+    background: linear-gradient(135deg, #444 0%, #333 100%);
+  }
+
+  .results-header {
+    color: #ccc;
+    border-bottom-color: #444;
+  }
+}

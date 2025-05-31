@@ -3,41 +3,24 @@ import soundEffects from './utils/soundEffects';
 import { SakuraParticles, LightParticles } from './components/ParticleEffects';
 import CulturalBelt from './components/CulturalBelt';
 import ShrineSelector from './components/ShrineSelector';
-import GameCanvas from './components/GameCanvas';
 import VisitVerification from './components/VisitVerification';
 import ShrineSetup from './components/ShrineSetup';
-import ShrineView from './components/ShrineView';
-import ActivityButtons from './components/ActivityButtons';
 import ActivityModal from './components/ActivityModal';
-import NFTCollection from './components/NFTCollection';
-import VillageMembersSection from './components/VillageMembersSection';
 import SimpleAudioToggle from './components/SimpleAudioToggle';
 import WalletConnection from './components/WalletConnection';
 import AccountStatus from './components/AccountStatus';
 import PlayerStatus from './components/PlayerStatus';
-import GoshuinchoCollection from './components/GoshuinchoCollection';
 import SeasonalEffects from './components/SeasonalEffects';
 import BottomNavigation from './components/BottomNavigation';
-import OmikujiSystem from './components/OmikujiSystem';
 import PrivacyInfo from './components/PrivacyInfo';
-import ShrinePartnership from './components/ShrinePartnership';
-import CulturalCapitalSystem from './components/CulturalCapitalSystem';
-import TourismIntegration from './components/TourismIntegration';
-import IncentiveEngine from './components/IncentiveEngine';
 import HomeTab from './components/HomeTab';
 import VisitTab from './components/VisitTab';
 import ExploreTab from './components/ExploreTab';
 import LearnTab from './components/LearnTab';
 import ProfileTab from './components/ProfileTab';
 
-// タブ用CSSインポート
+// スタイル
 import './components/VisitTab.css';
-import './components/MyShrineTab.css';
-import './components/CommunityTab.css';
-import './components/EventsTab.css';
-import './styles/JapaneseGameTheme.css';
-import VillageBuilder from './components/VillageBuilder';
-import CollectionSystem from './components/CollectionSystem';
 import nftMintingService from './services/nftMinting';
 import { drawOmikuji } from './data/omikujiDatabase';
 

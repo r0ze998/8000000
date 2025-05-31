@@ -1,0 +1,77 @@
+.card {
+  background: white;
+  border-radius: 16px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+
+.card-clickable {
+  cursor: pointer;
+}
+
+.card-clickable:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+}
+
+/* Padding variants */
+.card-padding-none .card-content {
+  padding: 0;
+}
+
+.card-padding-small .card-content {
+  padding: 16px;
+}
+
+.card-padding-medium .card-content {
+  padding: 24px;
+}
+
+.card-padding-large .card-content {
+  padding: 32px;
+}
+
+/* Card sections */
+.card-header {
+  padding: 20px 24px;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.card-title {
+  margin: 0 0 4px 0;
+  font-size: 20px;
+  font-weight: 600;
+  color: #333;
+}
+
+.card-subtitle {
+  margin: 0;
+  font-size: 14px;
+  color: #666;
+}
+
+.card-footer {
+  padding: 16px 24px;
+  border-top: 1px solid #f0f0f0;
+  background: #fafafa;
+}
+
+/* Variants */
+.card-elevated {
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+}
+
+.card-outlined {
+  box-shadow: none;
+  border: 1px solid #e0e0e0;
+}
+
+.card-gradient {
+  background: linear-gradient(135deg, #ffeaa7 0%, #fdcb6e 100%);
+}
+
+.card-gradient .card-title,
+.card-gradient .card-subtitle {
+  color: #333;
+}
