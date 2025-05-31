@@ -99,8 +99,7 @@ frontend/.cache/
 frontend/build/
 
 # Large files and directories to exclude
-frontend/public/
-!frontend/public/audio/
+# frontend/public/
 target/
 
 # Starknet specific
