@@ -63,7 +63,6 @@ function ShrineVillageApp() {
   const [showShrineSelector, setShowShrineSelector] = useState(false);
   const [showVerification, setShowVerification] = useState(false);
   const [selectedShrineForVerification, setSelectedShrineForVerification] = useState(null);
-  const [isVerifying, setIsVerifying] = useState(false);
   
   // データ状態
   const [nftCollection, setNftCollection] = useState([]);
@@ -81,11 +80,11 @@ function ShrineVillageApp() {
       photo: null
     }
   ]);
-  const [villageMembers] = useState([
-    { id: 1, name: '山田さん', shrine: '豊穣神社', level: 5, culturalCapital: 450 },
-    { id: 2, name: '鈴木さん', shrine: '学問神社', level: 3, culturalCapital: 280 },
-    { id: 3, name: '佐藤さん', shrine: '芸術神社', level: 4, culturalCapital: 380 }
-  ]);
+  // const [villageMembers] = useState([
+  //   { id: 1, name: '山田さん', shrine: '豊穣神社', level: 5, culturalCapital: 450 },
+  //   { id: 2, name: '鈴木さん', shrine: '学問神社', level: 3, culturalCapital: 280 },
+  //   { id: 3, name: '佐藤さん', shrine: '芸術神社', level: 4, culturalCapital: 380 }
+  // ]);
   
   // プレイヤープロファイル（ゲーム用）
   const [playerProfile, setPlayerProfile] = useState({
@@ -108,7 +107,7 @@ function ShrineVillageApp() {
   // ゲーミフィケーション用の状態
   const [goshuinchoPage, setGoshuinchoPage] = useState(0);
   const [unlockedAchievements, setUnlockedAchievements] = useState([]);
-  const [achievements, setAchievements] = useState({});
+  const [achievements] = useState({});
   const [drawnOmikuji, setDrawnOmikuji] = useState([]);
   const [activeQuests, setActiveQuests] = useState([
     {
@@ -141,24 +140,24 @@ function ShrineVillageApp() {
   ]);
 
   // 村建設システム用の状態
-  const [playerResources, setPlayerResources] = useState({
-    wood: 50,
-    stone: 30,
-    bamboo: 10,
-    water: 20,
-    plants: 15,
-    faith: 100,
-    bronze: 5,
-    gold: 2,
-    cloth: 8,
-    paper: 12,
-    oil: 3,
-    asphalt: 0,
-    gravel: 25
-  });
+  // const [playerResources, setPlayerResources] = useState({
+  //   wood: 50,
+  //   stone: 30,
+  //   bamboo: 10,
+  //   water: 20,
+  //   plants: 15,
+  //   faith: 100,
+  //   bronze: 5,
+  //   gold: 2,
+  //   cloth: 8,
+  //   paper: 12,
+  //   oil: 3,
+  //   asphalt: 0,
+  //   gravel: 25
+  // });
   
-  const [villageLayout, setVillageLayout] = useState([]);
-  const [playerCollection, setPlayerCollection] = useState({});
+  // const [villageLayout, setVillageLayout] = useState([]);
+  // const [playerCollection, setPlayerCollection] = useState({});
   const [playerStats, setPlayerStats] = useState({
     consecutiveVisits: 0,
     fullMoonVisits: 0,
