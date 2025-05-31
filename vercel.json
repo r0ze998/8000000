@@ -11,6 +11,10 @@
   ],
   "routes": [
     {
+      "src": "/audio/(.*)",
+      "dest": "/audio/$1"
+    },
+    {
       "src": "/api/(.*)",
       "dest": "/api/$1"
     },
