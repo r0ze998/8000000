@@ -1,7 +1,7 @@
 {
-  "short_name": "神社村",
-  "name": "文化神社村 - Cultural Shrine Village",
-  "description": "ブロックチェーン技術で日本の神社・寺院への参拝を記録し、自分だけの文化村を育てるアプリ",
+  "short_name": "8000000",
+  "name": "8000000",
+  "description": "8000000 - ブロックチェーン技術で日本の神社・寺院への参拝を記録し、自分だけの文化村を育てるアプリ",
   "icons": [
     {
       "src": "icon-72.png",
@@ -68,7 +68,7 @@
   "lang": "ja",
   "dir": "ltr",
   "scope": "/",
-  "id": "cultural-shrine-village",
+  "id": "8000000",
   "prefer_related_applications": false,
   "edge_side_panel": {
     "preferred_width": 480

@@ -1,19 +1,21 @@
-# Cultural Shrine Village - フロントエンド
+# 8000000 - フロントエンド
 
 日本の文化活動を記録し、神社村を発展させるWeb3アプリケーション。
 
 ## 🏛️ 概要
 
-Cultural Shrine Villageは、神社・寺院への参拝や文化活動を記録し、自分だけの神社村を発展させることができるゲーミフィケーションアプリです。
+8000000は、神社・寺院への参拝や文化活動を記録し、自分だけの神社村を発展させることができるゲーミフィケーションアプリです。「三方良し」の精神を設計原則として、参拝者・神社・地域社会の三者にとって有益なエコシステムを構築します。
 
 ### 主な機能
 
-- 📸 **写真/GPS参拝証明**: 実際に訪問したことを証明
-- ⛩️ **神社村開発**: 文化活動を通じて建物を建設・アップグレード
-- 🎮 **探索ゲーム**: スプライトベースの文化探索ゲーム
-- 🥋 **文化帯システム**: 空手帯にインスパイアされた10段階のランキング
+- 🏠 **ホームタブ**: ダッシュボードと近くのスポット表示
+- ⛩️ **参拝タブ**: おみくじシステム統合の神社参拝記録
+- 🗺️ **探索タブ**: 観光統合機能付きの地域探索
+- 📚 **学習タブ**: 文化資本システムによる日本文化学習
+- 👤 **プロフィールタブ**: 実績とコレクション管理
+- 🎯 **おみくじシステム**: 神社参拝と連動したおみくじ体験
 - 🎴 **NFTコレクション**: 参拝記録をNFTとして保存
-- 📚 **200+の神社・寺院データベース**: 実在の神社・寺院情報
+- 💰 **インセンティブエンジン**: 参拝と文化活動の報酬システム
 
 ## 🚀 セットアップ
 
@@ -36,30 +38,38 @@ npm test
 ```
 src/
 ├── components/          # UIコンポーネント
+│   ├── HomeTab.js             # ホームダッシュボード
+│   ├── VisitTab.js            # 参拝記録タブ
+│   ├── ExploreTab.js          # 探索タブ
+│   ├── LearnTab.js            # 学習タブ
+│   ├── ProfileTab.js          # プロフィールタブ
+│   ├── BottomNavigation.js    # ボトムナビゲーション
+│   ├── OmikujiSystem.js       # おみくじシステム
+│   ├── IOSWrapper.js          # iOS PWA対応ラッパー
+│   ├── WalletConnection.js    # ウォレット接続
+│   ├── TourismIntegration.js  # 観光統合機能
+│   ├── CulturalCapitalSystem.js # 文化資本システム
+│   ├── IncentiveEngine.js     # インセンティブエンジン
 │   ├── ActivityButtons.js     # 文化活動ボタン
-│   ├── ActivityModal.js       # 活動記録モーダル
 │   ├── GameCanvas.js          # ゲームキャンバス
 │   ├── NFTCollection.js       # NFTコレクション表示
 │   ├── ShrineSelector.js      # 神社・寺院選択
-│   ├── ShrineSetup.js         # 神社設定
-│   ├── ShrineView.js          # 神社ビュー
 │   ├── VisitVerification.js   # 参拝証明
 │   └── ...
 ├── constants/          # 定数定義
 │   └── culturalActivities.js  # 文化活動定数
 ├── data/              # データ
-│   └── shrineDatabase.js      # 神社・寺院データベース
-├── game/              # ゲームエンジン
-│   ├── SpriteEngine.js        # スプライトエンジン
-│   ├── CharacterSprites.js    # キャラクタースプライト
-│   └── ShrineVillageMap.js    # ゲームマップ
+│   ├── shrineDatabase.js      # 神社・寺院データベース
+│   └── omikujiDatabase.js     # おみくじデータベース
 ├── hooks/             # カスタムフック
 │   ├── useShrine.js           # 神社状態管理
 │   └── useNotification.js     # 通知管理
 ├── services/          # サービス層
-│   └── verificationService.js # 位置情報検証
+│   ├── verificationService.js # 位置情報検証
+│   └── nftMinting.js          # NFTミンティング
 ├── utils/             # ユーティリティ
 │   └── soundEffects.js        # サウンドエフェクト
+├── App.ios.js         # iOS専用エントリーポイント
 └── ShrineVillageApp.js        # メインアプリケーション
 ```
 
@@ -67,32 +77,32 @@ src/
 
 - **フロントエンド**: React.js, Canvas API
 - **状態管理**: React Hooks
-- **スタイリング**: CSS Modules
+- **スタイリング**: CSS Modules, レスポンシブデザイン
+- **PWA**: Service Worker, Manifest.json
+- **モバイル**: Capacitor (iOS/Android対応)
 - **位置情報**: Geolocation API
-- **アニメーション**: カスタムスプライトエンジン
+- **Web3**: Starknet統合
+- **アニメーション**: カスタムパーティクルエフェクト
 
-## 📱 参拝証明システム
+## 📱 アプリ構造
 
-### 写真証明
-- 神社・寺院の写真をアップロード
-- EXIF情報から位置情報を抽出（将来実装）
+### タブナビゲーション
+- **ホーム**: ユーザーダッシュボード、近くのスポット、統計表示
+- **参拝**: おみくじ統合の神社参拝記録システム
+- **探索**: 観光地情報と文化スポット探索
+- **学習**: 日本文化学習コンテンツと文化資本システム
+- **プロフィール**: ユーザー実績、コレクション、設定
 
-### GPS証明
-- 現在地と神社の距離を計算
-- 500m以内の場合のみ参拝記録可能
+### 参拝証明システム
+- GPS位置情報による参拝証明
+- 写真アップロード機能
+- おみくじ体験の統合
+- NFT化による永続的記録
 
-## 🎮 ゲームシステム
-
-### スプライトエンジン
-- レイヤーベースレンダリング
-- パーティクルエフェクト
-- カメラコントロール
-- 物理シミュレーション
-
-### 建物システム
-- 6種類の建物タイプ
-- 各建物は文化活動で成長
-- 特殊効果とボーナス
+### 三方良しの設計思想
+- **参拝者**: ゲーミフィケーションによる文化体験向上
+- **神社**: デジタル参拝記録による訪問促進
+- **地域社会**: 観光統合による地域活性化
 
 ## 🥋 文化帯ランキング
 
@@ -107,6 +117,30 @@ src/
 9. 赤帯 (8000-9999)
 10. 金帯 (10000+)
 
+## 📱 モバイルアプリ
+
+### iOS/Android対応
+```bash
+# Capacitorの初期化
+npx cap init
+
+# iOS用ビルド
+npm run build
+npx cap add ios
+npx cap copy ios
+npx cap open ios
+
+# Android用ビルド
+npx cap add android
+npx cap copy android
+npx cap open android
+```
+
+### PWA対応
+- オフライン機能
+- ホームスクリーン追加
+- プッシュ通知（将来実装）
+
 ## 🚢 デプロイ
 
 ### Vercel
@@ -119,6 +153,15 @@ npx vercel --prod
 REACT_APP_API_URL=<APIエンドポイント>
 REACT_APP_STARKNET_NETWORK=<ネットワーク>
 ```
+
+## 🔄 最新の変更
+
+### v2.0.0 (2024年5月)
+- タブベースナビゲーションの実装
+- おみくじシステムの統合
+- 三方良しの設計思想の適用
+- iOS PWA対応の強化
+- アプリ名を「8000000」に変更
 
 ## 📝 ライセンス
 

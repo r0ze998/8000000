@@ -1,0 +1,582 @@
+/* 神社パートナーシップシステム CSS */
+.shrine-partnership {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+  background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+  color: #ffffff;
+  border-radius: 20px;
+}
+
+.partnership-header {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.partnership-header h2 {
+  color: #FFD700;
+  font-size: 2.5rem;
+  margin-bottom: 10px;
+  text-shadow: 0 0 20px rgba(255, 215, 0, 0.5);
+}
+
+.partnership-header p {
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 1.1rem;
+}
+
+/* パートナー神社カード */
+.partner-shrines {
+  margin-bottom: 40px;
+}
+
+.shrines-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+  gap: 25px;
+  margin-top: 20px;
+}
+
+.shrine-card {
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(20px);
+  border-radius: 20px;
+  padding: 25px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.shrine-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, #FFD700, #FFA500, #FF8C00);
+}
+
+.shrine-card.platinum::before {
+  background: linear-gradient(90deg, #E5E4E2, #C0C0C0, #E5E4E2);
+}
+
+.shrine-card.gold::before {
+  background: linear-gradient(90deg, #FFD700, #FFA500, #FFD700);
+}
+
+.shrine-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 15px 35px rgba(255, 215, 0, 0.2);
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.shrine-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 15px;
+}
+
+.shrine-header h4 {
+  color: #FFD700;
+  font-size: 1.5rem;
+  margin: 0;
+}
+
+.verification-badge {
+  text-align: right;
+}
+
+.verified {
+  color: #4CAF50;
+  font-size: 0.9rem;
+  margin-bottom: 5px;
+  display: block;
+}
+
+.level {
+  padding: 5px 10px;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: bold;
+}
+
+.level.platinum {
+  background: linear-gradient(135deg, #E5E4E2, #C0C0C0);
+  color: #000;
+}
+
+.level.gold {
+  background: linear-gradient(135deg, #FFD700, #FFA500);
+  color: #000;
+}
+
+.shrine-info {
+  margin-bottom: 20px;
+}
+
+.location {
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 0.9rem;
+  margin-bottom: 10px;
+}
+
+.description {
+  color: rgba(255, 255, 255, 0.9);
+  line-height: 1.6;
+}
+
+/* 統計表示 */
+.shrine-stats {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 15px;
+  margin-bottom: 20px;
+}
+
+.stat {
+  text-align: center;
+  padding: 15px;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 10px;
+}
+
+.stat .value {
+  display: block;
+  font-size: 1.4rem;
+  font-weight: bold;
+  color: #FFD700;
+  margin-bottom: 5px;
+}
+
+.stat .label {
+  font-size: 0.8rem;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+/* NFTコレクション */
+.special-nfts, .cultural-events, .collaborations, .benefits {
+  margin-bottom: 20px;
+}
+
+.special-nfts h5, .cultural-events h5, .collaborations h5, .benefits h5 {
+  color: #FFD700;
+  font-size: 1rem;
+  margin-bottom: 10px;
+}
+
+.nft-tags, .event-tags, .collab-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.nft-tag, .event-tag, .collab-tag {
+  background: rgba(255, 107, 53, 0.2);
+  color: #FF6B35;
+  padding: 5px 12px;
+  border-radius: 15px;
+  font-size: 0.8rem;
+  border: 1px solid rgba(255, 107, 53, 0.3);
+}
+
+.event-tag {
+  background: rgba(103, 58, 183, 0.2);
+  color: #673AB7;
+  border-color: rgba(103, 58, 183, 0.3);
+}
+
+.collab-tag {
+  background: rgba(76, 175, 80, 0.2);
+  color: #4CAF50;
+  border-color: rgba(76, 175, 80, 0.3);
+}
+
+/* 特典リスト */
+.benefits ul {
+  list-style: none;
+  padding: 0;
+}
+
+.benefits li {
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 0.9rem;
+  margin-bottom: 5px;
+  padding-left: 20px;
+  position: relative;
+}
+
+.benefits li::before {
+  content: '🎁';
+  position: absolute;
+  left: 0;
+}
+
+/* アクションボタン */
+.shrine-actions {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.offering-btn, .collaborate-btn, .visit-btn {
+  padding: 12px 16px;
+  border: none;
+  border-radius: 10px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-size: 0.9rem;
+}
+
+.offering-btn {
+  background: linear-gradient(135deg, #4CAF50, #8BC34A);
+  color: white;
+}
+
+.collaborate-btn {
+  background: linear-gradient(135deg, #FF9800, #FFC107);
+  color: white;
+}
+
+.visit-btn {
+  background: linear-gradient(135deg, #2196F3, #03DAC6);
+  color: white;
+}
+
+.offering-btn:hover, .collaborate-btn:hover, .visit-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+/* データ貢献 */
+.data-contribution {
+  background: rgba(255, 255, 255, 0.03);
+  padding: 15px;
+  border-radius: 10px;
+  border-left: 3px solid #FFD700;
+}
+
+.data-contribution h5 {
+  color: #FFD700;
+  margin-bottom: 8px;
+}
+
+.data-contribution p {
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
+
+/* お布施モーダル */
+.offering-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.8);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modal-content {
+  background: linear-gradient(135deg, #1a1a2e, #16213e);
+  border-radius: 20px;
+  padding: 30px;
+  max-width: 500px;
+  width: 90%;
+  max-height: 80vh;
+  overflow-y: auto;
+  position: relative;
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 25px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  padding-bottom: 15px;
+}
+
+.modal-header h3 {
+  color: #FFD700;
+  margin: 0;
+}
+
+.close-btn {
+  background: none;
+  border: none;
+  color: #FFD700;
+  font-size: 1.5rem;
+  cursor: pointer;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.close-btn:hover {
+  background: rgba(255, 215, 0, 0.1);
+}
+
+/* 金額選択 */
+.amount-selector {
+  margin-bottom: 25px;
+}
+
+.amount-selector label {
+  color: #FFD700;
+  font-weight: bold;
+  margin-bottom: 15px;
+  display: block;
+}
+
+.amount-buttons {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  margin-bottom: 15px;
+}
+
+.amount-btn {
+  padding: 12px;
+  border: 2px solid rgba(255, 215, 0, 0.3);
+  background: rgba(255, 215, 0, 0.1);
+  color: #FFD700;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-weight: bold;
+}
+
+.amount-btn.selected {
+  border-color: #FFD700;
+  background: rgba(255, 215, 0, 0.2);
+  box-shadow: 0 0 15px rgba(255, 215, 0, 0.3);
+}
+
+.amount-btn:hover {
+  background: rgba(255, 215, 0, 0.15);
+}
+
+.amount-selector input {
+  width: 100%;
+  padding: 12px;
+  border: 2px solid rgba(255, 215, 0, 0.3);
+  background: rgba(255, 255, 255, 0.05);
+  color: white;
+  border-radius: 10px;
+  font-size: 1rem;
+}
+
+.amount-selector input:focus {
+  outline: none;
+  border-color: #FFD700;
+  box-shadow: 0 0 15px rgba(255, 215, 0, 0.3);
+}
+
+/* 特典表示 */
+.offering-benefits, .offering-purpose {
+  margin-bottom: 25px;
+  padding: 20px;
+  background: rgba(255, 255, 255, 0.03);
+  border-radius: 15px;
+}
+
+.offering-benefits h4, .offering-purpose h4 {
+  color: #FFD700;
+  margin-bottom: 15px;
+}
+
+.benefit-level {
+  margin-bottom: 15px;
+}
+
+.level-badge {
+  background: linear-gradient(135deg, #FFD700, #FFA500);
+  color: #000;
+  padding: 8px 16px;
+  border-radius: 20px;
+  font-weight: bold;
+  font-size: 0.9rem;
+}
+
+.offering-benefits ul, .offering-purpose ul {
+  list-style: none;
+  padding: 0;
+}
+
+.offering-benefits li, .offering-purpose li {
+  color: rgba(255, 255, 255, 0.9);
+  margin-bottom: 8px;
+  padding-left: 25px;
+  position: relative;
+}
+
+.offering-benefits li::before {
+  content: '✨';
+  position: absolute;
+  left: 0;
+}
+
+.offering-purpose li::before {
+  content: '💰';
+  position: absolute;
+  left: 0;
+}
+
+.confirm-offering-btn {
+  width: 100%;
+  padding: 15px;
+  background: linear-gradient(135deg, #4CAF50, #8BC34A);
+  color: white;
+  border: none;
+  border-radius: 15px;
+  font-size: 1.1rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.confirm-offering-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(76, 175, 80, 0.4);
+}
+
+/* 申請中の神社 */
+.shrine-applications {
+  margin-bottom: 40px;
+}
+
+.applications-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+  gap: 20px;
+  margin-top: 20px;
+}
+
+.application-card {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 215, 0, 0.2);
+  border-radius: 15px;
+  padding: 20px;
+  transition: all 0.3s ease;
+}
+
+.application-card:hover {
+  border-color: rgba(255, 215, 0, 0.4);
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.proposal-details {
+  margin: 15px 0;
+}
+
+.proposal-details h5 {
+  color: #FFD700;
+  margin-bottom: 10px;
+}
+
+.proposal-details p {
+  color: rgba(255, 255, 255, 0.8);
+  margin-bottom: 8px;
+  font-size: 0.9rem;
+}
+
+.vote-btn {
+  background: linear-gradient(135deg, #2196F3, #03DAC6);
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 20px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: all 0.3s ease;
+}
+
+.vote-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(33, 150, 243, 0.4);
+}
+
+/* 統計セクション */
+.partnership-stats {
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 20px;
+  padding: 25px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.partnership-stats h3 {
+  color: #FFD700;
+  text-align: center;
+  margin-bottom: 25px;
+}
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 20px;
+}
+
+.stat-card {
+  text-align: center;
+  background: rgba(255, 255, 255, 0.03);
+  padding: 20px;
+  border-radius: 15px;
+  border: 1px solid rgba(255, 215, 0, 0.1);
+}
+
+.stat-number {
+  display: block;
+  font-size: 2rem;
+  font-weight: bold;
+  color: #FFD700;
+  margin-bottom: 8px;
+}
+
+.stat-label {
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 0.9rem;
+}
+
+/* レスポンシブ対応 */
+@media (max-width: 768px) {
+  .shrine-partnership {
+    padding: 15px;
+  }
+  
+  .shrines-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .shrine-actions {
+    grid-template-columns: 1fr;
+  }
+  
+  .amount-buttons {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  .stats-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  .stat-card {
+    padding: 15px;
+  }
+  
+  .stat-number {
+    font-size: 1.5rem;
+  }
+}

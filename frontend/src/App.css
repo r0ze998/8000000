@@ -131,6 +131,33 @@ body {
   font-size: 28px;
 }
 
+/* 三方良しタブスタイル */
+.sanpo-yoshi-tab {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.sanpo-yoshi-tab h2 {
+  text-align: center;
+  color: #FFD700;
+  margin-bottom: 10px;
+  font-size: 2.5rem;
+  text-shadow: 0 0 20px rgba(255, 215, 0, 0.5);
+}
+
+.sanpo-yoshi-tab p {
+  text-align: center;
+  color: rgba(255, 255, 255, 0.8);
+  margin-bottom: 30px;
+  font-size: 1.1rem;
+}
+
+.sanpo-yoshi-tab > div {
+  margin-bottom: 40px;
+}
+
 /* タイポグラフィ */
 h1 {
   font-size: clamp(2.5rem, 5vw, 4rem);

@@ -19,6 +19,16 @@ import GoshuinchoCollection from './components/GoshuinchoCollection';
 import SeasonalEffects from './components/SeasonalEffects';
 import BottomNavigation from './components/BottomNavigation';
 import OmikujiSystem from './components/OmikujiSystem';
+import PrivacyInfo from './components/PrivacyInfo';
+import ShrinePartnership from './components/ShrinePartnership';
+import CulturalCapitalSystem from './components/CulturalCapitalSystem';
+import TourismIntegration from './components/TourismIntegration';
+import IncentiveEngine from './components/IncentiveEngine';
+import HomeTab from './components/HomeTab';
+import VisitTab from './components/VisitTab';
+import ExploreTab from './components/ExploreTab';
+import LearnTab from './components/LearnTab';
+import ProfileTab from './components/ProfileTab';
 
 // タブ用CSSインポート
 import './components/VisitTab.css';
@@ -57,7 +67,7 @@ function ShrineVillageApp() {
   const { notification: showNotification, showNotification: showTemporaryNotification } = useNotification();
   
   // UI状態
-  const [activeTab, setActiveTab] = useState('visit');
+  const [activeTab, setActiveTab] = useState('home');
   const [showActivityModal, setShowActivityModal] = useState(false);
   const [selectedActivity, setSelectedActivity] = useState(null);
   const [showShrineSelector, setShowShrineSelector] = useState(false);
@@ -108,6 +118,7 @@ function ShrineVillageApp() {
   // ゲーミフィケーション用の状態
   const [goshuinchoPage, setGoshuinchoPage] = useState(0);
   const [unlockedAchievements, setUnlockedAchievements] = useState([]);
+  const [achievements, setAchievements] = useState({});
   const [drawnOmikuji, setDrawnOmikuji] = useState([]);
   const [activeQuests, setActiveQuests] = useState([
     {
@@ -321,7 +332,7 @@ function ShrineVillageApp() {
 
   const handleVillageSave = (layout) => {
     setVillageLayout(layout);
-    showTemporaryNotification('🏗️ 神社村のレイアウトを保存しました！');
+    showTemporaryNotification('🏗️ レイアウトを保存しました！');
   };
 
   const handleCollectionUpdate = (collection) => {
@@ -663,281 +674,99 @@ function ShrineVillageApp() {
         </div>
 
         {/* タブコンテンツ */}
-        {activeTab === 'visit' ? (
-          // 神社登録タブ
-          <div className="visit-tab">
-            <div className="shrine-visit-area">
-              <h2>⛩️ 神社・寺院への参拝記録</h2>
-              <p className="visit-description">
-                神社や寺院を訪れて、写真やGPSで証明してNFTを取得しましょう。
-              </p>
-              
-              {/* 神社選択ボタン */}
-              <div className="shrine-selection">
-                <button 
-                  className="large-action-btn shrine-select-btn"
-                  onClick={() => {
-                    setShowShrineSelector(true);
-                    soundEffects.playSound('gong');
-                  }}
-                >
-                  🗺️ 神社・寺院を選ぶ
-                </button>
-              </div>
-              
-              {/* 最近の参拝記録 */}
-              {recentVisits && recentVisits.length > 0 && (
-                <div className="recent-visits">
-                  <h3>📝 最近の参拝記録</h3>
-                  <div className="visits-grid">
-                    {recentVisits.slice(0, 6).map((visit, index) => (
-                      <div key={index} className="visit-card">
-                        <div className="visit-image">
-                          {visit.photo ? (
-                            <img src={visit.photo} alt={visit.shrine?.name || '神社'} />
-                          ) : (
-                            <div className="no-image">⛩️</div>
-                          )}
-                        </div>
-                        <div className="visit-info">
-                          <h4>{visit.shrine?.name || '未名の神社'}</h4>
-                          <p className="visit-date">{new Date(visit.timestamp).toLocaleDateString('ja-JP')}</p>
-                          <span className="visit-method">{visit.verificationMethod === 'photo' ? '📷 写真' : '📍 GPS'}</span>
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              )}
-              
-              {/* 参拝のコツ */}
-              <div className="visit-tips">
-                <h3>💯 参拝のコツ</h3>
-                <div className="tips-grid">
-                  <div className="tip-card">
-                    <div className="tip-icon">📷</div>
-                    <h4>写真証明</h4>
-                    <p>神社の本殿や鳥居を写真に撮って証明</p>
-                  </div>
-                  <div className="tip-card">
-                    <div className="tip-icon">📍</div>
-                    <h4>GPS証明</h4>
-                    <p>神社から500m以内で位置情報を取得</p>
-                  </div>
-                  <div className="tip-card">
-                    <div className="tip-icon">🏆</div>
-                    <h4>NFT獲得</h4>
-                    <p>証明完了でユニークNFTをゲット</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        ) : activeTab === 'myshrine' ? (
-          // 自分の神社タブ
-          <div className="myshrine-tab">
-            {/* 神社ビュー */}
-            <div className="my-shrine-area">
-              <h2>🏠 あなたの神社</h2>
-              <ShrineView buildings={myShrine.buildings} />
-            </div>
-
-            {/* 村建設エリア */}
-            <div className="village-builder-area">
-              <h3>🏡 村建設</h3>
-              <VillageBuilder
-                playerResources={playerResources}
-                onResourceUpdate={handleResourceUpdate}
-                onSaveVillage={handleVillageSave}
-                playerLevel={myShrine.level}
-              />
-            </div>
-
-            {/* 御朱印帳コレクション */}
-            <div className="collection-area">
-              <h3>📖 御朱印帳</h3>
-              <GoshuinchoCollection
-                collection={nftCollection}
-                currentPage={goshuinchoPage}
-                onPageChange={setGoshuinchoPage}
-              />
-            </div>
-            
-            {/* その他のコレクション */}
-            <div className="collection-area">
-              <h3>🏆 建築コレクション</h3>
-              <CollectionSystem
-                playerCollection={playerCollection}
-                onCollectionUpdate={handleCollectionUpdate}
-                playerStats={playerStats}
-                recentVisits={recentVisits}
-              />
-            </div>
-          </div>
-        ) : activeTab === 'omikuji' ? (
-          // おみくじタブ
-          <div className="omikuji-tab">
-            <h2>🎋 おみくじ</h2>
-            <OmikujiSystem
-              onOmikujiDrawn={(omikuji) => {
-                setDrawnOmikuji(prev => [...prev, {
-                  ...omikuji,
-                  timestamp: new Date().toISOString()
-                }]);
-                
-                // レア度に応じて経験値ボーナス
-                const bonus = getOmikujiBonus(omikuji.rarity);
-                updatePlayerExperience(bonus);
-                
-                // おみくじ関連のアチーブメント
-                if (omikuji.rarity === '大吉') {
-                  unlockAchievement('lucky-one', '幸運の持ち主');
-                }
-                if (drawnOmikuji.length >= 100) {
-                  unlockAchievement('omikuji-master', 'おみくじマスター');
-                }
-              }}
-              userLevel={playerProfile.level}
-              drawnOmikuji={drawnOmikuji}
-            />
-          </div>
-        ) : activeTab === 'community' ? (
-          // コミュニティタブ
-          <div className="community-tab">
-            <h2>👥 コミュニティ</h2>
-            
-            {/* 村のメンバー */}
-            <VillageMembersSection
-              members={villageMembers}
-              playerShrine={myShrine}
-              onVisitFriend={handleVisitFriend}
-            />
-            
-            {/* ランキング */}
-            <div className="ranking-section">
-              <h3>🏅 ランキング</h3>
-              <div className="ranking-tabs">
-                <button className="ranking-tab active">文化資本</button>
-                <button className="ranking-tab">参拝数</button>
-                <button className="ranking-tab">神社レベル</button>
-              </div>
-              <div className="ranking-list">
-                {/* ランキングリストを表示 */}
-                <div className="ranking-item">
-                  <span className="rank">🥇 1位</span>
-                  <span className="user-name">神社マスター</span>
-                  <span className="score">15,000 文化資本</span>
-                </div>
-                <div className="ranking-item">
-                  <span className="rank">🥈 2位</span>
-                  <span className="user-name">参拝エキスパート</span>
-                  <span className="score">12,500 文化資本</span>
-                </div>
-                <div className="ranking-item">
-                  <span className="rank">🥉 3位</span>
-                  <span className="user-name">文化愛好家</span>
-                  <span className="score">10,200 文化資本</span>
-                </div>
-              </div>
-            </div>
-            
-            {/* ギルドシステム */}
-            <div className="guild-section">
-              <h3>⚔️ ギルド</h3>
-              <p>同じ地域や興味を持つメンバーとギルドを組んで、一緒に文化活動を楽しみましょう。</p>
-              <button 
-                className="guild-create-btn"
-                onClick={() => {
-                  soundEffects.playSound('taiko');
-                  showTemporaryNotification('🏠 ギルド機能は準備中です！');
-                }}
-              >
-                🏠 ギルドを作る
-              </button>
-            </div>
-          </div>
-        ) : (
-          // イベントタブ
-          <div className="events-tab">
-            <h2>🎆 イベント</h2>
-            
-            {/* 現在開催中のイベント */}
-            <div className="current-events">
-              <h3>🌟 開催中のイベント</h3>
-              <div className="event-card featured">
-                <div className="event-header">
-                  <h4>🌸 春の神社巡りフェスティバル</h4>
-                  <span className="event-period">3月15日 - 4月30日</span>
-                </div>
-                <p className="event-description">
-                  春の神社を巡って特別なNFTをゲット！桃の花や桜が美しい神社での参拝でボーナスポイントを獲得できます。
-                </p>
-                <div className="event-rewards">
-                  <span className="reward">🌸 桃の花NFT</span>
-                  <span className="reward">🎃 桜の花NFT</span>
-                  <span className="reward">🏆 春の神社バッジ</span>
-                </div>
-                <button 
-                  className="event-join-btn"
-                  onClick={() => {
-                    soundEffects.playSound('gong');
-                    soundEffects.playSound('koto');
-                    showTemporaryNotification('🌸 春の神社巡りフェスティバルに参加しました！');
-                    updatePlayerStats('seasonalEvents');
-                  }}
-                >
-                  参加する
-                </button>
-              </div>
-            </div>
-            
-            {/* 今後のイベント */}
-            <div className="upcoming-events">
-              <h3>📅 今後のイベント</h3>
-              <div className="events-grid">
-                <div className="event-card">
-                  <h4>🌊 夏祭りスペシャル</h4>
-                  <p className="event-date">7月1日 - 8月31日</p>
-                  <p>夏祭りで賑わう神社で特別なイベントNFTを獲得</p>
-                </div>
-                <div className="event-card">
-                  <h4>🍂 秋の紅葉狩り</h4>
-                  <p className="event-date">10月1日 - 11月30日</p>
-                  <p>紅葉が美しい神社での参拝で特別ボーナス</p>
-                </div>
-              </div>
-            </div>
-            
-            {/* 遂期イベント */}
-            <div className="limited-events">
-              <h3>⚡ 期間限定イベント</h3>
-              <div className="limited-event-card">
-                <div className="event-timer">
-                  <span className="timer-label">残り時間:</span>
-                  <span className="timer-value">2日 14時間6分2秒</span>
-                </div>
-                <h4>🌙 満月の夜参拝</h4>
-                <p>満月の夜に参拝するとレアNFTを獲得チャンス！</p>
-                <button 
-                  className="urgent-join-btn"
-                  onClick={() => {
-                    soundEffects.playSound('taiko');
-                    updatePlayerExperience(100);
-                    showTemporaryNotification('🌙 満月の夜参拝イベントに参加しました！ +100 経験値');
-                    updatePlayerStats('seasonalEvents');
-                    
-                    // 満月イベント特別アチーブメント
-                    if (isFullMoon()) {
-                      unlockAchievement('moon-walker', '月光の巡礼者');
-                    }
-                  }}
-                >
-                  今すぐ参加
-                </button>
-              </div>
-            </div>
-          </div>
-        )}
+        {activeTab === 'home' ? (
+          // ホームタブ
+          <HomeTab
+            userProfile={playerProfile}
+            userLocation={{ lat: 35.6762, lng: 139.6503 }}
+            onShrineSelect={(shrine) => {
+              setSelectedShrineForVerification(shrine);
+              setShowShrineSelector(true);
+            }}
+            onActivityStart={(activity, data) => {
+              if (activity === 'camera_scan') {
+                setShowShrineSelector(true);
+              } else if (activity === 'learning') {
+                setActiveTab('learn');
+              } else if (activity === 'map_explore') {
+                setActiveTab('explore');
+              } else if (activity === 'community') {
+                setActiveTab('profile');
+              }
+            }}
+            onEventJoin={(event) => {
+              showTemporaryNotification(`🎉 ${event.name}に参加申込みしました！`);
+              soundEffects.playSound('bell');
+            }}
+          />
+        ) : activeTab === 'explore' ? (
+          // 探索タブ
+          <ExploreTab
+            userLocation={{ lat: 35.6762, lng: 139.6503 }}
+            userProfile={playerProfile}
+            soundEffects={soundEffects}
+            showTemporaryNotification={showTemporaryNotification}
+            updatePlayerExperience={updatePlayerExperience}
+            onShrineSelect={(shrine) => {
+              setSelectedShrineForVerification(shrine);
+              setShowShrineSelector(true);
+            }}
+            onEventJoin={(eventId) => {
+              showTemporaryNotification(`🎉 イベントに参加申込みしました！`);
+              soundEffects.playSound('bell');
+              updatePlayerStats('eventsJoined');
+            }}
+          />
+        ) : activeTab === 'visit' ? (
+          // 参拝タブ
+          <VisitTab
+            onShrineSelect={() => setShowShrineSelector(true)}
+            recentVisits={recentVisits}
+            playerProfile={playerProfile}
+            drawnOmikuji={drawnOmikuji}
+            onOmikujiDrawn={(omikuji) => {
+              setDrawnOmikuji(prev => [...prev, {
+                ...omikuji,
+                timestamp: new Date().toISOString()
+              }]);
+            }}
+            soundEffects={soundEffects}
+            showTemporaryNotification={showTemporaryNotification}
+            updatePlayerExperience={updatePlayerExperience}
+            unlockAchievement={unlockAchievement}
+            updatePlayerStats={updatePlayerStats}
+          />
+        ) : activeTab === 'learn' ? (
+          // 学びタブ
+          <LearnTab
+            userProfile={playerProfile}
+            soundEffects={soundEffects}
+            showTemporaryNotification={showTemporaryNotification}
+            updatePlayerExperience={updatePlayerExperience}
+            unlockAchievement={unlockAchievement}
+          />
+        ) : activeTab === 'profile' ? (
+          // プロフィールタブ
+          <ProfileTab
+            userProfile={playerProfile}
+            playerStats={playerStats}
+            achievements={achievements}
+            nftCollection={nftCollection}
+            drawnOmikuji={drawnOmikuji}
+            recentVisits={recentVisits}
+            myShrine={myShrine}
+            soundEffects={soundEffects}
+            showTemporaryNotification={showTemporaryNotification}
+            onShareProfile={() => {
+              console.log('プロフィールを共有');
+            }}
+            onExportData={() => {
+              console.log('データをエクスポート');
+            }}
+            goshuinchoPage={goshuinchoPage}
+            onPageChange={setGoshuinchoPage}
+          />
+        ) : null}
 
         {/* モーダル */}
         {showActivityModal && (
@@ -980,6 +809,9 @@ function ShrineVillageApp() {
         activeTab={activeTab}
         onTabChange={setActiveTab}
       />
+      
+      {/* プライバシー情報（開発・審査用） */}
+      {process.env.NODE_ENV === 'development' && <PrivacyInfo />}
     </div>
   );
 }

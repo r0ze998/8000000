@@ -3,11 +3,11 @@ import './BottomNavigation.css';
 
 function BottomNavigation({ activeTab, onTabChange }) {
   const tabs = [
+    { id: 'home', icon: '🏠', label: 'ホーム' },
+    { id: 'explore', icon: '🗺️', label: '探索' },
     { id: 'visit', icon: '⛩️', label: '参拝' },
-    { id: 'myshrine', icon: '🏛️', label: '神社' },
-    { id: 'omikuji', icon: '🎋', label: 'おみくじ' },
-    { id: 'community', icon: '👥', label: 'コミュニティ' },
-    { id: 'events', icon: '🎌', label: 'イベント' }
+    { id: 'learn', icon: '📚', label: '学び' },
+    { id: 'profile', icon: '👤', label: 'マイページ' }
   ];
 
   return (
