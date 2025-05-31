@@ -53,6 +53,11 @@ function ShrineVillageApp() {
   
   // UI状態
   const [activeTab, setActiveTab] = useState('home');
+  
+  const handleTabChange = (newTab) => {
+    console.log(`Tab change from ${activeTab} to ${newTab}`);
+    setActiveTab(newTab);
+  };
   const [showActivityModal, setShowActivityModal] = useState(false);
   const [selectedActivity, setSelectedActivity] = useState(null);
   const [showShrineSelector, setShowShrineSelector] = useState(false);
@@ -798,7 +803,7 @@ function ShrineVillageApp() {
       {/* ボトムナビゲーション */}
       <BottomNavigation
         activeTab={activeTab}
-        onTabChange={setActiveTab}
+        onTabChange={handleTabChange}
       />
       
       {/* プライバシー情報（開発・審査用） */}
