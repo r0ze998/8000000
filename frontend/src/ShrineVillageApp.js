@@ -307,26 +307,26 @@ function ShrineVillageApp() {
   };
 
   // 村建設システム用のハンドラー
-  const handleResourceUpdate = (newResources) => {
-    setPlayerResources(newResources);
-  };
+  // const handleResourceUpdate = (newResources) => {
+  //   setPlayerResources(newResources);
+  // };
 
-  const handleResourceGain = (resourceType, amount) => {
-    setPlayerResources(prev => ({
-      ...prev,
-      [resourceType]: (prev[resourceType] || 0) + amount
-    }));
-    showTemporaryNotification(`🎁 ${resourceType} +${amount} を獲得しました！`);
-  };
+  // const handleResourceGain = (resourceType, amount) => {
+  //   setPlayerResources(prev => ({
+  //     ...prev,
+  //     [resourceType]: (prev[resourceType] || 0) + amount
+  //   }));
+  //   showTemporaryNotification(`🎁 ${resourceType} +${amount} を獲得しました！`);
+  // };
 
-  const handleVillageSave = (layout) => {
-    setVillageLayout(layout);
-    showTemporaryNotification('🏗️ レイアウトを保存しました！');
-  };
+  // const handleVillageSave = (layout) => {
+  //   setVillageLayout(layout);
+  //   showTemporaryNotification('🏗️ レイアウトを保存しました！');
+  // };
 
-  const handleCollectionUpdate = (collection) => {
-    setPlayerCollection(collection);
-  };
+  // const handleCollectionUpdate = (collection) => {
+  //   setPlayerCollection(collection);
+  // };
 
   // ハンドラー関数
   const handleActivitySelect = (activityKey) => {
@@ -353,7 +353,7 @@ function ShrineVillageApp() {
     const activity = CULTURAL_ACTIVITIES[activityKey];
     
     try {
-      setIsVerifying(true);
+      // setIsVerifying(true);
       showTemporaryNotification('🔄 NFTを生成中...');
       
       // NFTメタデータ生成
@@ -450,7 +450,7 @@ function ShrineVillageApp() {
       console.error('NFT生成エラー:', error);
       showTemporaryNotification('❌ NFT生成に失敗しました。もう一度お試しください。');
     } finally {
-      setIsVerifying(false);
+      // setIsVerifying(false);
       setShowActivityModal(false);
       setSelectedActivity(null);
     }
