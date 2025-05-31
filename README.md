@@ -1,57 +1,79 @@
-# Focus Tree on Starknet
+# 8000000 - 八百万の神アプリ
 
-習慣記録アプリ「Focus Tree」のStarknet実装です。
+日本の神社文化とWeb3を融合した、新しい形の参拝体験アプリです。
 
 ## 機能
 
-- 習慣の作成・管理
-- 習慣の完了記録
-- ストリーク（連続達成）の追跡
-- 7日連続で習慣を達成すると「木」を獲得
-- ユーザー統計の表示
+- 🏮 デジタル神社の創建・管理
+- ⛩️ バーチャル参拝とリアル神社訪問記録
+- 🎌 おみくじシステム（大吉〜凶）
+- 📿 御朱印帳コレクション（NFT対応）
+- 🎵 タブごとに変わるBGMシステム
+- 📱 iOS/Android対応のモバイルアプリ
+- 🌸 季節に応じたエフェクト表示
 
 ## セットアップ
 
-### スマートコントラクトのデプロイ
+### インストール
 
-1. Scarbのインストール
+1. リポジトリのクローン
 ```bash
-curl --proto '=https' --tlsv1.2 -sSf https://docs.swmansion.com/scarb/install.sh | sh
+git clone https://github.com/r0ze998/cultural-shrine-village-starknet.git 8000000
+cd 8000000
 ```
 
-2. コントラクトのビルド
-```bash
-cd focus-tree-starknet
-scarb build
-```
-
-3. コントラクトのデプロイ（Starknet CLIまたはRemixを使用）
-
-### フロントエンドの起動
-
-1. 依存関係のインストール
+2. 依存関係のインストール
 ```bash
 cd frontend
 npm install
 ```
 
-2. App.jsの`CONTRACT_ADDRESS`を実際のコントラクトアドレスに更新
+### アプリケーションの起動
 
-3. アプリケーションの起動
 ```bash
 npm start
 ```
 
+アプリは http://localhost:3000 で起動します。
+
 ## 使い方
 
-1. ArgentXまたはBraavosウォレットを接続
-2. 新しい習慣を作成（名前、説明、頻度を設定）
-3. 毎日習慣を完了してストリークを維持
-4. 7日連続で達成すると木を獲得！
+1. 初回起動時に神社名を設定
+2. 5つのタブで機能を切り替え：
+   - 🏠 ホーム：近くの神社情報
+   - 🗺️ 探索：神社マップ
+   - ⛩️ 参拝：おみくじを引く
+   - 📚 学び：神社の歴史
+   - 👤 プロフィール：実績確認
+
+## デプロイ
+
+### Vercelでのデプロイ
+
+```bash
+vercel --prod
+```
+
+Root Directory: `frontend`
+Framework: `Create React App`
 
 ## 技術スタック
 
-- Cairo 2.6.0+ (スマートコントラクト)
-- React (フロントエンド)
-- Starknet.js (ブロックチェーン連携)
-- StarkNet React (ウォレット接続)
+- **Frontend**: React, Capacitor (iOS/Android対応)
+- **Blockchain**: Starknet (Cairo 2.6.0+), Starknet.js
+- **ウォレット**: StarkNet React (ArgentX, Braavos対応)
+- **Deployment**: Vercel
+- **Audio**: Web Audio API (BGMシステム)
+- **State Management**: React Context API
+
+## ライセンス
+
+MIT License
+
+## 作者
+
+8000000 Development Team
+
+---
+
+🌸 日本の伝統文化をデジタルで未来へ 🌸
