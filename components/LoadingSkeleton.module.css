@@ -1,0 +1,321 @@
+.skeleton {
+  animation: pulse 1.5s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+.srOnly {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* Base skeleton elements */
+.line {
+  height: 16px;
+  background: #e0e0e0;
+  border-radius: 4px;
+  margin-bottom: 8px;
+}
+
+.circle {
+  width: 60px;
+  height: 60px;
+  background: #e0e0e0;
+  border-radius: 50%;
+}
+
+.button {
+  height: 44px;
+  background: #e0e0e0;
+  border-radius: 22px;
+  flex: 1;
+}
+
+/* Home skeleton */
+.homeContainer {
+  padding: 20px;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 30px;
+}
+
+.titleGroup {
+  margin-left: 16px;
+  flex: 1;
+}
+
+.title {
+  height: 24px;
+  width: 150px;
+  background: #e0e0e0;
+  border-radius: 4px;
+  margin-bottom: 8px;
+}
+
+.subtitle {
+  height: 16px;
+  width: 100px;
+  background: #e0e0e0;
+  border-radius: 4px;
+}
+
+.card {
+  background: #f5f5f5;
+  border-radius: 12px;
+  padding: 16px;
+  margin-bottom: 20px;
+}
+
+.cardImage {
+  width: 100%;
+  height: 200px;
+  background: #e0e0e0;
+  border-radius: 8px;
+  margin-bottom: 16px;
+}
+
+.cardContent {
+  padding: 0;
+}
+
+.cardTitle {
+  height: 20px;
+  width: 70%;
+  background: #e0e0e0;
+  border-radius: 4px;
+  margin-bottom: 8px;
+}
+
+.cardText {
+  height: 16px;
+  width: 90%;
+  background: #e0e0e0;
+  border-radius: 4px;
+}
+
+.buttonGroup {
+  display: flex;
+  gap: 12px;
+}
+
+/* Goshuin grid skeleton */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 16px;
+  padding: 20px;
+}
+
+.goshuinCard {
+  background: #f5f5f5;
+  border-radius: 8px;
+  padding: 12px;
+}
+
+.goshuinImage {
+  width: 100%;
+  padding-bottom: 100%;
+  background: #e0e0e0;
+  border-radius: 4px;
+  margin-bottom: 8px;
+}
+
+.goshuinTitle {
+  height: 16px;
+  background: #e0e0e0;
+  border-radius: 4px;
+  margin-bottom: 4px;
+}
+
+.goshuinDate {
+  height: 14px;
+  width: 60%;
+  background: #e0e0e0;
+  border-radius: 4px;
+}
+
+/* Shrine list skeleton */
+.list {
+  padding: 20px;
+}
+
+.shrineItem {
+  display: flex;
+  gap: 16px;
+  padding: 16px 0;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.shrineImage {
+  width: 80px;
+  height: 80px;
+  background: #e0e0e0;
+  border-radius: 8px;
+  flex-shrink: 0;
+}
+
+.shrineContent {
+  flex: 1;
+}
+
+.shrineName {
+  height: 20px;
+  width: 70%;
+  background: #e0e0e0;
+  border-radius: 4px;
+  margin-bottom: 8px;
+}
+
+.shrineLocation {
+  height: 16px;
+  width: 90%;
+  background: #e0e0e0;
+  border-radius: 4px;
+  margin-bottom: 8px;
+}
+
+.shrineDistance {
+  height: 16px;
+  width: 40%;
+  background: #e0e0e0;
+  border-radius: 4px;
+}
+
+/* Profile skeleton */
+.profileContainer {
+  padding: 20px;
+}
+
+.profileHeader {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 30px;
+}
+
+.avatar {
+  width: 80px;
+  height: 80px;
+  background: #e0e0e0;
+  border-radius: 50%;
+}
+
+.profileInfo {
+  flex: 1;
+}
+
+.username {
+  height: 24px;
+  width: 120px;
+  background: #e0e0e0;
+  border-radius: 4px;
+  margin-bottom: 8px;
+}
+
+.userLevel {
+  height: 16px;
+  width: 80px;
+  background: #e0e0e0;
+  border-radius: 4px;
+}
+
+.statsGrid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+}
+
+.statCard {
+  background: #f5f5f5;
+  border-radius: 8px;
+  padding: 16px;
+  text-align: center;
+}
+
+.statValue {
+  height: 32px;
+  width: 60%;
+  background: #e0e0e0;
+  border-radius: 4px;
+  margin: 0 auto 8px;
+}
+
+.statLabel {
+  height: 16px;
+  width: 80%;
+  background: #e0e0e0;
+  border-radius: 4px;
+  margin: 0 auto;
+}
+
+/* Default skeleton */
+.defaultContainer {
+  padding: 20px;
+}
+
+.defaultItem {
+  margin-bottom: 20px;
+}
+
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+  .line,
+  .circle,
+  .button,
+  .title,
+  .subtitle,
+  .cardImage,
+  .cardTitle,
+  .cardText,
+  .goshuinImage,
+  .goshuinTitle,
+  .goshuinDate,
+  .shrineImage,
+  .shrineName,
+  .shrineLocation,
+  .shrineDistance,
+  .avatar,
+  .username,
+  .userLevel,
+  .statValue,
+  .statLabel {
+    background: #3a3a3c;
+  }
+
+  .card,
+  .goshuinCard,
+  .statCard {
+    background: #2c2c2e;
+  }
+
+  .shrineItem {
+    border-bottom-color: #3a3a3c;
+  }
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .skeleton {
+    animation: none;
+  }
+}

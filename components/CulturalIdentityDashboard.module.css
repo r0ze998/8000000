@@ -1,0 +1,918 @@
+/* Cultural Identity Dashboard - 文化的アイデンティティ可視化 */
+
+.culturalIdentityDashboard {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+  padding: 0 0 80px 0; /* Account for navigation */
+}
+
+.dashboardHeader {
+  display: flex;
+  align-items: center;
+  padding: 20px 16px;
+  background: white;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.backButton {
+  background: none;
+  border: none;
+  font-size: 16px;
+  color: #007AFF;
+  cursor: pointer;
+  padding: 8px 0;
+  margin-right: 16px;
+}
+
+.dashboardHeader h1 {
+  font-size: 24px;
+  font-weight: 700;
+  color: #1d1d1f;
+  margin: 0;
+}
+
+/* View Tabs */
+.viewTabs {
+  display: flex;
+  background: white;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  overflow-x: auto;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.viewTabs::-webkit-scrollbar {
+  display: none;
+}
+
+.viewTab {
+  flex: 1;
+  min-width: 80px;
+  padding: 12px 8px;
+  border: none;
+  background: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border-bottom: 3px solid transparent;
+}
+
+.viewTab:hover {
+  background: rgba(0, 122, 255, 0.05);
+}
+
+.viewTab.active {
+  border-bottom-color: #007AFF;
+  color: #007AFF;
+}
+
+.tabIcon {
+  font-size: 20px;
+}
+
+.tabLabel {
+  font-size: 12px;
+  font-weight: 500;
+}
+
+/* Dashboard Content */
+.dashboardContent {
+  padding: 20px 16px;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+/* Overview Section */
+.culturalOverview {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+.identityHeader {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  background: white;
+  padding: 24px;
+  border-radius: 16px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
+}
+
+.userAvatar {
+  position: relative;
+}
+
+.avatarRing {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  padding: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.avatarInner {
+  width: 72px;
+  height: 72px;
+  background: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 32px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.identitySummary {
+  flex: 1;
+}
+
+.userTitle {
+  font-size: 24px;
+  font-weight: 700;
+  color: #1d1d1f;
+  margin: 0 0 8px 0;
+}
+
+.culturalScore {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.scoreValue {
+  font-size: 28px;
+  font-weight: 700;
+  color: #007AFF;
+  font-variant-numeric: tabular-nums;
+}
+
+.scoreLabel {
+  font-size: 14px;
+  color: #8e8e93;
+}
+
+/* Journey Phases */
+.journeyPhases {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.journeyPhase {
+  background: white;
+  border-radius: 16px;
+  padding: 20px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+}
+
+.journeyPhase:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+}
+
+.phaseIcon {
+  font-size: 32px;
+  width: 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 122, 255, 0.1);
+  border-radius: 12px;
+}
+
+.phaseContent {
+  flex: 1;
+}
+
+.phaseTitle {
+  font-size: 18px;
+  font-weight: 600;
+  color: #1d1d1f;
+  margin: 0 0 4px 0;
+}
+
+.phaseSubtitle {
+  font-size: 14px;
+  color: #8e8e93;
+  margin: 0 0 12px 0;
+}
+
+.phaseStatus {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.statusLevel {
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.progressBar {
+  flex: 1;
+  height: 6px;
+  background: rgba(0, 0, 0, 0.1);
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.progressFill {
+  height: 100%;
+  border-radius: 3px;
+  transition: width 0.5s ease;
+}
+
+.phaseArrow {
+  font-size: 18px;
+  color: #c7c7cc;
+}
+
+/* Action Detail View */
+.actionDetailView,
+.memoryDetailView,
+.socialRoleDetailView,
+.communityDetailView {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.sectionHeader {
+  text-align: center;
+  margin-bottom: 8px;
+}
+
+.sectionHeader h2 {
+  font-size: 28px;
+  font-weight: 700;
+  color: #1d1d1f;
+  margin: 0 0 8px 0;
+}
+
+.sectionHeader p {
+  font-size: 16px;
+  color: #8e8e93;
+  margin: 0;
+}
+
+/* Stats Grid */
+.statsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: 16px;
+}
+
+.statCard {
+  background: white;
+  border-radius: 16px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+  transition: transform 0.2s ease;
+}
+
+.statCard:hover {
+  transform: translateY(-2px);
+}
+
+.statCard.primary {
+  background: linear-gradient(135deg, #007AFF, #0056CC);
+  color: white;
+}
+
+.statIcon {
+  font-size: 32px;
+  margin-bottom: 12px;
+}
+
+.statContent {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.statValue {
+  font-size: 24px;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+
+.statLabel {
+  font-size: 12px;
+  opacity: 0.8;
+}
+
+/* Achievement Path */
+.achievementPath {
+  background: white;
+  border-radius: 16px;
+  padding: 24px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+}
+
+.achievementPath h3 {
+  font-size: 20px;
+  font-weight: 600;
+  color: #1d1d1f;
+  margin: 0 0 20px 0;
+  text-align: center;
+}
+
+.milestones {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.milestone {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 16px;
+  border-radius: 12px;
+  transition: all 0.2s ease;
+}
+
+.milestone.achieved {
+  background: rgba(52, 199, 89, 0.1);
+  border: 1px solid rgba(52, 199, 89, 0.2);
+}
+
+.milestone.pending {
+  background: rgba(0, 0, 0, 0.02);
+  border: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.milestoneMarker {
+  font-size: 24px;
+}
+
+.milestoneContent {
+  flex: 1;
+}
+
+.milestoneVisits {
+  font-size: 18px;
+  font-weight: 600;
+  color: #1d1d1f;
+}
+
+.milestoneLabel {
+  font-size: 14px;
+  color: #8e8e93;
+}
+
+/* Memory Collection */
+.memoryCollection {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 20px;
+}
+
+.memoryCard {
+  background: white;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.memoryCard:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+}
+
+.memoryImage {
+  position: relative;
+  width: 100%;
+  height: 200px;
+  overflow: hidden;
+}
+
+.memoryImage img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.rarityBadge {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  font-size: 20px;
+  background: rgba(0, 0, 0, 0.7);
+  border-radius: 50%;
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.rarityBadge[data-rarity="legendary"] {
+  background: linear-gradient(135deg, #FFD700, #FFA500);
+}
+
+.rarityBadge[data-rarity="epic"] {
+  background: linear-gradient(135deg, #8A2BE2, #9932CC);
+}
+
+.rarityBadge[data-rarity="rare"] {
+  background: linear-gradient(135deg, #1E90FF, #0066CC);
+}
+
+.memoryContent {
+  padding: 16px;
+}
+
+.memoryTitle {
+  font-size: 16px;
+  font-weight: 600;
+  color: #1d1d1f;
+  margin: 0 0 8px 0;
+}
+
+.memoryDate {
+  font-size: 12px;
+  color: #8e8e93;
+  margin: 0 0 12px 0;
+}
+
+.memoryStoryPreview {
+  font-size: 14px;
+  color: #666;
+  margin: 0;
+  line-height: 1.4;
+}
+
+/* Empty States */
+.emptyMemoryState,
+.noRolesState {
+  background: white;
+  border-radius: 16px;
+  padding: 40px 20px;
+  text-align: center;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+}
+
+.emptyIcon {
+  font-size: 48px;
+  margin-bottom: 16px;
+  opacity: 0.6;
+}
+
+.emptyMemoryState h3,
+.noRolesState h3 {
+  font-size: 20px;
+  font-weight: 600;
+  color: #1d1d1f;
+  margin: 0 0 8px 0;
+}
+
+.emptyMemoryState p,
+.noRolesState p {
+  font-size: 16px;
+  color: #8e8e93;
+  margin: 0;
+}
+
+/* Role Cards */
+.roleProgression {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.roleCard {
+  background: white;
+  border-radius: 16px;
+  padding: 20px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+}
+
+.roleIcon {
+  font-size: 32px;
+  width: 56px;
+  height: 56px;
+  background: linear-gradient(135deg, #FF6B35, #F7931E);
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+}
+
+.roleContent {
+  flex: 1;
+}
+
+.roleTitle {
+  font-size: 18px;
+  font-weight: 600;
+  color: #1d1d1f;
+  margin: 0 0 4px 0;
+}
+
+.roleShrine {
+  font-size: 14px;
+  color: #8e8e93;
+  margin: 0 0 12px 0;
+}
+
+.roleStats {
+  display: flex;
+  gap: 20px;
+}
+
+.roleStat {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.roleStat .statLabel {
+  font-size: 12px;
+  color: #8e8e93;
+}
+
+.roleStat .statValue {
+  font-size: 14px;
+  font-weight: 600;
+  color: #1d1d1f;
+}
+
+/* Role Requirements */
+.roleRequirements {
+  background: rgba(0, 122, 255, 0.05);
+  border-radius: 12px;
+  padding: 16px;
+  margin-top: 16px;
+  text-align: left;
+}
+
+.roleRequirements h4 {
+  font-size: 16px;
+  font-weight: 600;
+  color: #1d1d1f;
+  margin: 0 0 12px 0;
+}
+
+.roleRequirements ul {
+  margin: 0;
+  padding: 0 0 0 20px;
+  list-style: none;
+}
+
+.roleRequirements li {
+  font-size: 14px;
+  color: #666;
+  margin-bottom: 8px;
+  position: relative;
+}
+
+.roleRequirements li::before {
+  content: "✓";
+  position: absolute;
+  left: -20px;
+  color: #007AFF;
+  font-weight: 600;
+}
+
+/* Community Impact */
+.impactMetrics {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 16px;
+}
+
+.metricCard {
+  background: white;
+  border-radius: 16px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+}
+
+.metricIcon {
+  font-size: 32px;
+  margin-bottom: 12px;
+}
+
+.metricContent {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.metricValue {
+  font-size: 24px;
+  font-weight: 700;
+  color: #1d1d1f;
+  font-variant-numeric: tabular-nums;
+}
+
+.metricLabel {
+  font-size: 12px;
+  color: #8e8e93;
+}
+
+/* Cultural Impact Chart */
+.culturalImpactChart {
+  background: white;
+  border-radius: 16px;
+  padding: 24px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+}
+
+.culturalImpactChart h3 {
+  font-size: 18px;
+  font-weight: 600;
+  color: #1d1d1f;
+  margin: 0 0 20px 0;
+  text-align: center;
+}
+
+.impactVisualization {
+  position: relative;
+}
+
+.growthLine {
+  height: 8px;
+  background: rgba(0, 0, 0, 0.1);
+  border-radius: 4px;
+  overflow: hidden;
+  margin-bottom: 20px;
+}
+
+.growthProgress {
+  height: 100%;
+  background: linear-gradient(90deg, #007AFF, #0056CC);
+  border-radius: 4px;
+  transition: width 1s ease;
+}
+
+.growthMilestones {
+  position: relative;
+  height: 40px;
+}
+
+.growthMilestone {
+  position: absolute;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+
+.milestoneDot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: #c7c7cc;
+  transition: all 0.3s ease;
+}
+
+.growthMilestone.reached .milestoneDot {
+  background: #007AFF;
+  transform: scale(1.2);
+}
+
+.milestoneLabel {
+  font-size: 10px;
+  color: #8e8e93;
+  font-weight: 500;
+}
+
+/* Story Modal */
+.storyModalOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10000;
+  padding: 20px;
+}
+
+.storyModal {
+  background: white;
+  border-radius: 20px;
+  max-width: 500px;
+  width: 100%;
+  max-height: 80vh;
+  overflow-y: auto;
+  position: relative;
+}
+
+.closeStory {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  background: rgba(0, 0, 0, 0.1);
+  border: none;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 10;
+}
+
+.storyContent {
+  padding: 20px;
+}
+
+.storyContent img {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+  border-radius: 12px;
+  margin-bottom: 16px;
+}
+
+.storyContent h3 {
+  font-size: 24px;
+  font-weight: 700;
+  color: #1d1d1f;
+  margin: 0 0 8px 0;
+}
+
+.storyDate {
+  font-size: 14px;
+  color: #8e8e93;
+  margin: 0 0 16px 0;
+}
+
+.storyText {
+  font-size: 16px;
+  line-height: 1.6;
+  color: #333;
+  margin-bottom: 20px;
+}
+
+.storyMetadata {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  padding-top: 16px;
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.metadataItem {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.metadataItem .label {
+  font-size: 12px;
+  color: #8e8e93;
+  font-weight: 500;
+}
+
+.metadataItem .value {
+  font-size: 16px;
+  color: #1d1d1f;
+  font-weight: 600;
+}
+
+/* Loading State */
+.loadingCulturalIdentity {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 60vh;
+  font-size: 18px;
+  color: #8e8e93;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .identityHeader {
+    flex-direction: column;
+    text-align: center;
+    gap: 16px;
+  }
+  
+  .journeyPhases {
+    gap: 12px;
+  }
+  
+  .journeyPhase {
+    padding: 16px;
+  }
+  
+  .statsGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  .memoryCollection {
+    grid-template-columns: 1fr;
+  }
+  
+  .impactMetrics {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  .roleStats {
+    flex-direction: column;
+    gap: 8px;
+  }
+}
+
+@media (max-width: 480px) {
+  .dashboardContent {
+    padding: 16px 12px;
+  }
+  
+  .statsGrid {
+    grid-template-columns: 1fr;
+  }
+  
+  .impactMetrics {
+    grid-template-columns: 1fr;
+  }
+  
+  .storyModal {
+    margin: 0;
+    border-radius: 20px 20px 0 0;
+    max-height: 90vh;
+  }
+}
+
+/* Dark Mode Support */
+@media (prefers-color-scheme: dark) {
+  .culturalIdentityDashboard {
+    background: linear-gradient(135deg, #1c1c1e 0%, #2c2c2e 100%);
+  }
+  
+  .dashboardHeader,
+  .viewTabs,
+  .statCard,
+  .journeyPhase,
+  .achievementPath,
+  .memoryCard,
+  .roleCard,
+  .metricCard,
+  .culturalImpactChart,
+  .emptyMemoryState,
+  .noRolesState {
+    background: #2c2c2e;
+    border-color: rgba(255, 255, 255, 0.1);
+  }
+  
+  .dashboardHeader h1,
+  .userTitle,
+  .phaseTitle,
+  .sectionHeader h2,
+  .statValue,
+  .metricValue,
+  .memoryTitle,
+  .roleTitle {
+    color: #ffffff;
+  }
+  
+  .storyModal {
+    background: #2c2c2e;
+  }
+  
+  .storyContent h3 {
+    color: #ffffff;
+  }
+  
+  .storyText {
+    color: #e5e5e7;
+  }
+}
