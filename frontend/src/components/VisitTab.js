@@ -15,6 +15,7 @@ const VisitTab = ({
   unlockAchievement,
   updatePlayerStats
 }) => {
+  console.log('VisitTab rendered');
   const [showOmikujiAfterVisit, setShowOmikujiAfterVisit] = useState(false);
   const [justCompletedVisit, setJustCompletedVisit] = useState(false);
 
