@@ -4,6 +4,9 @@ export default function Document() {
   return (
     <Html lang="ja">
       <Head>
+        <title>8000000 - 神社参拝習慣化アプリ</title>
+        <meta name="description" content="毎日の神社参拝を楽しく継続。NFT御朱印やレア報酬で習慣化をサポート" />
+        
         {/* Critical CSS inlined */}
         <style
           dangerouslySetInnerHTML={{

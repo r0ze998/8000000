@@ -45,7 +45,7 @@ export default function Home() {
       <div className="header">
         <div className="app-title">
           <span className="icon">⛩️</span>
-          <span className="title">八百万</span>
+          <span className="title">8000000</span>
         </div>
         <div className="user-status">
           <div className="controls">
