@@ -15,22 +15,24 @@ export class FocusManager {
       container,
       firstFocusable: focusableElements[0],
       lastFocusable: focusableElements[focusableElements.length - 1],
-      previousFocus: document.activeElement
+      previousFocus: typeof document !== 'undefined' ? document.activeElement : null
     };
     
     this.trapRefs.set(container, trap);
     
     const handleKeyDown = (e) => {
       if (e.key === 'Tab') {
-        if (e.shiftKey) {
-          if (document.activeElement === trap.firstFocusable) {
-            e.preventDefault();
-            trap.lastFocusable?.focus();
-          }
-        } else {
-          if (document.activeElement === trap.lastFocusable) {
-            e.preventDefault();
-            trap.firstFocusable?.focus();
+        if (typeof document !== 'undefined') {
+          if (e.shiftKey) {
+            if (document.activeElement === trap.firstFocusable) {
+              e.preventDefault();
+              trap.lastFocusable?.focus();
+            }
+          } else {
+            if (document.activeElement === trap.lastFocusable) {
+              e.preventDefault();
+              trap.firstFocusable?.focus();
+            }
           }
         }
       } else if (e.key === 'Escape') {
@@ -75,6 +77,8 @@ export class FocusManager {
   
   // 要素の可視性チェック
   isVisible(element) {
+    if (typeof window === 'undefined') return true;
+    
     const style = window.getComputedStyle(element);
     return style.display !== 'none' && 
            style.visibility !== 'hidden' && 
@@ -141,10 +145,12 @@ export class ContrastChecker {
 // スクリーンリーダー対応（WCAG 4.1.2）
 export class ScreenReaderAnnouncer {
   constructor() {
-    this.liveRegion = this.createLiveRegion();
+    this.liveRegion = typeof document !== 'undefined' ? this.createLiveRegion() : null;
   }
   
   createLiveRegion() {
+    if (typeof document === 'undefined') return null;
+    
     let region = document.getElementById('sr-live-region');
     if (!region) {
       region = document.createElement('div');
@@ -162,12 +168,16 @@ export class ScreenReaderAnnouncer {
   }
   
   announce(message, priority = 'polite') {
+    if (!this.liveRegion || typeof document === 'undefined') return;
+    
     this.liveRegion.setAttribute('aria-live', priority);
     this.liveRegion.textContent = message;
     
     // Clear after announcement
     setTimeout(() => {
-      this.liveRegion.textContent = '';
+      if (this.liveRegion) {
+        this.liveRegion.textContent = '';
+      }
     }, 1000);
   }
   
@@ -183,11 +193,13 @@ export class ScreenReaderAnnouncer {
 // キーボードナビゲーション（WCAG 2.1.1, 2.1.2）
 export class KeyboardNavigationManager {
   constructor() {
-    this.skipLinks = this.createSkipLinks();
+    this.skipLinks = typeof document !== 'undefined' ? this.createSkipLinks() : null;
     this.navigationMap = new Map();
   }
   
   createSkipLinks() {
+    if (typeof document === 'undefined') return null;
+    
     const skipContainer = document.createElement('div');
     skipContainer.className = 'skip-links';
     
@@ -218,6 +230,8 @@ export class KeyboardNavigationManager {
     } = options;
     
     const handleKeyDown = (e) => {
+      if (typeof document === 'undefined') return;
+      
       const currentIndex = items.findIndex(item => item === document.activeElement);
       if (currentIndex === -1) return;
       
@@ -280,6 +294,7 @@ export class KeyboardNavigationManager {
 // 動きの軽減（WCAG 2.3.3）
 export class MotionManager {
   static respectsReducedMotion() {
+    if (typeof window === 'undefined') return false;
     return window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   }
   
@@ -307,6 +322,8 @@ export class TouchTargetValidator {
   static MIN_SIZE = 44; // Apple HIG minimum
   
   static validateSize(element) {
+    if (typeof document === 'undefined') return true;
+    
     const rect = element.getBoundingClientRect();
     const isValid = rect.width >= this.MIN_SIZE && rect.height >= this.MIN_SIZE;
     
@@ -318,6 +335,8 @@ export class TouchTargetValidator {
   }
   
   static validateSpacing(elements) {
+    if (typeof document === 'undefined') return [];
+    
     const issues = [];
     
     for (let i = 0; i < elements.length - 1; i++) {
