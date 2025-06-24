@@ -3,12 +3,12 @@
  * メインアプリケーションコンポーネント - リファクタリング版
  */
 
-import CulturalIdentityDashboard from '../components/CulturalIdentityDashboard';
-import StoryCreationSystem from '../components/StoryCreationSystem';
-import MobileTabNavigation from '../components/MobileTabNavigation';
-import NFTHakoniwa from '../components/NFTHakoniwa';
-import { useAppState } from '../hooks/useAppState';
-import { useBGM } from '../hooks/useBGM';
+import CulturalIdentityDashboard from '../src/components/CulturalIdentityDashboard';
+import StoryCreationSystem from '../src/components/StoryCreationSystem';
+import { MobileTabNavigation } from '../src/components/navigation';
+import NFTHakoniwa from '../src/components/NFTHakoniwa';
+import { useAppState } from '../src/hooks/useAppState';
+import { useBGM } from '../src/hooks/useBGM';
 
 export default function Home() {
   // カスタムフックから状態とアクションを取得

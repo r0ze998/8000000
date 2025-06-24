@@ -1,0 +1,763 @@
+/* 文化資本システム CSS */
+.cultural-capital-system {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+  background: linear-gradient(135deg, #2C1810 0%, #8B4513 50%, #D2691E 100%);
+  color: #ffffff;
+  border-radius: 20px;
+}
+
+.system-header {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.system-header h2 {
+  color: #FFD700;
+  font-size: 2.5rem;
+  margin-bottom: 10px;
+  text-shadow: 0 0 20px rgba(255, 215, 0, 0.5);
+}
+
+.system-header p {
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 1.1rem;
+}
+
+/* 文化プロフィールダッシュボード */
+.cultural-dashboard {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(20px);
+  border-radius: 20px;
+  padding: 30px;
+  margin-bottom: 30px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.profile-overview {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 30px;
+  margin-bottom: 30px;
+  align-items: center;
+}
+
+.capital-display {
+  text-align: center;
+}
+
+.total-capital {
+  margin-bottom: 15px;
+}
+
+.capital-amount {
+  display: block;
+  font-size: 3rem;
+  font-weight: bold;
+  background: linear-gradient(135deg, #FFD700, #FFA500);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-shadow: 0 0 30px rgba(255, 215, 0, 0.5);
+  animation: capitalGlow 3s ease-in-out infinite alternate;
+}
+
+@keyframes capitalGlow {
+  from { filter: brightness(1); }
+  to { filter: brightness(1.2); }
+}
+
+.capital-label {
+  display: block;
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 1.1rem;
+  margin-top: 5px;
+}
+
+.user-rank {
+  text-align: center;
+}
+
+.rank-title {
+  display: block;
+  font-size: 1.8rem;
+  font-weight: bold;
+  margin-bottom: 5px;
+  text-shadow: 0 0 15px currentColor;
+}
+
+.rank-reputation {
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 1rem;
+}
+
+.teaching-status {
+  grid-column: 1 / -1;
+  text-align: center;
+  background: rgba(255, 215, 0, 0.1);
+  padding: 15px;
+  border-radius: 15px;
+  border: 1px solid rgba(255, 215, 0, 0.3);
+}
+
+.teaching-rank {
+  color: #FFD700;
+  font-weight: bold;
+  font-size: 1.1rem;
+}
+
+/* 専門分野の可視化 */
+.knowledge-areas {
+  margin-bottom: 30px;
+}
+
+.knowledge-areas h3 {
+  color: #FFD700;
+  margin-bottom: 20px;
+  font-size: 1.5rem;
+}
+
+.areas-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 20px;
+}
+
+.area-card {
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 15px;
+  padding: 20px;
+  transition: all 0.3s ease;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  position: relative;
+  overflow: hidden;
+}
+
+.area-card.specialized {
+  border-color: #FFD700;
+  background: rgba(255, 215, 0, 0.1);
+  box-shadow: 0 0 20px rgba(255, 215, 0, 0.2);
+}
+
+.area-card:hover {
+  transform: translateY(-3px);
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.area-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 15px;
+}
+
+.area-icon {
+  font-size: 1.5rem;
+}
+
+.area-name {
+  font-weight: bold;
+  color: #FFD700;
+  font-size: 1.1rem;
+}
+
+.level-progress {
+  margin-bottom: 10px;
+}
+
+.progress-bar {
+  width: 100%;
+  height: 8px;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 4px;
+  overflow: hidden;
+  margin-bottom: 8px;
+}
+
+.progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #4CAF50, #8BC34A);
+  border-radius: 4px;
+  transition: width 0.3s ease;
+  position: relative;
+}
+
+.progress-fill::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+  animation: progressShine 2s ease-in-out infinite;
+}
+
+@keyframes progressShine {
+  0% { transform: translateX(-100%); }
+  50% { transform: translateX(100%); }
+  100% { transform: translateX(100%); }
+}
+
+.level-text {
+  color: #FFD700;
+  font-weight: bold;
+  font-size: 0.9rem;
+}
+
+.level-title {
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 0.9rem;
+  margin-bottom: 10px;
+}
+
+.specialized-badge {
+  background: linear-gradient(135deg, #FFD700, #FFA500);
+  color: #000;
+  padding: 5px 10px;
+  border-radius: 15px;
+  font-size: 0.8rem;
+  font-weight: bold;
+  text-align: center;
+}
+
+/* 実績・貢献セクション */
+.achievements-contributions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 30px;
+  margin-bottom: 30px;
+}
+
+.achievements, .contributions {
+  background: rgba(255, 255, 255, 0.05);
+  padding: 20px;
+  border-radius: 15px;
+}
+
+.achievements h4, .contributions h4 {
+  color: #FFD700;
+  margin-bottom: 15px;
+  font-size: 1.2rem;
+}
+
+.achievement-list, .contribution-list {
+  space-y: 10px;
+}
+
+.achievement-item, .contribution-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px;
+  background: rgba(255, 255, 255, 0.03);
+  border-radius: 10px;
+  margin-bottom: 8px;
+}
+
+.achievement-icon {
+  font-size: 1.2rem;
+}
+
+.achievement-name {
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.contribution-item {
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.contribution-title {
+  color: rgba(255, 255, 255, 0.9);
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.contribution-impact {
+  color: #4CAF50;
+  font-size: 0.9rem;
+}
+
+/* 学習モジュール */
+.learning-modules {
+  margin-bottom: 30px;
+}
+
+.learning-modules h3 {
+  color: #FFD700;
+  margin-bottom: 20px;
+  font-size: 1.5rem;
+}
+
+.modules-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+  gap: 20px;
+}
+
+.module-card {
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 15px;
+  padding: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  transition: all 0.3s ease;
+}
+
+.module-card.locked {
+  opacity: 0.5;
+  background: rgba(255, 255, 255, 0.02);
+}
+
+.module-card:hover:not(.locked) {
+  transform: translateY(-3px);
+  background: rgba(255, 255, 255, 0.08);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+}
+
+.module-header {
+  margin-bottom: 15px;
+}
+
+.module-header h4 {
+  color: #FFD700;
+  margin-bottom: 8px;
+}
+
+.module-area {
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 0.9rem;
+}
+
+.module-info {
+  margin-bottom: 15px;
+}
+
+.module-stats {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+.difficulty, .duration {
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 0.9rem;
+}
+
+.module-rewards {
+  display: flex;
+  gap: 15px;
+  margin-bottom: 10px;
+}
+
+.capital-reward, .exp-reward {
+  background: rgba(76, 175, 80, 0.2);
+  color: #4CAF50;
+  padding: 5px 10px;
+  border-radius: 10px;
+  font-size: 0.8rem;
+  border: 1px solid rgba(76, 175, 80, 0.3);
+}
+
+.completion-stats {
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 0.8rem;
+  margin-bottom: 15px;
+}
+
+.start-module-btn {
+  width: 100%;
+  padding: 12px;
+  background: linear-gradient(135deg, #2196F3, #03DAC6);
+  color: white;
+  border: none;
+  border-radius: 10px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.start-module-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(33, 150, 243, 0.4);
+}
+
+.locked-message {
+  text-align: center;
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.prerequisites {
+  font-size: 0.8rem;
+  margin-top: 5px;
+  color: rgba(255, 255, 255, 0.4);
+}
+
+/* 知識マーケットプレイス */
+.knowledge-marketplace {
+  margin-bottom: 30px;
+}
+
+.knowledge-marketplace h3 {
+  color: #FFD700;
+  margin-bottom: 20px;
+  font-size: 1.5rem;
+}
+
+.marketplace-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+  gap: 20px;
+}
+
+.marketplace-item {
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 15px;
+  padding: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  transition: all 0.3s ease;
+}
+
+.marketplace-item:hover {
+  transform: translateY(-3px);
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.item-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 15px;
+}
+
+.item-header h4 {
+  color: #FFD700;
+  margin: 0;
+  flex: 1;
+}
+
+.item-type {
+  background: rgba(255, 107, 53, 0.2);
+  color: #FF6B35;
+  padding: 5px 10px;
+  border-radius: 15px;
+  font-size: 0.8rem;
+}
+
+.instructor-info {
+  margin-bottom: 15px;
+}
+
+.instructor-name {
+  color: rgba(255, 255, 255, 0.9);
+  font-weight: bold;
+  margin-bottom: 5px;
+  display: block;
+}
+
+.item-rating {
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 0.9rem;
+}
+
+.item-details {
+  margin-bottom: 20px;
+}
+
+.item-details p {
+  color: rgba(255, 255, 255, 0.8);
+  line-height: 1.6;
+  margin-bottom: 15px;
+}
+
+.item-meta {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.area-tag, .level-tag, .duration-tag {
+  background: rgba(255, 255, 255, 0.1);
+  color: rgba(255, 255, 255, 0.8);
+  padding: 3px 8px;
+  border-radius: 10px;
+  font-size: 0.8rem;
+}
+
+.item-price {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.price {
+  color: #FFD700;
+  font-weight: bold;
+  font-size: 1.1rem;
+}
+
+.purchase-btn {
+  background: linear-gradient(135deg, #4CAF50, #8BC34A);
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 10px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: all 0.3s ease;
+}
+
+.purchase-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.purchase-btn:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(76, 175, 80, 0.4);
+}
+
+/* 文化大使プログラム */
+.ambassador-program {
+  margin-bottom: 30px;
+  background: rgba(255, 215, 0, 0.1);
+  padding: 25px;
+  border-radius: 20px;
+  border: 1px solid rgba(255, 215, 0, 0.3);
+}
+
+.ambassador-program h3 {
+  color: #FFD700;
+  margin-bottom: 10px;
+  font-size: 1.5rem;
+}
+
+.ambassador-program p {
+  color: rgba(255, 255, 255, 0.8);
+  margin-bottom: 20px;
+}
+
+.ambassador-areas {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 20px;
+}
+
+.ambassador-card {
+  background: rgba(255, 255, 255, 0.05);
+  padding: 20px;
+  border-radius: 15px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.ambassador-card h4 {
+  color: #FFD700;
+  margin-bottom: 15px;
+}
+
+.requirements-check {
+  margin-bottom: 15px;
+}
+
+.requirement {
+  padding: 8px;
+  margin-bottom: 5px;
+  border-radius: 8px;
+  font-size: 0.9rem;
+}
+
+.requirement.met {
+  background: rgba(76, 175, 80, 0.2);
+  color: #4CAF50;
+  border: 1px solid rgba(76, 175, 80, 0.3);
+}
+
+.requirement.unmet {
+  background: rgba(244, 67, 54, 0.2);
+  color: #F44336;
+  border: 1px solid rgba(244, 67, 54, 0.3);
+}
+
+.apply-ambassador-btn {
+  width: 100%;
+  padding: 12px;
+  background: linear-gradient(135deg, #673AB7, #9C27B0);
+  color: white;
+  border: none;
+  border-radius: 10px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.apply-ambassador-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.apply-ambassador-btn:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(103, 58, 183, 0.4);
+}
+
+/* 学習モーダル */
+.learning-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.8);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.learning-modal .modal-content {
+  background: linear-gradient(135deg, #2C1810, #8B4513);
+  border-radius: 20px;
+  padding: 30px;
+  max-width: 600px;
+  width: 90%;
+  max-height: 80vh;
+  overflow-y: auto;
+}
+
+.learning-modal .modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 25px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  padding-bottom: 15px;
+}
+
+.learning-modal .close-btn {
+  background: none;
+  border: none;
+  color: #FFD700;
+  font-size: 1.5rem;
+  cursor: pointer;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.learning-content {
+  margin-bottom: 25px;
+}
+
+.learning-section {
+  margin-bottom: 25px;
+  padding: 20px;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 15px;
+}
+
+.learning-section h4 {
+  color: #FFD700;
+  margin-bottom: 15px;
+}
+
+.learning-section p {
+  color: rgba(255, 255, 255, 0.9);
+  line-height: 1.6;
+  margin-bottom: 15px;
+}
+
+.quiz-section {
+  background: rgba(255, 255, 255, 0.05);
+  padding: 15px;
+  border-radius: 10px;
+  margin-top: 15px;
+}
+
+.quiz-section h5 {
+  color: #FFD700;
+  margin-bottom: 10px;
+}
+
+.quiz-options {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-top: 15px;
+}
+
+.quiz-option {
+  background: rgba(255, 255, 255, 0.1);
+  color: white;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  padding: 10px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.quiz-option:hover {
+  background: rgba(255, 255, 255, 0.15);
+  border-color: #FFD700;
+}
+
+.complete-module-btn {
+  width: 100%;
+  padding: 15px;
+  background: linear-gradient(135deg, #4CAF50, #8BC34A);
+  color: white;
+  border: none;
+  border-radius: 15px;
+  font-size: 1.1rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.complete-module-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(76, 175, 80, 0.4);
+}
+
+/* レスポンシブ対応 */
+@media (max-width: 768px) {
+  .cultural-capital-system {
+    padding: 15px;
+  }
+  
+  .profile-overview {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+  
+  .capital-amount {
+    font-size: 2.5rem;
+  }
+  
+  .areas-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .achievements-contributions {
+    grid-template-columns: 1fr;
+  }
+  
+  .modules-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .marketplace-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .ambassador-areas {
+    grid-template-columns: 1fr;
+  }
+  
+  .quiz-options {
+    grid-template-columns: 1fr;
+  }
+}

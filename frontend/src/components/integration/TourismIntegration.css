@@ -1,0 +1,571 @@
+/* 観光統合システム CSS */
+.tourism-integration {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+  background: linear-gradient(135deg, #0D47A1 0%, #1976D2 50%, #42A5F5 100%);
+  color: #ffffff;
+  border-radius: 20px;
+}
+
+.integration-header {
+  position: relative;
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.language-selector {
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+
+.language-selector select {
+  background: rgba(255, 255, 255, 0.1);
+  color: white;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  padding: 8px 12px;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+.integration-header h2 {
+  color: #FFD700;
+  font-size: 2.5rem;
+  margin-bottom: 10px;
+  text-shadow: 0 0 20px rgba(255, 215, 0, 0.5);
+}
+
+/* 経済効果ダッシュボード */
+.economic-dashboard {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(20px);
+  border-radius: 20px;
+  padding: 25px;
+  margin-bottom: 30px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.economic-dashboard h3 {
+  color: #FFD700;
+  margin-bottom: 20px;
+  font-size: 1.5rem;
+  text-align: center;
+}
+
+.impact-metrics {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 20px;
+}
+
+.metric-card {
+  background: rgba(255, 255, 255, 0.05);
+  padding: 20px;
+  border-radius: 15px;
+  text-align: center;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  transition: all 0.3s ease;
+}
+
+.metric-card:hover {
+  transform: translateY(-3px);
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.metric-value {
+  display: block;
+  font-size: 2rem;
+  font-weight: bold;
+  color: #FFD700;
+  margin-bottom: 5px;
+}
+
+.metric-label {
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 0.9rem;
+  margin-bottom: 5px;
+}
+
+.metric-trend {
+  color: #4CAF50;
+  font-weight: bold;
+  font-size: 0.8rem;
+}
+
+/* 最適化ルート */
+.optimized-routes {
+  margin-bottom: 30px;
+}
+
+.optimized-routes h3 {
+  color: #FFD700;
+  margin-bottom: 20px;
+  font-size: 1.5rem;
+}
+
+.routes-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+  gap: 25px;
+}
+
+.route-card {
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(20px);
+  border-radius: 15px;
+  padding: 25px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  transition: all 0.3s ease;
+}
+
+.route-card:hover {
+  transform: translateY(-5px);
+  background: rgba(255, 255, 255, 0.08);
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+}
+
+.route-header {
+  margin-bottom: 20px;
+}
+
+.route-header h4 {
+  color: #FFD700;
+  font-size: 1.3rem;
+  margin-bottom: 10px;
+}
+
+.route-meta {
+  display: flex;
+  gap: 15px;
+  flex-wrap: wrap;
+}
+
+.duration, .difficulty, .type {
+  background: rgba(255, 255, 255, 0.1);
+  color: rgba(255, 255, 255, 0.9);
+  padding: 5px 10px;
+  border-radius: 10px;
+  font-size: 0.8rem;
+}
+
+.route-shrines {
+  margin-bottom: 20px;
+}
+
+.route-shrines h5 {
+  color: #FFD700;
+  margin-bottom: 10px;
+}
+
+.shrine-stop {
+  background: rgba(255, 255, 255, 0.05);
+  padding: 12px;
+  border-radius: 10px;
+  margin-bottom: 8px;
+  border-left: 3px solid #FFD700;
+}
+
+.shrine-name {
+  font-weight: bold;
+  color: rgba(255, 255, 255, 0.9);
+  margin-right: 10px;
+}
+
+.cultural-points {
+  background: #4CAF50;
+  color: white;
+  padding: 2px 8px;
+  border-radius: 10px;
+  font-size: 0.8rem;
+  float: right;
+}
+
+.shrine-highlight {
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 0.9rem;
+  margin-top: 5px;
+}
+
+.route-costs {
+  margin-bottom: 20px;
+}
+
+.route-costs h5 {
+  color: #FFD700;
+  margin-bottom: 10px;
+}
+
+.cost-options {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.budget, .standard, .luxury {
+  background: rgba(255, 255, 255, 0.1);
+  padding: 8px 12px;
+  border-radius: 8px;
+  font-size: 0.8rem;
+  flex: 1;
+  text-align: center;
+}
+
+.cultural-learning {
+  margin-bottom: 20px;
+}
+
+.cultural-learning h5 {
+  color: #FFD700;
+  margin-bottom: 10px;
+}
+
+.cultural-learning ul {
+  list-style: none;
+  padding: 0;
+}
+
+.cultural-learning li {
+  color: rgba(255, 255, 255, 0.8);
+  margin-bottom: 5px;
+  padding-left: 20px;
+  position: relative;
+}
+
+.cultural-learning li::before {
+  content: '📚';
+  position: absolute;
+  left: 0;
+}
+
+.select-route-btn {
+  width: 100%;
+  background: linear-gradient(135deg, #2196F3, #03DAC6);
+  color: white;
+  border: none;
+  padding: 12px;
+  border-radius: 10px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.select-route-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(33, 150, 243, 0.4);
+}
+
+/* 文化遺産保護 */
+.heritage-preservation {
+  margin-bottom: 30px;
+}
+
+.heritage-preservation h3 {
+  color: #FFD700;
+  margin-bottom: 20px;
+  font-size: 1.5rem;
+}
+
+.heritage-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+  gap: 20px;
+}
+
+.heritage-card {
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 15px;
+  padding: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  transition: all 0.3s ease;
+}
+
+.heritage-card:hover {
+  transform: translateY(-3px);
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.heritage-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 15px;
+}
+
+.heritage-header h4 {
+  color: #FFD700;
+  margin: 0;
+}
+
+.heritage-type {
+  background: rgba(255, 107, 53, 0.2);
+  color: #FF6B35;
+  padding: 5px 10px;
+  border-radius: 15px;
+  font-size: 0.8rem;
+}
+
+.heritage-info {
+  margin-bottom: 15px;
+}
+
+.heritage-info p {
+  color: rgba(255, 255, 255, 0.8);
+  margin-bottom: 8px;
+  font-size: 0.9rem;
+}
+
+.status.good {
+  color: #4CAF50;
+}
+
+.status.concerning {
+  color: #FF9800;
+}
+
+.preservation-efforts, .digital-preservation {
+  margin-bottom: 15px;
+}
+
+.preservation-efforts h5, .digital-preservation h5 {
+  color: #FFD700;
+  margin-bottom: 10px;
+  font-size: 1rem;
+}
+
+.preservation-efforts ul {
+  list-style: none;
+  padding: 0;
+}
+
+.preservation-efforts li {
+  color: rgba(255, 255, 255, 0.8);
+  margin-bottom: 5px;
+  padding-left: 20px;
+  position: relative;
+  font-size: 0.9rem;
+}
+
+.preservation-efforts li::before {
+  content: '🛡️';
+  position: absolute;
+  left: 0;
+}
+
+.preservation-status {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.status-item {
+  background: rgba(255, 255, 255, 0.05);
+  padding: 8px;
+  border-radius: 8px;
+  font-size: 0.8rem;
+}
+
+.status-label {
+  color: rgba(255, 255, 255, 0.7);
+  margin-right: 5px;
+}
+
+.status-value {
+  color: #4CAF50;
+  font-weight: bold;
+}
+
+/* 地域別分析 */
+.regional-insights {
+  margin-bottom: 30px;
+}
+
+.regional-insights h3 {
+  color: #FFD700;
+  margin-bottom: 20px;
+  font-size: 1.5rem;
+}
+
+.popularity-trends {
+  background: rgba(255, 255, 255, 0.05);
+  padding: 20px;
+  border-radius: 15px;
+  margin-bottom: 20px;
+}
+
+.popularity-trends h4 {
+  color: #FFD700;
+  margin-bottom: 15px;
+}
+
+.trends-list {
+  display: grid;
+  gap: 10px;
+}
+
+.trend-item {
+  display: grid;
+  grid-template-columns: 2fr 1fr 2fr;
+  gap: 15px;
+  align-items: center;
+  padding: 10px;
+  border-radius: 8px;
+}
+
+.trend-item.rising {
+  background: rgba(76, 175, 80, 0.1);
+  border-left: 3px solid #4CAF50;
+}
+
+.trend-name {
+  color: rgba(255, 255, 255, 0.9);
+  font-weight: bold;
+}
+
+.trend-growth {
+  color: #4CAF50;
+  font-weight: bold;
+  text-align: center;
+}
+
+.trend-reason {
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 0.9rem;
+}
+
+.sustainability-metrics {
+  background: rgba(255, 255, 255, 0.05);
+  padding: 20px;
+  border-radius: 15px;
+}
+
+.sustainability-metrics h4 {
+  color: #FFD700;
+  margin-bottom: 15px;
+}
+
+.metrics-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 20px;
+}
+
+.metric-category {
+  background: rgba(255, 255, 255, 0.05);
+  padding: 15px;
+  border-radius: 10px;
+}
+
+.metric-category h5 {
+  color: #FFD700;
+  margin-bottom: 10px;
+}
+
+.metric-category ul {
+  list-style: none;
+  padding: 0;
+}
+
+.metric-category li {
+  color: rgba(255, 255, 255, 0.8);
+  margin-bottom: 5px;
+  font-size: 0.9rem;
+}
+
+/* 政府連携 */
+.government-collaboration {
+  background: rgba(255, 215, 0, 0.1);
+  padding: 25px;
+  border-radius: 20px;
+  border: 1px solid rgba(255, 215, 0, 0.3);
+}
+
+.government-collaboration h3 {
+  color: #FFD700;
+  margin-bottom: 20px;
+  font-size: 1.5rem;
+}
+
+.collaboration-tools {
+  display: flex;
+  gap: 15px;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+}
+
+.generate-report-btn, .cultural-policy-btn, .international-data-btn {
+  background: linear-gradient(135deg, #673AB7, #9C27B0);
+  color: white;
+  border: none;
+  padding: 12px 20px;
+  border-radius: 10px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: all 0.3s ease;
+  flex: 1;
+  min-width: 200px;
+}
+
+.generate-report-btn:hover, .cultural-policy-btn:hover, .international-data-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(103, 58, 183, 0.4);
+}
+
+.policy-recommendations {
+  background: rgba(255, 255, 255, 0.05);
+  padding: 20px;
+  border-radius: 15px;
+}
+
+.policy-recommendations h4 {
+  color: #FFD700;
+  margin-bottom: 15px;
+}
+
+.policy-recommendations ul {
+  list-style: none;
+  padding: 0;
+}
+
+.policy-recommendations li {
+  color: rgba(255, 255, 255, 0.9);
+  margin-bottom: 10px;
+  padding: 10px;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 8px;
+  border-left: 3px solid #FFD700;
+}
+
+/* レスポンシブ対応 */
+@media (max-width: 768px) {
+  .tourism-integration {
+    padding: 15px;
+  }
+  
+  .language-selector {
+    position: static;
+    margin-bottom: 15px;
+  }
+  
+  .impact-metrics {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  .routes-grid, .heritage-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .cost-options {
+    flex-direction: column;
+  }
+  
+  .metrics-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .collaboration-tools {
+    flex-direction: column;
+  }
+}

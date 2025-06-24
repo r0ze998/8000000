@@ -1,16 +1,15 @@
 import React, { useEffect } from 'react';
 import soundEffects from './utils/soundEffects';
-import { SakuraParticles, LightParticles } from './components/ParticleEffects';
-import SeasonalEffects from './components/SeasonalEffects';
-import BottomNavigation from './components/BottomNavigation';
-import PrivacyInfo from './components/PrivacyInfo';
-import SimpleAudioToggle from './components/SimpleAudioToggle';
-import BGMController from './components/BGMController';
-import BGMManager from './components/BGMManager';
-import ShrineSetup from './components/ShrineSetup';
-import ActivityModal from './components/ActivityModal';
-import ShrineSelector from './components/ShrineSelector';
-import VisitVerification from './components/VisitVerification';
+import { SakuraParticles, LightParticles } from './components/gamification/ParticleEffects';
+import SeasonalEffects from './components/gamification/SeasonalEffects';
+import BottomNavigation from './components/ui/BottomNavigation';
+import PrivacyInfo from './components/ui/PrivacyInfo';
+import SimpleAudioToggle from './components/audio/SimpleAudioToggle';
+import BGMManager from './components/audio/BGMManager';
+import ShrineSetup from './components/shrine/ShrineSetup';
+import ActivityModal from './components/ui/ActivityModal';
+import ShrineSelector from './components/shrine/ShrineSelector';
+import VisitVerification from './components/visit/VisitVerification';
 
 // Layout Components
 import AppHeader from './layout/AppHeader';
@@ -167,7 +166,6 @@ function ShrineVillageContent() {
       {/* UI要素 */}
       <SimpleAudioToggle />
       <BGMManager activeTab={activeTab} />
-      <BGMController />
       
       <BottomNavigation
         activeTab={activeTab}

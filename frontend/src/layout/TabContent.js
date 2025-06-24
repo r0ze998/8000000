@@ -1,6 +1,6 @@
 import React from 'react';
 import HomeTab from '../components/HomeTab';
-import VisitTab from '../components/VisitTab';
+import VisitTab from '../components/tabs/VisitTab';
 import ExploreTab from '../components/ExploreTab';
 import LearnTab from '../components/LearnTab';
 import ProfileTab from '../components/ProfileTab';

@@ -165,6 +165,25 @@ export default function Document() {
         <Main />
         <NextScript />
         
+        {/* Service Worker クリーンアップ */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              (function() {
+                'use strict';
+                // 古いService Workerを削除
+                if ('serviceWorker' in navigator) {
+                  navigator.serviceWorker.getRegistrations().then(function(registrations) {
+                    for(let registration of registrations) {
+                      registration.unregister();
+                    }
+                  });
+                }
+              })();
+            `,
+          }}
+        />
+        
         {/* Focus visible polyfill for older browsers */}
         <script
           dangerouslySetInnerHTML={{

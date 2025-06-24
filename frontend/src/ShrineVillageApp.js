@@ -1,28 +1,27 @@
 import React, { useState, useEffect } from 'react';
 import soundEffects from './utils/soundEffects';
-import { SakuraParticles, LightParticles } from './components/ParticleEffects';
-import CulturalBelt from './components/CulturalBelt';
-import ShrineSelector from './components/ShrineSelector';
-import VisitVerification from './components/VisitVerification';
-import ShrineSetup from './components/ShrineSetup';
-import ActivityModal from './components/ActivityModal';
-import SimpleAudioToggle from './components/SimpleAudioToggle';
-import WalletConnection from './components/WalletConnection';
-import AccountStatus from './components/AccountStatus';
-import PlayerStatus from './components/PlayerStatus';
-import SeasonalEffects from './components/SeasonalEffects';
-import BottomNavigation from './components/BottomNavigation';
-import PrivacyInfo from './components/PrivacyInfo';
+import { SakuraParticles, LightParticles } from './components/gamification/ParticleEffects';
+import CulturalBelt from './components/gamification/CulturalBelt';
+import ShrineSelector from './components/shrine/ShrineSelector';
+import VisitVerification from './components/visit/VisitVerification';
+import ShrineSetup from './components/shrine/ShrineSetup';
+import ActivityModal from './components/ui/ActivityModal';
+import SimpleAudioToggle from './components/audio/SimpleAudioToggle';
+import WalletConnection from './components/integration/WalletConnection';
+import AccountStatus from './components/player/AccountStatus';
+import PlayerStatus from './components/player/PlayerStatus';
+import SeasonalEffects from './components/gamification/SeasonalEffects';
+import BottomNavigation from './components/ui/BottomNavigation';
+import PrivacyInfo from './components/ui/PrivacyInfo';
 import HomeTab from './components/HomeTab';
-import VisitTab from './components/VisitTab';
+import VisitTab from './components/tabs/VisitTab';
 import ExploreTab from './components/ExploreTab';
 import LearnTab from './components/LearnTab';
 import ProfileTab from './components/ProfileTab';
-import BGMController from './components/BGMController';
-import BGMManager from './components/BGMManager';
+import BGMManager from './components/audio/BGMManager';
 
 // スタイル
-import './components/VisitTab.css';
+import './components/tabs/VisitTab.css';
 import nftMintingService from './services/nftMinting';
 import { drawOmikuji } from './data/omikujiDatabase';
 
@@ -795,9 +794,6 @@ function ShrineVillageApp() {
       
       {/* BGM管理システム */}
       <BGMManager activeTab={activeTab} />
-      
-      {/* BGMコントローラー */}
-      <BGMController />
       
       {/* ボトムナビゲーション */}
       <BottomNavigation

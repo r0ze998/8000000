@@ -1,0 +1,630 @@
+/* インセンティブエンジン CSS */
+.incentive-engine {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+  background: linear-gradient(135deg, #4A148C 0%, #7B1FA2 50%, #9C27B0 100%);
+  color: #ffffff;
+  border-radius: 20px;
+}
+
+.engine-header {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.engine-header h2 {
+  color: #FFD700;
+  font-size: 2.5rem;
+  margin-bottom: 10px;
+  text-shadow: 0 0 20px rgba(255, 215, 0, 0.5);
+}
+
+.engine-header p {
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 1.1rem;
+}
+
+/* ステークホルダーバランス */
+.stakeholder-balance {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(20px);
+  border-radius: 20px;
+  padding: 25px;
+  margin-bottom: 30px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.stakeholder-balance h3 {
+  color: #FFD700;
+  margin-bottom: 20px;
+  font-size: 1.5rem;
+  text-align: center;
+}
+
+.balance-visualization {
+  margin-bottom: 20px;
+}
+
+.balance-chart {
+  display: flex;
+  width: 100%;
+  height: 60px;
+  border-radius: 30px;
+  overflow: hidden;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  margin-bottom: 15px;
+}
+
+.balance-segment {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  font-size: 0.9rem;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.balance-segment.user {
+  background: linear-gradient(135deg, #2196F3, #03DAC6);
+}
+
+.balance-segment.shrine {
+  background: linear-gradient(135deg, #FF9800, #FFC107);
+}
+
+.balance-segment.society {
+  background: linear-gradient(135deg, #4CAF50, #8BC34A);
+}
+
+.balance-segment::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+  animation: segmentShine 3s ease-in-out infinite;
+}
+
+@keyframes segmentShine {
+  0% { left: -100%; }
+  50% { left: 100%; }
+  100% { left: 100%; }
+}
+
+.balance-status {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 15px;
+}
+
+.status.balanced {
+  color: #4CAF50;
+  font-weight: bold;
+}
+
+.status.unbalanced {
+  color: #FF9800;
+  font-weight: bold;
+}
+
+.deviation {
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 0.9rem;
+}
+
+/* バランス改善提案 */
+.balance-recommendations {
+  background: rgba(255, 255, 255, 0.05);
+  padding: 20px;
+  border-radius: 15px;
+  border-left: 3px solid #FFD700;
+}
+
+.balance-recommendations h4 {
+  color: #FFD700;
+  margin-bottom: 15px;
+}
+
+.recommendation {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px;
+  margin-bottom: 10px;
+  border-radius: 8px;
+  border-left: 3px solid;
+}
+
+.recommendation.high {
+  background: rgba(244, 67, 54, 0.1);
+  border-left-color: #F44336;
+}
+
+.recommendation.medium {
+  background: rgba(255, 152, 0, 0.1);
+  border-left-color: #FF9800;
+}
+
+.rec-message {
+  color: rgba(255, 255, 255, 0.9);
+  flex: 1;
+}
+
+.rec-priority {
+  background: rgba(255, 255, 255, 0.2);
+  color: white;
+  padding: 4px 8px;
+  border-radius: 10px;
+  font-size: 0.8rem;
+  font-weight: bold;
+}
+
+/* 持続可能性メトリクス */
+.sustainability-metrics {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(20px);
+  border-radius: 20px;
+  padding: 25px;
+  margin-bottom: 30px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.sustainability-metrics h3 {
+  color: #FFD700;
+  margin-bottom: 20px;
+  font-size: 1.5rem;
+  text-align: center;
+}
+
+.metrics-overview {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  gap: 30px;
+  align-items: center;
+}
+
+.overall-score {
+  text-align: center;
+  background: rgba(255, 255, 255, 0.05);
+  padding: 30px;
+  border-radius: 20px;
+}
+
+.score-value {
+  display: block;
+  font-size: 3rem;
+  font-weight: bold;
+  margin-bottom: 10px;
+  text-shadow: 0 0 20px currentColor;
+}
+
+.score-grade {
+  background: linear-gradient(135deg, #FFD700, #FFA500);
+  color: #000;
+  padding: 8px 16px;
+  border-radius: 20px;
+  font-weight: bold;
+  font-size: 1.1rem;
+}
+
+.metrics-breakdown {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 15px;
+}
+
+.metric-item {
+  background: rgba(255, 255, 255, 0.05);
+  padding: 15px;
+  border-radius: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.metric-label {
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 0.9rem;
+}
+
+.metric-value {
+  color: #FFD700;
+  font-weight: bold;
+  font-size: 1.1rem;
+}
+
+.metric-trend {
+  color: #4CAF50;
+  font-size: 0.8rem;
+  font-weight: bold;
+}
+
+/* 価値創造フロー */
+.value-flows {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(20px);
+  border-radius: 20px;
+  padding: 25px;
+  margin-bottom: 30px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.value-flows h3 {
+  color: #FFD700;
+  margin-bottom: 20px;
+  font-size: 1.5rem;
+  text-align: center;
+}
+
+.flows-timeline {
+  max-height: 400px;
+  overflow-y: auto;
+  padding-right: 10px;
+}
+
+.flow-item {
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 10px;
+  padding: 15px;
+  margin-bottom: 10px;
+  border-left: 3px solid #FFD700;
+  transition: all 0.3s ease;
+}
+
+.flow-item:hover {
+  background: rgba(255, 255, 255, 0.08);
+  transform: translateX(5px);
+}
+
+.flow-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.flow-type {
+  background: rgba(255, 107, 53, 0.2);
+  color: #FF6B35;
+  padding: 4px 8px;
+  border-radius: 10px;
+  font-size: 0.8rem;
+  font-weight: bold;
+}
+
+.flow-timestamp {
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 0.8rem;
+}
+
+.flow-values {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.value-user, .value-shrine, .value-society {
+  background: rgba(255, 255, 255, 0.05);
+  padding: 8px;
+  border-radius: 6px;
+  text-align: center;
+  font-size: 0.8rem;
+}
+
+.value-user {
+  border-left: 3px solid #2196F3;
+}
+
+.value-shrine {
+  border-left: 3px solid #FF9800;
+}
+
+.value-society {
+  border-left: 3px solid #4CAF50;
+}
+
+.flow-sustainability {
+  text-align: center;
+}
+
+.sustainability-score {
+  background: rgba(76, 175, 80, 0.2);
+  color: #4CAF50;
+  padding: 4px 8px;
+  border-radius: 10px;
+  font-size: 0.8rem;
+  font-weight: bold;
+}
+
+/* 実世界特典 */
+.real-world-benefits {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(20px);
+  border-radius: 20px;
+  padding: 25px;
+  margin-bottom: 30px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.real-world-benefits h3 {
+  color: #FFD700;
+  margin-bottom: 20px;
+  font-size: 1.5rem;
+  text-align: center;
+}
+
+.benefits-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 20px;
+}
+
+.benefit-card {
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 15px;
+  padding: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  transition: all 0.3s ease;
+}
+
+.benefit-card:hover {
+  transform: translateY(-3px);
+  background: rgba(255, 255, 255, 0.08);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+}
+
+.benefit-card h4 {
+  color: #FFD700;
+  margin-bottom: 15px;
+}
+
+.benefit-details {
+  margin-bottom: 15px;
+}
+
+.benefit-details p {
+  color: rgba(255, 255, 255, 0.8);
+  margin-bottom: 8px;
+  font-size: 0.9rem;
+}
+
+.activate-btn {
+  width: 100%;
+  background: linear-gradient(135deg, #4CAF50, #8BC34A);
+  color: white;
+  border: none;
+  padding: 12px;
+  border-radius: 10px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.activate-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(76, 175, 80, 0.4);
+}
+
+/* 長期エンゲージメント */
+.long-term-engagement {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(20px);
+  border-radius: 20px;
+  padding: 25px;
+  margin-bottom: 30px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.long-term-engagement h3 {
+  color: #FFD700;
+  margin-bottom: 20px;
+  font-size: 1.5rem;
+  text-align: center;
+}
+
+.engagement-components {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 30px;
+}
+
+.seasonal-campaigns, .milestone-progress {
+  background: rgba(255, 255, 255, 0.05);
+  padding: 20px;
+  border-radius: 15px;
+}
+
+.seasonal-campaigns h4, .milestone-progress h4 {
+  color: #FFD700;
+  margin-bottom: 15px;
+}
+
+.campaign-card {
+  background: rgba(255, 255, 255, 0.05);
+  padding: 15px;
+  border-radius: 10px;
+  margin-bottom: 15px;
+  border-left: 3px solid #FF6B35;
+}
+
+.campaign-card h5 {
+  color: #FF6B35;
+  margin-bottom: 8px;
+}
+
+.campaign-card p {
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 0.9rem;
+  margin-bottom: 10px;
+}
+
+.campaign-rewards {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.reward-tag {
+  background: rgba(255, 107, 53, 0.2);
+  color: #FF6B35;
+  padding: 4px 8px;
+  border-radius: 10px;
+  font-size: 0.8rem;
+}
+
+.milestone-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 8px;
+  margin-bottom: 10px;
+}
+
+.milestone-target {
+  color: #FFD700;
+  font-weight: bold;
+}
+
+.milestone-reward {
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 0.9rem;
+}
+
+.progress-bar {
+  width: 100%;
+  height: 6px;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 3px;
+  overflow: hidden;
+  margin-top: 8px;
+}
+
+.progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #4CAF50, #8BC34A);
+  border-radius: 3px;
+  transition: width 0.3s ease;
+}
+
+/* システム健全性 */
+.system-health {
+  background: rgba(255, 215, 0, 0.1);
+  padding: 25px;
+  border-radius: 20px;
+  border: 1px solid rgba(255, 215, 0, 0.3);
+}
+
+.system-health h3 {
+  color: #FFD700;
+  margin-bottom: 20px;
+  font-size: 1.5rem;
+  text-align: center;
+}
+
+.health-indicators {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 20px;
+}
+
+.indicator {
+  background: rgba(255, 255, 255, 0.05);
+  padding: 20px;
+  border-radius: 15px;
+  text-align: center;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.indicator-label {
+  display: block;
+  color: rgba(255, 255, 255, 0.8);
+  margin-bottom: 8px;
+  font-size: 0.9rem;
+}
+
+.indicator-value {
+  display: block;
+  font-size: 1.8rem;
+  font-weight: bold;
+  color: #FFD700;
+  margin-bottom: 8px;
+}
+
+.indicator-status {
+  padding: 5px 12px;
+  border-radius: 15px;
+  font-size: 0.8rem;
+  font-weight: bold;
+}
+
+.indicator-status.excellent {
+  background: rgba(76, 175, 80, 0.2);
+  color: #4CAF50;
+}
+
+.indicator-status.good {
+  background: rgba(33, 150, 243, 0.2);
+  color: #2196F3;
+}
+
+/* レスポンシブ対応 */
+@media (max-width: 768px) {
+  .incentive-engine {
+    padding: 15px;
+  }
+  
+  .balance-chart {
+    height: 40px;
+  }
+  
+  .balance-segment {
+    font-size: 0.8rem;
+  }
+  
+  .metrics-overview {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+  
+  .score-value {
+    font-size: 2.5rem;
+  }
+  
+  .metrics-breakdown {
+    grid-template-columns: 1fr;
+  }
+  
+  .flow-values {
+    grid-template-columns: 1fr;
+  }
+  
+  .benefits-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .engagement-components {
+    grid-template-columns: 1fr;
+  }
+  
+  .health-indicators {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  .milestone-item {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+}
