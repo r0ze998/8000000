@@ -33,8 +33,8 @@ export const useHabitLoop = () => {
   const initializeHabitLoop = async () => {
     try {
       // ローカルストレージから前回の訪問情報を取得
-      const lastVisit = localStorage.getItem('lastVisit');
-      const streak = parseInt(localStorage.getItem('streak') || '0');
+      const lastVisit = typeof window !== 'undefined' ? localStorage.getItem('lastVisit') : null;
+      const streak = typeof window !== 'undefined' ? parseInt(localStorage.getItem('streak') || '0') : 0;
       
       // 今日既に訪問したかチェック
       const todayVisited = checkIfVisitedToday(lastVisit);
@@ -108,8 +108,10 @@ export const useHabitLoop = () => {
       }));
       
       // 4. ローカルストレージに保存
-      localStorage.setItem('lastVisit', new Date().toISOString());
-      localStorage.setItem('streak', newStreak.toString());
+      if (typeof window !== 'undefined') {
+        localStorage.setItem('lastVisit', new Date().toISOString());
+        localStorage.setItem('streak', newStreak.toString());
+      }
       
       // 5. 次の参拝を促すトリガーをセット
       scheduleNextDayReminder();

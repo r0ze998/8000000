@@ -9,7 +9,7 @@ class RewardService {
 
   loadRewards() {
     try {
-      const stored = localStorage.getItem('shrine_rewards');
+      const stored = typeof window !== 'undefined' ? localStorage.getItem('shrine_rewards') : null;
       return stored ? JSON.parse(stored) : [];
     } catch (error) {
       console.error('Failed to load rewards:', error);
@@ -19,7 +19,7 @@ class RewardService {
 
   loadInventory() {
     try {
-      const stored = localStorage.getItem('user_inventory');
+      const stored = typeof window !== 'undefined' ? localStorage.getItem('user_inventory') : null;
       return stored ? JSON.parse(stored) : {
         goshuin: [],
         prayerCards: [],
@@ -34,7 +34,9 @@ class RewardService {
 
   saveRewards() {
     try {
-      localStorage.setItem('shrine_rewards', JSON.stringify(this.rewards));
+      if (typeof window !== 'undefined') {
+        localStorage.setItem('shrine_rewards', JSON.stringify(this.rewards));
+      }
     } catch (error) {
       console.error('Failed to save rewards:', error);
     }
@@ -42,7 +44,9 @@ class RewardService {
 
   saveInventory() {
     try {
-      localStorage.setItem('user_inventory', JSON.stringify(this.inventory));
+      if (typeof window !== 'undefined') {
+        localStorage.setItem('user_inventory', JSON.stringify(this.inventory));
+      }
     } catch (error) {
       console.error('Failed to save inventory:', error);
     }

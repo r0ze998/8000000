@@ -5,7 +5,7 @@ class NotificationService {
   }
 
   checkPermission() {
-    if ('Notification' in window) {
+    if (typeof window !== 'undefined' && 'Notification' in window) {
       return Notification.permission;
     }
     return 'unsupported';
@@ -13,7 +13,7 @@ class NotificationService {
 
   loadScheduled() {
     try {
-      const stored = localStorage.getItem('scheduled_notifications');
+      const stored = typeof window !== 'undefined' ? localStorage.getItem('scheduled_notifications') : null;
       return stored ? JSON.parse(stored) : [];
     } catch (error) {
       console.error('Failed to load scheduled notifications:', error);
@@ -23,7 +23,9 @@ class NotificationService {
 
   saveScheduled() {
     try {
-      localStorage.setItem('scheduled_notifications', JSON.stringify(this.scheduled));
+      if (typeof window !== 'undefined') {
+        localStorage.setItem('scheduled_notifications', JSON.stringify(this.scheduled));
+      }
     } catch (error) {
       console.error('Failed to save scheduled notifications:', error);
     }
@@ -40,9 +42,12 @@ class NotificationService {
     }
 
     try {
-      const result = await Notification.requestPermission();
-      this.permission = result;
-      return result === 'granted';
+      if (typeof window !== 'undefined' && 'Notification' in window) {
+        const result = await Notification.requestPermission();
+        this.permission = result;
+        return result === 'granted';
+      }
+      return false;
     } catch (error) {
       console.error('Failed to request notification permission:', error);
       return false;
@@ -116,7 +121,7 @@ class NotificationService {
   }
 
   async showNotification(notificationData) {
-    if (this.permission !== 'granted') return;
+    if (this.permission !== 'granted' || typeof window === 'undefined') return;
 
     try {
       const notification = new Notification(notificationData.title, {
@@ -144,7 +149,7 @@ class NotificationService {
   }
 
   async sendRewardNotification(reward) {
-    if (this.permission !== 'granted') return;
+    if (this.permission !== 'granted' || typeof window === 'undefined') return;
 
     let title = '🎉 報酬を獲得！';
     let body = '';
@@ -176,7 +181,7 @@ class NotificationService {
   }
 
   async sendStreakNotification(streak) {
-    if (this.permission !== 'granted') return;
+    if (this.permission !== 'granted' || typeof window === 'undefined') return;
 
     const milestones = [3, 7, 14, 30, 100];
     if (!milestones.includes(streak)) return;
@@ -198,7 +203,9 @@ class NotificationService {
       });
 
       notification.onclick = () => {
-        window.focus();
+        if (typeof window !== 'undefined') {
+          window.focus();
+        }
         notification.close();
       };
     } catch (error) {
@@ -229,14 +236,16 @@ class NotificationService {
       }
     }
 
-    this.showNotification({
-      title: '⛩️ テスト通知',
-      body: '通知が正常に動作しています',
-      icon: '/icons/shrine-icon.png',
-      tag: 'test_notification',
-      requireInteraction: false,
-      data: { url: '/' }
-    });
+    if (typeof window !== 'undefined') {
+      this.showNotification({
+        title: '⛩️ テスト通知',
+        body: '通知が正常に動作しています',
+        icon: '/icons/shrine-icon.png',
+        tag: 'test_notification',
+        requireInteraction: false,
+        data: { url: '/' }
+      });
+    }
   }
 }
 

@@ -7,7 +7,7 @@ class VisitService {
 
   loadVisits() {
     try {
-      const stored = localStorage.getItem('shrine_visits');
+      const stored = typeof window !== 'undefined' ? localStorage.getItem('shrine_visits') : null;
       return stored ? JSON.parse(stored) : [];
     } catch (error) {
       console.error('Failed to load visits:', error);
@@ -17,7 +17,9 @@ class VisitService {
 
   saveVisits() {
     try {
-      localStorage.setItem('shrine_visits', JSON.stringify(this.visits));
+      if (typeof window !== 'undefined') {
+        localStorage.setItem('shrine_visits', JSON.stringify(this.visits));
+      }
     } catch (error) {
       console.error('Failed to save visits:', error);
     }
