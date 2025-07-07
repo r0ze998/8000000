@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import './App.css';
 import StarkNetDebug from './components/common/StarkNetDebug';
+import WelcomeOnboarding, { useOnboarding } from './components/common/WelcomeOnboarding';
+import AccountStatus from './components/common/AccountStatus';
 
 // コンポーネントのインポート
 import Explore from './components/features/explore/Explore';
@@ -28,6 +30,7 @@ const tabs: TabConfig[] = [
 const App: React.FC = () => {
   const [activeTab, setActiveTab] = useState<TabType>('worship');
   const [isInitialized, setIsInitialized] = useState(false);
+  const { needsOnboarding, isLoading, completeOnboarding } = useOnboarding();
 
   useEffect(() => {
     // アプリケーション初期化
@@ -46,13 +49,33 @@ const App: React.FC = () => {
 
   const ActiveComponent = tabs.find(tab => tab.id === activeTab)?.component || Worship;
 
-  if (!isInitialized) {
+  // オンボーディングチェック中
+  if (isLoading) {
     return (
       <div className="app-loading">
         <div className="loading-container">
           <div className="shrine-loader">
             <div className="torii-gate">⛩️</div>
             <div className="loading-text">神社アプリを準備中...</div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  // 初回ユーザーにオンボーディング表示
+  if (needsOnboarding) {
+    return <WelcomeOnboarding onComplete={completeOnboarding} />;
+  }
+
+  // アプリ初期化中
+  if (!isInitialized) {
+    return (
+      <div className="app-loading">
+        <div className="loading-container">
+          <div className="shrine-loader">
+            <div className="torii-gate">⛩️</div>
+            <div className="loading-text">アカウントを準備中...</div>
           </div>
         </div>
       </div>
@@ -70,6 +93,9 @@ const App: React.FC = () => {
             <div className="app-title">
               <span className="title-icon">⛩️</span>
               <h1>神社参拝</h1>
+            </div>
+            <div className="header-account">
+              <AccountStatus showDetails={false} />
             </div>
           </div>
         </header>

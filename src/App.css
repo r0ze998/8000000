@@ -50,6 +50,11 @@
   font-size: 1.8rem;
 }
 
+.header-account {
+  display: flex;
+  align-items: center;
+}
+
 .app-main {
   flex: 1;
   overflow-y: auto;
