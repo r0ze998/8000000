@@ -1,0 +1,802 @@
+import React, { useState, useEffect, useRef } from 'react';
+import { 
+  calculateBaseReward, 
+  getCurrentSeasonalEvent,
+  getTimeOfDay,
+  getRandomWeather
+} from '../../../utils';
+import { UserStats } from '../../../types';
+import './Worship.css';
+import { useAccountAbstraction } from '../../../hooks/useAccountAbstraction';
+import { useGoogleMaps } from '../../../hooks/useGoogleMaps';
+
+// 参拝用の読み取り専用神社コンポーネント
+const ReadOnlyShrine: React.FC = () => {
+  const [shrineCanvas, setShrineCanvas] = useState<any[]>([]);
+
+  useEffect(() => {
+    // ローカルストレージから神社データを読み込み
+    const savedCanvas = JSON.parse(localStorage.getItem('shrineCanvas') || '[]');
+    setShrineCanvas(savedCanvas);
+  }, []);
+
+  const getRarityColor = (rarity: string) => {
+    const colors = {
+      common: '#94a3b8',
+      uncommon: '#22d3ee', 
+      rare: '#a855f7',
+      epic: '#f59e0b',
+      legendary: '#ef4444'
+    };
+    return colors[rarity as keyof typeof colors] || colors.common;
+  };
+
+  const getPixelData = (x: number, y: number) => {
+    const pixel = shrineCanvas.find((p: any) => p.x === x && p.y === y);
+    return pixel;
+  };
+
+  return (
+    <div className="readonly-shrine">
+      <div className="shrine-canvas-display">
+        <h3>🏛️ あなたの神社</h3>
+        <div className="pixel-canvas-readonly">
+          {Array.from({ length: 12 }, (_, y) => (
+            <div key={y} className="pixel-row">
+              {Array.from({ length: 12 }, (_, x) => {
+                const pixelData = getPixelData(x, y);
+                return (
+                  <div
+                    key={`${x}-${y}`}
+                    className="pixel readonly"
+                    style={{ 
+                      backgroundColor: pixelData?.color || 'rgba(255,255,255,0.1)',
+                      border: pixelData ? `1px solid ${getRarityColor(pixelData.rarity || 'common')}` : '1px solid rgba(255,255,255,0.1)'
+                    }}
+                  >
+                    {pixelData?.pixelData && (
+                      <span className="pixel-emoji">{pixelData.pixelData}</span>
+                    )}
+                  </div>
+                );
+              })}
+            </div>
+          ))}
+        </div>
+        <div className="shrine-info">
+          <p>瞑想中、あなたの神社が心の支えとなります</p>
+          <div className="shrine-stats">
+            <span>配置済み: {shrineCanvas.length}個</span>
+            <span>神力: {shrineCanvas.length * 10}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+// Types imported from ../types
+
+const Worship: React.FC = () => {
+  // Account Abstraction状態
+  const { account, isReady, mintNFT, earnCulturalCapital } = useAccountAbstraction();
+
+  // UI状態
+  const [isActive, setIsActive] = useState(false);
+  const [selectedDuration, setSelectedDuration] = useState(300); // 5分
+  const [selectedSound, setSelectedSound] = useState('bell');
+  const [timeRemaining, setTimeRemaining] = useState(0);
+  const [showCompletion, setShowCompletion] = useState(false);
+  const [completionRewards, setCompletionRewards] = useState<any>(null);
+  const [userStats, setUserStats] = useState<UserStats>({
+    culturalCapital: 0,
+    totalNFTs: 0,
+    meditationStreak: 1,
+    totalWorshipSessions: 0,
+    level: 1
+  });
+
+  // 瞑想・参拝セッション状態
+  const [breathingPhase, setBreathingPhase] = useState<'inhale' | 'hold' | 'exhale'>('inhale');
+  const [breathingTimer, setBreathingTimer] = useState(4);
+  const [showPrayerSelectionModal, setShowPrayerSelectionModal] = useState(false);
+  const [showPrayerModal, setShowPrayerModal] = useState(false);
+  
+  // 祈りの種類選択状態
+  const [selectedPrayerType, setSelectedPrayerType] = useState<string>('');
+  const [prayerTypes] = useState([
+    {
+      id: 'gratitude',
+      title: '🌸 感謝の祈り',
+      description: '今日あなたが感謝していることに心を向けましょう',
+      message: '深く感謝の気持ちを込めて、3つの感謝を心の中で唱えましょう...',
+      duration: 180, // 3分
+      color: '#FFB7C5',
+      emoji: '🌸'
+    },
+    {
+      id: 'wishes',
+      title: '🎯 願いの祈り',
+      description: 'あなたの目標や願いが叶うよう祈りましょう',
+      message: 'あなたの願いと目標に向けて、心からの祈りを捧げましょう...',
+      duration: 240, // 4分
+      color: '#87CEEB',
+      emoji: '🎯'
+    },
+    {
+      id: 'mindfulness',
+      title: '💭 今に集中する祈り',
+      description: '今この瞬間に意識を向け、心を落ち着かせましょう',
+      message: '今の感情や状況をありのまま受け入れ、心の平安を祈りましょう...',
+      duration: 300, // 5分
+      color: '#90EE90',
+      emoji: '💭'
+    },
+    {
+      id: 'peace',
+      title: '🕊️ 平和の祈り',
+      description: '心の平安と世界の平和を祈りましょう',
+      message: '心からの平安と、すべての人の幸せを祈りましょう...',
+      duration: 360, // 6分
+      color: '#DDA0DD',
+      emoji: '🕊️'
+    },
+    {
+      id: 'healing',
+      title: '🌿 癒しの祈り',
+      description: '心身の癒しと健康を祈りましょう',
+      message: '心と体の癒しを求め、健やかな日々を祈りましょう...',
+      duration: 240, // 4分
+      color: '#98FB98',
+      emoji: '🌿'
+    }
+  ]);
+  const [currentPrayerTimer, setCurrentPrayerTimer] = useState(0);
+  const [isPrayerActive, setIsPrayerActive] = useState(false);
+
+  // Google Maps関連
+  const mapRef = useRef<HTMLDivElement>(null);
+  const meditationTimerRef = useRef<NodeJS.Timeout | null>(null);
+  const breathingTimerRef = useRef<NodeJS.Timeout | null>(null);
+  const { isLoaded, error, loadGoogleMapsScript, initializeMap, addMarkers } = useGoogleMaps();
+
+  // NFTドロップ機能
+  const dropNFTFromOmikuji = (omikujiResult: string) => {
+    const dropRates = {
+      '大吉': 0.8,
+      '中吉': 0.6,
+      '吉': 0.4,
+      '小吉': 0.3,
+      '末吉': 0.2,
+      '凶': 0.1
+    };
+
+    const dropChance = dropRates[omikujiResult as keyof typeof dropRates] || 0.1;
+    const shouldDrop = Math.random() < dropChance;
+
+    if (shouldDrop) {
+      const droppedNFT = generateRandomNFT(omikujiResult);
+      return droppedNFT;
+    }
+    return null;
+  };
+
+  // ランダムNFT生成
+  const generateRandomNFT = (omikujiResult: string) => {
+    const nftTypes = [
+      { 
+        type: 'torii', 
+        emoji: '⛩️', 
+        name: '鳥居', 
+        colors: ['#FFD700', '#DC2626', '#8B4513'],
+        description: '神社の入り口を飾る神聖な門'
+      },
+      { 
+        type: 'roof', 
+        emoji: '🏯', 
+        name: '屋根', 
+        colors: ['#DC2626', '#8B4513', '#059669'],
+        description: '伝統的な日本建築の美しい屋根'
+      },
+      { 
+        type: 'pillar', 
+        emoji: '🪵', 
+        name: '柱', 
+        colors: ['#8B4513', '#92400E', '#451A03'],
+        description: '神社を支える重要な構造物'
+      },
+      { 
+        type: 'decoration', 
+        emoji: '🌸', 
+        name: '桜装飾', 
+        colors: ['#FFB7C5', '#F472B6', '#EC4899'],
+        description: '季節を彩る美しい装飾'
+      }
+    ];
+
+    const rarityMap = {
+      '大吉': 'legendary',
+      '中吉': 'epic', 
+      '吉': 'rare',
+      '小吉': 'uncommon',
+      '末吉': 'common',
+      '凶': 'common'
+    };
+
+    const selectedType = nftTypes[Math.floor(Math.random() * nftTypes.length)];
+    const rarity = rarityMap[omikujiResult as keyof typeof rarityMap] || 'common';
+    const color = selectedType.colors[Math.floor(Math.random() * selectedType.colors.length)];
+
+    return {
+      id: Date.now(),
+      name: selectedType.name,
+      type: selectedType.type,
+      emoji: selectedType.emoji,
+      rarity: rarity,
+      color: color,
+      power: Math.floor(Math.random() * 50) + 10,
+      description: selectedType.description,
+      timestamp: new Date().toISOString()
+    };
+  };
+
+  // Account Abstractionでのリアルタイムミント
+  const mintRealNFT = async (nftData: any) => {
+    if (!isReady || !account) return null;
+
+    try {
+      const metadata = {
+        name: nftData.name,
+        description: nftData.description,
+        image: `data:image/svg+xml;base64,${generateSVGBase64(nftData)}`,
+        attributes: [
+          { trait_type: "Type", value: nftData.type },
+          { trait_type: "Rarity", value: nftData.rarity },
+          { trait_type: "Power", value: nftData.power },
+          { trait_type: "Color", value: nftData.color },
+          { trait_type: "Emoji", value: nftData.emoji }
+        ]
+      };
+
+      const result = await mintNFT(
+        nftData.type,
+        nftData.rarity,
+        nftData.power,
+        metadata
+      );
+
+      return result;
+    } catch (error) {
+      console.error('リアルタイムNFTミントエラー:', error);
+      return null;
+    }
+  };
+
+  const generateSVGBase64 = (nftData: any): string => {
+    const svg = `
+      <svg width="200" height="200" xmlns="http://www.w3.org/2000/svg">
+        <rect width="200" height="200" fill="${nftData.color}"/>
+        <text x="100" y="120" text-anchor="middle" font-size="60" fill="white">
+          ${nftData.emoji}
+        </text>
+        <text x="100" y="180" text-anchor="middle" font-size="16" fill="white" font-family="Arial">
+          ${nftData.name}
+        </text>
+      </svg>
+    `;
+    return btoa(svg);
+  };
+
+  // 祈りを捧げるボタンを押した時の処理
+  const handlePrayerStart = () => {
+    if (!isReady) {
+      alert('セッションの準備中です...');
+      return;
+    }
+    setShowPrayerSelectionModal(true);
+  };
+
+  // 祈りの種類を選択した時の処理
+  const handlePrayerTypeSelect = (prayerType: any) => {
+    setSelectedPrayerType(prayerType.id);
+    setSelectedDuration(prayerType.duration);
+    setShowPrayerSelectionModal(false);
+    setShowPrayerModal(true);
+    setCurrentPrayerTimer(prayerType.duration);
+    startSelectedPrayer(prayerType);
+  };
+
+  // 選択された祈りを開始
+  const startSelectedPrayer = (prayerType: any) => {
+    setIsPrayerActive(true);
+    setIsActive(true);
+    setTimeRemaining(prayerType.duration);
+
+    // 祈りタイマー開始
+    meditationTimerRef.current = setInterval(() => {
+      setTimeRemaining(prev => {
+        if (prev <= 1) {
+          completePrayer();
+          return 0;
+        }
+        return prev - 1;
+      });
+    }, 1000);
+
+    // 呼吸ガイド開始
+    startBreathingGuide();
+  };
+
+  // 現在の祈りタイプを取得
+  const getCurrentPrayerType = () => {
+    return prayerTypes.find(type => type.id === selectedPrayerType);
+  };
+
+  // 呼吸ガイド
+  const startBreathingGuide = () => {
+    const breathingCycle = () => {
+      // 吸気 (4秒)
+      setBreathingPhase('inhale');
+      setBreathingTimer(4);
+
+      const inhaleTimer = setInterval(() => {
+        setBreathingTimer(prev => prev - 1);
+      }, 1000);
+
+      setTimeout(() => {
+        clearInterval(inhaleTimer);
+
+        // 保持 (4秒)
+        setBreathingPhase('hold');
+        setBreathingTimer(4);
+
+        const holdTimer = setInterval(() => {
+          setBreathingTimer(prev => prev - 1);
+        }, 1000);
+
+        setTimeout(() => {
+          clearInterval(holdTimer);
+
+          // 呼気 (4秒)
+          setBreathingPhase('exhale');
+          setBreathingTimer(4);
+
+          const exhaleTimer = setInterval(() => {
+            setBreathingTimer(prev => prev - 1);
+          }, 1000);
+
+          setTimeout(() => {
+            clearInterval(exhaleTimer);
+          }, 4000);
+        }, 4000);
+      }, 4000);
+    };
+
+    breathingCycle();
+    breathingTimerRef.current = setInterval(breathingCycle, 12000); // 12秒サイクル
+  };
+
+  // 祈り完了
+  const completePrayer = async () => {
+    setIsActive(false);
+    setIsPrayerActive(false);
+    setShowPrayerModal(false);
+
+    if (meditationTimerRef.current) {
+      clearInterval(meditationTimerRef.current);
+    }
+    if (breathingTimerRef.current) {
+      clearInterval(breathingTimerRef.current);
+    }
+
+    // 報酬計算
+    const baseReward = calculateBaseReward(selectedDuration);
+    const seasonalEvent = getCurrentSeasonalEvent();
+    const weather = getRandomWeather();
+    const timeOfDay = getTimeOfDay();
+
+    const rewards = {
+      culturalCapital: baseReward.culturalCapital,
+      experience: baseReward.experience,
+      bonus: {
+        seasonal: seasonalEvent ? 20 : 0,
+        weather: weather === 'sunny' ? 10 : 0,
+        timeOfDay: timeOfDay === 'morning' ? 15 : 0
+      }
+    };
+
+    const totalCulturalCapital = rewards.culturalCapital + 
+      rewards.bonus.seasonal + 
+      rewards.bonus.weather + 
+      rewards.bonus.timeOfDay;
+
+    // Account Abstractionで文化資本獲得
+    if (isReady && earnCulturalCapital) {
+      await earnCulturalCapital(totalCulturalCapital);
+    }
+
+    // おみくじ結果生成
+    const omikujiResults = ['大吉', '中吉', '吉', '小吉', '末吉', '凶'];
+    const omikujiResult = omikujiResults[Math.floor(Math.random() * omikujiResults.length)];
+
+    // NFTドロップ判定
+    const droppedNFT = dropNFTFromOmikuji(omikujiResult);
+    let mintResult = null;
+
+    if (droppedNFT) {
+      // リアルタイムでNFTをミント
+      mintResult = await mintRealNFT(droppedNFT);
+
+      // ローカルストレージにも保存
+      const existingNFTs = JSON.parse(localStorage.getItem('shrineNFTs') || '[]');
+      const updatedNFTs = [...existingNFTs, droppedNFT];
+      localStorage.setItem('shrineNFTs', JSON.stringify(updatedNFTs));
+
+      // カスタムイベントを発火してMyShrine コンポーネントに通知
+      window.dispatchEvent(new CustomEvent('newNFTDropped', { 
+        detail: { nft: droppedNFT, mintResult } 
+      }));
+    }
+
+    setCompletionRewards({
+      ...rewards,
+      totalCulturalCapital,
+      omikujiResult,
+      droppedNFT,
+      mintResult
+    });
+
+    // 統計更新
+    setUserStats(prev => ({
+      ...prev,
+      culturalCapital: prev.culturalCapital + totalCulturalCapital,
+      totalNFTs: droppedNFT ? prev.totalNFTs + 1 : prev.totalNFTs,
+      totalWorshipSessions: prev.totalWorshipSessions + 1,
+      level: Math.floor((prev.culturalCapital + totalCulturalCapital) / 100) + 1
+    }));
+
+    setShowCompletion(true);
+  };
+
+  // 祈り停止
+  const stopPrayer = () => {
+    setIsActive(false);
+    setIsPrayerActive(false);
+    setShowPrayerModal(false);
+    setTimeRemaining(0);
+
+    if (meditationTimerRef.current) {
+      clearInterval(meditationTimerRef.current);
+    }
+    if (breathingTimerRef.current) {
+      clearInterval(breathingTimerRef.current);
+    }
+  };
+
+  // 時間フォーマット
+  const formatTime = (seconds: number) => {
+    const mins = Math.floor(seconds / 60);
+    const secs = seconds % 60;
+    return `${mins}:${secs.toString().padStart(2, '0')}`;
+  };
+
+  // Google Maps初期化
+  useEffect(() => {
+    if (!isLoaded) {
+      loadGoogleMapsScript();
+    }
+  }, [isLoaded, loadGoogleMapsScript]);
+
+  useEffect(() => {
+    if (isLoaded && mapRef.current) {
+      const map = initializeMap(mapRef.current);
+      if (map) {
+        addMarkers(map, []);
+      }
+    }
+  }, [isLoaded, initializeMap, addMarkers]);
+
+  return (
+    <div className="worship">
+      <div className="worship-container">
+        {/* ヘッダー */}
+        <div className="worship-header">
+          <div className="header-content">
+            <div className="title-section">
+              <h1>🙏 神社参拝</h1>
+              <p className="subtitle">瞑想を通じて心を清め、神聖なNFTを獲得しよう</p>
+            </div>
+
+
+          </div>
+        </div>
+
+        {/* 完了画面オーバーレイ */}
+        {showCompletion && completionRewards && (
+          <div className="completion-overlay">
+            <div className="completion-modal">
+              <div className="completion-header">
+                <h2>🎉 参拝完了！</h2>
+                <button 
+                  className="close-btn"
+                  onClick={() => setShowCompletion(false)}
+                >
+                  ×
+                </button>
+              </div>
+
+              <div className="completion-content">
+                <div className="omikuji-result">
+                  <h3>おみくじ結果</h3>
+                  <div className={`omikuji-card ${completionRewards.omikujiResult}`}>
+                    {completionRewards.omikujiResult}
+                  </div>
+                </div>
+
+                <div className="rewards-summary">
+                  <h3>獲得報酬</h3>
+                  <div className="reward-item">
+                    <span>文化資本: +{completionRewards.totalCulturalCapital}</span>
+                  </div>
+                  <div className="reward-item">
+                    <span>経験値: +{completionRewards.experience}</span>
+                  </div>
+                </div>
+
+                {completionRewards.droppedNFT && (
+                  <div className="nft-drop">
+                    <h3>🎁 NFTドロップ！</h3>
+                    <div className="dropped-nft">
+                      <div 
+                        className="nft-icon"
+                        style={{ backgroundColor: completionRewards.droppedNFT.color }}
+                      >
+                        {completionRewards.droppedNFT.emoji}
+                      </div>
+                      <div className="nft-info">
+                        <h4>{completionRewards.droppedNFT.name}</h4>
+                        <p className={`rarity ${completionRewards.droppedNFT.rarity}`}>
+                          {completionRewards.droppedNFT.rarity}
+                        </p>
+                        <p className="power">⚡ {completionRewards.droppedNFT.power}</p>
+                      </div>
+                    </div>
+
+                    {completionRewards.mintResult && (
+                      <div className="mint-success">
+                        ✅ ブロックチェーンに記録されました！
+                      </div>
+                    )}
+                  </div>
+                )}
+
+                <button 
+                  className="continue-btn"
+                  onClick={() => setShowCompletion(false)}
+                >
+                  続ける
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
+
+
+
+        {/* 祈りの種類選択モーダル */}
+        {showPrayerSelectionModal && (
+          <div className="duration-modal-overlay">
+            <div className="duration-modal prayer-selection">
+              <div className="modal-header">
+                <h3>🙏 祈りの種類を選択</h3>
+                <button 
+                  className="modal-close"
+                  onClick={() => setShowPrayerSelectionModal(false)}
+                >
+                  ✕
+                </button>
+              </div>
+              <div className="modal-body">
+                <div className="prayer-types-grid">
+                  {prayerTypes.map(prayerType => (
+                    <div
+                      key={prayerType.id}
+                      className="prayer-type-card"
+                      onClick={() => handlePrayerTypeSelect(prayerType)}
+                      style={{ borderColor: prayerType.color }}
+                    >
+                      <div className="prayer-emoji" style={{ color: prayerType.color }}>
+                        {prayerType.emoji}
+                      </div>
+                      <h4>{prayerType.title}</h4>
+                      <p className="prayer-description">{prayerType.description}</p>
+                      <div className="prayer-duration">
+                        ⏱️ {Math.floor(prayerType.duration / 60)}分間
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* アクティブ祈りモーダル */}
+        {showPrayerModal && getCurrentPrayerType() && (
+          <div className="duration-modal-overlay">
+            <div className="duration-modal active-prayer">
+              <div className="modal-header">
+                <h3>{getCurrentPrayerType()?.title}</h3>
+                <button 
+                  className="modal-close"
+                  onClick={stopPrayer}
+                >
+                  ✕
+                </button>
+              </div>
+              <div className="modal-body">
+                <div className="active-prayer-content">
+                  <div className="prayer-circle-modal" style={{ borderColor: getCurrentPrayerType()?.color }}>
+                    <div className="prayer-emoji-large" style={{ color: getCurrentPrayerType()?.color }}>
+                      {getCurrentPrayerType()?.emoji}
+                    </div>
+                    <div className="timer-display">
+                      {formatTime(timeRemaining)}
+                    </div>
+                    <div className="breathing-guide-text">
+                      {breathingPhase === 'inhale' && '息を吸って'}
+                      {breathingPhase === 'hold' && '息を止めて'}
+                      {breathingPhase === 'exhale' && '息を吐いて'}
+                    </div>
+                  </div>
+                  
+                  <div className="prayer-message">
+                    {getCurrentPrayerType()?.message}
+                  </div>
+
+                  <div className="prayer-progress">
+                    <div className="progress-bar">
+                      <div 
+                        className="progress-fill"
+                        style={{ 
+                          width: `${((selectedDuration - timeRemaining) / selectedDuration) * 100}%`,
+                          backgroundColor: getCurrentPrayerType()?.color
+                        }}
+                      ></div>
+                    </div>
+                    <p className="time-info">
+                      {formatTime(selectedDuration - timeRemaining)} / {formatTime(selectedDuration)}
+                    </p>
+                  </div>
+
+                  <button 
+                    className="stop-prayer-btn"
+                    onClick={stopPrayer}
+                  >
+                    祈り終了
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* コンテンツ */}
+        {!isActive ? (
+          <div className="worship-content">
+            {/* あなたの神社セクション */}
+            <div className="shrine-section">
+              <h2>⛩️ あなたの神社</h2>
+              <div className="shrine-preview">
+                <ReadOnlyShrine />
+              </div>
+            </div>
+
+            {/* 参拝セクション */}
+            <div className="prayer-section">
+              <h2>🙏 参拝</h2>
+              <div className="prayer-panel">
+                <p className="prayer-description">
+                  心を落ち着け、神聖な時間を過ごしましょう
+                </p>
+
+                <button 
+                  className="start-prayer-btn"
+                  onClick={handlePrayerStart}
+                  disabled={!isReady}
+                >
+                  {isReady ? '🙏 祈りを捧げる' : '⏳ 準備中...'}
+                </button>
+
+                {/* 統計表示 */}
+                <div className="stats-panel">
+                  <h4>参拝記録</h4>
+                  <div className="stats-grid">
+                    <div className="stat-item">
+                      <span className="stat-value">{userStats.culturalCapital}</span>
+                      <span className="stat-label">文化資本</span>
+                    </div>
+                    <div className="stat-item">
+                      <span className="stat-value">{userStats.totalNFTs}</span>
+                      <span className="stat-label">NFT数</span>
+                    </div>
+                    <div className="stat-item">
+                      <span className="stat-value">{userStats.meditationStreak}</span>
+                      <span className="stat-label">連続日数</span>
+                    </div>
+                    <div className="stat-item">
+                      <span className="stat-value">{userStats.level}</span>
+                      <span className="stat-label">レベル</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        ) : (
+          <div className="prayer-active">
+            {/* 幻想的なマイ神社表示（読み取り専用） */}
+            <div className="mystical-shrine-overlay">
+              <ReadOnlyShrine />
+            </div>
+
+            {/* アクティブ祈り画面 */}
+            <div className="prayer-circle">
+              <div className={`breathing-guide ${breathingPhase}`}>
+                <div className="timer-display">
+                  {formatTime(timeRemaining)}
+                </div>
+                <div className="prayer-instruction">
+                  {breathingPhase === 'inhale' && '心を清めて'}
+                  {breathingPhase === 'hold' && '感謝を込めて'}
+                  {breathingPhase === 'exhale' && '祈りを捧げて'}
+                </div>
+                <div className="breathing-count">{breathingTimer}</div>
+              </div>
+            </div>
+
+            <div className="meditation-controls">
+              <button className="stop-btn" onClick={stopPrayer}>
+                祈り終了
+              </button>
+            </div>
+
+            <div className="session-info">
+              <div className="current-session">
+                <span>🎵 {selectedSound === 'bell' ? '鈴の音' : 
+                       selectedSound === 'nature' ? '森の音' : 
+                       selectedSound === 'water' ? '川のせせらぎ' : '静寂'}</span>
+                <span>⏱️ {formatTime(selectedDuration - timeRemaining)} / {formatTime(selectedDuration)}</span>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* 神社マップセクション */}
+        <div className="shrine-map-section">
+          <h3>🗾 近くの神社を探す</h3>
+          <div className="map-container">
+            {error ? (
+              <div className="map-error">
+                マップの読み込みに失敗しました: {error}
+              </div>
+            ) : !isLoaded ? (
+              <div className="loading-overlay">
+                <div className="loading-spinner">
+                  <div className="spinner"></div>
+                  <p>マップを読み込み中...</p>
+                </div>
+              </div>
+            ) : (
+              <div ref={mapRef} className="google-map"></div>
+            )}
+          </div>
+        </div>
+
+
+      </div>
+    </div>
+  );
+};
+
+export default Worship;

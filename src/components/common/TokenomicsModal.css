@@ -1,0 +1,331 @@
+
+.tokenomics-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.8);
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  z-index: 1000;
+  padding: 20px;
+  overflow-y: auto;
+}
+
+.tokenomics-modal {
+  background: linear-gradient(145deg, #1a1a2e, #16213e);
+  border-radius: 20px;
+  max-width: 800px;
+  width: 100%;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.tokenomics-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 30px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.tokenomics-header h2 {
+  color: #FFD700;
+  margin: 0;
+  font-size: 1.5rem;
+  text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+}
+
+.close-button {
+  background: none;
+  border: none;
+  color: #ccc;
+  font-size: 1.5rem;
+  cursor: pointer;
+  padding: 5px;
+  border-radius: 50%;
+  transition: all 0.3s ease;
+}
+
+.close-button:hover {
+  background: rgba(255, 255, 255, 0.1);
+  color: #fff;
+}
+
+.tokenomics-content {
+  padding: 20px 30px;
+}
+
+.rank-section, .seasonal-section, .staking-section, 
+.missions-section, .multipliers-section {
+  margin-bottom: 30px;
+}
+
+.rank-section h3, .seasonal-section h3, .staking-section h3,
+.missions-section h3, .multipliers-section h3 {
+  color: #4ECDC4;
+  margin-bottom: 15px;
+  font-size: 1.2rem;
+  text-shadow: 0 0 5px rgba(78, 205, 196, 0.3);
+}
+
+.rank-display {
+  padding: 20px;
+  border-radius: 15px;
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  margin-bottom: 15px;
+  color: white;
+  text-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+}
+
+.rank-icon {
+  font-size: 2rem;
+}
+
+.rank-info {
+  flex: 1;
+}
+
+.rank-name {
+  font-size: 1.3rem;
+  font-weight: bold;
+  margin-bottom: 8px;
+}
+
+.rank-perks {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.perk-tag {
+  background: rgba(255, 255, 255, 0.2);
+  padding: 4px 8px;
+  border-radius: 8px;
+  font-size: 0.8rem;
+  backdrop-filter: blur(10px);
+}
+
+.rank-rewards {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.reward-item {
+  color: #E8E8E8;
+  font-size: 0.9rem;
+  padding: 8px 15px;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 8px;
+  border-left: 3px solid #4ECDC4;
+}
+
+.seasonal-event {
+  background: linear-gradient(135deg, rgba(255, 215, 0, 0.1), rgba(255, 140, 0, 0.1));
+  padding: 20px;
+  border-radius: 15px;
+  border: 1px solid rgba(255, 215, 0, 0.3);
+}
+
+.event-header {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  margin-bottom: 10px;
+}
+
+.event-icon {
+  font-size: 2rem;
+}
+
+.event-info {
+  flex: 1;
+}
+
+.event-name {
+  color: #FFD700;
+  font-weight: bold;
+  font-size: 1.1rem;
+}
+
+.event-multiplier {
+  color: #FFA500;
+  font-size: 0.9rem;
+}
+
+.event-timer {
+  color: #E8E8E8;
+  font-size: 0.8rem;
+  text-align: center;
+  padding: 8px;
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 8px;
+}
+
+.staking-info {
+  background: rgba(138, 43, 226, 0.1);
+  padding: 20px;
+  border-radius: 15px;
+  border: 1px solid rgba(138, 43, 226, 0.3);
+}
+
+.staking-stats {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.stat-item {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px 15px;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 8px;
+}
+
+.stat-label {
+  color: #B8B8B8;
+}
+
+.stat-value {
+  color: #4ECDC4;
+  font-weight: bold;
+}
+
+.missions-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.mission-item {
+  padding: 15px;
+  border-radius: 12px;
+  border-left: 4px solid;
+}
+
+.mission-item.easy { 
+  background: rgba(34, 197, 94, 0.1);
+  border-left-color: #22C55E;
+}
+
+.mission-item.medium { 
+  background: rgba(251, 191, 36, 0.1);
+  border-left-color: #FBBF24;
+}
+
+.mission-item.hard { 
+  background: rgba(239, 68, 68, 0.1);
+  border-left-color: #EF4444;
+}
+
+.mission-item.legendary { 
+  background: rgba(147, 51, 234, 0.1);
+  border-left-color: #9333EA;
+}
+
+.mission-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.mission-title {
+  color: #E8E8E8;
+  font-weight: bold;
+}
+
+.mission-reward {
+  color: #4ECDC4;
+  font-weight: bold;
+}
+
+.mission-description {
+  color: #B8B8B8;
+  font-size: 0.9rem;
+  margin-bottom: 5px;
+}
+
+.mission-bonus {
+  color: #FFD700;
+  font-size: 0.8rem;
+  font-weight: bold;
+}
+
+.multipliers-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 20px;
+}
+
+.multiplier-category {
+  background: rgba(255, 255, 255, 0.03);
+  padding: 15px;
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.multiplier-category h4 {
+  color: #4ECDC4;
+  margin-bottom: 10px;
+  font-size: 1rem;
+}
+
+.multiplier-list {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.multiplier-item {
+  color: #E8E8E8;
+  font-size: 0.85rem;
+  padding: 6px 10px;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 6px;
+}
+
+/* レスポンシブ対応 */
+@media (max-width: 768px) {
+  .tokenomics-modal {
+    margin: 10px;
+    max-height: 95vh;
+  }
+  
+  .tokenomics-header, .tokenomics-content {
+    padding: 15px 20px;
+  }
+  
+  .multipliers-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .rank-display {
+    flex-direction: column;
+    text-align: center;
+  }
+}
+
+/* アニメーション */
+@keyframes tokenomics-fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.tokenomics-modal {
+  animation: tokenomics-fade-in 0.3s ease-out;
+}
