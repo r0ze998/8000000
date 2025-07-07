@@ -1,0 +1,50 @@
+.breathing-guide {
+  text-align: center;
+  padding: 2rem;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
+  border-radius: 16px;
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.breathing-circle {
+  width: 200px;
+  height: 200px;
+  border: 3px solid rgba(255, 215, 0, 0.8);
+  border-radius: 50%;
+  margin: 2rem auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  transition: transform 0.3s ease;
+}
+
+.breathing-circle.inhale {
+  transform: scale(1.2);
+  border-color: #60a5fa;
+}
+
+.breathing-circle.exhale {
+  transform: scale(0.8);
+  border-color: #34d399;
+}
+
+.breathing-text {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: white;
+}
+
+.breathing-timer {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #ffd700;
+  margin: 1rem 0;
+}
+
+.breathing-instruction {
+  font-size: 1.1rem;
+  color: rgba(255, 255, 255, 0.8);
+  margin-bottom: 1rem;
+}

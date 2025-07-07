@@ -1073,20 +1073,27 @@ export const NFT_DROP_TABLE = {
 export const generateRandomNFT = (): NFTItem => {
   const rand = Math.random();
 
+  const getRandomFromDrops = (drops: NFTItem[]): NFTItem => {
+    if (drops.length === 0) {
+      // フォールバック: コモンドロップから取得
+      const fallback = NFT_DROP_TABLE.COMMON_DROPS[0];
+      if (!fallback) {
+        throw new Error('No NFT drops available');
+      }
+      return fallback;
+    }
+    return drops[Math.floor(Math.random() * drops.length)]!;
+  };
+
   if (rand < NFT_RARITIES.LEGENDARY.probability) {
-    const drops = NFT_DROP_TABLE.LEGENDARY_DROPS;
-    return drops[Math.floor(Math.random() * drops.length)];
+    return getRandomFromDrops(NFT_DROP_TABLE.LEGENDARY_DROPS);
   } else if (rand < NFT_RARITIES.LEGENDARY.probability + NFT_RARITIES.EPIC.probability) {
-    const drops = NFT_DROP_TABLE.EPIC_DROPS;
-    return drops[Math.floor(Math.random() * drops.length)];
+    return getRandomFromDrops(NFT_DROP_TABLE.EPIC_DROPS);
   } else if (rand < NFT_RARITIES.LEGENDARY.probability + NFT_RARITIES.EPIC.probability + NFT_RARITIES.RARE.probability) {
-    const drops = NFT_DROP_TABLE.RARE_DROPS;
-    return drops[Math.floor(Math.random() * drops.length)];
+    return getRandomFromDrops(NFT_DROP_TABLE.RARE_DROPS);
   } else if (rand < 0.2) {
-    const drops = NFT_DROP_TABLE.UNCOMMON_DROPS;
-    return drops[Math.floor(Math.random() * drops.length)];
+    return getRandomFromDrops(NFT_DROP_TABLE.UNCOMMON_DROPS);
   } else {
-    const drops = NFT_DROP_TABLE.COMMON_DROPS;
-    return drops[Math.floor(Math.random() * drops.length)];
+    return getRandomFromDrops(NFT_DROP_TABLE.COMMON_DROPS);
   }
 };

@@ -1,4 +1,5 @@
 import React from 'react';
+import "./CompletionModal.css";
 
 interface CompletionRewards {
   culturalCapital: number;

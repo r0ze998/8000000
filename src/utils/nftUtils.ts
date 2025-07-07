@@ -63,17 +63,17 @@ export const generateRandomNFT = (omikujiResult: string) => {
 
   const selectedType = nftTypes[Math.floor(Math.random() * nftTypes.length)];
   const rarity = rarityMap[omikujiResult as keyof typeof rarityMap] || 'common';
-  const color = selectedType.colors[Math.floor(Math.random() * selectedType.colors.length)];
+  const color = selectedType?.colors[Math.floor(Math.random() * selectedType.colors.length)] || '#FFD700';
 
   return {
     id: Date.now(),
-    name: selectedType.name,
-    type: selectedType.type,
-    emoji: selectedType.emoji,
+    name: selectedType?.name || 'NFT',
+    type: selectedType?.type || 'decoration',
+    emoji: selectedType?.emoji || '🌸',
     rarity: rarity,
     color: color,
     power: Math.floor(Math.random() * 50) + 10,
-    description: selectedType.description,
+    description: selectedType?.description || '美しいNFT',
     timestamp: new Date().toISOString()
   };
 };

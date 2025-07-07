@@ -1,4 +1,5 @@
 import React from 'react';
+import "./UserStatsPanel.css";
 import { UserStats as UserStatsType } from '../../../types';
 
 interface UserStatsProps {

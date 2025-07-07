@@ -216,7 +216,7 @@ const Worship: React.FC = () => {
 
     // おみくじ結果生成
     const omikujiResults = ['大吉', '中吉', '吉', '小吉', '末吉', '凶'];
-    const omikujiResult = omikujiResults[Math.floor(Math.random() * omikujiResults.length)];
+    const omikujiResult = omikujiResults[Math.floor(Math.random() * omikujiResults.length)] || '吉';
 
     // NFTドロップ判定
     const droppedNFT = dropNFTFromOmikuji(omikujiResult);

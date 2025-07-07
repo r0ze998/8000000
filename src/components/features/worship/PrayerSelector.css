@@ -1,0 +1,96 @@
+.prayer-selector {
+  margin: 1rem 0;
+}
+
+.selector-header {
+  text-align: center;
+  margin-bottom: 1.5rem;
+}
+
+.selector-title {
+  font-size: 1.3rem;
+  font-weight: 600;
+  color: #ffd700;
+  margin-bottom: 0.5rem;
+}
+
+.selector-subtitle {
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 0.9rem;
+}
+
+.prayer-options {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.prayer-option {
+  background: rgba(255, 255, 255, 0.08);
+  border: 2px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  padding: 1rem;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  color: white;
+}
+
+.prayer-option:hover {
+  background: rgba(255, 255, 255, 0.12);
+  border-color: rgba(255, 215, 0, 0.3);
+}
+
+.prayer-option.selected {
+  background: rgba(255, 215, 0, 0.15);
+  border-color: #ffd700;
+}
+
+.prayer-icon {
+  font-size: 2rem;
+  margin-bottom: 0.5rem;
+  display: block;
+}
+
+.prayer-name {
+  font-weight: 600;
+  margin-bottom: 0.25rem;
+}
+
+.prayer-description {
+  font-size: 0.8rem;
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.duration-selector {
+  margin-top: 1rem;
+}
+
+.duration-options {
+  display: flex;
+  gap: 0.5rem;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.duration-option {
+  padding: 0.5rem 1rem;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 20px;
+  color: white;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-size: 0.9rem;
+}
+
+.duration-option:hover {
+  background: rgba(255, 255, 255, 0.15);
+}
+
+.duration-option.selected {
+  background: #ffd700;
+  color: #1a1a2e;
+  border-color: #ffd700;
+}

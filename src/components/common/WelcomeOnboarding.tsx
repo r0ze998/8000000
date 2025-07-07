@@ -64,6 +64,11 @@ const WelcomeOnboarding: React.FC<WelcomeOnboardingProps> = ({ onComplete }) => 
   const isLastStep = currentStep === steps.length - 1;
   const isAccountCreationStep = currentStep === 2;
 
+  // 安全性チェック
+  if (!currentStepData) {
+    return null;
+  }
+
   return (
     <div className="welcome-onboarding-overlay">
       <div className="welcome-onboarding-modal">
@@ -175,6 +180,7 @@ export const useOnboarding = () => {
   }, []);
 
   const completeOnboarding = () => {
+    localStorage.setItem('shrine_onboarding_completed', 'true');
     setNeedsOnboarding(false);
   };
 

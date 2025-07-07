@@ -1,4 +1,5 @@
 import React from 'react';
+import "./PrayerSelector.css";
 
 interface PrayerType {
   id: string;

@@ -209,7 +209,7 @@ export const getCurrentSeasonalEvent = () => {
 
 export const getRandomWeather = (): string => {
   const weathers = ['sunny', 'cloudy', 'rainy', 'snowy'];
-  return weathers[Math.floor(Math.random() * weathers.length)];
+  return weathers[Math.floor(Math.random() * weathers.length)] || 'sunny';
 };
 
 // Performance utilities

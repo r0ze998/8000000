@@ -1,16 +1,13 @@
-
 import { useState, useEffect } from 'react';
-import { Account, RpcProvider, CallData, stark } from 'starknet';
 
 interface AccountAbstractionState {
-  account: Account | null;
+  account: any | null;
   isReady: boolean;
   address: string | null;
-  provider: RpcProvider;
+  provider: any;
   sessionId: string | null;
 }
 
-const ACCOUNT_CONTRACT_ADDRESS = '0x...'; // Account Abstractionコントラクトアドレス
 const SESSION_DURATION = 24 * 60 * 60 * 1000; // 24時間
 
 export const useAccountAbstraction = () => {
@@ -18,13 +15,11 @@ export const useAccountAbstraction = () => {
     account: null,
     isReady: false,
     address: null,
-    provider: new RpcProvider({
-      nodeUrl: 'https://starknet-testnet.public.blastapi.io'
-    }),
+    provider: { mock: true },
     sessionId: null
   });
 
-  // セッション初期化
+  // セッション初期化（モック版）
   const initializeSession = async () => {
     try {
       // ローカルストレージからセッション情報を取得
@@ -50,19 +45,14 @@ export const useAccountAbstraction = () => {
         localStorage.setItem('shrine_session_time', Date.now().toString());
       }
 
-      // Account Abstractionアカウントを作成（セッションベース）
-      const sessionSeed = stark.randomAddress();
-      const account = new Account(
-        aaState.provider,
-        ACCOUNT_CONTRACT_ADDRESS,
-        sessionSeed
-      );
+      // モックアカウント作成
+      const mockAddress = `0x${Math.random().toString(16).substr(2, 40)}`;
 
       setAAState(prev => ({
         ...prev,
-        account,
+        account: { mock: true, address: mockAddress },
         isReady: true,
-        address: account.address,
+        address: mockAddress,
         sessionId
       }));
 
@@ -76,7 +66,7 @@ export const useAccountAbstraction = () => {
     initializeSession();
   }, []);
 
-  // NFTミント（ガスレス）
+  // NFTミント（モック版）
   const mintNFT = async (
     nftType: string,
     rarity: string,
@@ -88,45 +78,23 @@ export const useAccountAbstraction = () => {
     }
 
     try {
-      const calldata = CallData.compile({
-        to: aaState.address || '',
-        uri: JSON.stringify(metadata),
-        nft_type: nftType,
-        rarity: rarity,
-        power: power
-      });
-
-      // ガスレスでNFTミント
-      const result = await aaState.account.execute({
-        contractAddress: ACCOUNT_CONTRACT_ADDRESS,
-        entrypoint: 'mint_nft',
-        calldata
-      });
-
-      return result;
+      // モック処理
+      await new Promise(resolve => setTimeout(resolve, 1000));
+      return { transactionHash: `0x${Math.random().toString(16).substr(2, 64)}` };
     } catch (error) {
       console.error('NFTミントエラー:', error);
       throw error;
     }
   };
 
-  // 文化資本獲得（ガスレス）
+  // 文化資本獲得（モック版）
   const earnCulturalCapital = async (amount: number) => {
     if (!aaState.account || !aaState.isReady) return null;
 
     try {
-      const calldata = CallData.compile({
-        user: aaState.address || '',
-        amount: amount
-      });
-
-      const result = await aaState.account.execute({
-        contractAddress: ACCOUNT_CONTRACT_ADDRESS,
-        entrypoint: 'earn_cultural_capital',
-        calldata
-      });
-
-      return result;
+      // モック処理
+      await new Promise(resolve => setTimeout(resolve, 500));
+      return { transactionHash: `0x${Math.random().toString(16).substr(2, 64)}` };
     } catch (error) {
       console.error('文化資本獲得エラー:', error);
       return null;
