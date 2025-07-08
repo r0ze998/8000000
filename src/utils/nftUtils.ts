@@ -1,3 +1,4 @@
+
 import type { NFTItem, NFTTemplate, NFTRarity } from '../types';
 
 // Define NFT type alias for backwards compatibility
@@ -105,7 +106,18 @@ export const calculateNFTValue = (rarity: NFTRarity, power: number): number => {
 };
 
 // Drop NFT from omikuji (random fortune)
-export const dropNFTFromOmikuji = (duration: number, prayerType?: string): NFT | null => {
+export const dropNFTFromOmikuji = (result: string | { result: string; duration: number; prayerType: string }): NFT | null => {
+  let duration: number;
+  let prayerType: string | undefined;
+
+  if (typeof result === 'string') {
+    duration = 300; // Default duration
+    prayerType = undefined;
+  } else {
+    duration = result.duration;
+    prayerType = result.prayerType;
+  }
+
   const dropRate = calculateNFTDropRate(duration, prayerType);
 
   if (Math.random() > dropRate) {
@@ -185,5 +197,5 @@ export const generateSVGBase64 = (nft: NFT): string => {
     </svg>
   `;
 
-  return `data:image/svg+xml;base64,${btoa(unescape(encodeURIComponent(svg)))}`;
+  return btoa(unescape(encodeURIComponent(svg)));
 };

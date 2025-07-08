@@ -60,11 +60,6 @@ export const delay = (ms: number): Promise<void> => {
   return new Promise(resolve => setTimeout(resolve, ms));
 };
 
-// Format number with commas
-export const formatNumber = (num: number): string => {
-  return num.toLocaleString();
-};
-
 // Calculate percentage
 export const calculatePercentage = (value: number, total: number): number => {
   if (total === 0) return 0;
