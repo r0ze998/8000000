@@ -203,7 +203,7 @@ const Worship: React.FC = () => {
       experience: baseReward.experience,
       bonus: {
         seasonal: seasonalEvent ? 20 : 0,
-        weather: weather?.condition === 'sunny' ? 10 : 0,
+        weather: weather?.type === 'sunny' ? 10 : 0,
         timeOfDay: timeOfDay === 'morning' ? 15 : 0
       }
     };
@@ -223,7 +223,12 @@ const Worship: React.FC = () => {
     const omikujiResult = omikujiResults[Math.floor(Math.random() * omikujiResults.length)] || '吉';
 
     // NFTドロップ判定
-    const droppedNFT = dropNFTFromOmikuji(duration, selectedPrayer);
+    const omikujiResultData = {
+      result: omikujiResult,
+      duration: selectedDuration,
+      prayerType: selectedPrayerType
+    };
+    const droppedNFT = dropNFTFromOmikuji(omikujiResultData);
     let mintResult = null;
 
     if (droppedNFT) {
