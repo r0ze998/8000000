@@ -111,92 +111,6 @@ export const randomId = (): string => {
 // Game Mechanics
 // =============================================================================
 
-export const calculateBaseReward = (duration: number, shrineRarity: string): number => {
-  const baseReward = duration * 10; // 1分あたり10ポイント
-  const rarityMultiplier = {
-    common: 1,
-    rare: 1.2,
-    epic: 1.5,
-    legendary: 2.0
-  };
-
-  const multiplier = rarityMultiplier[shrineRarity as keyof typeof rarityMultiplier] || 1;
-  return Math.floor(baseReward * multiplier);
-};
-
-export const getCurrentSeasonalEvent = () => {
-  const now = new Date();
-  const month = now.getMonth();
-
-  // 季節イベントの簡単な実装
-  if (month === 0 || month === 1) {
-    return {
-      name: '新年祈願',
-      multiplier: 1.5,
-      description: '新年の特別な御利益'
-    };
-  } else if (month >= 2 && month <= 4) {
-    return {
-      name: '春の参拝',
-      multiplier: 1.2,
-      description: '桜の季節の特別な参拝'
-    };
-  } else if (month >= 5 && month <= 7) {
-    return {
-      name: '夏祭り',
-      multiplier: 1.3,
-      description: '夏祭りの特別イベント'
-    };
-  } else if (month >= 8 && month <= 10) {
-    return {
-      name: '秋の収穫祭',
-      multiplier: 1.25,
-      description: '豊穣への感謝'
-    };
-  } else {
-    return {
-      name: '師走の参拝',
-      multiplier: 1.4,
-      description: '年末の特別な参拝'
-    };
-  }
-};
-
-export const getRandomWeather = () => {
-  const weathers = [
-    { condition: 'sunny', bonus: 1.1, icon: '☀️' },
-    { condition: 'cloudy', bonus: 1.0, icon: '☁️' },
-    { condition: 'rainy', bonus: 1.2, icon: '🌧️' },
-    { condition: 'snowy', bonus: 1.3, icon: '❄️' }
-  ];
-
-  return randomChoice(weathers);
-};
-
-// =============================================================================
-// Validation Utilities
-// =============================================================================
-
-export const validateEmail = (email: string): boolean => {
-  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  return emailRegex.test(email);
-};
-
-export const validateStarknetAddress = (address: string): boolean => {
-  // StarkNet アドレスの基本的な検証
-  return /^0x[0-9a-fA-F]{63,64}$/.test(address);
-};
-
-// =============================================================================
-// Debug Utilities
-// =============================================================================
-
-export const debugLog = (message: string, data?: any) => {
-  if (process.env.NODE_ENV === 'development') {
-    console.log(`🐛 [DEBUG] ${message}`, data || '');
-  }
-};
-
 export const calculateBaseReward = (duration: number, prayerType?: string) => {
   const baseRate = 10; // Base cultural capital per minute
   const minutes = duration / 60;
@@ -223,14 +137,6 @@ export const getCurrentSeasonalEvent = () => {
   return null;
 };
 
-export const getTimeOfDay = () => {
-  const hour = new Date().getHours();
-  if (hour >= 5 && hour < 12) return 'morning';
-  if (hour >= 12 && hour < 17) return 'afternoon';
-  if (hour >= 17 && hour < 21) return 'evening';
-  return 'night';
-};
-
 export const getRandomWeather = () => {
   const conditions = [
     { condition: 'sunny', bonus: 10, icon: '☀️' },
@@ -240,6 +146,30 @@ export const getRandomWeather = () => {
   ];
 
   return conditions[Math.floor(Math.random() * conditions.length)]!;
+};
+
+// =============================================================================
+// Validation Utilities
+// =============================================================================
+
+export const validateEmail = (email: string): boolean => {
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  return emailRegex.test(email);
+};
+
+export const validateStarknetAddress = (address: string): boolean => {
+  // StarkNet アドレスの基本的な検証
+  return /^0x[0-9a-fA-F]{63,64}$/.test(address);
+};
+
+// =============================================================================
+// Debug Utilities
+// =============================================================================
+
+export const debugLog = (message: string, data?: any) => {
+  if (process.env.NODE_ENV === 'development') {
+    console.log(`🐛 [DEBUG] ${message}`, data || '');
+  }
 };
 
 export const debugWarn = (message: string, ...args: any[]): void => {

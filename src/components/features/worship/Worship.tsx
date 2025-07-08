@@ -36,7 +36,13 @@ const Worship: React.FC = () => {
     totalNFTs: 0,
     meditationStreak: 1,
     totalWorshipSessions: 0,
-    level: 1
+    level: 1,
+    experience: 0,
+    visitCount: 0,
+    streakDays: 0,
+    totalPrayerTime: 0,
+    achievements: [],
+    lastVisitDate: null
   });
 
   // 瞑想・参拝セッション状態
@@ -199,7 +205,7 @@ const Worship: React.FC = () => {
       experience: baseReward.experience,
       bonus: {
         seasonal: seasonalEvent ? 20 : 0,
-        weather: weather === 'sunny' ? 10 : 0,
+        weather: weather.condition === 'sunny' ? 10 : 0,
         timeOfDay: timeOfDay === 'morning' ? 15 : 0
       }
     };

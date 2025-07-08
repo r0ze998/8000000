@@ -55,7 +55,11 @@ export const dailyMissions: Mission[] = [
     total: 1,
     reward: 50,
     icon: '🌅',
-    completed: false
+    completed: false,
+    requirements: ['morning_visit'],
+    rewards: { culturalCapital: 50, experience: 25 },
+    isCompleted: false,
+    maxProgress: 1
   },
   {
     id: 'consecutive',
@@ -66,7 +70,11 @@ export const dailyMissions: Mission[] = [
     total: 7,
     reward: 100,
     icon: '🔥',
-    completed: true
+    completed: true,
+    requirements: ['consecutive_days_7'],
+    rewards: { culturalCapital: 100, experience: 50 },
+    isCompleted: true,
+    maxProgress: 7
   },
   {
     id: 'explore',
@@ -77,7 +85,11 @@ export const dailyMissions: Mission[] = [
     total: 1,
     reward: 100,
     icon: '🗺️',
-    completed: false
+    completed: false,
+    requirements: ['discover_new_shrine'],
+    rewards: { culturalCapital: 100, experience: 50 },
+    isCompleted: false,
+    maxProgress: 1
   }
 ];
 
