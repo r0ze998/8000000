@@ -272,3 +272,12 @@ export const removeFromLocalStorage = (key: string): boolean => {
 // =============================================================================
 // Utility Functions and Constants Export
 // =============================================================================
+
+// =============================================================================
+// NFT and Reward Calculation Functions
+// =============================================================================
+
+export const getRandomOmikujiResult = (): string => {
+  const results = ['大吉', '中吉', '小吉', '末吉', '凶'];
+  return results[Math.floor(Math.random() * results.length)];
+};
