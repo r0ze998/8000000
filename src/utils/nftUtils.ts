@@ -100,6 +100,10 @@ export const dropNFTFromOmikuji = (omikujiResult: string): NFTItem | null => {
   }
 
   const template = availableTemplates[Math.floor(Math.random() * availableTemplates.length)];
+  
+  if (!template) {
+    return null;
+  }
 
   return {
     id: `nft-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
@@ -172,7 +176,7 @@ export const getNFTDisplayProps = (nft: NFTItem) => {
     backgroundColor: `${nft.color}20`,
     textColor: nft.color,
     rarityBadge: nft.rarity.toUpperCase(),
-    value: calculateNFTValue(nft.rarity, nft.power)
+    value: calculateNFTValue(nft.rarity, nft.power || 1)
   };
 };
 

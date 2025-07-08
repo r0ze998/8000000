@@ -40,7 +40,9 @@ export const shuffleArray = <T>(array: T[]): T[] => {
   const shuffled = [...array];
   for (let i = shuffled.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1));
-    [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+    const temp = shuffled[i];
+    shuffled[i] = shuffled[j]!;
+    shuffled[j] = temp!;
   }
   return shuffled;
 };
@@ -118,6 +120,55 @@ export const calculateBaseReward = (duration: number, prayerType?: string) => {
     culturalCapital,
     experience
   };
+};
+
+// Get seasonal events
+export const getSeasonalEvents = () => {
+  const now = new Date();
+  const month = now.getMonth();
+  const events = [];
+
+  // Spring events (March-May)
+  if (month >= 2 && month <= 4) {
+    events.push({
+      name: '桜祭り',
+      bonus: 20,
+      icon: '🌸',
+      description: '桜の季節の特別ボーナス'
+    });
+  }
+  
+  // Summer events (June-August)
+  if (month >= 5 && month <= 7) {
+    events.push({
+      name: '夏祭り',
+      bonus: 15,
+      icon: '🎆',
+      description: '夏祭りの特別ボーナス'
+    });
+  }
+  
+  // Autumn events (September-November)
+  if (month >= 8 && month <= 10) {
+    events.push({
+      name: '紅葉祭り',
+      bonus: 18,
+      icon: '🍁',
+      description: '紅葉の季節の特別ボーナス'
+    });
+  }
+  
+  // Winter events (December-February)
+  if (month >= 11 || month <= 1) {
+    events.push({
+      name: '初詣',
+      bonus: 25,
+      icon: '⛩️',
+      description: '新年の特別ボーナス'
+    });
+  }
+
+  return events;
 };
 
 // Get current seasonal event
