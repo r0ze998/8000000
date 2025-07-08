@@ -1,3 +1,4 @@
+
 // =============================================================================
 // Format Utility Functions
 // =============================================================================
@@ -34,8 +35,6 @@ export const formatDate = (date: Date | string): string => {
     day: 'numeric'
   });
 };
-
-
 
 // Format experience points display
 export const formatExperience = (exp: number): string => {
@@ -85,11 +84,27 @@ export const formatBeltRank = (culturalCapital: number): string => {
   return '白帯';
 };
 
-// Format time in HH:MM format
-export const formatTime = (date: Date | string): string => {
-  const d = new Date(date);
+// Function overloads for formatTime
+export function formatTime(value: number): string;
+export function formatTime(value: string | Date): string;
+
+// Format time - handles both number (seconds) and Date/string
+export function formatTime(
+  value: number | string | Date,
+  inMilliseconds = false
+): string {
+  // If number, format as mm:ss
+  if (typeof value === 'number') {
+    const totalSeconds = inMilliseconds ? Math.floor(value / 1000) : value;
+    const m = String(Math.floor(totalSeconds / 60)).padStart(2, '0');
+    const s = String(totalSeconds % 60).padStart(2, '0');
+    return `${m}:${s}`;
+  }
+
+  // If Date/string, format as HH:MM
+  const d = new Date(value);
   return d.toLocaleTimeString('ja-JP', {
     hour: '2-digit',
     minute: '2-digit',
   });
-};
+}
