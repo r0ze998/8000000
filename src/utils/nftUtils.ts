@@ -103,3 +103,58 @@ export const getRarityColor = (rarity: string) => {
   };
   return colors[rarity as keyof typeof colors] || colors.common;
 };
+export const getRarityColor = (rarity: string): string => {
+  switch (rarity.toLowerCase()) {
+    case 'legendary':
+      return '#FFD700';
+    case 'epic':
+      return '#9F7AEA';
+    case 'rare':
+      return '#4299E1';
+    case 'uncommon':
+      return '#38A169';
+    case 'common':
+    default:
+      return '#68D391';
+  }
+};
+
+export const getRarityWeight = (rarity: string): number => {
+  switch (rarity.toLowerCase()) {
+    case 'legendary':
+      return 1;
+    case 'epic':
+      return 5;
+    case 'rare':
+      return 15;
+    case 'uncommon':
+      return 25;
+    case 'common':
+    default:
+      return 54;
+  }
+};
+
+export const calculateNFTPower = (rarity: string, type: string): number => {
+  const baseRarityPower = {
+    'legendary': 500,
+    'epic': 300,
+    'rare': 150,
+    'uncommon': 75,
+    'common': 25
+  };
+
+  const typeMultiplier = {
+    'sacred': 1.5,
+    'structure': 1.3,
+    'guardian': 1.2,
+    'nature': 1.0,
+    'decoration': 0.8,
+    'terrain': 0.6
+  };
+
+  const basePower = baseRarityPower[rarity as keyof typeof baseRarityPower] || 25;
+  const multiplier = typeMultiplier[type as keyof typeof typeMultiplier] || 1.0;
+
+  return Math.floor(basePower * multiplier);
+};

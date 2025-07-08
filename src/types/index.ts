@@ -28,10 +28,18 @@ export interface UserStats {
 export interface NFTItem {
   id: string;
   name: string;
+  type: string;
   rarity: string;
-  imageUrl: string;
+  power: number;
+  pixelData: string;
+  color: string;
+  emoji: string;
+  animation?: string;
+  isOwned: boolean;
+  imageUrl?: string;
   description: string;
-  attributes: Record<string, any>;
+  attributes?: Record<string, any>;
+  timestamp?: number;
 }
 
 export interface Mission {
@@ -51,12 +59,22 @@ export interface Shrine {
     lng: number;
     address: string;
   };
-  deity: string;
-  category: string;
+  lat: number;
+  lng: number;
+  rarity: string;
+  position?: {
+    lat: number;
+    lng: number;
+  };
+  deity?: string;
+  category?: string;
   established?: Date;
   imageUrl?: string;
-  visitCount: number;
-  blessing: string[];
+  visitCount?: number;
+  blessing?: string[];
+  benefits?: string[];
+  distance?: number;
+  isVisitedToday?: boolean;
 }
 
 // =============================================================================

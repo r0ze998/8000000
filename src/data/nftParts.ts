@@ -1097,3 +1097,48 @@ export const generateRandomNFT = (): NFTItem => {
     return getRandomFromDrops(NFT_DROP_TABLE.COMMON_DROPS);
   }
 };
+import { NFTItem } from '../types';
+
+export const ENHANCED_NFT_PARTS: NFTItem[] = [
+  // 地形パーツ
+  {
+    id: 'grass-1',
+    name: '草原',
+    type: 'terrain',
+    rarity: 'common',
+    power: 20,
+    pixelData: '🌱',
+    color: '#90EE90',
+    isOwned: true,
+    animation: 'float',
+    emoji: '🌱',
+    description: '豊かな緑の草原'
+  },
+  {
+    id: 'water-1',
+    name: '水辺',
+    type: 'terrain',
+    rarity: 'common',
+    power: 25,
+    pixelData: '🌊',
+    color: '#4682B4',
+    isOwned: true,
+    animation: 'pulse',
+    emoji: '🌊',
+    description: '澄んだ水の流れ'
+  },
+  {
+    id: 'torii-1',
+    name: '黄金の鳥居',
+    type: 'structure',
+    rarity: 'legendary',
+    power: 500,
+    pixelData: '⛩️',
+    color: '#FFD700',
+    isOwned: true,
+    animation: 'glow',
+    emoji: '⛩️',
+    description: '神聖な黄金の鳥居',
+    timestamp: Date.now()
+  }
+];
