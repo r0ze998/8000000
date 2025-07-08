@@ -108,6 +108,10 @@ export const dropNFTFromOmikuji = (omikujiResult: string): NFTItem | null => {
   }
   
   const randomType = OMIKUJI_NFT_TYPES[Math.floor(Math.random() * OMIKUJI_NFT_TYPES.length)];
+  if (!randomType) {
+    return null;
+  }
+  
   const rarity = calculateNFTRarity();
   
   return {

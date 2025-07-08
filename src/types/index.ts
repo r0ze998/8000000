@@ -51,6 +51,9 @@ export interface UserStats {
   streak: number;
   totalVisits: number;
   nftCount: number;
+  totalNFTs: number;
+  meditationStreak: number;
+  totalWorshipSessions: number;
 }
 
 export interface UserPreferences {

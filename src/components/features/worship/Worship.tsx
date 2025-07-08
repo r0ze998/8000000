@@ -38,14 +38,9 @@ const Worship: React.FC = () => {
     totalWorshipSessions: 0,
     level: 1,
     experience: 0,
-    visitCount: 0,
-    streakDays: 0,
-    totalPrayerTime: 0,
-    consecutiveDays: 1,
-    currentStreak: 1,
-    longestStreak: 1,
-    achievements: [],
-    lastVisitDate: null
+    streak: 1,
+    totalVisits: 0,
+    nftCount: 0
   });
 
   // 瞑想・参拝セッション状態
@@ -255,12 +250,14 @@ const Worship: React.FC = () => {
     });
 
     // 統計更新
-    setUserStats((prev: UserStats) => ({
+    setUserStats(prev => ({
       ...prev,
       culturalCapital: prev.culturalCapital + totalCulturalCapital,
       totalNFTs: droppedNFT ? prev.totalNFTs + 1 : prev.totalNFTs,
       totalWorshipSessions: prev.totalWorshipSessions + 1,
-      level: Math.floor((prev.culturalCapital + totalCulturalCapital) / 100) + 1
+      level: Math.floor((prev.culturalCapital + totalCulturalCapital) / 100) + 1,
+      nftCount: droppedNFT ? prev.nftCount + 1 : prev.nftCount,
+      totalVisits: prev.totalVisits + 1
     }));
 
     setShowCompletion(true);

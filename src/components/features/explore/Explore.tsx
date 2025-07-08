@@ -10,7 +10,7 @@ const Explore: React.FC = () => {
   const [searchQuery, setSearchQuery] = useState('');
 
   const mapRef = useRef<HTMLDivElement>(null);
-  const { isLoaded, error, initializeMap, addMarkers } = useGoogleMaps();
+  const { isLoaded, error, addMarkers } = useGoogleMaps({ lat: 35.6762, lng: 139.6503 }, 15);
 
   const filteredShrines = shrines.filter(shrine =>
     shrine.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -36,13 +36,10 @@ const Explore: React.FC = () => {
   }, []);
 
   useEffect(() => {
-    if (isLoaded && mapRef.current && userLocation) {
-      const map = initializeMap(mapRef.current, userLocation);
-      if (map) {
-        addMarkers(map, filteredShrines);
-      }
+    if (isLoaded && mapRef.current && filteredShrines.length > 0) {
+      addMarkers(filteredShrines);
     }
-  }, [isLoaded, userLocation, filteredShrines, initializeMap, addMarkers]);
+  }, [isLoaded, filteredShrines, addMarkers]);
 
   const getRarityColor = (rarity: string) => {
     switch (rarity) {

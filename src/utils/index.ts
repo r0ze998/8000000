@@ -1,3 +1,4 @@
+
 // =============================================================================
 // Utility Functions
 // =============================================================================
@@ -170,7 +171,14 @@ export const isValidEmail = (email: string): boolean => {
  * Get random element from array
  */
 export const getRandomElement = <T>(array: T[]): T => {
-  return array[Math.floor(Math.random() * array.length)];
+  if (array.length === 0) {
+    throw new Error('Cannot get random element from empty array');
+  }
+  const element = array[Math.floor(Math.random() * array.length)];
+  if (element === undefined) {
+    throw new Error('Selected element is undefined');
+  }
+  return element;
 };
 
 /**
@@ -179,8 +187,6 @@ export const getRandomElement = <T>(array: T[]): T => {
 export const clamp = (value: number, min: number, max: number): number => {
   return Math.min(Math.max(value, min), max);
 };
-
-// Main utility functions export
 
 // Re-export utilities
 export * from './formatUtils';
