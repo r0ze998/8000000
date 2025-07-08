@@ -84,3 +84,12 @@ export const formatBeltRank = (culturalCapital: number): string => {
   if (culturalCapital >= 100) return '黄帯';
   return '白帯';
 };
+
+// Format time in HH:MM format
+export const formatTime = (date: Date | string): string => {
+  const d = new Date(date);
+  return d.toLocaleTimeString('ja-JP', {
+    hour: '2-digit',
+    minute: '2-digit',
+  });
+};

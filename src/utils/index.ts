@@ -278,6 +278,6 @@ export const removeFromLocalStorage = (key: string): boolean => {
 // =============================================================================
 
 export const getRandomOmikujiResult = (): string => {
-  const results = ['大吉', '中吉', '小吉', '末吉', '凶'];
+  const results = ['大吉', '中吉', '小吉', '末吉', '凶'] as const;
   return results[Math.floor(Math.random() * results.length)];
 };
