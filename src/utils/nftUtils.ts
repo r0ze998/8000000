@@ -1,4 +1,7 @@
-import type { NFT, NFTTemplate, NFTRarity } from '../types';
+import type { NFTItem, NFTTemplate, NFTRarity } from '../types';
+
+// Define NFT type alias for backwards compatibility
+export type NFT = NFTItem;
 
 // NFT templates for different shrine types
 export const NFT_TEMPLATES: NFTTemplate[] = [
@@ -157,4 +160,30 @@ export const getNFTDisplayProps = (nft: NFT) => {
     rarityBadge: nft.rarity.toUpperCase(),
     value: calculateNFTValue(nft.rarity, nft.power || 1)
   };
+};
+
+// Generate SVG as base64 string for NFT
+export const generateSVGBase64 = (nft: NFT): string => {
+  const svg = `
+    <svg width="200" height="200" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" style="stop-color:${nft.color};stop-opacity:1" />
+          <stop offset="100%" style="stop-color:${nft.color}88;stop-opacity:1" />
+        </linearGradient>
+      </defs>
+      <rect width="200" height="200" fill="url(#gradient)" rx="20"/>
+      <text x="100" y="100" font-family="Arial, sans-serif" font-size="60" text-anchor="middle" dy=".3em">
+        ${nft.emoji}
+      </text>
+      <text x="100" y="150" font-family="Arial, sans-serif" font-size="14" text-anchor="middle" fill="white">
+        ${nft.name}
+      </text>
+      <text x="100" y="170" font-family="Arial, sans-serif" font-size="12" text-anchor="middle" fill="white" opacity="0.8">
+        ${nft.rarity.toUpperCase()}
+      </text>
+    </svg>
+  `;
+  
+  return `data:image/svg+xml;base64,${btoa(unescape(encodeURIComponent(svg)))}`;
 };

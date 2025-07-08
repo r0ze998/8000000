@@ -223,7 +223,7 @@ const Worship: React.FC = () => {
     const omikujiResult = omikujiResults[Math.floor(Math.random() * omikujiResults.length)] || '吉';
 
     // NFTドロップ判定
-    const droppedNFT = dropNFTFromOmikuji(omikujiResult);
+    const droppedNFT = dropNFTFromOmikuji(duration, selectedPrayer);
     let mintResult = null;
 
     if (droppedNFT) {

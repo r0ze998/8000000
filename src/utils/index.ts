@@ -159,6 +159,34 @@ export const getSeasonalEvents = () => {
   return events;
 };
 
+// Get time of day
+export const getTimeOfDay = (date: Date = new Date()) => {
+  const hour = date.getHours();
+  
+  if (hour >= 5 && hour < 12) {
+    return 'morning';
+  } else if (hour >= 12 && hour < 17) {
+    return 'afternoon';
+  } else if (hour >= 17 && hour < 21) {
+    return 'evening';
+  } else {
+    return 'night';
+  }
+};
+
+// Get random weather
+export const getRandomWeather = () => {
+  const weatherTypes = [
+    { type: 'sunny', emoji: '☀️', name: '晴れ' },
+    { type: 'cloudy', emoji: '☁️', name: '曇り' },
+    { type: 'rainy', emoji: '🌧️', name: '雨' },
+    { type: 'snowy', emoji: '❄️', name: '雪' },
+    { type: 'windy', emoji: '🌬️', name: '風' }
+  ];
+  
+  return weatherTypes[Math.floor(Math.random() * weatherTypes.length)];
+};
+
 // Get current seasonal event
 export const getCurrentSeasonalEvent = () => {
   const events = getSeasonalEvents();
