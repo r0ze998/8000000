@@ -1,3 +1,4 @@
+
 // =============================================================================
 // Main Utils Export File
 // =============================================================================
@@ -178,7 +179,7 @@ export const getRandomWeather = () => {
     { type: 'windy', emoji: '🌬️', name: '風' }
   ];
 
-  return weatherTypes[Math.floor(Math.random() * weatherTypes.length)];
+  return weatherTypes[Math.floor(Math.random() * weatherTypes.length)]!;
 };
 
 // Get current seasonal event
@@ -269,12 +270,9 @@ export const removeFromLocalStorage = (key: string): boolean => {
     return false;
   }
 };
-// =============================================================================
-// Utility Functions and Constants Export
-// =============================================================================
 
 // =============================================================================
-// NFT and Reward Calculation Functions
+// Omikuji Function
 // =============================================================================
 
 export const getRandomOmikujiResult = (): string => {
