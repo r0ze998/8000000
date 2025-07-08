@@ -1,0 +1,68 @@
+~/workspace$ npm run typecheck
+npm error Missing script: "typecheck"
+npm error
+npm error To see a list of scripts, run:
+npm error   npm run
+npm error A complete log of this run can be found in: /home/runner/.npm/_logs/2025-07-08T03_41_26_172Z-debug-0.log
+~/workspace$ npx tsc --noEmit
+src/components/features/worship/Worship.tsx:44:5 - error TS2345: Argument of type '{ culturalCapital: number; totalNFTs: number; meditationStreak: number; totalWorshipSessions: number; level: number; experience: number; visitCount: number; streakDays: number; totalPrayerTime: number; achievements: never[]; lastVisitDate: null; }' is not assignable to parameter of type 'UserStats | (() => UserStats)'.
+  Object literal may only specify known properties, and 'achievements' does not exist in type 'UserStats | (() => UserStats)'.
+
+44     achievements: [],
+       ~~~~~~~~~~~~~~~~
+
+src/data/shrines.ts:59:20 - error TS2322: Type 'string' is not assignable to type 'MissionRequirement'.
+
+59     requirements: ['morning_visit'],
+                      ~~~~~~~~~~~~~~~
+
+src/data/shrines.ts:60:16 - error TS2322: Type '{ culturalCapital: number; experience: number; }' is not assignable to type 'Reward[]'.
+  Object literal may only specify known properties, and 'culturalCapital' does not exist in type 'Reward[]'.
+
+60     rewards: { culturalCapital: 50, experience: 25 },
+                  ~~~~~~~~~~~~~~~~~~~
+
+  src/types/index.ts:117:3
+    117   rewards: Reward[];
+          ~~~~~~~
+    The expected type comes from property 'rewards' which is declared here on type 'Mission'
+
+src/data/shrines.ts:74:20 - error TS2322: Type 'string' is not assignable to type 'MissionRequirement'.
+
+74     requirements: ['consecutive_days_7'],
+                      ~~~~~~~~~~~~~~~~~~~~
+
+src/data/shrines.ts:75:16 - error TS2322: Type '{ culturalCapital: number; experience: number; }' is not assignable to type 'Reward[]'.
+  Object literal may only specify known properties, and 'culturalCapital' does not exist in type 'Reward[]'.
+
+75     rewards: { culturalCapital: 100, experience: 50 },
+                  ~~~~~~~~~~~~~~~~~~~~
+
+  src/types/index.ts:117:3
+    117   rewards: Reward[];
+          ~~~~~~~
+    The expected type comes from property 'rewards' which is declared here on type 'Mission'
+
+src/data/shrines.ts:89:20 - error TS2322: Type 'string' is not assignable to type 'MissionRequirement'.
+
+89     requirements: ['discover_new_shrine'],
+                      ~~~~~~~~~~~~~~~~~~~~~
+
+src/data/shrines.ts:90:16 - error TS2322: Type '{ culturalCapital: number; experience: number; }' is not assignable to type 'Reward[]'.
+  Object literal may only specify known properties, and 'culturalCapital' does not exist in type 'Reward[]'.
+
+90     rewards: { culturalCapital: 100, experience: 50 },
+                  ~~~~~~~~~~~~~~~~~~~~
+
+  src/types/index.ts:117:3
+    117   rewards: Reward[];
+          ~~~~~~~
+    The expected type comes from property 'rewards' which is declared here on type 'Mission'
+
+
+Found 7 errors in 2 files.
+
+Errors  Files
+     1  src/components/features/worship/Worship.tsx:44
+     6  src/data/shrines.ts:59
+~/workspace$ 
