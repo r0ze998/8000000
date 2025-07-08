@@ -111,8 +111,7 @@ export const randomId = (): string => {
 // Game Mechanics
 // =============================================================================
 
-export const calculateBaseReward = (duration: number, prayerType?: string) => {
-  const baseRate = 10; // Base cultural capital per minute
+// 重複した関数定義を削除 - 既存の関数を使用
   const minutes = duration / 60;
   const culturalCapital = Math.floor(baseRate * minutes);
   const experience = Math.floor(culturalCapital * 0.5);
