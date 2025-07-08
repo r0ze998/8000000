@@ -27,48 +27,35 @@ export const PRAYER_MULTIPLIERS = {
   wisdom: 1.25
 } as const;
 
+// Calculate enhanced reward with bonuses
 export const calculateEnhancedReward = (
-  duration: number, 
-  prayerType: string,
-  streakCount: number = 0,
-  timeOfDay: 'morning' | 'afternoon' | 'evening' | 'night' = 'morning'
+  baseCulturalCapital: number,
+  baseExperience: number,
+  bonuses: {
+    seasonal?: number;
+    weather?: number;
+    timeOfDay?: number;
+    streak?: number;
+  }
 ): PrayerReward => {
-  const baseRate = 10;
-  const minutes = duration / (1000 * 60);
+  const totalBonus = (bonuses.seasonal || 0) + (bonuses.weather || 0) + (bonuses.timeOfDay || 0);
+  const streakMultiplier = 1 + ((bonuses.streak || 0) * 0.1);
   
-  // Base calculation
-  const multiplier = PRAYER_MULTIPLIERS[prayerType as keyof typeof PRAYER_MULTIPLIERS] || 1.0;
-  let culturalCapital = Math.floor(baseRate * minutes * multiplier);
+  const enhancedCulturalCapital = Math.floor((baseCulturalCapital + totalBonus) * streakMultiplier);
+  const enhancedExperience = Math.floor((baseExperience + totalBonus * 0.5) * streakMultiplier);
   
-  // Time of day bonus
-  const timeBonus = {
-    morning: 1.2,
-    afternoon: 1.0,
-    evening: 1.1,
-    night: 0.9
-  };
-  
-  culturalCapital *= timeBonus[timeOfDay];
-  
-  // Streak bonus
-  const streakMultiplier = Math.min(1 + (streakCount * 0.1), 2.0);
-  culturalCapital *= streakMultiplier;
-  
-  const experience = Math.floor(culturalCapital * 0.5);
-  
-  // Special bonus for significant streaks
   let specialBonus;
-  if (streakCount >= 7) {
+  if (bonuses.streak && bonuses.streak >= 7) {
     specialBonus = {
       type: 'streak',
-      value: Math.floor(culturalCapital * 0.2),
-      description: `${streakCount}日連続参拝ボーナス`
+      value: bonuses.streak * 10,
+      description: `${bonuses.streak}日連続参拝ボーナス`
     };
   }
   
   return {
-    culturalCapital: Math.floor(culturalCapital),
-    experience,
+    culturalCapital: enhancedCulturalCapital,
+    experience: enhancedExperience,
     specialBonus
   };
 };
@@ -132,22 +119,68 @@ export const calculateLevelProgress = (experience: number) => {
     currentLevel,
     nextLevel: currentLevel + 1,
     progress: Math.min(progress, 1),
-    experienceToNext: Math.max(0, nextLevelExp - experience),
-    totalExperienceForNext: nextLevelExp - currentLevelExp
+    experienceToNext: nextLevelExp - experience,
+    currentLevelExp,
+    nextLevelExp
   };
 };
 
-export const getBeltRequirements = () => {
-  return [
-    { belt: '白帯', required: 0, color: '#FFFFFF' },
-    { belt: '黄帯', required: 100, color: '#FDE047' },
-    { belt: '橙帯', required: 300, color: '#FB923C' },
-    { belt: '緑帯', required: 500, color: '#4ADE80' },
-    { belt: '青帯', required: 1000, color: '#60A5FA' },
-    { belt: '紫帯', required: 2000, color: '#A78BFA' },
-    { belt: '茶帯', required: 4000, color: '#A3A3A3' },
-    { belt: '黒帯', required: 6000, color: '#1F2937' },
-    { belt: '赤帯', required: 8000, color: '#EF4444' },
-    { belt: '金帯', required: 10000, color: '#FFD700' }
-  ];
+// Weather system
+export const getWeatherBonus = (weather: string): number => {
+  const bonuses = {
+    sunny: 10,
+    cloudy: 5,
+    rainy: 15,
+    snowy: 20,
+    clear: 8
+  };
+  return bonuses[weather as keyof typeof bonuses] || 0;
+};
+
+// Time-based bonuses
+export const getTimeBonuses = () => {
+  const hour = new Date().getHours();
+  const bonuses = {
+    morning: hour >= 6 && hour < 12 ? 15 : 0,
+    afternoon: hour >= 12 && hour < 17 ? 5 : 0,
+    evening: hour >= 17 && hour < 21 ? 10 : 0,
+    night: hour >= 21 || hour < 6 ? 20 : 0
+  };
+  
+  return bonuses;
+};
+
+// Streak calculations
+export const calculateStreakBonus = (streakDays: number): number => {
+  if (streakDays >= 30) return 100;
+  if (streakDays >= 14) return 50;
+  if (streakDays >= 7) return 25;
+  if (streakDays >= 3) return 10;
+  return 0;
+};
+
+// Achievement system
+export const checkAchievements = (stats: {
+  totalVisits: number;
+  streak: number;
+  culturalCapital: number;
+  nftCount: number;
+}) => {
+  const achievements = [];
+  
+  if (stats.totalVisits >= 1) achievements.push('初参拝');
+  if (stats.totalVisits >= 10) achievements.push('常連参拝者');
+  if (stats.totalVisits >= 100) achievements.push('参拝マスター');
+  
+  if (stats.streak >= 7) achievements.push('一週間連続');
+  if (stats.streak >= 30) achievements.push('一月連続');
+  if (stats.streak >= 100) achievements.push('百日連続');
+  
+  if (stats.culturalCapital >= 1000) achievements.push('文化資本家');
+  if (stats.culturalCapital >= 10000) achievements.push('文化大師');
+  
+  if (stats.nftCount >= 10) achievements.push('NFTコレクター');
+  if (stats.nftCount >= 50) achievements.push('NFT愛好家');
+  
+  return achievements;
 };

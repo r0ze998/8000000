@@ -1,6 +1,10 @@
 
-// Main application exports
-export { default as App } from './App';
+// =============================================================================
+// Application Entry Point Exports
+// =============================================================================
+
+// Main App Component
+export { default } from './App';
 
 // Components
 export * from './components';
@@ -8,8 +12,11 @@ export * from './components';
 // Hooks
 export * from './hooks';
 
-// Utils
+// Types
+export * from './types';
+
+// Utils (excluding conflicting exports)
 export * from './utils';
 
-// Constants
-export * from './constants';
+// Constants (excluding NFT_RARITIES which is already exported from utils)
+export * from './constants/prayerTypes';

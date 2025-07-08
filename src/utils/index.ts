@@ -1,3 +1,4 @@
+
 // =============================================================================
 // Utility Functions Index
 // =============================================================================
@@ -11,6 +12,13 @@ export * from './starknet';
 // =============================================================================
 // Common Utility Functions
 // =============================================================================
+
+// Debug logging function
+export const debugLog = (message: string, ...args: any[]) => {
+  if (process.env.NODE_ENV === 'development') {
+    console.log(`[DEBUG] ${message}`, ...args);
+  }
+};
 
 // Check if string is empty or only whitespace
 export const isEmpty = (str: string | null | undefined): boolean => {
@@ -65,6 +73,31 @@ export const deepClone = <T>(obj: T): T => {
 };
 
 // =============================================================================
+// LocalStorage Utilities
+// =============================================================================
+
+// Save data to localStorage
+export const saveToLocalStorage = <T>(key: string, value: T): void => {
+  try {
+    const serializedValue = JSON.stringify(value);
+    localStorage.setItem(key, serializedValue);
+  } catch (error) {
+    console.error('Error saving to localStorage:', error);
+  }
+};
+
+// Load data from localStorage
+export const loadFromLocalStorage = <T>(key: string, defaultValue: T): T => {
+  try {
+    const item = localStorage.getItem(key);
+    return item ? JSON.parse(item) : defaultValue;
+  } catch (error) {
+    console.error('Error loading from localStorage:', error);
+    return defaultValue;
+  }
+};
+
+// =============================================================================
 // Prayer and Game Mechanics
 // =============================================================================
 
@@ -85,6 +118,32 @@ export const calculateBaseReward = (duration: number, prayerType?: string) => {
     culturalCapital,
     experience
   };
+};
+
+// Get current seasonal event
+export const getCurrentSeasonalEvent = () => {
+  const events = getSeasonalEvents();
+  return events.length > 0 ? events[0] : null;
+};
+
+// Get time of day
+export const getTimeOfDay = (): 'morning' | 'afternoon' | 'evening' | 'night' => {
+  const hour = new Date().getHours();
+  if (hour >= 6 && hour < 12) return 'morning';
+  if (hour >= 12 && hour < 17) return 'afternoon';
+  if (hour >= 17 && hour < 21) return 'evening';
+  return 'night';
+};
+
+// Get random weather
+export const getRandomWeather = () => {
+  const conditions = [
+    { condition: 'sunny', bonus: 10, icon: '☀️' },
+    { condition: 'cloudy', bonus: 5, icon: '☁️' },
+    { condition: 'rainy', bonus: 15, icon: '🌧️' },
+    { condition: 'snowy', bonus: 20, icon: '❄️' }
+  ];
+  return conditions[Math.floor(Math.random() * conditions.length)];
 };
 
 // Get time-based bonus
