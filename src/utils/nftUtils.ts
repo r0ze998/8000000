@@ -1,4 +1,3 @@
-
 // =============================================================================
 // NFT Utilities
 // =============================================================================
@@ -29,23 +28,23 @@ const NFT_TEMPLATES = [
   { name: '本殿', type: 'structure', emoji: '🏛️', color: '#4ECDC4', rarity: 'rare' },
   { name: '五重塔', type: 'structure', emoji: '🏯', color: '#45B7D1', rarity: 'epic' },
   { name: '金閣', type: 'structure', emoji: '🏰', color: '#FFD700', rarity: 'legendary' },
-  
+
   // Nature NFTs
   { name: '桜', type: 'nature', emoji: '🌸', color: '#FFB6C1', rarity: 'common' },
   { name: '松', type: 'nature', emoji: '🌲', color: '#228B22', rarity: 'rare' },
   { name: '紅葉', type: 'nature', emoji: '🍁', color: '#FF6347', rarity: 'epic' },
   { name: '神木', type: 'nature', emoji: '🌳', color: '#32CD32', rarity: 'legendary' },
-  
+
   // Guardian NFTs
   { name: '狛犬', type: 'guardian', emoji: '🐕', color: '#8B4513', rarity: 'rare' },
   { name: '龍', type: 'guardian', emoji: '🐉', color: '#FF4500', rarity: 'epic' },
   { name: '鳳凰', type: 'guardian', emoji: '🦅', color: '#FF1493', rarity: 'legendary' },
-  
+
   // Decoration NFTs
   { name: '提灯', type: 'decoration', emoji: '🏮', color: '#FF69B4', rarity: 'common' },
   { name: '風鈴', type: 'decoration', emoji: '🎐', color: '#87CEEB', rarity: 'rare' },
   { name: '御神輿', type: 'decoration', emoji: '🎊', color: '#FFD700', rarity: 'epic' },
-  
+
   // Sacred NFTs
   { name: '御守り', type: 'sacred', emoji: '🛡️', color: '#9370DB', rarity: 'rare' },
   { name: '神鏡', type: 'sacred', emoji: '🪞', color: '#C0C0C0', rarity: 'epic' },
@@ -73,7 +72,7 @@ const RARITY_WEIGHTS = {
 // Drop NFT from omikuji result
 export const dropNFTFromOmikuji = (omikujiResult: string): NFTItem | null => {
   const dropRate = OMIKUJI_DROP_RATES[omikujiResult as keyof typeof OMIKUJI_DROP_RATES] || 0.1;
-  
+
   if (Math.random() > dropRate) {
     return null; // No drop
   }
@@ -81,10 +80,10 @@ export const dropNFTFromOmikuji = (omikujiResult: string): NFTItem | null => {
   // Determine rarity based on weights
   const totalWeight = Object.values(RARITY_WEIGHTS).reduce((sum, weight) => sum + weight, 0);
   const randomValue = Math.random() * totalWeight;
-  
+
   let cumulativeWeight = 0;
   let selectedRarity = 'common';
-  
+
   for (const [rarity, weight] of Object.entries(RARITY_WEIGHTS)) {
     cumulativeWeight += weight;
     if (randomValue <= cumulativeWeight) {
@@ -100,7 +99,7 @@ export const dropNFTFromOmikuji = (omikujiResult: string): NFTItem | null => {
   }
 
   const template = availableTemplates[Math.floor(Math.random() * availableTemplates.length)];
-  
+
   if (!template) {
     return null;
   }
@@ -141,7 +140,7 @@ export const calculateNFTValue = (rarity: string, power: number): number => {
     epic: 5,
     legendary: 10
   };
-  
+
   const multiplier = rarityMultipliers[rarity as keyof typeof rarityMultipliers] || 1;
   return Math.floor(power * multiplier * 10);
 };
@@ -165,7 +164,7 @@ export const generateSVGBase64 = (nft: NFTItem): string => {
       </text>
     </svg>
   `;
-  
+
   return btoa(svg);
 };
 

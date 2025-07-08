@@ -1,4 +1,3 @@
-
 // =============================================================================
 // Utility Functions Index
 // =============================================================================
@@ -137,7 +136,7 @@ export const getSeasonalEvents = () => {
       description: '桜の季節の特別ボーナス'
     });
   }
-  
+
   // Summer events (June-August)
   if (month >= 5 && month <= 7) {
     events.push({
@@ -147,7 +146,7 @@ export const getSeasonalEvents = () => {
       description: '夏祭りの特別ボーナス'
     });
   }
-  
+
   // Autumn events (September-November)
   if (month >= 8 && month <= 10) {
     events.push({
@@ -157,7 +156,7 @@ export const getSeasonalEvents = () => {
       description: '紅葉の季節の特別ボーナス'
     });
   }
-  
+
   // Winter events (December-February)
   if (month >= 11 || month <= 1) {
     events.push({
