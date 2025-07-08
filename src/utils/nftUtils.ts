@@ -1,154 +1,128 @@
-
-import { NFTItem } from '../types';
+import { NFTItem, NFTRarity } from '../types';
 
 // NFT生成ユーティリティ関数
 export const dropNFTFromOmikuji = (omikujiResult: string) => {
-  const dropRates = {
-    '大吉': 0.8,
-    '中吉': 0.6,
-    '吉': 0.4,
-    '小吉': 0.3,
-    '末吉': 0.2,
-    '凶': 0.1
+  // おみくじ結果に基づいてNFTドロップ判定
+  const dropChance = {
+    '大吉': 0.3,
+    '中吉': 0.2,
+    '小吉': 0.15,
+    '吉': 0.1,
+    '半吉': 0.08,
+    '末吉': 0.05,
+    '末小吉': 0.03,
+    '凶': 0.02,
+    '小凶': 0.01,
+    '半凶': 0.005,
+    '末凶': 0.001,
+    '大凶': 0.0005
   };
 
-  const dropChance = dropRates[omikujiResult as keyof typeof dropRates] || 0.1;
-  const shouldDrop = Math.random() < dropChance;
-
-  if (shouldDrop) {
-    const droppedNFT = generateRandomNFT(omikujiResult);
-    return droppedNFT;
-  }
-  return null;
+  return Math.random() < (dropChance[omikujiResult as keyof typeof dropChance] || 0.05);
 };
 
-export const generateRandomNFT = (omikujiResult: string): NFTItem => {
-  const nftTypes = [
-    { 
-      type: 'torii', 
-      emoji: '⛩️', 
-      name: '鳥居', 
-      colors: ['#FFD700', '#DC2626', '#8B4513'],
-      description: '神社の入り口を飾る神聖な門'
-    },
-    { 
-      type: 'roof', 
-      emoji: '🏯', 
-      name: '屋根', 
-      colors: ['#DC2626', '#8B4513', '#059669'],
-      description: '伝統的な日本建築の美しい屋根'
-    },
-    { 
-      type: 'pillar', 
-      emoji: '🪵', 
-      name: '柱', 
-      colors: ['#8B4513', '#92400E', '#451A03'],
-      description: '神社を支える重要な構造物'
-    },
-    { 
-      type: 'decoration', 
-      emoji: '🌸', 
-      name: '桜装飾', 
-      colors: ['#FFB7C5', '#F472B6', '#EC4899'],
-      description: '季節を彩る美しい装飾'
-    }
-  ];
-
-  const rarityMap = {
-    '大吉': 'legendary',
-    '中吉': 'epic', 
-    '吉': 'rare',
-    '小吉': 'uncommon',
-    '末吉': 'common',
-    '凶': 'common'
-  };
-
-  const selectedType = nftTypes[Math.floor(Math.random() * nftTypes.length)]!;
-  const rarity = rarityMap[omikujiResult as keyof typeof rarityMap] || 'common';
-  const color = selectedType.colors[Math.floor(Math.random() * selectedType.colors.length)]!;
-
-  return {
-    id: Date.now().toString(),
-    name: selectedType.name,
-    type: selectedType.type,
-    emoji: selectedType.emoji,
-    rarity: rarity,
-    color: color,
-    power: Math.floor(Math.random() * 50) + 10,
-    pixelData: selectedType.emoji,
-    isOwned: true,
-    description: selectedType.description,
-    timestamp: Date.now()
-  };
+// SVGデータをBase64エンコード
+export const generateSVGBase64 = (svgString: string): string => {
+  return `data:image/svg+xml;base64,${btoa(svgString)}`;
 };
 
-export const generateSVGBase64 = (nftData: any): string => {
-  const svg = `
-    <svg width="200" height="200" xmlns="http://www.w3.org/2000/svg">
-      <rect width="200" height="200" fill="${nftData.color}"/>
-      <text x="100" y="120" text-anchor="middle" font-size="60" fill="white">
-        ${nftData.emoji}
-      </text>
-      <text x="100" y="180" text-anchor="middle" font-size="16" fill="white" font-family="Arial">
-        ${nftData.name}
-      </text>
+// NFTの希少度に基づく色を取得
+export const getRarityColor = (rarity: string): string => {
+  const colors = {
+    common: '#9CA3AF',
+    rare: '#3B82F6',
+    epic: '#8B5CF6',
+    legendary: '#F59E0B'
+  };
+  return colors[rarity as keyof typeof colors] || colors.common;
+};
+
+// NFTのSVG生成
+export const generateNFTSVG = (parts: any[], background: string = '#f0f9ff'): string => {
+  const svgParts = parts.map(part => part.svgPath).join('\n');
+
+  return `
+    <svg width="300" height="300" viewBox="0 0 300 300" xmlns="http://www.w3.org/2000/svg">
+      <rect width="300" height="300" fill="${background}"/>
+      ${svgParts}
     </svg>
   `;
-  return btoa(svg);
 };
 
-export const getRarityColor = (rarity: string): string => {
-  switch (rarity.toLowerCase()) {
-    case 'legendary':
-      return '#FFD700';
-    case 'epic':
-      return '#9F7AEA';
-    case 'rare':
-      return '#4299E1';
-    case 'uncommon':
-      return '#38A169';
-    case 'common':
-    default:
-      return '#68D391';
-  }
-};
-
-export const getRarityWeight = (rarity: string): number => {
-  switch (rarity.toLowerCase()) {
-    case 'legendary':
-      return 1;
-    case 'epic':
-      return 5;
-    case 'rare':
-      return 15;
-    case 'uncommon':
-      return 25;
-    case 'common':
-    default:
-      return 54;
-  }
-};
-
-export const calculateNFTPower = (rarity: string, type: string): number => {
-  const baseRarityPower = {
-    'legendary': 500,
-    'epic': 300,
-    'rare': 150,
-    'uncommon': 75,
-    'common': 25
+// ランダムなNFTパーツを選択
+export const selectRandomParts = (categories: any, rarity: NFTRarity) => {
+  const rarityWeights = {
+    common: { common: 0.7, rare: 0.25, epic: 0.04, legendary: 0.01 },
+    rare: { common: 0.5, rare: 0.35, epic: 0.13, legendary: 0.02 },
+    epic: { common: 0.3, rare: 0.4, epic: 0.25, legendary: 0.05 },
+    legendary: { common: 0.1, rare: 0.3, epic: 0.4, legendary: 0.2 }
   };
 
-  const typeMultiplier = {
-    'sacred': 1.5,
-    'structure': 1.3,
-    'guardian': 1.2,
-    'nature': 1.0,
-    'decoration': 0.8,
-    'terrain': 0.6
+  const weights = rarityWeights[rarity];
+  const selectedParts: any[] = [];
+
+  Object.entries(categories).forEach(([categoryName, parts]) => {
+    if (Array.isArray(parts) && parts.length > 0) {
+      // 重み付きランダム選択
+      const random = Math.random();
+      let cumulativeWeight = 0;
+      let selectedRarity: NFTRarity = 'common';
+
+      for (const [rarityKey, weight] of Object.entries(weights)) {
+        cumulativeWeight += weight;
+        if (random <= cumulativeWeight) {
+          selectedRarity = rarityKey as NFTRarity;
+          break;
+        }
+      }
+
+      // 指定された希少度のパーツをフィルタリング
+      const filteredParts = parts.filter(part => part.rarity === selectedRarity);
+      if (filteredParts.length > 0) {
+        const randomPart = filteredParts[Math.floor(Math.random() * filteredParts.length)];
+        selectedParts.push(randomPart);
+      } else {
+        // フォールバック: 利用可能な任意のパーツ
+        const randomPart = parts[Math.floor(Math.random() * parts.length)];
+        selectedParts.push(randomPart);
+      }
+    }
+  });
+
+  return selectedParts;
+};
+
+// NFTメタデータ生成
+export const generateNFTMetadata = (name: string, description: string, traits: any[], svgData: string) => {
+  return {
+    name,
+    description,
+    image: generateSVGBase64(svgData),
+    attributes: traits.map(trait => ({
+      trait_type: trait.category,
+      value: trait.name,
+      rarity: trait.rarity
+    }))
+  };
+};
+
+// 希少度計算
+export const calculateOverallRarity = (parts: any[]): NFTRarity => {
+  const rarityScores = {
+    common: 1,
+    rare: 2,
+    epic: 4,
+    legendary: 8
   };
 
-  const basePower = baseRarityPower[rarity as keyof typeof baseRarityPower] || 25;
-  const multiplier = typeMultiplier[type as keyof typeof typeMultiplier] || 1.0;
+  const totalScore = parts.reduce((sum, part) => {
+    return sum + (rarityScores[part.rarity as keyof typeof rarityScores] || 1);
+  }, 0);
 
-  return Math.floor(basePower * multiplier);
+  const averageScore = totalScore / parts.length;
+
+  if (averageScore >= 6) return 'legendary';
+  if (averageScore >= 4) return 'epic';
+  if (averageScore >= 2.5) return 'rare';
+  return 'common';
 };

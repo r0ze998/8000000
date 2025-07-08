@@ -99,7 +99,7 @@ export const useGoogleMaps = (): UseGoogleMapsReturn => {
     if (!window.google?.maps?.marker?.AdvancedMarkerElement && !window.google?.maps?.Marker) return;
 
     shrines.forEach(shrine => {
-      const position = shrine.position || { lat: shrine.lat, lng: shrine.lng };
+      const position = shrine.position || { lat: shrine.location.lat, lng: shrine.location.lng };
 
       // Use AdvancedMarkerElement if available, fallback to Marker
       let marker: any;

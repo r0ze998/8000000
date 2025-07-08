@@ -1,13 +1,10 @@
-
 import { Shrine, Mission, NFTItem } from '../types';
 
 export const shrines: Shrine[] = [
   {
-    id: 'meiji-jingu',
+    id: 'meiji_jingu',
     name: '明治神宮',
     location: { lat: 35.6762, lng: 139.6993, address: '東京都渋谷区代々木神園町1-1' },
-    lat: 35.6762,
-    lng: 139.6993,
     rarity: 'legendary',
     description: '明治天皇と昭憲皇太后を祀る神社',
     benefits: ['恋愛成就', '家内安全', '厄除け'],
@@ -15,11 +12,9 @@ export const shrines: Shrine[] = [
     isVisitedToday: false
   },
   {
-    id: 'yasukuni',
+    id: 'yasukuni_jinja',
     name: '靖国神社',
     location: { lat: 35.6939, lng: 139.7442, address: '東京都千代田区九段北3-1-1' },
-    lat: 35.6939,
-    lng: 139.7442,
     rarity: 'epic',
     description: '戦没者を祀る神社',
     benefits: ['平和祈願', '国家安泰'],
@@ -27,11 +22,9 @@ export const shrines: Shrine[] = [
     isVisitedToday: true
   },
   {
-    id: 'hie',
+    id: 'hie_jinja',
     name: '日枝神社',
     location: { lat: 35.6741, lng: 139.7404, address: '東京都千代田区永田町2-10-5' },
-    lat: 35.6741,
-    lng: 139.7404,
     rarity: 'rare',
     description: '江戸三大祭りの一つ、山王祭で有名',
     benefits: ['出世祈願', '縁結び'],
@@ -39,11 +32,9 @@ export const shrines: Shrine[] = [
     isVisitedToday: false
   },
   {
-    id: 'senso-ji',
+    id: 'sensoji',
     name: '浅草寺',
     location: { lat: 35.7148, lng: 139.7967, address: '東京都台東区浅草2-3-1' },
-    lat: 35.7148,
-    lng: 139.7967,
     rarity: 'epic',
     description: '東京最古の寺院',
     benefits: ['商売繁盛', '学業成就'],

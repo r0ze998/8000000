@@ -1,16 +1,16 @@
 
-// Common components
-export { default as AccountStatus } from './common/AccountStatus';
+// Common Components
 export { default as StarkNetDebug } from './common/StarkNetDebug';
 export { default as WelcomeOnboarding } from './common/WelcomeOnboarding';
+export { default as AccountStatus } from './common/AccountStatus';
 
-// Feature components
+// Feature Components
 export { default as Explore } from './features/explore/Explore';
+export { default as Worship } from './features/worship/Worship';
 export { default as Profile } from './features/profile/Profile';
 export { default as MyShrine } from './features/shrine/MyShrine';
-export { default as Worship } from './features/worship/Worship';
 
-// Worship sub-components
+// Worship Sub-components
 export { default as BreathingGuide } from './features/worship/BreathingGuide';
 export { default as CompletionModal } from './features/worship/CompletionModal';
 export { default as PrayerSelector } from './features/worship/PrayerSelector';
