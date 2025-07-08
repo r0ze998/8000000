@@ -1,34 +1,28 @@
-
-
 // =============================================================================
 // Utility Functions Index
 // =============================================================================
 
-export type TimeOfDay = 'morning' | 'afternoon' | 'evening' | 'night';
+export * from './formatUtils';
+export * from './nftUtils';
+export * from './gameUtils';
+export * from './starknet';
 
-// Time of day utilities
-export const getTimeOfDay = (): TimeOfDay => {
-  const hour = new Date().getHours();
-  if (hour >= 5 && hour < 12) return 'morning';
-  if (hour >= 12 && hour < 17) return 'afternoon';
-  if (hour >= 17 && hour < 21) return 'evening';
-  return 'night';
-};
+// =============================================================================
+// Core Utility Functions
+// =============================================================================
 
-// Season utilities
-export const getCurrentSeason = (): string => {
-  const month = new Date().getMonth() + 1;
-  if (month >= 3 && month <= 5) return 'spring';
-  if (month >= 6 && month <= 8) return 'summer';
-  if (month >= 9 && month <= 11) return 'autumn';
-  return 'winter';
-};
-
-// Random utilities
+// Generic array utility
 export const getRandomElement = <T>(array: T[]): T => {
   return array[Math.floor(Math.random() * array.length)]!;
 };
 
+// Omikuji result generator
+export const getRandomOmikujiResult = (): string => {
+  const results = ['大吉', '中吉', '小吉', '末吉', '凶'] as const;
+  return results[Math.floor(Math.random() * results.length)]!;
+};
+
+// Weather generator
 export const getRandomWeather = (): { type: string; description: string } => {
   const weathers = [
     { type: 'sunny', description: '晴れ' },
@@ -39,25 +33,120 @@ export const getRandomWeather = (): { type: string; description: string } => {
   return getRandomElement(weathers);
 };
 
-// Omikuji utilities
-export const getRandomOmikujiResult = (): string => {
-  const results = ['大吉', '中吉', '小吉', '末吉', '凶'] as const;
-  return results[Math.floor(Math.random() * results.length)]!;
+// Season detector
+export const getCurrentSeason = (): string => {
+  const month = new Date().getMonth() + 1;
+  if (month >= 3 && month <= 5) return 'spring';
+  if (month >= 6 && month <= 8) return 'summer';
+  if (month >= 9 && month <= 11) return 'autumn';
+  return 'winter';
 };
 
-// Seasonal event utilities
-export const getSeasonalEvent = (): string | null => {
-  const month = new Date().getMonth() + 1;
-  const day = new Date().getDate();
-  
-  // New Year
-  if (month === 1 && day <= 7) return '新年';
-  // Spring Festival
-  if (month === 3 && day >= 20) return '春分の日';
-  // Autumn Festival
-  if (month === 9 && day >= 22) return '秋分の日';
-  
-  return null;
+// Time of day detector
+export const getTimeOfDay = (): string => {
+  const hour = new Date().getHours();
+  if (hour >= 5 && hour < 12) return 'morning';
+  if (hour >= 12 && hour < 17) return 'afternoon';
+  if (hour >= 17 && hour < 21) return 'evening';
+  return 'night';
+};
+
+// Cultural capital calculator
+export const calculateCulturalCapital = (
+  baseDuration: number,
+  multiplier: number = 1,
+  bonuses: { weather?: number; season?: number; timeOfDay?: number } = {}
+): number => {
+  const baseRate = 10; // Base points per minute
+  const minutes = baseDuration / 60000; // Convert ms to minutes
+
+  let total = baseRate * minutes * multiplier;
+
+  // Apply bonuses
+  if (bonuses.weather) total += bonuses.weather;
+  if (bonuses.season) total += bonuses.season;
+  if (bonuses.timeOfDay) total += bonuses.timeOfDay;
+
+  return Math.floor(total);
+};
+
+// Experience calculator
+export const calculateExperience = (culturalCapital: number): number => {
+  return Math.floor(culturalCapital * 0.5);
+};
+
+// Base reward calculator
+export const calculateBaseReward = (duration: number, prayerType?: string) => {
+  const baseRate = 10; // Base cultural capital per minute
+  const minutes = duration / 60000; // Convert ms to minutes
+
+  let multiplier = 1;
+  if (prayerType === 'meditation') multiplier = 1.2;
+  if (prayerType === 'blessing') multiplier = 1.5;
+  if (prayerType === 'healing') multiplier = 1.3;
+
+  const culturalCapital = Math.floor(baseRate * minutes * multiplier);
+  const experience = Math.floor(culturalCapital * 0.5);
+
+  return {
+    culturalCapital,
+    experience
+  };
+};
+
+// Level calculator
+export const calculateLevel = (experience: number): number => {
+  return Math.floor(experience / 100) + 1;
+};
+
+// Progress calculator
+export const calculateProgress = (experience: number): number => {
+  return experience % 100;
+};
+
+// Streak calculator
+export const calculateStreak = (lastVisit: Date | null): number => {
+  if (!lastVisit) return 0;
+
+  const today = new Date();
+  const yesterday = new Date(today.getTime() - 24 * 60 * 60 * 1000);
+
+  if (lastVisit.toDateString() === yesterday.toDateString()) {
+    return 1; // Continue streak
+  }
+
+  return 0; // Reset streak
+};
+
+// NFT drop chance calculator
+export const calculateNFTDropChance = (
+  prayerType: string,
+  duration: number,
+  bonuses: { weather?: boolean; season?: boolean; timeOfDay?: boolean } = {}
+): number => {
+  let baseChance = 0.1; // 10% base chance
+
+  // Prayer type bonus
+  if (prayerType === 'blessing') baseChance += 0.05;
+  if (prayerType === 'healing') baseChance += 0.03;
+
+  // Duration bonus
+  if (duration > 300000) baseChance += 0.02; // 5+ minutes
+  if (duration > 600000) baseChance += 0.03; // 10+ minutes
+
+  // Environmental bonuses
+  if (bonuses.weather) baseChance += 0.02;
+  if (bonuses.season) baseChance += 0.01;
+  if (bonuses.timeOfDay) baseChance += 0.02;
+
+  return Math.min(baseChance, 0.5); // Cap at 50%
+};
+
+// Debug logging
+export const debugLog = (message: string, data?: any) => {
+  if (process.env.NODE_ENV === 'development') {
+    console.log(`[DEBUG] ${message}`, data || '');
+  }
 };
 
 // Add alias for compatibility
@@ -82,37 +171,8 @@ export const calculateDistance = (
 };
 
 // Level and experience utilities
-export const calculateLevel = (experience: number): number => {
-  return Math.floor(Math.sqrt(experience / 100)) + 1;
-};
-
 export const getNextLevelExperience = (currentLevel: number): number => {
   return Math.pow(currentLevel, 2) * 100;
-};
-
-// Prayer reward calculation
-export const calculateBaseReward = (duration: number, prayerType?: string) => {
-  const baseRate = 10; // Base cultural capital per minute
-  const minutes = duration / 60000; // Convert milliseconds to minutes
-  
-  // Prayer type multipliers
-  const typeMultipliers: Record<string, number> = {
-    'gratitude': 1.2,
-    'peace': 1.0,
-    'prosperity': 1.1,
-    'health': 1.0,
-    'wisdom': 1.3,
-    'protection': 0.9
-  };
-  
-  const multiplier = prayerType ? (typeMultipliers[prayerType] || 1.0) : 1.0;
-  const culturalCapital = Math.floor(baseRate * minutes * multiplier);
-  const experience = Math.floor(culturalCapital * 0.5);
-
-  return {
-    culturalCapital,
-    experience
-  };
 };
 
 // LocalStorage utilities
@@ -131,13 +191,6 @@ export const loadFromLocalStorage = <T>(key: string, defaultValue: T): T => {
   } catch (error) {
     console.error(`Error loading from localStorage:`, error);
     return defaultValue;
-  }
-};
-
-// Debug utility
-export const debugLog = (message: string, data?: any) => {
-  if (process.env.NODE_ENV === 'development') {
-    console.log(`[DEBUG] ${message}`, data);
   }
 };
 
@@ -271,7 +324,16 @@ export const getSeasonalEvents = (): Array<{ name: string; bonus: number; active
   ];
 };
 
-// Format utilities (re-exported for convenience)
-export * from './formatUtils';
-export * from './nftUtils';
-export * from './gameUtils';
+export const getSeasonalEvent = (): string | null => {
+  const month = new Date().getMonth() + 1;
+  const day = new Date().getDate();
+  
+  // New Year
+  if (month === 1 && day <= 7) return '新年';
+  // Spring Festival
+  if (month === 3 && day >= 20) return '春分の日';
+  // Autumn Festival
+  if (month === 9 && day >= 22) return '秋分の日';
+  
+  return null;
+};
