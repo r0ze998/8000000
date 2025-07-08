@@ -1,26 +1,130 @@
 
+
+
+// =============================================================================
+// Utility Functions Index
+// =============================================================================
+
+// Re-export from other utility modules
+export * from './formatUtils';
+export * from './nftUtils';
+
 // =============================================================================
 // Core Utility Functions
 // =============================================================================
 
-import { TimeOfDay, Weather, SeasonalEvent } from '../types';
+// Type definitions
+export type TimeOfDay = 'morning' | 'afternoon' | 'evening' | 'night';
 
-// Base reward calculation
-export const calculateBaseReward = (duration: number, prayerType?: string) => {
-  const baseRate = 10; // Base cultural capital per minute
-  const minutes = duration / 60; // Convert seconds to minutes
+// Generic array utility
+export const getRandomElement = <T>(array: T[]): T => {
+  return array[Math.floor(Math.random() * array.length)];
+};
+
+// Time of day detector
+export const getTimeOfDay = (): TimeOfDay => {
+  const hour = new Date().getHours();
+  if (hour >= 5 && hour < 12) return 'morning';
+  if (hour >= 12 && hour < 17) return 'afternoon';
+  if (hour >= 17 && hour < 21) return 'evening';
+  return 'night';
+};
+
+// Weather utilities
+export const getRandomWeather = () => {
+  const weatherTypes = ['sunny', 'cloudy', 'rainy', 'snowy'];
+  const type = weatherTypes[Math.floor(Math.random() * weatherTypes.length)];
+  return { type, emoji: getWeatherEmoji(type) };
+};
+
+const getWeatherEmoji = (weather: string): string => {
+  const emojis: Record<string, string> = {
+    sunny: '☀️',
+    cloudy: '☁️',
+    rainy: '🌧️',
+    snowy: '❄️'
+  };
+  return emojis[weather] || '☀️';
+};
+
+// Seasonal events
+export const getSeasonalEvent = (): string | null => {
+  const month = new Date().getMonth() + 1;
+  const day = new Date().getDate();
   
-  const typeMultipliers: Record<string, number> = {
-    'gratitude': 1.2,
-    'peace': 1.0,
-    'prosperity': 1.1,
-    'health': 1.15,
-    'love': 1.1,
-    'wisdom': 1.25,
-    'protection': 1.05
+  // New Year
+  if (month === 1 && day <= 7) return '新年';
+  // Spring Festival
+  if (month === 3 && day >= 20) return '春分の日';
+  // Autumn Festival
+  if (month === 9 && day >= 22) return '秋分の日';
+  
+  return null;
+};
+
+// Add alias for compatibility
+export const getCurrentSeasonalEvent = getSeasonalEvent;
+
+// Weather bonus utilities
+export const getWeatherBonus = (weather: string): number => {
+  const bonuses: Record<string, number> = {
+    sunny: 1.2,
+    rainy: 1.1,
+    cloudy: 1.0,
+    snowy: 1.15
+  };
+  return bonuses[weather] || 1.0;
+};
+
+export const getWeatherBonuses = () => {
+  return [
+    { weather: 'sunny', bonus: 1.2, description: '晴天ボーナス' },
+    { weather: 'rainy', bonus: 1.1, description: '雨天の静寂' },
+    { weather: 'snowy', bonus: 1.15, description: '雪景色の美' }
+  ];
+};
+
+// Time-based bonuses
+export const getTimeBonuses = () => {
+  const hour = new Date().getHours();
+  
+  if (hour >= 5 && hour < 8) {
+    return { multiplier: 1.3, description: '早朝の清浄な空気' };
+  }
+  if (hour >= 18 && hour < 21) {
+    return { multiplier: 1.2, description: '夕暮れの神秘' };
+  }
+  if (hour >= 22 || hour < 5) {
+    return { multiplier: 1.25, description: '深夜の静寂' };
+  }
+  
+  return { multiplier: 1.0, description: '' };
+};
+
+// Cultural capital calculator
+export const calculateCulturalCapital = (
+  baseDuration: number,
+  prayerType: string = 'gratitude',
+  weather: string = 'sunny'
+): { culturalCapital: number; experience: number } => {
+  const baseRate = 10; // Base cultural capital per minute
+  const minutes = baseDuration / 60000; // Convert to minutes
+  
+  let multiplier = 1.0;
+  
+  // Prayer type multiplier
+  const prayerMultipliers: Record<string, number> = {
+    gratitude: 1.0,
+    healing: 1.1,
+    prosperity: 1.2,
+    protection: 1.15,
+    wisdom: 1.25
   };
   
-  const multiplier = typeMultipliers[prayerType || 'gratitude'] || 1.0;
+  multiplier *= prayerMultipliers[prayerType] || 1.0;
+  multiplier *= getWeatherBonus(weather);
+  multiplier *= getTimeBonuses().multiplier;
+  
   const culturalCapital = Math.floor(baseRate * minutes * multiplier);
   const experience = Math.floor(culturalCapital * 0.5);
 
@@ -30,137 +134,153 @@ export const calculateBaseReward = (duration: number, prayerType?: string) => {
   };
 };
 
-// Calculate level from experience
+// Level calculation utilities
 export const calculateLevel = (experience: number): number => {
   return Math.floor(Math.sqrt(experience / 100)) + 1;
 };
 
-// Calculate experience needed for next level
 export const getExperienceForNextLevel = (currentLevel: number): number => {
   return Math.pow(currentLevel, 2) * 100;
 };
 
-// Get cultural belt based on cultural capital
-export const getCulturalBelt = (culturalCapital: number): string => {
-  if (culturalCapital >= 10000) return '金帯';
-  if (culturalCapital >= 8000) return '赤帯';
-  if (culturalCapital >= 6000) return '黒帯';
-  if (culturalCapital >= 4000) return '茶帯';
-  if (culturalCapital >= 2000) return '紫帯';
-  if (culturalCapital >= 1000) return '青帯';
-  if (culturalCapital >= 500) return '緑帯';
-  if (culturalCapital >= 300) return '橙帯';
-  if (culturalCapital >= 100) return '黄帯';
-  return '白帯';
-};
-
-// Rarity calculation
-export const calculateRarity = (baseChance: number, bonuses: any): string => {
-  const totalChance = baseChance + (bonuses?.total || 0);
-  const random = Math.random() * 100;
+export const calculateLevelProgress = (experience: number): number => {
+  const currentLevel = calculateLevel(experience);
+  const currentLevelExp = getExperienceForNextLevel(currentLevel - 1);
+  const nextLevelExp = getExperienceForNextLevel(currentLevel);
   
-  if (random < 1 + totalChance * 0.1) return 'legendary';
-  if (random < 5 + totalChance * 0.2) return 'epic';
-  if (random < 20 + totalChance * 0.3) return 'rare';
-  return 'common';
+  return ((experience - currentLevelExp) / (nextLevelExp - currentLevelExp)) * 100;
 };
 
-// Prayer type multipliers
-export const PRAYER_TYPE_MULTIPLIERS = {
-  'gratitude': 1.2,
-  'peace': 1.0,
-  'prosperity': 1.1,
-  'health': 1.15,
-  'love': 1.1,
-  'wisdom': 1.25,
-  'protection': 0.9
-} as const;
+// Achievement system
+export const checkAchievements = (userStats: any) => {
+  const achievements = [];
+  
+  if (userStats.totalPrayers >= 10) {
+    achievements.push('devotee');
+  }
+  if (userStats.culturalCapital >= 1000) {
+    achievements.push('cultured');
+  }
+  if (userStats.streak >= 7) {
+    achievements.push('consistent');
+  }
+  
+  return achievements;
+};
 
-// Time bonuses
-export const getTimeBonuses = (timeOfDay: TimeOfDay): number => {
-  const bonuses: Record<TimeOfDay, number> = {
-    'morning': 15,
-    'afternoon': 5,
-    'evening': 10,
-    'night': 0
-  };
-  return bonuses[timeOfDay];
+// Streak bonus calculator
+export const calculateStreakBonus = (streak: number): number => {
+  if (streak >= 30) return 2.0;
+  if (streak >= 14) return 1.5;
+  if (streak >= 7) return 1.3;
+  if (streak >= 3) return 1.1;
+  return 1.0;
+};
+
+// Debug utility
+export const debugLog = (message: string, data?: any) => {
+  if (process.env.NODE_ENV === 'development') {
+    console.log(`[DEBUG] ${message}`, data || '');
+  }
+};
+
+// Distance utilities
+export const calculateDistance = (
+  lat1: number,
+  lon1: number,
+  lat2: number,
+  lon2: number
+): number => {
+  const R = 6371; // Earth's radius in km
+  const dLat = ((lat2 - lat1) * Math.PI) / 180;
+  const dLon = ((lon2 - lon1) * Math.PI) / 180;
+  const a =
+    Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+    Math.cos((lat1 * Math.PI) / 180) *
+      Math.cos((lat2 * Math.PI) / 180) *
+      Math.sin(dLon / 2) *
+      Math.sin(dLon / 2);
+  const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+  return R * c;
 };
 
 // Enhanced reward calculation
-export const calculateEnhancedReward = (duration: number, prayerType: string, bonuses: any) => {
-  const baseReward = calculateBaseReward(duration, prayerType);
-  const totalBonus = (bonuses?.time || 0) + (bonuses?.weather || 0) + (bonuses?.seasonal || 0);
+export const calculateEnhancedReward = (
+  baseDuration: number,
+  streak: number,
+  weather: string,
+  timeOfDay: string
+): number => {
+  const base = calculateCulturalCapital(baseDuration).culturalCapital;
+  const streakBonus = calculateStreakBonus(streak);
+  const weatherMultiplier = getWeatherBonus(weather);
+  const timeMultiplier = getTimeBonuses().multiplier;
   
-  return {
-    culturalCapital: Math.floor(baseReward.culturalCapital * (1 + totalBonus / 100)),
-    experience: Math.floor(baseReward.experience * (1 + totalBonus / 100)),
-    bonuses: totalBonus
-  };
+  return Math.floor(base * streakBonus * weatherMultiplier * timeMultiplier);
 };
 
-// Weather bonuses
-export const getWeatherBonuses = (weather: Weather): number => {
-  const bonuses: Record<Weather, number> = {
-    'sunny': 10,
-    'cloudy': 5,
-    'rainy': 20,
-    'snowy': 15
-  };
-  return bonuses[weather] || 0;
+// Get seasonal events
+export const getSeasonalEvents = () => {
+  return [
+    {
+      name: '新年',
+      startDate: '01-01',
+      endDate: '01-07',
+      bonus: 1.5,
+      description: '新年の祈りは特別な力を持つ'
+    },
+    {
+      name: '春分の日',
+      startDate: '03-20',
+      endDate: '03-22',
+      bonus: 1.3,
+      description: '昼と夜の均衡の時'
+    }
+  ];
 };
 
-// Seasonal events
-export const getSeasonalEvent = (): SeasonalEvent | null => {
-  const now = new Date();
-  const month = now.getMonth() + 1;
-  const day = now.getDate();
+// Base reward calculation for compatibility
+export const calculateBaseReward = (duration: number, prayerType?: string) => {
+  const baseRate = 10; // Base cultural capital per minute
+  const minutes = duration / 60000; // Convert to minutes
   
-  // Cherry blossom season (March 20 - May 5)
-  if ((month === 3 && day >= 20) || month === 4 || (month === 5 && day <= 5)) {
-    return {
-      name: '桜祭り',
-      bonus: 25,
-      description: '桜の季節の特別な加護'
+  let multiplier = 1.0;
+  if (prayerType) {
+    const prayerMultipliers: Record<string, number> = {
+      gratitude: 1.0,
+      healing: 1.1,
+      prosperity: 1.2,
+      protection: 1.15,
+      wisdom: 1.25
     };
+    multiplier = prayerMultipliers[prayerType] || 1.0;
   }
   
-  // Autumn leaves (October 15 - December 5)
-  if ((month === 10 && day >= 15) || month === 11 || (month === 12 && day <= 5)) {
-    return {
-      name: '紅葉祭り',
-      bonus: 20,
-      description: '紅葉の季節の特別な加護'
-    };
+  return Math.floor(baseRate * minutes * multiplier);
+};
+
+// =============================================================================
+// Local Storage Utilities
+// =============================================================================
+
+export const saveToLocalStorage = <T>(key: string, data: T): void => {
+  try {
+    const serializedData = JSON.stringify(data);
+    localStorage.setItem(key, serializedData);
+  } catch (error) {
+    console.error('Error saving to localStorage:', error);
   }
-  
-  return null;
 };
 
-// Streak calculation
-export const calculateStreakBonus = (streakDays: number): number => {
-  if (streakDays >= 30) return 50;
-  if (streakDays >= 14) return 30;
-  if (streakDays >= 7) return 20;
-  if (streakDays >= 3) return 10;
-  return 0;
-};
-
-// Time of day detection
-export const getTimeOfDay = (): TimeOfDay => {
-  const hour = new Date().getHours();
-  if (hour >= 5 && hour < 12) return 'morning';
-  if (hour >= 12 && hour < 17) return 'afternoon';
-  if (hour >= 17 && hour < 22) return 'evening';
-  return 'night';
-};
-
-// Generate unique visit ID
-export const generateVisitId = (): string => {
-  return `visit_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
-};
-
-// Validate location data
-export const validateLocation = (lat: number, lng: number): boolean => {
-  return lat >= -90 && lat <= 90 && lng >= -180 && lng <= 180;
+export const loadFromLocalStorage = <T>(key: string, defaultValue: T): T => {
+  try {
+    const item = localStorage.getItem(key);
+    if (item === null) {
+      return defaultValue;
+    }
+    return JSON.parse(item) as T;
+  } catch (error) {
+    console.error('Error loading from localStorage:', error);
+    return defaultValue;
+  }
 };
