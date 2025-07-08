@@ -50,7 +50,6 @@ const TABS: TabConfig[] = [
 const App: React.FC = () => {
   const [activeTab, setActiveTab] = useState<TabType>('worship');
   const [isInitialized, setIsInitialized] = useState(false);
-  const [currentUser, setCurrentUser] = useState<User | null>(null);
   
   const { needsOnboarding, isLoading, completeOnboarding } = useOnboarding();
 
@@ -60,20 +59,7 @@ const App: React.FC = () => {
       try {
         debugLog('Initializing application...');
         
-        // Load user data (mock for now)
-        const mockUser: User = {
-          id: 'user_001',
-          name: 'サンプルユーザー',
-          level: 1,
-          experience: 0,
-          culturalCapital: 0,
-          visitCount: 0,
-          streakDays: 0,
-          totalPrayerTime: 0,
-          joinedAt: new Date()
-        };
-        
-        setCurrentUser(mockUser);
+        // Initialize user data (will be loaded from context/state management later)
         setIsInitialized(true);
         
         debugLog('Application initialized successfully');
