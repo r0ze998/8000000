@@ -1,6 +1,20 @@
 
 // Core type definitions
 
+// NFT related types
+export interface NFTTemplate {
+  id: string;
+  name: string;
+  type: string;
+  emoji: string;
+  rarity: NFTRarity;
+}
+
+export type NFTRarity = 'common' | 'uncommon' | 'rare' | 'epic' | 'legendary';
+
+// NFT type alias for backwards compatibility
+export type NFT = NFTItem;
+
 export interface Shrine {
   id: string;
   name: string;
