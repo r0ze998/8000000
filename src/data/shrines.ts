@@ -5,7 +5,7 @@ export const shrines: Shrine[] = [
   {
     id: 'meiji-jingu',
     name: '明治神宮',
-    location: { lat: 35.6762, lng: 139.6993 },
+    location: { lat: 35.6762, lng: 139.6993, address: '東京都渋谷区代々木神園町1-1' },
     lat: 35.6762,
     lng: 139.6993,
     rarity: 'legendary',
@@ -17,7 +17,7 @@ export const shrines: Shrine[] = [
   {
     id: 'yasukuni',
     name: '靖国神社',
-    location: { lat: 35.6939, lng: 139.7442 },
+    location: { lat: 35.6939, lng: 139.7442, address: '東京都千代田区九段北3-1-1' },
     lat: 35.6939,
     lng: 139.7442,
     rarity: 'epic',
@@ -29,7 +29,7 @@ export const shrines: Shrine[] = [
   {
     id: 'hie',
     name: '日枝神社',
-    location: { lat: 35.6741, lng: 139.7404 },
+    location: { lat: 35.6741, lng: 139.7404, address: '東京都千代田区永田町2-10-5' },
     lat: 35.6741,
     lng: 139.7404,
     rarity: 'rare',
@@ -41,7 +41,7 @@ export const shrines: Shrine[] = [
   {
     id: 'senso-ji',
     name: '浅草寺',
-    location: { lat: 35.7148, lng: 139.7967 },
+    location: { lat: 35.7148, lng: 139.7967, address: '東京都台東区浅草2-3-1' },
     lat: 35.7148,
     lng: 139.7967,
     rarity: 'epic',

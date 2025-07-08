@@ -246,7 +246,7 @@ const Worship: React.FC = () => {
     });
 
     // 統計更新
-    setUserStats(prev => ({
+    setUserStats((prev: UserStats) => ({
       ...prev,
       culturalCapital: prev.culturalCapital + totalCulturalCapital,
       totalNFTs: droppedNFT ? prev.totalNFTs + 1 : prev.totalNFTs,

@@ -1,50 +1,45 @@
+// =============================================================================
+// Core Types
+// =============================================================================
 
-// ========================================
-// Core Type Definitions
-// ========================================
-
-// User & Profile types
-export interface UserStats {
-  culturalCapital: number;
-  totalNFTs: number;
-  meditationStreak: number;
-  totalWorshipSessions: number;
-  level: number;
-  experience?: number;
-}
-
-export interface UserProfile {
+export interface User {
   id: string;
   name: string;
   email?: string;
   avatar?: string;
-  stats: UserStats;
-  achievements: Achievement[];
-  joinedAt: string;
+  level: number;
+  experience: number;
+  culturalCapital: number;
+  visitCount: number;
+  streakDays: number;
+  totalPrayerTime: number;
+  joinedAt: Date;
 }
 
-// NFT & Shrine types
-export interface NFT {
+export interface UserStats {
+  culturalCapital: number;
+  totalNFTs: number;
+  visitCount: number;
+  streakDays: number;
+  totalPrayerTime: number;
+  level: number;
+}
+
+export interface NFTItem {
   id: string;
   name: string;
-  type: 'torii' | 'roof' | 'pillar' | 'decoration' | 'ornament';
-  emoji: string;
-  rarity: 'common' | 'uncommon' | 'rare' | 'epic' | 'legendary';
-  color: string;
-  power: number;
+  rarity: string;
+  imageUrl: string;
   description: string;
-  timestamp: string;
-  isOwned?: boolean;
-  isStaked?: boolean;
+  attributes: Record<string, any>;
 }
 
-export interface ShrinePixel {
-  x: number;
-  y: number;
-  color: string;
-  pixelData?: string;
-  rarity?: string;
-  nftId?: string;
+export interface Mission {
+  id: string;
+  title: string;
+  description: string;
+  reward: number;
+  completed: boolean;
 }
 
 export interface Shrine {
@@ -54,165 +49,128 @@ export interface Shrine {
   location: {
     lat: number;
     lng: number;
+    address: string;
   };
-  position?: {
-    lat: number;
-    lng: number;
-  };
-  lat: number;
-  lng: number;
-  rarity: string;
-  benefits: string[];
-  distance?: number;
-  visitCount?: number;
-  isVisitedToday?: boolean;
+  deity: string;
+  category: string;
+  established?: Date;
+  imageUrl?: string;
+  visitCount: number;
+  blessing: string[];
 }
 
-// Session & Activity types
-export interface WorshipSession {
-  id: string;
-  duration: number;
-  sound: string;
-  location?: { lat: number; lng: number };
-  weather: string;
-  timeOfDay: string;
-  rewards: SessionRewards;
-  completedAt: string;
-}
+// =============================================================================
+// NFT & Collectibles
+// =============================================================================
 
-export interface SessionRewards {
-  culturalCapital: number;
-  experience: number;
-  bonus?: {
-    seasonal: number;
-    weather: number;
-    timeOfDay: number;
-  };
-  nfts?: any[];
-  achievements?: any[];
-  omikujiResult?: string;
-  droppedNFT?: NFT;
-}
-
-// Mission & Achievement types
-export interface Mission {
-  id: string;
-  title: string;
-  description: string;
-  reward: number | string;
-  type: 'daily' | 'weekly' | 'monthly' | 'special';
-  progress?: number;
-  maxProgress?: number;
-  total?: number;
-  completed?: boolean;
-  expiresAt?: string;
-  icon?: string;
-}
-
-export interface Achievement {
-  id: string;
-  title: string;
-  description: string;
-  icon: string;
-  unlockedAt?: string;
-  progress?: number;
-  maxProgress?: number;
-}
-
-// NFTItem type for shrine building - 統一された型定義
-export interface NFTItem {
+export interface NFTMetadata {
   id: string;
   name: string;
-  type: 'torii' | 'roof' | 'pillar' | 'decoration' | 'ornament' | 'nature' | 'guardian' | 'sacred' | 'structure' | 'terrain' | 'ritual' | 'boundary' | 'approach' | 'central' | 'landscape';
-  rarity: 'common' | 'uncommon' | 'rare' | 'epic' | 'legendary';
-  power: number;
-  emoji: string;
-  pixelData?: string;
-  color: string;
   description: string;
-  isOwned?: boolean;
-  animation?: 'glow' | 'pulse' | 'swing' | 'float' | 'spiral' | 'none';
+  type: 'terrain' | 'structure' | 'decoration' | 'effect';
+  rarity: 'common' | 'rare' | 'epic' | 'legendary';
+  power: number;
+  pixelData: string;
+  color: string;
+  emoji: string;
+  animation?: 'none' | 'pulse' | 'glow' | 'sparkle';
+  isOwned: boolean;
   timestamp?: number;
 }
 
-export interface ShrineNFTItem extends NFTItem {}
-
-// Game mechanics types
-export interface SeasonalEvent {
-  name: string;
-  bonus: number;
-  startDate?: string;
-  endDate?: string;
-  description?: string;
+export interface CanvasPixel {
+  x: number;
+  y: number;
+  nftId: string;
+  placedAt: Date;
 }
 
-export interface RankInfo {
-  rank: string;
-  requiredCapital: number;
-  benefits: string[];
-  color: string;
-}
+// =============================================================================
+// Prayer & Worship
+// =============================================================================
 
-// App navigation types
-export type TabType = 'worship' | 'explore' | 'myshrine' | 'profile';
-
-export interface TabConfig {
-  id: TabType;
-  icon: string;
-  label: string;
-  component: React.ComponentType;
-}
-
-// Web3 & Blockchain types
-export interface Web3Config {
-  chainId: number;
-  rpcUrl: string;
-  contractAddress: string;
-  explorerUrl: string;
-}
-
-export interface TransactionResult {
-  hash: string;
-  status: 'pending' | 'confirmed' | 'failed';
-  gasUsed?: number;
-  timestamp: string;
-}
-
-// Map & Location types
-export interface MapMarker {
+export interface PrayerSession {
   id: string;
-  position: { lat: number; lng: number };
+  type: 'meditation' | 'gratitude' | 'breathing' | 'reflection';
+  duration: number; // seconds
+  startTime: Date;
+  endTime?: Date;
+  quality: number; // 1-10
+  notes?: string;
+  shrineId?: string;
+}
+
+export interface PrayerType {
+  id: string;
+  name: string;
+  description: string;
+  icon: string;
+  color: string;
+  defaultDuration: number;
+  benefits: string[];
+}
+
+export interface BreathingPattern {
+  inhale: number;
+  hold: number;
+  exhale: number;
+  rest: number;
+}
+
+// =============================================================================
+// Account Abstraction & Blockchain
+// =============================================================================
+
+export interface AccountAbstractionState {
+  account: any;
+  isReady: boolean;
+  address: string | null;
+  provider: any;
+  sessionId: string | null;
+}
+
+// =============================================================================
+// UI & Component Props
+// =============================================================================
+
+export interface ModalProps {
+  isOpen: boolean;
+  onClose: () => void;
+  title?: string;
+  children: React.ReactNode;
+}
+
+export interface StatBubbleProps {
+  icon: string;
+  value: number | string;
+  label: string;
+  variant?: 'default' | 'focus' | 'streak' | 'level';
+}
+
+export interface TooltipProps {
+  content: string;
+  children: React.ReactNode;
+  position?: 'top' | 'bottom' | 'left' | 'right';
+}
+
+// =============================================================================
+// Application State
+// =============================================================================
+
+export interface AppState {
+  user: User | null;
+  currentShrine: Shrine | null;
+  activePrayerSession: PrayerSession | null;
+  notifications: Notification[];
+  isLoading: boolean;
+  error: string | null;
+}
+
+export interface Notification {
+  id: string;
+  type: 'success' | 'error' | 'warning' | 'info';
   title: string;
-  type: 'shrine' | 'landmark' | 'user';
-  info?: any;
+  message: string;
+  duration?: number;
+  timestamp: Date;
 }
-
-// API & Response types
-export interface ApiResponse<T = any> {
-  success: boolean;
-  data?: T;
-  error?: string;
-  message?: string;
-}
-
-export interface PaginatedResponse<T> extends ApiResponse<T[]> {
-  pagination: {
-    page: number;
-    limit: number;
-    total: number;
-    totalPages: number;
-  };
-}
-
-// Event types
-export interface CustomEvent<T = any> {
-  type: string;
-  detail: T;
-  timestamp: string;
-}
-
-// Common utility types
-export type AsyncFunction<T = any> = (...args: any[]) => Promise<T>;
-export type EventHandler<T = Event> = (event: T) => void;
-export type Optional<T, K extends keyof T> = Omit<T, K> & Partial<Pick<T, K>>;
-export type RequiredBy<T, K extends keyof T> = T & Required<Pick<T, K>>;
