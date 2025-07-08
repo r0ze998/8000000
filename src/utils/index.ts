@@ -1,37 +1,27 @@
+
 // =============================================================================
-// Utility Functions Index
+// Main Utils Export File
 // =============================================================================
 
-// Re-export all utilities
+// Re-export all utilities from their respective modules
 export * from './formatUtils';
-export * from './nftUtils';
 export * from './gameUtils';
-export * from './starknet';
+export * from './nftUtils';
 
 // =============================================================================
 // Common Utility Functions
 // =============================================================================
 
-// Debug logging function
-export const debugLog = (message: string, ...args: any[]) => {
+// Simple debug logging
+export const debugLog = (message: string, data?: any) => {
   if (process.env.NODE_ENV === 'development') {
-    console.log(`[DEBUG] ${message}`, ...args);
+    console.log(`[DEBUG] ${message}`, data || '');
   }
 };
 
-// Check if string is empty or only whitespace
-export const isEmpty = (str: string | null | undefined): boolean => {
-  return !str || str.trim().length === 0;
-};
-
-// Clamp a number between min and max values
-export const clamp = (value: number, min: number, max: number): number => {
-  return Math.min(Math.max(value, min), max);
-};
-
-// Generate random number between min and max (inclusive)
-export const randomBetween = (min: number, max: number): number => {
-  return Math.floor(Math.random() * (max - min + 1)) + min;
+// Generate unique ID
+export const generateId = (): string => {
+  return `${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
 };
 
 // Shuffle array using Fisher-Yates algorithm
@@ -46,72 +36,71 @@ export const shuffleArray = <T>(array: T[]): T[] => {
   return shuffled;
 };
 
-// Debounce function
-export const debounce = <T extends (...args: any[]) => any>(
-  func: T,
-  wait: number
-): ((...args: Parameters<T>) => void) => {
-  let timeout: NodeJS.Timeout;
-  return (...args: Parameters<T>) => {
-    clearTimeout(timeout);
-    timeout = setTimeout(() => func(...args), wait);
-  };
+// Clamp number between min and max
+export const clamp = (value: number, min: number, max: number): number => {
+  return Math.min(Math.max(value, min), max);
 };
 
-// Deep clone object
-export const deepClone = <T>(obj: T): T => {
-  if (obj === null || typeof obj !== 'object') return obj;
-  if (obj instanceof Date) return new Date(obj.getTime()) as unknown as T;
-  if (obj instanceof Array) return obj.map(item => deepClone(item)) as unknown as T;
-  if (typeof obj === 'object') {
-    const clonedObj = {} as T;
-    Object.keys(obj).forEach(key => {
-      (clonedObj as any)[key] = deepClone((obj as any)[key]);
-    });
-    return clonedObj;
-  }
-  return obj;
+// Random number between min and max (inclusive)
+export const randomBetween = (min: number, max: number): number => {
+  return Math.floor(Math.random() * (max - min + 1)) + min;
 };
 
-// =============================================================================
-// LocalStorage Utilities
-// =============================================================================
-
-// Save data to localStorage
-export const saveToLocalStorage = <T>(key: string, value: T): void => {
-  try {
-    const serializedValue = JSON.stringify(value);
-    localStorage.setItem(key, serializedValue);
-  } catch (error) {
-    console.error('Error saving to localStorage:', error);
-  }
+// Check if value is empty (null, undefined, empty string, empty array)
+export const isEmpty = (value: any): boolean => {
+  if (value === null || value === undefined) return true;
+  if (typeof value === 'string') return value.trim().length === 0;
+  if (Array.isArray(value)) return value.length === 0;
+  if (typeof value === 'object') return Object.keys(value).length === 0;
+  return false;
 };
 
-// Load data from localStorage
-export const loadFromLocalStorage = <T>(key: string, defaultValue: T): T => {
-  try {
-    const item = localStorage.getItem(key);
-    return item ? JSON.parse(item) : defaultValue;
-  } catch (error) {
-    console.error('Error loading from localStorage:', error);
-    return defaultValue;
-  }
+// Delay execution
+export const delay = (ms: number): Promise<void> => {
+  return new Promise(resolve => setTimeout(resolve, ms));
+};
+
+// Format number with commas
+export const formatNumber = (num: number): string => {
+  return num.toLocaleString();
+};
+
+// Calculate percentage
+export const calculatePercentage = (value: number, total: number): number => {
+  if (total === 0) return 0;
+  return Math.round((value / total) * 100);
 };
 
 // =============================================================================
-// Prayer and Game Mechanics
+// Prayer & Game Mechanics
 // =============================================================================
 
-// Calculate base reward for worship
+// Calculate base reward for prayer
 export const calculateBaseReward = (duration: number, prayerType?: string) => {
   const baseRate = 10; // Base cultural capital per minute
   const minutes = duration / 60;
-
+  
   let multiplier = 1;
-  if (prayerType === 'deep') multiplier = 1.5;
-  else if (prayerType === 'gratitude') multiplier = 1.2;
-  else if (prayerType === 'healing') multiplier = 1.3;
-
+  switch (prayerType) {
+    case 'health':
+      multiplier = 1.2;
+      break;
+    case 'success':
+      multiplier = 1.1;
+      break;
+    case 'love':
+      multiplier = 1.15;
+      break;
+    case 'protection':
+      multiplier = 1.25;
+      break;
+    case 'wisdom':
+      multiplier = 1.1;
+      break;
+    default:
+      multiplier = 1;
+  }
+  
   const culturalCapital = Math.floor(baseRate * minutes * multiplier);
   const experience = Math.floor(culturalCapital * 0.5);
 
@@ -136,7 +125,7 @@ export const getSeasonalEvents = () => {
       description: '桜の季節の特別ボーナス'
     });
   }
-
+  
   // Summer events (June-August)
   if (month >= 5 && month <= 7) {
     events.push({
@@ -146,7 +135,7 @@ export const getSeasonalEvents = () => {
       description: '夏祭りの特別ボーナス'
     });
   }
-
+  
   // Autumn events (September-November)
   if (month >= 8 && month <= 10) {
     events.push({
@@ -156,7 +145,7 @@ export const getSeasonalEvents = () => {
       description: '紅葉の季節の特別ボーナス'
     });
   }
-
+  
   // Winter events (December-February)
   if (month >= 11 || month <= 1) {
     events.push({
@@ -176,75 +165,85 @@ export const getCurrentSeasonalEvent = () => {
   return events.length > 0 ? events[0] : null;
 };
 
-// Get time of day
-export const getTimeOfDay = (): 'morning' | 'afternoon' | 'evening' | 'night' => {
-  const hour = new Date().getHours();
-  if (hour >= 6 && hour < 12) return 'morning';
-  if (hour >= 12 && hour < 17) return 'afternoon';
-  if (hour >= 17 && hour < 21) return 'evening';
-  return 'night';
+// =============================================================================
+// Cultural Capital & Level System
+// =============================================================================
+
+// Calculate level from cultural capital
+export const calculateLevel = (culturalCapital: number): number => {
+  return Math.floor(Math.sqrt(culturalCapital / 100)) + 1;
 };
 
-// Get random weather
-export const getRandomWeather = () => {
-  const conditions = [
-    { condition: 'sunny', bonus: 10, icon: '☀️' },
-    { condition: 'cloudy', bonus: 5, icon: '☁️' },
-    { condition: 'rainy', bonus: 15, icon: '🌧️' },
-    { condition: 'snowy', bonus: 20, icon: '❄️' }
-  ];
-  return conditions[Math.floor(Math.random() * conditions.length)];
+// Calculate cultural capital needed for next level
+export const calculateNextLevelCapital = (currentLevel: number): number => {
+  return Math.pow(currentLevel, 2) * 100;
 };
 
-// Get time-based bonus
-export const getTimeBonus = (): number => {
-  const hour = new Date().getHours();
-  if (hour >= 6 && hour <= 9) return 1.2; // Morning bonus
-  if (hour >= 17 && hour <= 19) return 1.1; // Evening bonus
-  return 1;
+// Get cultural belt based on cultural capital
+export const getCulturalBelt = (culturalCapital: number): string => {
+  if (culturalCapital >= 10000) return '金帯';
+  if (culturalCapital >= 8000) return '赤帯';
+  if (culturalCapital >= 6000) return '黒帯';
+  if (culturalCapital >= 4000) return '茶帯';
+  if (culturalCapital >= 2000) return '紫帯';
+  if (culturalCapital >= 1000) return '青帯';
+  if (culturalCapital >= 500) return '緑帯';
+  if (culturalCapital >= 300) return '橙帯';
+  if (culturalCapital >= 100) return '黄帯';
+  return '白帯';
 };
 
-// Check if location is near shrine
-export const isNearShrine = (userLocation: { lat: number; lng: number }, shrineLocation: { lat: number; lng: number }): boolean => {
-  const distance = getDistance(userLocation, shrineLocation);
-  return distance <= 100; // Within 100 meters
-};
-
-// Calculate distance between two coordinates
-export const getDistance = (pos1: { lat: number; lng: number }, pos2: { lat: number; lng: number }): number => {
-  const R = 6371e3; // Earth's radius in meters
-  const φ1 = pos1.lat * Math.PI / 180;
-  const φ2 = pos2.lat * Math.PI / 180;
-  const Δφ = (pos2.lat - pos1.lat) * Math.PI / 180;
-  const Δλ = (pos2.lng - pos1.lng) * Math.PI / 180;
-
-  const a = Math.sin(Δφ/2) * Math.sin(Δφ/2) +
-          Math.cos(φ1) * Math.cos(φ2) *
-          Math.sin(Δλ/2) * Math.sin(Δλ/2);
-  const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
-
-  return R * c;
+// Get belt color for styling
+export const getBeltColor = (belt: string): string => {
+  const colors = {
+    '金帯': '#FFD700',
+    '赤帯': '#DC2626',
+    '黒帯': '#1F2937',
+    '茶帯': '#92400E',
+    '紫帯': '#7C3AED',
+    '青帯': '#2563EB',
+    '緑帯': '#059669',
+    '橙帯': '#EA580C',
+    '黄帯': '#D97706',
+    '白帯': '#6B7280'
+  };
+  
+  return colors[belt as keyof typeof colors] || colors['白帯'];
 };
 
 // =============================================================================
-// Data Validation
+// Local Storage Helpers
 // =============================================================================
 
-// Validate email format
-export const isValidEmail = (email: string): boolean => {
-  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  return emailRegex.test(email);
+// Save data to localStorage with error handling
+export const saveToLocalStorage = (key: string, data: any): boolean => {
+  try {
+    localStorage.setItem(key, JSON.stringify(data));
+    return true;
+  } catch (error) {
+    console.error('Failed to save to localStorage:', error);
+    return false;
+  }
 };
 
-// Validate Japanese phone number
-export const isValidPhoneNumber = (phone: string): boolean => {
-  const phoneRegex = /^(\+81|0)\d{1,4}-?\d{1,4}-?\d{4}$/;
-  return phoneRegex.test(phone);
+// Load data from localStorage with error handling
+export const loadFromLocalStorage = <T>(key: string, defaultValue: T): T => {
+  try {
+    const item = localStorage.getItem(key);
+    return item ? JSON.parse(item) : defaultValue;
+  } catch (error) {
+    console.error('Failed to load from localStorage:', error);
+    return defaultValue;
+  }
 };
 
-// Sanitize HTML string
-export const sanitizeHTML = (str: string): string => {
-  const div = document.createElement('div');
-  div.textContent = str;
-  return div.innerHTML;
+// Remove item from localStorage
+export const removeFromLocalStorage = (key: string): boolean => {
+  try {
+    localStorage.removeItem(key);
+    return true;
+  } catch (error) {
+    console.error('Failed to remove from localStorage:', error);
+    return false;
+  }
 };

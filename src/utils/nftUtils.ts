@@ -1,99 +1,131 @@
-// =============================================================================
-// NFT Utilities
-// =============================================================================
+import type { NFT, NFTTemplate, NFTRarity } from '../types';
 
-import { NFTItem } from '../types';
+// NFT templates for different shrine types
+export const NFT_TEMPLATES: NFTTemplate[] = [
+  // Common NFTs
+  { id: 'common-1', name: '木札お守り', type: 'omamori', emoji: '🪵', rarity: 'common' },
+  { id: 'common-2', name: '紙札お守り', type: 'omamori', emoji: '📜', rarity: 'common' },
+  { id: 'common-3', name: '小銭', type: 'offering', emoji: '🪙', rarity: 'common' },
 
-// NFT rarity types
-export const NFT_RARITIES = {
-  common: 'common',
-  rare: 'rare',
-  epic: 'epic',
-  legendary: 'legendary'
-} as const;
+  // Uncommon NFTs
+  { id: 'uncommon-1', name: '絵馬', type: 'ema', emoji: '🎨', rarity: 'uncommon' },
+  { id: 'uncommon-2', name: '御朱印', type: 'goshuin', emoji: '🖋️', rarity: 'uncommon' },
+  { id: 'uncommon-3', name: '鈴', type: 'bell', emoji: '🔔', rarity: 'uncommon' },
 
-// NFT types
-export const NFT_TYPES = {
-  structure: 'structure',
-  nature: 'nature',
-  guardian: 'guardian',
-  decoration: 'decoration',
-  sacred: 'sacred'
-} as const;
+  // Rare NFTs
+  { id: 'rare-1', name: '金のお守り', type: 'omamori', emoji: '🏆', rarity: 'rare' },
+  { id: 'rare-2', name: '特別絵馬', type: 'ema', emoji: '🎭', rarity: 'rare' },
+  { id: 'rare-3', name: '御神酒', type: 'offering', emoji: '🍶', rarity: 'rare' },
 
-// NFT templates for drops
-const NFT_TEMPLATES = [
-  // Structure NFTs
-  { name: '鳥居', type: 'structure', emoji: '⛩️', color: '#FF6B6B', rarity: 'common' },
-  { name: '本殿', type: 'structure', emoji: '🏛️', color: '#4ECDC4', rarity: 'rare' },
-  { name: '五重塔', type: 'structure', emoji: '🏯', color: '#45B7D1', rarity: 'epic' },
-  { name: '金閣', type: 'structure', emoji: '🏰', color: '#FFD700', rarity: 'legendary' },
+  // Epic NFTs
+  { id: 'epic-1', name: '神社の鍵', type: 'special', emoji: '🗝️', rarity: 'epic' },
+  { id: 'epic-2', name: '龍の置物', type: 'statue', emoji: '🐉', rarity: 'epic' },
 
-  // Nature NFTs
-  { name: '桜', type: 'nature', emoji: '🌸', color: '#FFB6C1', rarity: 'common' },
-  { name: '松', type: 'nature', emoji: '🌲', color: '#228B22', rarity: 'rare' },
-  { name: '紅葉', type: 'nature', emoji: '🍁', color: '#FF6347', rarity: 'epic' },
-  { name: '神木', type: 'nature', emoji: '🌳', color: '#32CD32', rarity: 'legendary' },
-
-  // Guardian NFTs
-  { name: '狛犬', type: 'guardian', emoji: '🐕', color: '#8B4513', rarity: 'rare' },
-  { name: '龍', type: 'guardian', emoji: '🐉', color: '#FF4500', rarity: 'epic' },
-  { name: '鳳凰', type: 'guardian', emoji: '🦅', color: '#FF1493', rarity: 'legendary' },
-
-  // Decoration NFTs
-  { name: '提灯', type: 'decoration', emoji: '🏮', color: '#FF69B4', rarity: 'common' },
-  { name: '風鈴', type: 'decoration', emoji: '🎐', color: '#87CEEB', rarity: 'rare' },
-  { name: '御神輿', type: 'decoration', emoji: '🎊', color: '#FFD700', rarity: 'epic' },
-
-  // Sacred NFTs
-  { name: '御守り', type: 'sacred', emoji: '🛡️', color: '#9370DB', rarity: 'rare' },
-  { name: '神鏡', type: 'sacred', emoji: '🪞', color: '#C0C0C0', rarity: 'epic' },
-  { name: '神剣', type: 'sacred', emoji: '⚔️', color: '#FFD700', rarity: 'legendary' }
+  // Legendary NFTs
+  { id: 'legendary-1', name: '神の加護', type: 'blessing', emoji: '✨', rarity: 'legendary' },
 ];
 
-// Drop rates for omikuji results
-const OMIKUJI_DROP_RATES = {
-  '大吉': 0.8,
-  '中吉': 0.6,
-  '吉': 0.4,
-  '小吉': 0.3,
-  '末吉': 0.2,
-  '凶': 0.1
+// Calculate NFT drop rate based on prayer duration and type
+export const calculateNFTDropRate = (duration: number, prayerType?: string): number => {
+  const baseDuration = 30; // 30 seconds minimum
+  const maxDuration = 300; // 5 minutes maximum
+
+  const normalizedDuration = Math.min(Math.max(duration, baseDuration), maxDuration);
+  const durationBonus = (normalizedDuration - baseDuration) / (maxDuration - baseDuration);
+
+  // Base drop rate: 10%
+  let dropRate = 0.1 + (durationBonus * 0.4); // Up to 50% for max duration
+
+  // Prayer type bonuses
+  const prayerBonus = {
+    'health': 1.2,
+    'success': 1.1,
+    'love': 1.15,
+    'protection': 1.25,
+    'wisdom': 1.1
+  };
+
+  if (prayerType && prayerBonus[prayerType as keyof typeof prayerBonus]) {
+    dropRate *= prayerBonus[prayerType as keyof typeof prayerBonus];
+  }
+
+  return Math.min(dropRate, 0.8); // Cap at 80%
 };
 
-// Rarity drop rates
-const RARITY_WEIGHTS = {
-  common: 50,
-  rare: 30,
-  epic: 15,
-  legendary: 5
+// Get rarity probability based on overall drop rate
+export const getRarityProbability = (dropRate: number) => {
+  const baseRarities = {
+    common: 0.5,
+    uncommon: 0.3,
+    rare: 0.15,
+    epic: 0.04,
+    legendary: 0.01
+  };
+
+  // Higher drop rates slightly increase rare item chances
+  const rareBonus = Math.min(dropRate * 0.5, 0.2);
+
+  return {
+    common: baseRarities.common - rareBonus * 0.5,
+    uncommon: baseRarities.uncommon - rareBonus * 0.3,
+    rare: baseRarities.rare + rareBonus * 0.4,
+    epic: baseRarities.epic + rareBonus * 0.3,
+    legendary: baseRarities.legendary + rareBonus * 0.1
+  };
 };
 
-// Drop NFT from omikuji result
-export const dropNFTFromOmikuji = (omikujiResult: string): NFTItem | null => {
-  const dropRate = OMIKUJI_DROP_RATES[omikujiResult as keyof typeof OMIKUJI_DROP_RATES] || 0.1;
+// Get color for rarity
+export const getRarityColor = (rarity: NFTRarity): string => {
+  const colors = {
+    common: '#9CA3AF',
+    uncommon: '#10B981',
+    rare: '#3B82F6',
+    epic: '#8B5CF6',
+    legendary: '#F59E0B'
+  };
+
+  return colors[rarity as keyof typeof colors] || colors.common;
+};
+
+// Calculate NFT value based on rarity and power
+export const calculateNFTValue = (rarity: NFTRarity, power: number): number => {
+  const baseValues = {
+    common: 100,
+    uncommon: 250,
+    rare: 500,
+    epic: 1000,
+    legendary: 2500
+  };
+
+  const baseValue = baseValues[rarity] || baseValues.common;
+  return Math.floor(baseValue * (1 + power * 0.1));
+};
+
+// Drop NFT from omikuji (random fortune)
+export const dropNFTFromOmikuji = (duration: number, prayerType?: string): NFT | null => {
+  const dropRate = calculateNFTDropRate(duration, prayerType);
 
   if (Math.random() > dropRate) {
     return null; // No drop
   }
 
-  // Determine rarity based on weights
-  const totalWeight = Object.values(RARITY_WEIGHTS).reduce((sum, weight) => sum + weight, 0);
-  const randomValue = Math.random() * totalWeight;
+  const rarityProbs = getRarityProbability(dropRate);
+  const rand = Math.random();
 
-  let cumulativeWeight = 0;
-  let selectedRarity = 'common';
+  let rarity: NFTRarity = 'common';
+  let cumulative = 0;
 
-  for (const [rarity, weight] of Object.entries(RARITY_WEIGHTS)) {
-    cumulativeWeight += weight;
-    if (randomValue <= cumulativeWeight) {
-      selectedRarity = rarity;
+  for (const [rarityKey, prob] of Object.entries(rarityProbs)) {
+    cumulative += prob;
+    if (rand <= cumulative) {
+      rarity = rarityKey as NFTRarity;
       break;
     }
   }
 
-  // Filter templates by rarity
-  const availableTemplates = NFT_TEMPLATES.filter(template => template.rarity === selectedRarity);
+  // Get available templates for this rarity
+  const availableTemplates = NFT_TEMPLATES.filter(template => template.rarity === rarity);
+
   if (availableTemplates.length === 0) {
     return null;
   }
@@ -109,85 +141,20 @@ export const dropNFTFromOmikuji = (omikujiResult: string): NFTItem | null => {
     name: template.name,
     type: template.type,
     emoji: template.emoji,
-    color: template.color,
     rarity: template.rarity,
-    power: Math.floor(Math.random() * 100) + 1,
-    pixelData: template.emoji,
-    animation: 'none',
-    isOwned: true,
-    description: `${template.name} - ${omikujiResult}の結果で獲得`,
-    timestamp: Date.now(),
-    attributes: {}
-  } as NFTItem;
-};
-
-// Get rarity color for display
-export const getRarityColor = (rarity: string): string => {
-  const colors = {
-    common: '#6B7280',
-    rare: '#3B82F6',
-    epic: '#9333EA',
-    legendary: '#F59E0B'
+    power: Math.floor(Math.random() * 10) + 1,
+    color: getRarityColor(template.rarity),
+    obtainedAt: new Date().toISOString(),
+    shrineId: `shrine-${Math.random().toString(36).substr(2, 9)}`
   };
-  return colors[rarity as keyof typeof colors] || colors.common;
-};
-
-// Calculate NFT value based on rarity and power
-export const calculateNFTValue = (rarity: string, power: number): number => {
-  const rarityMultipliers = {
-    common: 1,
-    rare: 2,
-    epic: 5,
-    legendary: 10
-  };
-
-  const multiplier = rarityMultipliers[rarity as keyof typeof rarityMultipliers] || 1;
-  return Math.floor(power * multiplier * 10);
-};
-
-// Generate SVG for NFT
-export const generateSVGBase64 = (nft: NFTItem): string => {
-  const svg = `
-    <svg width="200" height="200" xmlns="http://www.w3.org/2000/svg">
-      <rect width="200" height="200" fill="${nft.color}" opacity="0.2"/>
-      <text x="100" y="100" text-anchor="middle" font-size="60" fill="${nft.color}">
-        ${nft.emoji}
-      </text>
-      <text x="100" y="140" text-anchor="middle" font-size="16" fill="${nft.color}" font-weight="bold">
-        ${nft.name}
-      </text>
-      <text x="100" y="160" text-anchor="middle" font-size="12" fill="${nft.color}">
-        ${nft.rarity.toUpperCase()}
-      </text>
-      <text x="100" y="180" text-anchor="middle" font-size="12" fill="${nft.color}">
-        Power: ${nft.power}
-      </text>
-    </svg>
-  `;
-
-  return btoa(svg);
 };
 
 // Get NFT display properties
-export const getNFTDisplayProps = (nft: NFTItem) => {
+export const getNFTDisplayProps = (nft: NFT) => {
   return {
-    borderColor: getRarityColor(nft.rarity),
     backgroundColor: `${nft.color}20`,
     textColor: nft.color,
     rarityBadge: nft.rarity.toUpperCase(),
     value: calculateNFTValue(nft.rarity, nft.power || 1)
-  };
-};
-
-// Get belt requirements for NFT collection
-export const getBeltRequirements = () => {
-  return {
-    white: { nfts: 0, culturalCapital: 0 },
-    yellow: { nfts: 5, culturalCapital: 100 },
-    orange: { nfts: 10, culturalCapital: 300 },
-    green: { nfts: 20, culturalCapital: 600 },
-    blue: { nfts: 35, culturalCapital: 1000 },
-    brown: { nfts: 50, culturalCapital: 1500 },
-    black: { nfts: 75, culturalCapital: 2500 }
   };
 };
