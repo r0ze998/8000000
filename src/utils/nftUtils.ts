@@ -28,13 +28,17 @@ export const generateSVGBase64 = (svgString: string): string => {
 
 // NFTの希少度に基づく色を取得
 export const getRarityColor = (rarity: string): string => {
-  const colors = {
-    common: '#9CA3AF',
-    rare: '#3B82F6',
-    epic: '#8B5CF6',
-    legendary: '#F59E0B'
-  };
-  return colors[rarity as keyof typeof colors] || colors.common;
+  switch (rarity.toLowerCase()) {
+    case 'legendary':
+      return '#FFD700';
+    case 'epic':
+      return '#9F7AEA';
+    case 'rare':
+      return '#3B82F6';
+    case 'common':
+    default:
+      return '#9CA3AF';
+  }
 };
 
 // NFTのSVG生成
@@ -49,43 +53,16 @@ export const generateNFTSVG = (parts: any[], background: string = '#f0f9ff'): st
   `;
 };
 
-// ランダムなNFTパーツを選択
-export const selectRandomParts = (categories: any, rarity: NFTRarity) => {
-  const rarityWeights = {
-    common: { common: 0.7, rare: 0.25, epic: 0.04, legendary: 0.01 },
-    rare: { common: 0.5, rare: 0.35, epic: 0.13, legendary: 0.02 },
-    epic: { common: 0.3, rare: 0.4, epic: 0.25, legendary: 0.05 },
-    legendary: { common: 0.1, rare: 0.3, epic: 0.4, legendary: 0.2 }
-  };
-
-  const weights = rarityWeights[rarity];
+// ランダムNFTパーツ選択
+export const selectRandomParts = (parts: any[], count: number = 3): any[] => {
   const selectedParts: any[] = [];
+  const categories = [...new Set(parts.map(part => part.category))];
 
-  Object.entries(categories).forEach(([categoryName, parts]) => {
-    if (Array.isArray(parts) && parts.length > 0) {
-      // 重み付きランダム選択
-      const random = Math.random();
-      let cumulativeWeight = 0;
-      let selectedRarity: NFTRarity = 'common';
-
-      for (const [rarityKey, weight] of Object.entries(weights)) {
-        cumulativeWeight += weight;
-        if (random <= cumulativeWeight) {
-          selectedRarity = rarityKey as NFTRarity;
-          break;
-        }
-      }
-
-      // 指定された希少度のパーツをフィルタリング
-      const filteredParts = parts.filter(part => part.rarity === selectedRarity);
-      if (filteredParts.length > 0) {
-        const randomPart = filteredParts[Math.floor(Math.random() * filteredParts.length)];
-        selectedParts.push(randomPart);
-      } else {
-        // フォールバック: 利用可能な任意のパーツ
-        const randomPart = parts[Math.floor(Math.random() * parts.length)];
-        selectedParts.push(randomPart);
-      }
+  categories.slice(0, count).forEach(category => {
+    const categoryParts = parts.filter(part => part.category === category);
+    if (categoryParts.length > 0) {
+      const randomPart = categoryParts[Math.floor(Math.random() * categoryParts.length)];
+      selectedParts.push(randomPart);
     }
   });
 
@@ -115,14 +92,14 @@ export const calculateOverallRarity = (parts: any[]): NFTRarity => {
     legendary: 8
   };
 
-  const totalScore = parts.reduce((sum, part) => {
-    return sum + (rarityScores[part.rarity as keyof typeof rarityScores] || 1);
-  }, 0);
+  const totalScore = parts.reduce((sum, part) => 
+    sum + (rarityScores[part.rarity as keyof typeof rarityScores] || 1), 0
+  );
 
-  const averageScore = totalScore / parts.length;
+  const avgScore = totalScore / parts.length;
 
-  if (averageScore >= 6) return 'legendary';
-  if (averageScore >= 4) return 'epic';
-  if (averageScore >= 2.5) return 'rare';
+  if (avgScore >= 6) return 'legendary';
+  if (avgScore >= 3) return 'epic';
+  if (avgScore >= 1.5) return 'rare';
   return 'common';
 };

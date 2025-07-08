@@ -71,11 +71,19 @@ export interface NFTItem {
   name: string;
   description: string;
   rarity: NFTRarity;
-  category: string;
-  svgData: string;
-  obtainedAt: Date;
+  category?: string;
+  type?: string;
+  svgData?: string;
+  pixelData?: string;
+  color?: string;
+  power?: number;
+  isOwned?: boolean;
+  animation?: string;
+  emoji?: string;
+  timestamp?: number;
+  obtainedAt?: Date;
   shrineId?: string;
-  traits: NFTTrait[];
+  traits?: NFTTrait[];
 }
 
 export interface NFTTrait {
