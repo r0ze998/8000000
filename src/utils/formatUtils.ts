@@ -71,6 +71,13 @@ export const formatPrayerType = (type: string): string => {
   return typeMap[type] || type;
 };
 
+// Format time in MM:SS format
+export const formatTime = (seconds: number): string => {
+  const minutes = Math.floor(seconds / 60);
+  const remainingSeconds = seconds % 60;
+  return `${minutes.toString().padStart(2, '0')}:${remainingSeconds.toString().padStart(2, '0')}`;
+};
+
 // Format belt rank for display
 export const formatBeltRank = (culturalCapital: number): string => {
   if (culturalCapital >= 10000) return '金帯';

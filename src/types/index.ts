@@ -119,6 +119,7 @@ export interface NFTItem {
   emoji: string;
   color: string;
   timestamp: number;
+  obtainedAt?: string;
   shrineId?: string;
   attributes: Record<string, any>;
   // 神社建設用の追加プロパティ
