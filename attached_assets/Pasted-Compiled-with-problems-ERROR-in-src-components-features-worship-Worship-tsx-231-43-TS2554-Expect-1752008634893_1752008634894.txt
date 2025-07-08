@@ -1,0 +1,86 @@
+Compiled with problems:
+×
+ERROR in src/components/features/worship/Worship.tsx:231:43
+TS2554: Expected 0 arguments, but got 1.
+    229 |       prayerType: selectedPrayerType
+    230 |     };
+  > 231 |     const droppedNFT = dropNFTFromOmikuji(omikujiResultData);
+        |                                           ^^^^^^^^^^^^^^^^^
+    232 |     let mintResult = null;
+    233 |
+    234 |     if (droppedNFT) {
+ERROR in src/utils/index.ts:22:3
+TS2322: Type 'T | undefined' is not assignable to type 'T'.
+  'T' could be instantiated with an arbitrary type which could be unrelated to 'T | undefined'.
+    20 |     throw new Error('Array is empty');
+    21 |   }
+  > 22 |   return array[Math.floor(Math.random() * array.length)];
+       |   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    23 | };
+    24 |
+    25 | // Time of day detector
+ERROR in src/utils/nftUtils.ts:74:3
+TS2322: Type 'string | undefined' is not assignable to type 'string'.
+  Type 'undefined' is not assignable to type 'string'.
+    72 |     legendary: '#F59E0B'
+    73 |   };
+  > 74 |   return colors[rarity] || colors.common;
+       |   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    75 | };
+    76 |
+    77 | // Get power level for rarity
+ERROR in src/utils/nftUtils.ts:102:22
+TS2532: Object is possibly 'undefined'.
+    100 |   let currentWeight = 0;
+    101 |   for (let i = 0; i < rarities.length; i++) {
+  > 102 |     currentWeight += weights[i];
+        |                      ^^^^^^^^^^
+    103 |     if (random <= currentWeight) {
+    104 |       const rarity = rarities[i];
+    105 |       return {
+ERROR in src/utils/nftUtils.ts:107:26
+TS18048: 'rarity' is possibly 'undefined'.
+    105 |       return {
+    106 |         id: Date.now().toString(),
+  > 107 |         name: `Fortune ${rarity.charAt(0).toUpperCase() + rarity.slice(1)}`,
+        |                          ^^^^^^
+    108 |         rarity,
+    109 |         color: getRarityColor(rarity),
+    110 |         pixelData: getFortuneEmoji(rarity),
+ERROR in src/utils/nftUtils.ts:107:59
+TS18048: 'rarity' is possibly 'undefined'.
+    105 |       return {
+    106 |         id: Date.now().toString(),
+  > 107 |         name: `Fortune ${rarity.charAt(0).toUpperCase() + rarity.slice(1)}`,
+        |                                                           ^^^^^^
+    108 |         rarity,
+    109 |         color: getRarityColor(rarity),
+    110 |         pixelData: getFortuneEmoji(rarity),
+ERROR in src/utils/nftUtils.ts:109:31
+TS2345: Argument of type 'string | undefined' is not assignable to parameter of type 'string'.
+  Type 'undefined' is not assignable to type 'string'.
+    107 |         name: `Fortune ${rarity.charAt(0).toUpperCase() + rarity.slice(1)}`,
+    108 |         rarity,
+  > 109 |         color: getRarityColor(rarity),
+        |                               ^^^^^^
+    110 |         pixelData: getFortuneEmoji(rarity),
+    111 |         type: 'fortune',
+    112 |         createdAt: new Date().toISOString(),
+ERROR in src/utils/nftUtils.ts:110:36
+TS2345: Argument of type 'string | undefined' is not assignable to parameter of type 'string'.
+    108 |         rarity,
+    109 |         color: getRarityColor(rarity),
+  > 110 |         pixelData: getFortuneEmoji(rarity),
+        |                                    ^^^^^^
+    111 |         type: 'fortune',
+    112 |         createdAt: new Date().toISOString(),
+    113 |         power: getRarityPower(rarity)
+ERROR in src/utils/nftUtils.ts:113:31
+TS2345: Argument of type 'string | undefined' is not assignable to parameter of type 'string'.
+    111 |         type: 'fortune',
+    112 |         createdAt: new Date().toISOString(),
+  > 113 |         power: getRarityPower(rarity)
+        |                               ^^^^^^
+    114 |       };
+    115 |     }
+    116 |   }
