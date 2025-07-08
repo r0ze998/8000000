@@ -4,9 +4,11 @@
 // Format Utility Functions
 // =============================================================================
 
-// Format time with overloads for different input types
+// 1) オーバーロード宣言
 export function formatTime(value: number): string;
 export function formatTime(value: string | Date): string;
+
+// 2) 実装（既存関数）を number も受け取れる形に
 export function formatTime(
   value: number | string | Date,
   inMilliseconds = false
@@ -24,14 +26,45 @@ export function formatTime(
   return d.toLocaleTimeString('ja-JP', { hour: '2-digit', minute: '2-digit' });
 }
 
-// Format experience points
-export const formatExperience = (exp: number): string => {
-  if (exp >= 1000000) return `${(exp / 1000000).toFixed(1)}M`;
-  if (exp >= 1000) return `${(exp / 1000).toFixed(1)}K`;
-  return exp.toString();
+// Format currency (cultural capital)
+export const formatCulturalCapital = (amount: number): string => {
+  if (amount >= 1000000) {
+    return `${(amount / 1000000).toFixed(1)}M`;
+  }
+  if (amount >= 1000) {
+    return `${(amount / 1000).toFixed(1)}K`;
+  }
+  return amount.toString();
 };
 
-// Format cultural capital
-export const formatCulturalCapital = (cc: number): string => {
-  return cc.toLocaleString('ja-JP');
+// Format experience points
+export const formatExperience = (exp: number): string => {
+  return exp.toLocaleString();
+};
+
+// Format date
+export const formatDate = (date: Date | string): string => {
+  const d = new Date(date);
+  return d.toLocaleDateString('ja-JP', {
+    year: 'numeric',
+    month: 'short',
+    day: 'numeric'
+  });
+};
+
+// Format percentage
+export const formatPercentage = (value: number, decimals = 1): string => {
+  return `${value.toFixed(decimals)}%`;
+};
+
+// Format rarity display
+export const formatRarity = (rarity: string): string => {
+  const rarityMap: Record<string, string> = {
+    common: 'コモン',
+    uncommon: 'アンコモン',
+    rare: 'レア',
+    epic: 'エピック',
+    legendary: 'レジェンダリー'
+  };
+  return rarityMap[rarity.toLowerCase()] || rarity;
 };

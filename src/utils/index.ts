@@ -60,6 +60,9 @@ export const getSeasonalEvent = (): string | null => {
   return null;
 };
 
+// Add alias for compatibility
+export const getCurrentSeasonalEvent = getSeasonalEvent;
+
 // Distance utilities
 export const calculateDistance = (
   lat1: number,
@@ -112,6 +115,25 @@ export const calculateBaseReward = (duration: number, prayerType?: string) => {
   };
 };
 
+// LocalStorage utilities
+export const saveToLocalStorage = (key: string, value: any): void => {
+  try {
+    localStorage.setItem(key, JSON.stringify(value));
+  } catch (error) {
+    console.error(`Error saving to localStorage:`, error);
+  }
+};
+
+export const loadFromLocalStorage = <T>(key: string, defaultValue: T): T => {
+  try {
+    const item = localStorage.getItem(key);
+    return item ? JSON.parse(item) : defaultValue;
+  } catch (error) {
+    console.error(`Error loading from localStorage:`, error);
+    return defaultValue;
+  }
+};
+
 // Debug utility
 export const debugLog = (message: string, data?: any) => {
   if (process.env.NODE_ENV === 'development') {
@@ -157,6 +179,97 @@ export const checkAchievements = (userStats: any): string[] => {
 // NFT rarity constants
 export const NFT_RARITIES = ['common', 'uncommon', 'rare', 'epic', 'legendary'] as const;
 export type NFTRarity = typeof NFT_RARITIES[number];
+
+// Game utility constants
+export const PRAYER_MULTIPLIERS = {
+  'gratitude': 1.2,
+  'peace': 1.0,
+  'prosperity': 1.1,
+  'health': 1.0,
+  'wisdom': 1.3,
+  'protection': 0.9
+} as const;
+
+// Enhanced reward calculation
+export const calculateEnhancedReward = (duration: number, prayerType: string, bonuses: any) => {
+  const baseReward = calculateBaseReward(duration, prayerType);
+  const totalBonus = Object.values(bonuses).reduce((sum: number, bonus: any) => sum + bonus, 0);
+  
+  return {
+    ...baseReward,
+    totalCulturalCapital: baseReward.culturalCapital + totalBonus,
+    bonuses
+  };
+};
+
+// Level progress calculation
+export const calculateLevelProgress = (experience: number): { level: number; progress: number; nextLevelExp: number } => {
+  const level = calculateLevel(experience);
+  const currentLevelExp = Math.pow(level - 1, 2) * 100;
+  const nextLevelExp = Math.pow(level, 2) * 100;
+  const progress = ((experience - currentLevelExp) / (nextLevelExp - currentLevelExp)) * 100;
+  
+  return {
+    level,
+    progress: Math.min(progress, 100),
+    nextLevelExp
+  };
+};
+
+// Streak bonus calculation
+export const calculateStreakBonus = (streak: number): number => {
+  if (streak >= 30) return 50;
+  if (streak >= 14) return 30;
+  if (streak >= 7) return 20;
+  if (streak >= 3) return 10;
+  return 0;
+};
+
+// Weather bonus calculation
+export const getWeatherBonus = (weather: string): number => {
+  const bonuses: Record<string, number> = {
+    'sunny': 10,
+    'cloudy': 5,
+    'rainy': 0,
+    'snowy': 15
+  };
+  return bonuses[weather] || 0;
+};
+
+// Time bonuses
+export const getTimeBonuses = (timeOfDay: TimeOfDay): number => {
+  const bonuses: Record<TimeOfDay, number> = {
+    'morning': 15,
+    'afternoon': 5,
+    'evening': 10,
+    'night': 0
+  };
+  return bonuses[timeOfDay];
+};
+
+// Seasonal events
+export const getSeasonalEvents = (): Array<{ name: string; bonus: number; active: boolean }> => {
+  const month = new Date().getMonth() + 1;
+  const day = new Date().getDate();
+  
+  return [
+    {
+      name: '新年',
+      bonus: 50,
+      active: month === 1 && day <= 7
+    },
+    {
+      name: '春分の日',
+      bonus: 30,
+      active: month === 3 && day >= 20 && day <= 22
+    },
+    {
+      name: '秋分の日',
+      bonus: 30,
+      active: month === 9 && day >= 22 && day <= 24
+    }
+  ];
+};
 
 // Format utilities (re-exported for convenience)
 export * from './formatUtils';

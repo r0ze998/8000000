@@ -1,76 +1,79 @@
-
-
-import { NFTRarity } from '../types';
-
 // =============================================================================
 // NFT Utilities
 // =============================================================================
 
-// Add missing NFTMetadata type
-export interface NFTMetadata {
-  id: string;
-  name: string;
-  type: string;
-  rarity: NFTRarity;
-  description: string;
-  emoji: string;
-  color: string;
-  timestamp: number;
-  shrineId: string;
-  prayerType: string;
-  attributes: Record<string, any>;
-}
+import { NFTRarity, NFTMetadata } from '../types';
 
-// Calculate NFT rarity based on various factors
-export const calculateNFTRarity = (factors: {
-  prayerType: string;
-  timeOfDay: string;
-  seasonalEvent?: string;
-  streak?: number;
-}): NFTRarity => {
+// NFT Templates
+export const NFT_TEMPLATES = {
+  goshuin: { name: '御朱印', description: '神社の御朱印', emoji: '📜' },
+  omikuji: { name: 'おみくじ', description: '運勢を占う', emoji: '🎋' },
+  spirit: { name: '精霊', description: '神社の精霊', emoji: '✨' },
+  blessing: { name: '祝福', description: '神の祝福', emoji: '🙏' },
+  protection: { name: '守護', description: '厄除け', emoji: '🛡️' },
+  wisdom: { name: '知恵', description: '学問の神', emoji: '📚' },
+  fortune: { name: '幸運', description: '金運上昇', emoji: '💰' },
+  terrain: { name: '地形', description: '神社の地形', emoji: '🗻' },
+  structure: { name: '建造物', description: '神社の建物', emoji: '⛩️' },
+  nature: { name: '自然', description: '自然の恵み', emoji: '🌸' },
+  decoration: { name: '装飾', description: '美しい装飾', emoji: '🎨' },
+  guardian: { name: '守護神', description: '守り神', emoji: '👹' },
+  sacred: { name: '神聖', description: '神聖な力', emoji: '⚡' },
+  omamori: { name: 'お守り', description: '護符', emoji: '🧿' },
+  offering: { name: 'お供え', description: '神への供物', emoji: '🍊' },
+  ema: { name: '絵馬', description: '願い事', emoji: '🏷️' },
+  bell: { name: '鈴', description: '神社の鈴', emoji: '🔔' },
+  special: { name: '特別', description: '特別なアイテム', emoji: '🌟' },
+  statue: { name: '石像', description: '神社の石像', emoji: '🗿' }
+};
+
+// NFT Rarity calculation
+export const calculateNFTRarity = (factors: any): NFTRarity => {
   let score = 0;
 
-  // Prayer type scoring
-  const prayerScores: Record<string, number> = {
-    'gratitude': 20,
-    'peace': 15,
-    'prosperity': 10,
-    'health': 10,
-    'wisdom': 25,
-    'protection': 5
-  };
-
-  score += prayerScores[factors.prayerType] || 5;
-
-  // Time of day bonus
+  if (factors.prayerType === 'wisdom') score += 30;
+  if (factors.prayerType === 'gratitude') score += 20;
   if (factors.timeOfDay === 'morning') score += 15;
-  else if (factors.timeOfDay === 'evening') score += 10;
+  if (factors.weather === 'sunny') score += 10;
 
-  // Seasonal event bonus
-  if (factors.seasonalEvent) score += 20;
+  const random = Math.random() * 100;
+  score += random;
 
-  // Streak bonus
-  if (factors.streak && factors.streak > 7) score += 30;
-  else if (factors.streak && factors.streak > 3) score += 15;
-
-  // Determine rarity based on score
-  if (score >= 80) return 'legendary';
-  if (score >= 60) return 'epic';
-  if (score >= 40) return 'rare';
-  if (score >= 20) return 'uncommon';
+  if (score >= 85) return 'legendary';
+  if (score >= 70) return 'epic';
+  if (score >= 50) return 'rare';
+  if (score >= 30) return 'uncommon';
   return 'common';
 };
 
-// Get color for rarity
+// Get rarity color
 export const getRarityColor = (rarity: string): string => {
   const colors = {
-    common: '#94a3b8',
-    uncommon: '#22d3ee',
-    rare: '#a855f7',
-    epic: '#f59e0b',
-    legendary: '#ef4444'
+    legendary: '#FFD700',
+    epic: '#9F7AEA',
+    rare: '#3182CE',
+    uncommon: '#38A169',
+    common: '#718096'
   };
   return colors[rarity as keyof typeof colors] || colors.common;
+};
+
+// Generate SVG for NFT
+export const generateSVGBase64 = (nft: any): string => {
+  const svg = `
+    <svg width="200" height="200" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" style="stop-color:${nft.color};stop-opacity:0.8" />
+          <stop offset="100%" style="stop-color:${nft.color};stop-opacity:0.4" />
+        </linearGradient>
+      </defs>
+      <rect width="200" height="200" fill="url(#bg)" rx="20"/>
+      <text x="100" y="100" text-anchor="middle" font-size="60" dy="0.3em">${nft.emoji}</text>
+      <text x="100" y="160" text-anchor="middle" font-size="14" fill="white" font-weight="bold">${nft.name}</text>
+    </svg>
+  `;
+  return btoa(svg);
 };
 
 // Generate NFT metadata
@@ -81,42 +84,7 @@ export const generateNFTMetadata = (data: {
   prayerType: string;
 }): NFTMetadata => {
   const id = `nft_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
-  
-  // NFT templates based on prayer type
-  const templates: Record<string, { name: string; emoji: string; description: string }> = {
-    gratitude: {
-      name: '感謝の御守り',
-      emoji: '🙏',
-      description: '心からの感謝が込められた特別な御守り'
-    },
-    peace: {
-      name: '平安の護符',
-      emoji: '☮️',
-      description: '心の平安をもたらす神聖な護符'
-    },
-    prosperity: {
-      name: '繁栄の絵馬',
-      emoji: '🎭',
-      description: '豊かな未来を願う美しい絵馬'
-    },
-    health: {
-      name: '健康の守り',
-      emoji: '🍃',
-      description: '身体と心の健康を守る自然の力'
-    },
-    wisdom: {
-      name: '知恵の巻物',
-      emoji: '📜',
-      description: '古の知恵が記された貴重な巻物'
-    },
-    protection: {
-      name: '守護の鈴',
-      emoji: '🔔',
-      description: '邪気を払う神聖な鈴の音'
-    }
-  };
-
-  const template = templates[data.prayerType] || templates.gratitude;
+  const template = NFT_TEMPLATES[data.prayerType as keyof typeof NFT_TEMPLATES] || NFT_TEMPLATES.blessing;
   const color = getRarityColor(data.rarity);
 
   return {
@@ -131,40 +99,20 @@ export const generateNFTMetadata = (data: {
     shrineId: data.shrineId,
     prayerType: data.prayerType,
     attributes: {
-      createdAt: new Date(data.timestamp).toISOString(),
-      shrine: data.shrineId,
-      prayerType: data.prayerType
+      rarity: data.rarity,
+      timestamp: data.timestamp,
+      shrineId: data.shrineId
     }
   };
 };
 
-// Generate SVG for NFT
-export const generateSVGBase64 = (nft: NFTMetadata): string => {
-  const svg = `
-    <svg xmlns="http://www.w3.org/2000/svg" width="300" height="300" viewBox="0 0 300 300">
-      <defs>
-        <radialGradient id="bg" cx="50%" cy="50%" r="50%">
-          <stop offset="0%" style="stop-color:${nft.color};stop-opacity:0.8" />
-          <stop offset="100%" style="stop-color:${nft.color};stop-opacity:0.3" />
-        </radialGradient>
-      </defs>
-      <rect width="300" height="300" fill="url(#bg)" />
-      <circle cx="150" cy="150" r="80" fill="${nft.color}" opacity="0.6" />
-      <text x="150" y="170" text-anchor="middle" font-size="60" fill="white">
-        ${nft.emoji}
-      </text>
-    </svg>
-  `;
-  return btoa(svg);
-};
-
-// Drop NFT from Omikuji - updated function signature to match usage
+// Drop NFT from Omikuji
 export const dropNFTFromOmikuji = (omikujiData: { result: string; duration: number; prayerType: string }) => {
   const factors = {
     prayerType: omikujiData.prayerType,
     timeOfDay: 'morning' // Default value
   };
-  
+
   const rarity = calculateNFTRarity(factors);
   return generateNFTMetadata({
     rarity,
