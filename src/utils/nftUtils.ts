@@ -1,4 +1,5 @@
 
+
 import { NFTRarity } from '../types';
 
 // =============================================================================
@@ -163,7 +164,7 @@ export const dropNFTFromOmikuji = (omikujiData: { result: string; duration: numb
     prayerType: omikujiData.prayerType,
     timeOfDay: 'morning' // Default value
   };
-
+  
   const rarity = calculateNFTRarity(factors);
   return generateNFTMetadata({
     rarity,

@@ -4,11 +4,9 @@
 // Format Utility Functions
 // =============================================================================
 
-// 1) オーバーロード宣言を追加
+// Format time with overloads for different input types
 export function formatTime(value: number): string;
 export function formatTime(value: string | Date): string;
-
-// 2) 実装（既存関数）を number も受け取れる形に
 export function formatTime(
   value: number | string | Date,
   inMilliseconds = false
@@ -26,18 +24,14 @@ export function formatTime(
   return d.toLocaleTimeString('ja-JP', { hour: '2-digit', minute: '2-digit' });
 }
 
-// Format currency (cultural capital)
-export const formatCurrency = (amount: number): string => {
-  return new Intl.NumberFormat('ja-JP').format(amount);
+// Format experience points
+export const formatExperience = (exp: number): string => {
+  if (exp >= 1000000) return `${(exp / 1000000).toFixed(1)}M`;
+  if (exp >= 1000) return `${(exp / 1000).toFixed(1)}K`;
+  return exp.toString();
 };
 
-// Format date for display
-export const formatDate = (date: Date | string | number): string => {
-  const d = new Date(date);
-  return d.toLocaleDateString('ja-JP', {
-    year: 'numeric',
-    month: 'long',
-    day: 'numeric',
-    weekday: 'long'
-  });
+// Format cultural capital
+export const formatCulturalCapital = (cc: number): string => {
+  return cc.toLocaleString('ja-JP');
 };
