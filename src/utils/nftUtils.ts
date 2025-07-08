@@ -1,4 +1,3 @@
-
 import { NFTItem } from '../types';
 
 // Rarity color mapping

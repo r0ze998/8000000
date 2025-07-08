@@ -1,0 +1,85 @@
+Compiled with problems:
+×
+ERROR in ./src/utils/index.ts
+Module build failed (from ./node_modules/babel-loader/lib/index.js):
+SyntaxError: /home/runner/workspace/src/utils/index.ts: 'return' outside of function. (119:2)
+
+  117 |   const experience = Math.floor(culturalCapital * 0.5);
+  118 |
+> 119 |   return {
+      |   ^
+  120 |     culturalCapital,
+  121 |     experience
+  122 |   };
+    at constructor (/home/runner/workspace/node_modules/@babel/parser/lib/index.js:363:19)
+    at TypeScriptParserMixin.raise (/home/runner/workspace/node_modules/@babel/parser/lib/index.js:6612:19)
+    at TypeScriptParserMixin.parseReturnStatement (/home/runner/workspace/node_modules/@babel/parser/lib/index.js:13069:12)
+    at TypeScriptParserMixin.parseStatementContent (/home/runner/workspace/node_modules/@babel/parser/lib/index.js:12730:21)
+    at TypeScriptParserMixin.parseStatementContent (/home/runner/workspace/node_modules/@babel/parser/lib/index.js:9483:18)
+    at TypeScriptParserMixin.parseStatementLike (/home/runner/workspace/node_modules/@babel/parser/lib/index.js:12699:17)
+    at TypeScriptParserMixin.parseModuleItem (/home/runner/workspace/node_modules/@babel/parser/lib/index.js:12676:17)
+    at TypeScriptParserMixin.parseBlockOrModuleBlockBody (/home/runner/workspace/node_modules/@babel/parser/lib/index.js:13249:36)
+    at TypeScriptParserMixin.parseBlockBody (/home/runner/workspace/node_modules/@babel/parser/lib/index.js:13242:10)
+    at TypeScriptParserMixin.parseProgram (/home/runner/workspace/node_modules/@babel/parser/lib/index.js:12555:10)
+    at TypeScriptParserMixin.parseTopLevel (/home/runner/workspace/node_modules/@babel/parser/lib/index.js:12545:25)
+    at TypeScriptParserMixin.parse (/home/runner/workspace/node_modules/@babel/parser/lib/index.js:14423:10)
+    at TypeScriptParserMixin.parse (/home/runner/workspace/node_modules/@babel/parser/lib/index.js:10100:18)
+    at parse (/home/runner/workspace/node_modules/@babel/parser/lib/index.js:14457:38)
+    at parser (/home/runner/workspace/node_modules/@babel/core/lib/parser/index.js:41:34)
+    at parser.next (<anonymous>)
+    at normalizeFile (/home/runner/workspace/node_modules/@babel/core/lib/transformation/normalize-file.js:64:37)
+    at normalizeFile.next (<anonymous>)
+    at run (/home/runner/workspace/node_modules/@babel/core/lib/transformation/index.js:22:50)
+    at run.next (<anonymous>)
+    at transform (/home/runner/workspace/node_modules/@babel/core/lib/transform.js:22:33)
+    at transform.next (<anonymous>)
+    at step (/home/runner/workspace/node_modules/gensync/index.js:261:32)
+    at /home/runner/workspace/node_modules/gensync/index.js:273:13
+    at async.call.result.err.err (/home/runner/workspace/node_modules/gensync/index.js:223:11)
+    at /home/runner/workspace/node_modules/gensync/index.js:189:28
+    at /home/runner/workspace/node_modules/@babel/core/lib/gensync-utils/async.js:67:7
+    at /home/runner/workspace/node_modules/gensync/index.js:113:33
+    at step (/home/runner/workspace/node_modules/gensync/index.js:287:14)
+    at /home/runner/workspace/node_modules/gensync/index.js:273:13
+    at async.call.result.err.err (/home/runner/workspace/node_modules/gensync/index.js:223:11)
+ERROR
+[eslint] 
+src/utils/index.ts
+  Line 123:  Parsing error: Declaration or statement expected
+
+ERROR in src/components/features/worship/Worship.tsx:7:3
+TS2305: Module '"../../../utils"' has no exported member 'calculateBaseReward'.
+     5 | import { useGoogleMaps } from '../../../hooks/useGoogleMaps';
+     6 | import { 
+  >  7 |   calculateBaseReward, 
+       |   ^^^^^^^^^^^^^^^^^^^
+     8 |   getCurrentSeasonalEvent,
+     9 |   getTimeOfDay,
+    10 |   getRandomWeather
+ERROR in src/utils/index.ts:115:19
+TS2304: Cannot find name 'duration'.
+    113 |
+    114 | // 重複した関数定義を削除 - 既存の関数を使用
+  > 115 |   const minutes = duration / 60;
+        |                   ^^^^^^^^
+    116 |   const culturalCapital = Math.floor(baseRate * minutes);
+    117 |   const experience = Math.floor(culturalCapital * 0.5);
+    118 |
+ERROR in src/utils/index.ts:116:38
+TS2304: Cannot find name 'baseRate'.
+    114 | // 重複した関数定義を削除 - 既存の関数を使用
+    115 |   const minutes = duration / 60;
+  > 116 |   const culturalCapital = Math.floor(baseRate * minutes);
+        |                                      ^^^^^^^^
+    117 |   const experience = Math.floor(culturalCapital * 0.5);
+    118 |
+    119 |   return {
+ERROR in src/utils/index.ts:123:1
+TS1128: Declaration or statement expected.
+    121 |     experience
+    122 |   };
+  > 123 | };
+        | ^
+    124 |
+    125 | export const getCurrentSeasonalEvent = () => {
+    126 |   // Simple seasonal check - returns true for special periods
