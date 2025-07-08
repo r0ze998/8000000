@@ -28,6 +28,8 @@ export interface UserStats {
   totalNFTs: number;
   meditationStreak: number;
   totalWorshipSessions: number;
+  achievements: Achievement[];
+  lastVisitDate: Date | null;
 }
 
 // =============================================================================

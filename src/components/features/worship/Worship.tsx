@@ -41,6 +41,9 @@ const Worship: React.FC = () => {
     visitCount: 0,
     streakDays: 0,
     totalPrayerTime: 0,
+    consecutiveDays: 1,
+    currentStreak: 1,
+    longestStreak: 1,
     achievements: [],
     lastVisitDate: null
   });

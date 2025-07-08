@@ -1,3 +1,4 @@
+
 import { NFTItem } from '../types';
 
 // Rarity color mapping
@@ -36,6 +37,44 @@ export const generateSVGBase64 = (nft: NFTItem): string => {
     </svg>
   `;
   return btoa(svg);
+};
+
+// ランダムNFTパーツ選択
+export const selectRandomParts = (parts: any[], count: number = 3): any[] => {
+  const selectedParts: any[] = [];
+  const categories = [...new Set(parts.map(part => part.category))];
+
+  categories.slice(0, count).forEach(category => {
+    const categoryParts = parts.filter(part => part.category === category);
+    if (categoryParts.length > 0) {
+      const randomPart = categoryParts[Math.floor(Math.random() * categoryParts.length)];
+      selectedParts.push(randomPart);
+    }
+  });
+
+  return selectedParts;
+};
+
+// パーツからNFTの希少度を計算
+export const calculateNFTRarity = (parts: any[]): string => {
+  const rarityScores = {
+    common: 1,
+    uncommon: 2,
+    rare: 3,
+    epic: 5,
+    legendary: 8
+  };
+
+  const totalScore = parts.reduce((sum, part) => 
+    sum + (rarityScores[part.rarity as keyof typeof rarityScores] || 1), 0
+  );
+
+  const avgScore = totalScore / parts.length;
+
+  if (avgScore >= 6) return 'legendary';
+  if (avgScore >= 3) return 'epic';
+  if (avgScore >= 1.5) return 'rare';
+  return 'common';
 };
 
 export const dropNFTFromOmikuji = (omikujiResult: string): NFTItem | null => {
