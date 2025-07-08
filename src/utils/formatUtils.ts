@@ -1,29 +1,8 @@
-
 // =============================================================================
 // Format Utility Functions
 // =============================================================================
 
-// Format currency display
-export const formatCurrency = (amount: number): string => {
-  return new Intl.NumberFormat('ja-JP', {
-    style: 'currency',
-    currency: 'JPY',
-    minimumFractionDigits: 0
-  }).format(amount);
-};
-
-// Format large numbers with units
-export const formatNumber = (num: number): string => {
-  if (num >= 1000000) {
-    return (num / 1000000).toFixed(1) + 'M';
-  }
-  if (num >= 1000) {
-    return (num / 1000).toFixed(1) + 'K';
-  }
-  return num.toString();
-};
-
-// Format date in Japanese format
+// Format Japanese date
 export const formatDate = (date: Date | string): string => {
   const d = new Date(date);
   return d.toLocaleDateString('ja-JP', {
@@ -35,43 +14,28 @@ export const formatDate = (date: Date | string): string => {
 
 // Format experience points display
 export const formatExperience = (exp: number): string => {
-  return `${exp.toLocaleString()} EXP`;
+  if (exp >= 1000000) {
+    return `${(exp / 1000000).toFixed(1)}M XP`;
+  }
+  if (exp >= 1000) {
+    return `${(exp / 1000).toFixed(1)}K XP`;
+  }
+  return `${exp} XP`;
 };
 
 // Format cultural capital display
 export const formatCulturalCapital = (capital: number): string => {
-  return `${capital.toLocaleString()} 文化資本`;
+  if (capital >= 1000000) {
+    return `${(capital / 1000000).toFixed(1)}M`;
+  }
+  if (capital >= 1000) {
+    return `${(capital / 1000).toFixed(1)}K`;
+  }
+  return capital.toString();
 };
 
-// Format percentage
-export const formatPercentage = (value: number, decimals: number = 1): string => {
-  return `${value.toFixed(decimals)}%`;
-};
-
-// Get rank display
-export const getRankDisplay = (rank: number): string => {
-  if (rank === 1) return '🥇 1位';
-  if (rank === 2) return '🥈 2位';
-  if (rank === 3) return '🥉 3位';
-  return `${rank}位`;
-};
-
-// Format streak display
-export const formatStreak = (days: number): string => {
-  return `${days}日連続`;
-};
-
-// Get level badge
-export const getLevelBadge = (level: number): string => {
-  if (level >= 50) return '🏆';
-  if (level >= 30) return '💎';
-  if (level >= 20) return '⭐';
-  if (level >= 10) return '🌟';
-  return '🔰';
-};
-
-// Get cultural belt display
-export const getCulturalBeltDisplay = (culturalCapital: number): string => {
+// Format belt rank based on cultural capital
+export const formatBeltRank = (culturalCapital: number): string => {
   if (culturalCapital >= 10000) return '金帯';
   if (culturalCapital >= 8000) return '赤帯';
   if (culturalCapital >= 6000) return '黒帯';

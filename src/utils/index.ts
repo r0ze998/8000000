@@ -1,100 +1,125 @@
-
 // =============================================================================
-// Main Utils Export File
+// Utility Functions Index
 // =============================================================================
 
-// Re-export all utilities from their respective modules
 export * from './formatUtils';
-export * from './gameUtils';
 export * from './nftUtils';
+export * from './gameUtils';
+export * from './starknet';
 
 // =============================================================================
-// Common Utility Functions
+// Core Utility Functions
 // =============================================================================
 
-// Simple debug logging
-export const debugLog = (message: string, data?: any) => {
+// Debug logging utility
+export const debugLog = (...args: any[]) => {
   if (process.env.NODE_ENV === 'development') {
-    console.log(`[DEBUG] ${message}`, data || '');
+    console.log('[DEBUG]', ...args);
+  }
+};
+
+// Local storage utilities
+export const getStoredData = <T>(key: string, defaultValue: T): T => {
+  try {
+    const stored = localStorage.getItem(key);
+    return stored ? JSON.parse(stored) : defaultValue;
+  } catch {
+    return defaultValue;
+  }
+};
+
+export const setStoredData = <T>(key: string, value: T): void => {
+  try {
+    localStorage.setItem(key, JSON.stringify(value));
+  } catch (error) {
+    console.error('Failed to store data:', error);
   }
 };
 
 // Generate unique ID
 export const generateId = (): string => {
-  return `${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
+  return Date.now().toString(36) + Math.random().toString(36).substr(2);
 };
 
-// Shuffle array using Fisher-Yates algorithm
-export const shuffleArray = <T>(array: T[]): T[] => {
-  const shuffled = [...array];
-  for (let i = shuffled.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    const temp = shuffled[i];
-    shuffled[i] = shuffled[j]!;
-    shuffled[j] = temp!;
-  }
-  return shuffled;
+// Random utilities
+export const getRandomElement = <T>(array: T[]): T => {
+  return array[Math.floor(Math.random() * array.length)];
 };
 
-// Clamp number between min and max
-export const clamp = (value: number, min: number, max: number): number => {
-  return Math.min(Math.max(value, min), max);
+export const getRandomWeather = (): string => {
+  const weathers = ['sunny', 'cloudy', 'rainy', 'snowy'];
+  return getRandomElement(weathers);
 };
 
-// Random number between min and max (inclusive)
-export const randomBetween = (min: number, max: number): number => {
-  return Math.floor(Math.random() * (max - min + 1)) + min;
+export const getRandomTimeOfDay = (): string => {
+  const times = ['dawn', 'morning', 'afternoon', 'evening', 'night'];
+  return getRandomElement(times);
 };
 
-// Check if value is empty (null, undefined, empty string, empty array)
-export const isEmpty = (value: any): boolean => {
-  if (value === null || value === undefined) return true;
-  if (typeof value === 'string') return value.trim().length === 0;
-  if (Array.isArray(value)) return value.length === 0;
-  if (typeof value === 'object') return Object.keys(value).length === 0;
-  return false;
+// Calculate distance between two points (Haversine formula)
+export const calculateDistance = (
+  lat1: number,
+  lon1: number,
+  lat2: number,
+  lon2: number
+): number => {
+  const R = 6371; // Earth's radius in kilometers
+  const dLat = (lat2 - lat1) * Math.PI / 180;
+  const dLon = (lon2 - lon1) * Math.PI / 180;
+  const a = 
+    Math.sin(dLat/2) * Math.sin(dLat/2) +
+    Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) * 
+    Math.sin(dLon/2) * Math.sin(dLon/2);
+  const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+  return R * c;
 };
 
-// Delay execution
-export const delay = (ms: number): Promise<void> => {
-  return new Promise(resolve => setTimeout(resolve, ms));
+// Validation utilities
+export const isValidEmail = (email: string): boolean => {
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  return emailRegex.test(email);
 };
 
-// Calculate percentage
-export const calculatePercentage = (value: number, total: number): number => {
-  if (total === 0) return 0;
-  return Math.round((value / total) * 100);
+export const isValidCoordinate = (lat: number, lon: number): boolean => {
+  return lat >= -90 && lat <= 90 && lon >= -180 && lon <= 180;
 };
 
-// =============================================================================
-// Prayer & Game Mechanics
-// =============================================================================
+// Date utilities
+export const getJapaneseDate = (date: Date = new Date()): string => {
+  return date.toLocaleDateString('ja-JP', {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric'
+  });
+};
 
-// Calculate base reward for prayer
+export const isToday = (date: Date): boolean => {
+  const today = new Date();
+  return date.toDateString() === today.toDateString();
+};
+
+// Omikuji utilities
+export const getRandomOmikujiResult = (): string => {
+  const results = ['大吉', '中吉', '小吉', '末吉', '凶'] as const;
+  return results[Math.floor(Math.random() * results.length)]!;
+};
+
+// Game mechanics utilities
+export const calculateStreakBonus = (streak: number): number => {
+  if (streak >= 100) return 5.0;
+  if (streak >= 50) return 3.0;
+  if (streak >= 30) return 2.0;
+  if (streak >= 7) return 1.5;
+  return 1.0;
+};
+
 export const calculateBaseReward = (duration: number, prayerType?: string) => {
   const baseRate = 10; // Base cultural capital per minute
-  const minutes = duration / 60;
+  const minutes = duration / 60000; // Convert ms to minutes
 
   let multiplier = 1;
-  switch (prayerType) {
-    case 'health':
-      multiplier = 1.2;
-      break;
-    case 'success':
-      multiplier = 1.1;
-      break;
-    case 'love':
-      multiplier = 1.15;
-      break;
-    case 'protection':
-      multiplier = 1.25;
-      break;
-    case 'wisdom':
-      multiplier = 1.1;
-      break;
-    default:
-      multiplier = 1;
-  }
+  if (prayerType === 'gratitude') multiplier = 1.2;
+  if (prayerType === 'health') multiplier = 1.1;
 
   const culturalCapital = Math.floor(baseRate * minutes * multiplier);
   const experience = Math.floor(culturalCapital * 0.5);
@@ -103,179 +128,4 @@ export const calculateBaseReward = (duration: number, prayerType?: string) => {
     culturalCapital,
     experience
   };
-};
-
-// Get seasonal events
-export const getSeasonalEvents = () => {
-  const now = new Date();
-  const month = now.getMonth();
-  const events = [];
-
-  // Spring events (March-May)
-  if (month >= 2 && month <= 4) {
-    events.push({
-      name: '桜祭り',
-      bonus: 20,
-      icon: '🌸',
-      description: '桜の季節の特別ボーナス'
-    });
-  }
-
-  // Summer events (June-August)
-  if (month >= 5 && month <= 7) {
-    events.push({
-      name: '夏祭り',
-      bonus: 15,
-      icon: '🎆',
-      description: '夏祭りの特別ボーナス'
-    });
-  }
-
-  // Autumn events (September-November)
-  if (month >= 8 && month <= 10) {
-    events.push({
-      name: '紅葉祭り',
-      bonus: 18,
-      icon: '🍁',
-      description: '紅葉の季節の特別ボーナス'
-    });
-  }
-
-  // Winter events (December-February)
-  if (month >= 11 || month <= 1) {
-    events.push({
-      name: '初詣',
-      bonus: 25,
-      icon: '⛩️',
-      description: '新年の特別ボーナス'
-    });
-  }
-
-  return events;
-};
-
-// Get time of day
-export const getTimeOfDay = (date: Date = new Date()) => {
-  const hour = date.getHours();
-
-  if (hour >= 5 && hour < 12) {
-    return 'morning';
-  } else if (hour >= 12 && hour < 17) {
-    return 'afternoon';
-  } else if (hour >= 17 && hour < 21) {
-    return 'evening';
-  } else {
-    return 'night';
-  }
-};
-
-// Get random weather
-export const getRandomWeather = () => {
-  const weatherTypes = [
-    { type: 'sunny', emoji: '☀️', name: '晴れ' },
-    { type: 'cloudy', emoji: '☁️', name: '曇り' },
-    { type: 'rainy', emoji: '🌧️', name: '雨' },
-    { type: 'snowy', emoji: '❄️', name: '雪' },
-    { type: 'windy', emoji: '🌬️', name: '風' }
-  ];
-
-  return weatherTypes[Math.floor(Math.random() * weatherTypes.length)]!;
-};
-
-// Get current seasonal event
-export const getCurrentSeasonalEvent = () => {
-  const events = getSeasonalEvents();
-  return events.length > 0 ? events[0] : null;
-};
-
-// =============================================================================
-// Cultural Capital & Level System
-// =============================================================================
-
-// Calculate level from cultural capital
-export const calculateLevel = (culturalCapital: number): number => {
-  return Math.floor(Math.sqrt(culturalCapital / 100)) + 1;
-};
-
-// Calculate cultural capital needed for next level
-export const calculateNextLevelCapital = (currentLevel: number): number => {
-  return Math.pow(currentLevel, 2) * 100;
-};
-
-// Get cultural belt based on cultural capital
-export const getCulturalBelt = (culturalCapital: number): string => {
-  if (culturalCapital >= 10000) return '金帯';
-  if (culturalCapital >= 8000) return '赤帯';
-  if (culturalCapital >= 6000) return '黒帯';
-  if (culturalCapital >= 4000) return '茶帯';
-  if (culturalCapital >= 2000) return '紫帯';
-  if (culturalCapital >= 1000) return '青帯';
-  if (culturalCapital >= 500) return '緑帯';
-  if (culturalCapital >= 300) return '橙帯';
-  if (culturalCapital >= 100) return '黄帯';
-  return '白帯';
-};
-
-// Get belt color for styling
-export const getBeltColor = (belt: string): string => {
-  const colors = {
-    '金帯': '#FFD700',
-    '赤帯': '#DC2626',
-    '黒帯': '#1F2937',
-    '茶帯': '#92400E',
-    '紫帯': '#7C3AED',
-    '青帯': '#2563EB',
-    '緑帯': '#059669',
-    '橙帯': '#EA580C',
-    '黄帯': '#D97706',
-    '白帯': '#6B7280'
-  };
-
-  return colors[belt as keyof typeof colors] || colors['白帯'];
-};
-
-// =============================================================================
-// Local Storage Helpers
-// =============================================================================
-
-// Save data to localStorage with error handling
-export const saveToLocalStorage = (key: string, data: any): boolean => {
-  try {
-    localStorage.setItem(key, JSON.stringify(data));
-    return true;
-  } catch (error) {
-    console.error('Failed to save to localStorage:', error);
-    return false;
-  }
-};
-
-// Load data from localStorage with error handling
-export const loadFromLocalStorage = <T>(key: string, defaultValue: T): T => {
-  try {
-    const item = localStorage.getItem(key);
-    return item ? JSON.parse(item) : defaultValue;
-  } catch (error) {
-    console.error('Failed to load from localStorage:', error);
-    return defaultValue;
-  }
-};
-
-// Remove item from localStorage
-export const removeFromLocalStorage = (key: string): boolean => {
-  try {
-    localStorage.removeItem(key);
-    return true;
-  } catch (error) {
-    console.error('Failed to remove from localStorage:', error);
-    return false;
-  }
-};
-
-// =============================================================================
-// Omikuji Function
-// =============================================================================
-
-export const getRandomOmikujiResult = (): string => {
-  const results = ['大吉', '中吉', '小吉', '末吉', '凶'] as const;
-  return results[Math.floor(Math.random() * results.length)]!;
 };
