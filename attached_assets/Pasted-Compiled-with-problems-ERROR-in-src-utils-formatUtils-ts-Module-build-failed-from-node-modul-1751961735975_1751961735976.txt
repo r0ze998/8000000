@@ -1,0 +1,180 @@
+Compiled with problems:
+×
+ERROR in ./src/utils/formatUtils.ts
+Module build failed (from ./node_modules/babel-loader/lib/index.js):
+SyntaxError: /home/runner/workspace/src/utils/formatUtils.ts: Identifier 'formatTime' has already been declared. (37:13)
+
+  35 |
+  36 | // Format time in MM:SS format
+> 37 | export const formatTime = (seconds: number): string => {
+     |              ^
+  38 |   const minutes = Math.floor(seconds / 60);
+  39 |   const remainingSeconds = seconds % 60;
+  40 |   return `${minutes.toString().padStart(2, '0')}:${remainingSeconds.toString().padStart(2, '0')}`;
+    at constructor (/home/runner/workspace/node_modules/@babel/parser/lib/index.js:363:19)
+    at TypeScriptParserMixin.raise (/home/runner/workspace/node_modules/@babel/parser/lib/index.js:6612:19)
+    at TypeScriptScopeHandler.checkRedeclarationInScope (/home/runner/workspace/node_modules/@babel/parser/lib/index.js:1629:19)
+    at TypeScriptScopeHandler.declareName (/home/runner/workspace/node_modules/@babel/parser/lib/index.js:1595:12)
+    at TypeScriptScopeHandler.declareName (/home/runner/workspace/node_modules/@babel/parser/lib/index.js:4895:11)
+    at TypeScriptParserMixin.declareNameFromIdentifier (/home/runner/workspace/node_modules/@babel/parser/lib/index.js:7547:16)
+    at TypeScriptParserMixin.checkIdentifier (/home/runner/workspace/node_modules/@babel/parser/lib/index.js:7543:12)
+    at TypeScriptParserMixin.checkLVal (/home/runner/workspace/node_modules/@babel/parser/lib/index.js:7484:12)
+    at TypeScriptParserMixin.parseVarId (/home/runner/workspace/node_modules/@babel/parser/lib/index.js:13341:10)
+    at TypeScriptParserMixin.parseVarId (/home/runner/workspace/node_modules/@babel/parser/lib/index.js:9723:11)
+    at TypeScriptParserMixin.parseVar (/home/runner/workspace/node_modules/@babel/parser/lib/index.js:13316:12)
+    at TypeScriptParserMixin.parseVarStatement (/home/runner/workspace/node_modules/@babel/parser/lib/index.js:13163:10)
+    at TypeScriptParserMixin.parseVarStatement (/home/runner/workspace/node_modules/@babel/parser/lib/index.js:9449:31)
+    at TypeScriptParserMixin.parseStatementContent (/home/runner/workspace/node_modules/@babel/parser/lib/index.js:12784:23)
+    at TypeScriptParserMixin.parseStatementContent (/home/runner/workspace/node_modules/@babel/parser/lib/index.js:9483:18)
+    at TypeScriptParserMixin.parseStatementLike (/home/runner/workspace/node_modules/@babel/parser/lib/index.js:12699:17)
+    at TypeScriptParserMixin.parseStatementListItem (/home/runner/workspace/node_modules/@babel/parser/lib/index.js:12679:17)
+    at TypeScriptParserMixin.parseExportDeclaration (/home/runner/workspace/node_modules/@babel/parser/lib/index.js:13863:17)
+    at TypeScriptParserMixin.parseExportDeclaration (/home/runner/workspace/node_modules/@babel/parser/lib/index.js:9608:85)
+    at TypeScriptParserMixin.maybeParseExportDeclaration (/home/runner/workspace/node_modules/@babel/parser/lib/index.js:13822:31)
+    at TypeScriptParserMixin.parseExport (/home/runner/workspace/node_modules/@babel/parser/lib/index.js:13741:29)
+    at TypeScriptParserMixin.parseExport (/home/runner/workspace/node_modules/@babel/parser/lib/index.js:9426:20)
+    at TypeScriptParserMixin.parseStatementContent (/home/runner/workspace/node_modules/@babel/parser/lib/index.js:12811:27)
+    at TypeScriptParserMixin.parseStatementContent (/home/runner/workspace/node_modules/@babel/parser/lib/index.js:9483:18)
+    at TypeScriptParserMixin.parseStatementLike (/home/runner/workspace/node_modules/@babel/parser/lib/index.js:12699:17)
+    at TypeScriptParserMixin.parseModuleItem (/home/runner/workspace/node_modules/@babel/parser/lib/index.js:12676:17)
+    at TypeScriptParserMixin.parseBlockOrModuleBlockBody (/home/runner/workspace/node_modules/@babel/parser/lib/index.js:13249:36)
+    at TypeScriptParserMixin.parseBlockBody (/home/runner/workspace/node_modules/@babel/parser/lib/index.js:13242:10)
+    at TypeScriptParserMixin.parseProgram (/home/runner/workspace/node_modules/@babel/parser/lib/index.js:12555:10)
+    at TypeScriptParserMixin.parseTopLevel (/home/runner/workspace/node_modules/@babel/parser/lib/index.js:12545:25)
+    at TypeScriptParserMixin.parse (/home/runner/workspace/node_modules/@babel/parser/lib/index.js:14423:10)
+    at TypeScriptParserMixin.parse (/home/runner/workspace/node_modules/@babel/parser/lib/index.js:10100:18)
+    at parse (/home/runner/workspace/node_modules/@babel/parser/lib/index.js:14457:38)
+    at parser (/home/runner/workspace/node_modules/@babel/core/lib/parser/index.js:41:34)
+    at parser.next (<anonymous>)
+    at normalizeFile (/home/runner/workspace/node_modules/@babel/core/lib/transformation/normalize-file.js:64:37)
+    at normalizeFile.next (<anonymous>)
+    at run (/home/runner/workspace/node_modules/@babel/core/lib/transformation/index.js:22:50)
+    at run.next (<anonymous>)
+    at transform (/home/runner/workspace/node_modules/@babel/core/lib/transform.js:22:33)
+    at transform.next (<anonymous>)
+    at step (/home/runner/workspace/node_modules/gensync/index.js:261:32)
+    at /home/runner/workspace/node_modules/gensync/index.js:273:13
+    at async.call.result.err.err (/home/runner/workspace/node_modules/gensync/index.js:223:11)
+    at /home/runner/workspace/node_modules/gensync/index.js:189:28
+    at /home/runner/workspace/node_modules/@babel/core/lib/gensync-utils/async.js:67:7
+    at /home/runner/workspace/node_modules/gensync/index.js:113:33
+    at step (/home/runner/workspace/node_modules/gensync/index.js:287:14)
+    at /home/runner/workspace/node_modules/gensync/index.js:273:13
+    at async.call.result.err.err (/home/runner/workspace/node_modules/gensync/index.js:223:11)
+ERROR in src/utils/formatUtils.ts:3:14
+TS2451: Cannot redeclare block-scoped variable 'formatTime'.
+    1 | // フォーマットユーティリティ関数
+    2 |
+  > 3 | export const formatTime = (seconds: number): string => {
+      |              ^^^^^^^^^^
+    4 |   const mins = Math.floor(seconds / 60);
+    5 |   const secs = seconds % 60;
+    6 |   return `${mins}:${secs.toString().padStart(2, '0')}`;
+ERROR in src/utils/formatUtils.ts:13:14
+TS2451: Cannot redeclare block-scoped variable 'formatDate'.
+    11 | };
+    12 |
+  > 13 | export const formatDate = (date: Date | string): string => {
+       |              ^^^^^^^^^^
+    14 |   const d = new Date(date);
+    15 |   return d.toLocaleDateString('ja-JP', {
+    16 |     year: 'numeric',
+ERROR in src/utils/formatUtils.ts:37:14
+TS2451: Cannot redeclare block-scoped variable 'formatTime'.
+    35 |
+    36 | // Format time in MM:SS format
+  > 37 | export const formatTime = (seconds: number): string => {
+       |              ^^^^^^^^^^
+    38 |   const minutes = Math.floor(seconds / 60);
+    39 |   const remainingSeconds = seconds % 60;
+    40 |   return `${minutes.toString().padStart(2, '0')}:${remainingSeconds.toString().padStart(2, '0')}`;
+ERROR in src/utils/formatUtils.ts:60:14
+TS2451: Cannot redeclare block-scoped variable 'formatDate'.
+    58 |
+    59 | // Format date for display
+  > 60 | export const formatDate = (date: Date): string => {
+       |              ^^^^^^^^^^
+    61 |   return new Intl.DateTimeFormat('ja-JP', {
+    62 |     year: 'numeric',
+    63 |     month: 'long',
+ERROR in src/utils/nftUtils.ts:67:11
+TS18048: 'template' is possibly 'undefined'.
+    65 |   return {
+    66 |     id: `nft-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
+  > 67 |     name: template.name,
+       |           ^^^^^^^^
+    68 |     type: template.type,
+    69 |     emoji: template.emoji,
+    70 |     color: template.color,
+ERROR in src/utils/nftUtils.ts:68:5
+TS2322: Type 'string' is not assignable to type '"terrain" | "structure" | "nature" | "guardian" | "decoration" | "sacred" | "goshuin" | "omikuji" | "spirit" | "blessing" | "protection" | "wisdom" | "fortune"'.
+    66 |     id: `nft-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
+    67 |     name: template.name,
+  > 68 |     type: template.type,
+       |     ^^^^
+    69 |     emoji: template.emoji,
+    70 |     color: template.color,
+    71 |     rarity: template.rarity,
+ERROR in src/utils/nftUtils.ts:68:11
+TS18048: 'template' is possibly 'undefined'.
+    66 |     id: `nft-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
+    67 |     name: template.name,
+  > 68 |     type: template.type,
+       |           ^^^^^^^^
+    69 |     emoji: template.emoji,
+    70 |     color: template.color,
+    71 |     rarity: template.rarity,
+ERROR in src/utils/nftUtils.ts:69:12
+TS18048: 'template' is possibly 'undefined'.
+    67 |     name: template.name,
+    68 |     type: template.type,
+  > 69 |     emoji: template.emoji,
+       |            ^^^^^^^^
+    70 |     color: template.color,
+    71 |     rarity: template.rarity,
+    72 |     power: Math.floor(Math.random() * 100) + 1,
+ERROR in src/utils/nftUtils.ts:70:12
+TS18048: 'template' is possibly 'undefined'.
+    68 |     type: template.type,
+    69 |     emoji: template.emoji,
+  > 70 |     color: template.color,
+       |            ^^^^^^^^
+    71 |     rarity: template.rarity,
+    72 |     power: Math.floor(Math.random() * 100) + 1,
+    73 |     pixelData: new Array(256).fill(0),
+ERROR in src/utils/nftUtils.ts:71:5
+TS2322: Type 'string' is not assignable to type '"common" | "rare" | "epic" | "legendary"'.
+    69 |     emoji: template.emoji,
+    70 |     color: template.color,
+  > 71 |     rarity: template.rarity,
+       |     ^^^^^^
+    72 |     power: Math.floor(Math.random() * 100) + 1,
+    73 |     pixelData: new Array(256).fill(0),
+    74 |     animation: 'none',
+ERROR in src/utils/nftUtils.ts:71:13
+TS18048: 'template' is possibly 'undefined'.
+    69 |     emoji: template.emoji,
+    70 |     color: template.color,
+  > 71 |     rarity: template.rarity,
+       |             ^^^^^^^^
+    72 |     power: Math.floor(Math.random() * 100) + 1,
+    73 |     pixelData: new Array(256).fill(0),
+    74 |     animation: 'none',
+ERROR in src/utils/nftUtils.ts:73:5
+TS2322: Type 'any[]' is not assignable to type 'string'.
+    71 |     rarity: template.rarity,
+    72 |     power: Math.floor(Math.random() * 100) + 1,
+  > 73 |     pixelData: new Array(256).fill(0),
+       |     ^^^^^^^^^
+    74 |     animation: 'none',
+    75 |     isOwned: true,
+    76 |     description: `${template.name} - ${omikujiResult}の結果で獲得`
+ERROR in src/utils/nftUtils.ts:76:21
+TS18048: 'template' is possibly 'undefined'.
+    74 |     animation: 'none',
+    75 |     isOwned: true,
+  > 76 |     description: `${template.name} - ${omikujiResult}の結果で獲得`
+       |                     ^^^^^^^^
+    77 |   };
+    78 | };
+    79 |
