@@ -63,7 +63,8 @@ export const dailyMissions: Mission[] = [
     progress: 0,
     total: 1,
     reward: 50,
-    icon: '🌅'
+    icon: '🌅',
+    completed: false
   },
   {
     id: 'consecutive',
@@ -73,7 +74,8 @@ export const dailyMissions: Mission[] = [
     progress: 7,
     total: 7,
     reward: 100,
-    icon: '🔥'
+    icon: '🔥',
+    completed: true
   },
   {
     id: 'explore',
@@ -83,7 +85,8 @@ export const dailyMissions: Mission[] = [
     progress: 0,
     total: 1,
     reward: 100,
-    icon: '🗺️'
+    icon: '🗺️',
+    completed: false
   }
 ];
 

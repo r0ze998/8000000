@@ -97,9 +97,7 @@ export const generateSVGBase64 = (nftData: any): string => {
   return btoa(svg);
 };
 
-export const getRarityColor = (rarity: string): string => {
-  switch (rarity.toLowerCase()) {
-    case 'legendary':
+// Removed duplicate function - keeping only the first declaration
       return '#FFD700';
     case 'epic':
       return '#9F7AEA';

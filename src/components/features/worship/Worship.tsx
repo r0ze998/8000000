@@ -344,7 +344,7 @@ const Worship: React.FC = () => {
                       {breathingPhase === 'exhale' && '息を吐いて'}
                     </div>
                   </div>
-                  
+
                   <div className="prayer-message">
                     {getCurrentPrayerType()?.message}
                   </div>

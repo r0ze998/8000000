@@ -19,9 +19,7 @@ export interface User {
 export interface UserStats {
   culturalCapital: number;
   totalNFTs: number;
-  visitCount: number;
-  streakDays: number;
-  totalPrayerTime: number;
+  meditationStreak: number;
   totalWorshipSessions: number;
   level: number;
 }
