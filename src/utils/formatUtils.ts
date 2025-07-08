@@ -8,7 +8,7 @@ export const formatNumber = (num: number): string => {
   return num.toLocaleString();
 };
 
-// Format cultural capital with K suffix for large numbers
+// Format cultural capital
 export const formatCulturalCapital = (amount: number): string => {
   if (amount >= 1000) {
     return `${(amount / 1000).toFixed(1)}K`;
@@ -36,7 +36,7 @@ export const formatDate = (date: Date): string => {
   });
 };
 
-// Format time in MM:SS format - single declaration only
+// Format time in MM:SS format
 export const formatTime = (seconds: number): string => {
   const minutes = Math.floor(seconds / 60);
   const remainingSeconds = seconds % 60;

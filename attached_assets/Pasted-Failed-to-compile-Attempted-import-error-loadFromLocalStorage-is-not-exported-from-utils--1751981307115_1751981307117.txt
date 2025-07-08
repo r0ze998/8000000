@@ -1,0 +1,90 @@
+Failed to compile.
+
+Attempted import error: 'loadFromLocalStorage' is not exported from '../utils' (imported as 'loadFromLocalStorage').
+WARNING in [eslint] 
+src/App.tsx
+  Line 21:15:  'User' is defined but never used  @typescript-eslint/no-unused-vars
+
+src/components/common/StarkNetDebug.tsx
+  Line 25:6:  React Hook useEffect has a missing dependency: 'checkConnection'. Either include it or remove the dependency array  react-hooks/exhaustive-deps
+
+src/components/features/explore/Explore.tsx
+  Line 9:10:  'userLocation' is assigned a value but never used  @typescript-eslint/no-unused-vars
+
+src/components/features/worship/BreathingGuide.tsx
+  Line 32:9:  'getBreathingText' is assigned a value but never used  @typescript-eslint/no-unused-vars
+
+src/components/features/worship/Worship.tsx
+  Line 30:25:  'setSelectedSound' is assigned a value but never used    @typescript-eslint/no-unused-vars
+  Line 52:10:  'currentPrayerTimer' is assigned a value but never used  @typescript-eslint/no-unused-vars
+  Line 53:10:  'isPrayerActive' is assigned a value but never used      @typescript-eslint/no-unused-vars
+
+src/hooks/useGoogleMaps.ts
+  Line 49:6:  React Hook useEffect has a missing dependency: 'center'. Either include it or remove the dependency array  react-hooks/exhaustive-deps
+
+src/utils/nftUtils.ts
+  Line 1:10:  'NFT_RARITIES' is defined but never used  @typescript-eslint/no-unused-vars
+
+ERROR in ./src/hooks/useLocalStorage.ts 9:11-31
+export 'loadFromLocalStorage' (imported as 'loadFromLocalStorage') was not found in '../utils' (possible exports: NFT_RARITIES, PRAYER_MULTIPLIERS, PRAYER_TYPE_MULTIPLIERS, calculateBaseReward, calculateEnhancedReward, calculateLevel, calculateLevelProgress, calculateStreakBonus, checkAchievements, debugLog, dropNFTFromOmikuji, formatCulturalCapital, formatDate, formatDuration, formatExperience, formatLevelProgress, formatNumber, formatPercentage, formatRarity, formatTime, generateNFTFromPrayer, generateSVGBase64, getCurrentSeasonalEvent, getExperienceForNextLevel, getPrayerEmoji, getRandomWeather, getRarityColor, getRarityPower, getSeasonalEvents, getTimeBonuses, getTimeOfDay, getWeatherBonus, getWeatherBonuses)
+
+ERROR in ./src/hooks/useLocalStorage.ts 12:4-22
+export 'saveToLocalStorage' (imported as 'saveToLocalStorage') was not found in '../utils' (possible exports: NFT_RARITIES, PRAYER_MULTIPLIERS, PRAYER_TYPE_MULTIPLIERS, calculateBaseReward, calculateEnhancedReward, calculateLevel, calculateLevelProgress, calculateStreakBonus, checkAchievements, debugLog, dropNFTFromOmikuji, formatCulturalCapital, formatDate, formatDuration, formatExperience, formatLevelProgress, formatNumber, formatPercentage, formatRarity, formatTime, generateNFTFromPrayer, generateSVGBase64, getCurrentSeasonalEvent, getExperienceForNextLevel, getPrayerEmoji, getRandomWeather, getRarityColor, getRarityPower, getSeasonalEvents, getTimeBonuses, getTimeOfDay, getWeatherBonus, getWeatherBonuses)
+
+ERROR in ./src/hooks/useOnboarding.ts 11:35-55
+export 'loadFromLocalStorage' (imported as 'loadFromLocalStorage') was not found in '../utils' (possible exports: NFT_RARITIES, PRAYER_MULTIPLIERS, PRAYER_TYPE_MULTIPLIERS, calculateBaseReward, calculateEnhancedReward, calculateLevel, calculateLevelProgress, calculateStreakBonus, checkAchievements, debugLog, dropNFTFromOmikuji, formatCulturalCapital, formatDate, formatDuration, formatExperience, formatLevelProgress, formatNumber, formatPercentage, formatRarity, formatTime, generateNFTFromPrayer, generateSVGBase64, getCurrentSeasonalEvent, getExperienceForNextLevel, getPrayerEmoji, getRandomWeather, getRarityColor, getRarityPower, getSeasonalEvents, getTimeBonuses, getTimeOfDay, getWeatherBonus, getWeatherBonuses)
+
+ERROR in ./src/hooks/useOnboarding.ts 16:4-22
+export 'saveToLocalStorage' (imported as 'saveToLocalStorage') was not found in '../utils' (possible exports: NFT_RARITIES, PRAYER_MULTIPLIERS, PRAYER_TYPE_MULTIPLIERS, calculateBaseReward, calculateEnhancedReward, calculateLevel, calculateLevelProgress, calculateStreakBonus, checkAchievements, debugLog, dropNFTFromOmikuji, formatCulturalCapital, formatDate, formatDuration, formatExperience, formatLevelProgress, formatNumber, formatPercentage, formatRarity, formatTime, generateNFTFromPrayer, generateSVGBase64, getCurrentSeasonalEvent, getExperienceForNextLevel, getPrayerEmoji, getRandomWeather, getRarityColor, getRarityPower, getSeasonalEvents, getTimeBonuses, getTimeOfDay, getWeatherBonus, getWeatherBonuses)
+
+webpack compiled with 4 errors and 1 warning
+ERROR in src/hooks/useLocalStorage.ts:3:10
+TS2305: Module '"../utils"' has no exported member 'saveToLocalStorage'.
+    1 |
+    2 | import { useState, useEffect } from 'react';
+  > 3 | import { saveToLocalStorage, loadFromLocalStorage } from '../utils';
+      |          ^^^^^^^^^^^^^^^^^^
+    4 |
+    5 | export function useLocalStorage<T>(key: string, defaultValue: T) {
+    6 |   const [value, setValue] = useState<T>(() => {
+
+ERROR in src/hooks/useLocalStorage.ts:3:30
+TS2305: Module '"../utils"' has no exported member 'loadFromLocalStorage'.
+    1 |
+    2 | import { useState, useEffect } from 'react';
+  > 3 | import { saveToLocalStorage, loadFromLocalStorage } from '../utils';
+      |                              ^^^^^^^^^^^^^^^^^^^^
+    4 |
+    5 | export function useLocalStorage<T>(key: string, defaultValue: T) {
+    6 |   const [value, setValue] = useState<T>(() => {
+
+ERROR in src/hooks/useOnboarding.ts:3:10
+TS2305: Module '"../utils"' has no exported member 'loadFromLocalStorage'.
+    1 |
+    2 | import { useState, useEffect } from 'react';
+  > 3 | import { loadFromLocalStorage, saveToLocalStorage } from '../utils';
+      |          ^^^^^^^^^^^^^^^^^^^^
+    4 |
+    5 | export const useOnboarding = () => {
+    6 |   const [needsOnboarding, setNeedsOnboarding] = useState<boolean>(true);
+
+ERROR in src/hooks/useOnboarding.ts:3:32
+TS2305: Module '"../utils"' has no exported member 'saveToLocalStorage'.
+    1 |
+    2 | import { useState, useEffect } from 'react';
+  > 3 | import { loadFromLocalStorage, saveToLocalStorage } from '../utils';
+      |                                ^^^^^^^^^^^^^^^^^^
+    4 |
+    5 | export const useOnboarding = () => {
+    6 |   const [needsOnboarding, setNeedsOnboarding] = useState<boolean>(true);
+
+ERROR in src/utils/index.ts:36:41
+TS2345: Argument of type 'string | undefined' is not assignable to parameter of type 'string'.
+  Type 'undefined' is not assignable to type 'string'.
+    34 |   const weatherTypes = ['sunny', 'cloudy', 'rainy', 'snowy'];
+    35 |   const type = weatherTypes[Math.floor(Math.random() * weatherTypes.length)];
+  > 36 |   return { type, emoji: getWeatherEmoji(type) };
+       |                                         ^^^^
+    37 | };
+    38 |
+    39 | const getWeatherEmoji = (weather: string): string => {
