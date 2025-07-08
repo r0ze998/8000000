@@ -4,12 +4,35 @@
 export interface NFTTemplate {
   id: string;
   name: string;
-  type: string;
+  type: NFTType;
   emoji: string;
   rarity: NFTRarity;
 }
 
 export type NFTRarity = 'common' | 'uncommon' | 'rare' | 'epic' | 'legendary';
+
+export type NFTType = 
+  | 'goshuin'
+  | 'omikuji' 
+  | 'spirit'
+  | 'blessing'
+  | 'protection'
+  | 'wisdom'
+  | 'fortune'
+  | 'terrain'
+  | 'structure'
+  | 'nature'
+  | 'decoration'
+  | 'guardian'
+  | 'sacred'
+  | 'omamori'
+  | 'offering'
+  | 'ema'
+  | 'bell'
+  | 'special'
+  | 'statue'
+  | 'morning_visit'
+  | 'discover_new_shrine';
 
 // NFT type alias for backwards compatibility
 export type NFT = NFTItem;
@@ -89,7 +112,7 @@ export interface Achievement {
 export interface NFTItem {
   id: string;
   name: string;
-  type: 'goshuin' | 'omikuji' | 'spirit' | 'blessing' | 'protection' | 'wisdom' | 'fortune' | 'terrain' | 'structure' | 'nature' | 'decoration' | 'guardian' | 'sacred';
+  type: NFTType;
   rarity: NFTRarity;
   power?: number;
   description: string;
