@@ -1,4 +1,3 @@
-
 // =============================================================================
 // Main Utils Export File
 // =============================================================================
@@ -74,7 +73,7 @@ export const calculatePercentage = (value: number, total: number): number => {
 export const calculateBaseReward = (duration: number, prayerType?: string) => {
   const baseRate = 10; // Base cultural capital per minute
   const minutes = duration / 60;
-  
+
   let multiplier = 1;
   switch (prayerType) {
     case 'health':
@@ -95,7 +94,7 @@ export const calculateBaseReward = (duration: number, prayerType?: string) => {
     default:
       multiplier = 1;
   }
-  
+
   const culturalCapital = Math.floor(baseRate * minutes * multiplier);
   const experience = Math.floor(culturalCapital * 0.5);
 
@@ -120,7 +119,7 @@ export const getSeasonalEvents = () => {
       description: '桜の季節の特別ボーナス'
     });
   }
-  
+
   // Summer events (June-August)
   if (month >= 5 && month <= 7) {
     events.push({
@@ -130,7 +129,7 @@ export const getSeasonalEvents = () => {
       description: '夏祭りの特別ボーナス'
     });
   }
-  
+
   // Autumn events (September-November)
   if (month >= 8 && month <= 10) {
     events.push({
@@ -140,7 +139,7 @@ export const getSeasonalEvents = () => {
       description: '紅葉の季節の特別ボーナス'
     });
   }
-  
+
   // Winter events (December-February)
   if (month >= 11 || month <= 1) {
     events.push({
@@ -157,7 +156,7 @@ export const getSeasonalEvents = () => {
 // Get time of day
 export const getTimeOfDay = (date: Date = new Date()) => {
   const hour = date.getHours();
-  
+
   if (hour >= 5 && hour < 12) {
     return 'morning';
   } else if (hour >= 12 && hour < 17) {
@@ -178,7 +177,7 @@ export const getRandomWeather = () => {
     { type: 'snowy', emoji: '❄️', name: '雪' },
     { type: 'windy', emoji: '🌬️', name: '風' }
   ];
-  
+
   return weatherTypes[Math.floor(Math.random() * weatherTypes.length)];
 };
 
@@ -230,7 +229,7 @@ export const getBeltColor = (belt: string): string => {
     '黄帯': '#D97706',
     '白帯': '#6B7280'
   };
-  
+
   return colors[belt as keyof typeof colors] || colors['白帯'];
 };
 

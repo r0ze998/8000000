@@ -1,4 +1,3 @@
-
 // Core type definitions
 
 // NFT related types
@@ -91,7 +90,7 @@ export interface NFTItem {
   id: string;
   name: string;
   type: 'goshuin' | 'omikuji' | 'spirit' | 'blessing' | 'protection' | 'wisdom' | 'fortune' | 'terrain' | 'structure' | 'nature' | 'decoration' | 'guardian' | 'sacred';
-  rarity: 'common' | 'rare' | 'epic' | 'legendary';
+  rarity: NFTRarity;
   power?: number;
   description: string;
   emoji: string;

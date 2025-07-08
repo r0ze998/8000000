@@ -12,10 +12,7 @@ export * from './components';
 // Hooks
 export * from './hooks';
 
-// Types
-export * from './types';
-
-// Utils (excluding conflicting exports)
+// Utils
 export * from './utils';
 
 // Constants (excluding NFT_RARITIES which is already exported from utils)

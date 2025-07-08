@@ -1,4 +1,3 @@
-
 import type { NFTItem, NFTTemplate, NFTRarity } from '../types';
 
 // Define NFT type alias for backwards compatibility
