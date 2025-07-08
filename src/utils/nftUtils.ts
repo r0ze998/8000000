@@ -1,4 +1,5 @@
 
+
 // =============================================================================
 // NFT Utilities
 // =============================================================================
@@ -108,7 +109,7 @@ export const getRarityPower = (rarity: NFTRarity): number => {
   return powers[rarity];
 };
 
-// Get rarity color
+// Get rarity color - single declaration only
 export const getRarityColor = (rarity: string): string => {
   const colors = {
     common: '#FFFFFF',
@@ -138,6 +139,31 @@ export const generateNFTImage = (rarity: NFTRarity, prayerType: string): string 
       </text>
       <text x="150" y="250" text-anchor="middle" font-size="16" fill="white">
         ${rarity.toUpperCase()}
+      </text>
+    </svg>
+  `;
+  return btoa(svg);
+};
+
+// Generate SVG Base64 - new function for compatibility
+export const generateSVGBase64 = (nftData: any): string => {
+  const color = getRarityColor(nftData.rarity || 'common');
+  const emoji = getPrayerEmoji(nftData.type || 'gratitude');
+  
+  const svg = `
+    <svg width="300" height="300" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <radialGradient id="bg" cx="50%" cy="50%" r="50%">
+          <stop offset="0%" style="stop-color:${color};stop-opacity:0.8" />
+          <stop offset="100%" style="stop-color:${color};stop-opacity:0.2" />
+        </radialGradient>
+      </defs>
+      <rect width="300" height="300" fill="url(#bg)" />
+      <text x="150" y="150" text-anchor="middle" font-size="60" fill="${color}">
+        ${emoji}
+      </text>
+      <text x="150" y="250" text-anchor="middle" font-size="16" fill="white">
+        ${(nftData.rarity || 'common').toUpperCase()}
       </text>
     </svg>
   `;

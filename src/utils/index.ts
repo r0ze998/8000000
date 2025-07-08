@@ -1,3 +1,5 @@
+
+
 // =============================================================================
 // Utility Functions Index
 // =============================================================================
@@ -10,6 +12,9 @@ export * from './starknet';
 // =============================================================================
 // Core Utility Functions
 // =============================================================================
+
+// Type definitions
+export type TimeOfDay = 'morning' | 'afternoon' | 'evening' | 'night';
 
 // Generic array utility
 export const getRandomElement = <T>(array: T[]): T => {
@@ -43,13 +48,31 @@ export const getCurrentSeason = (): string => {
 };
 
 // Time of day detector
-export const getTimeOfDay = (): string => {
+export const getTimeOfDay = (): TimeOfDay => {
   const hour = new Date().getHours();
   if (hour >= 5 && hour < 12) return 'morning';
   if (hour >= 12 && hour < 17) return 'afternoon';
   if (hour >= 17 && hour < 21) return 'evening';
   return 'night';
 };
+
+// Seasonal events
+export const getSeasonalEvent = (): string | null => {
+  const month = new Date().getMonth() + 1;
+  const day = new Date().getDate();
+  
+  // New Year
+  if (month === 1 && day <= 7) return '新年';
+  // Spring Festival
+  if (month === 3 && day >= 20) return '春分の日';
+  // Autumn Festival
+  if (month === 9 && day >= 22) return '秋分の日';
+  
+  return null;
+};
+
+// Add alias for compatibility
+export const getCurrentSeasonalEvent = getSeasonalEvent;
 
 // Cultural capital calculator
 export const calculateCulturalCapital = (
@@ -149,9 +172,6 @@ export const debugLog = (message: string, data?: any) => {
   }
 };
 
-// Add alias for compatibility
-export const getCurrentSeasonalEvent = getSeasonalEvent;
-
 // Distance utilities
 export const calculateDistance = (
   lat1: number,
@@ -243,6 +263,17 @@ export const PRAYER_MULTIPLIERS = {
   'protection': 0.9
 } as const;
 
+// Time bonuses
+export const getTimeBonuses = (timeOfDay: TimeOfDay): number => {
+  const bonuses: Record<TimeOfDay, number> = {
+    'morning': 15,
+    'afternoon': 5,
+    'evening': 10,
+    'night': 0
+  };
+  return bonuses[timeOfDay];
+};
+
 // Enhanced reward calculation
 export const calculateEnhancedReward = (duration: number, prayerType: string, bonuses: any) => {
   const baseReward = calculateBaseReward(duration, prayerType);
@@ -289,17 +320,6 @@ export const getWeatherBonus = (weather: string): number => {
   return bonuses[weather] || 0;
 };
 
-// Time bonuses
-export const getTimeBonuses = (timeOfDay: TimeOfDay): number => {
-  const bonuses: Record<TimeOfDay, number> = {
-    'morning': 15,
-    'afternoon': 5,
-    'evening': 10,
-    'night': 0
-  };
-  return bonuses[timeOfDay];
-};
-
 // Seasonal events
 export const getSeasonalEvents = (): Array<{ name: string; bonus: number; active: boolean }> => {
   const month = new Date().getMonth() + 1;
@@ -322,18 +342,4 @@ export const getSeasonalEvents = (): Array<{ name: string; bonus: number; active
       active: month === 9 && day >= 22 && day <= 24
     }
   ];
-};
-
-export const getSeasonalEvent = (): string | null => {
-  const month = new Date().getMonth() + 1;
-  const day = new Date().getDate();
-  
-  // New Year
-  if (month === 1 && day <= 7) return '新年';
-  // Spring Festival
-  if (month === 3 && day >= 20) return '春分の日';
-  // Autumn Festival
-  if (month === 9 && day >= 22) return '秋分の日';
-  
-  return null;
 };
