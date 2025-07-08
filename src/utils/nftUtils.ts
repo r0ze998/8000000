@@ -1,4 +1,3 @@
-
 // =============================================================================
 // NFT Utilities
 // =============================================================================
@@ -35,7 +34,7 @@ export const generateNFTFromPrayer = (prayerData: {
   const rarity = determineRarity(prayerData.duration);
   const color = getRarityColor(rarity);
   const emoji = getPrayerEmoji(prayerData.type);
-  
+
   return {
     id: Date.now().toString(),
     name: `${prayerData.type} Prayer NFT`,
@@ -54,7 +53,7 @@ export const generateNFTFromPrayer = (prayerData: {
 // Determine rarity based on prayer duration and conditions
 const determineRarity = (duration: number): NFTRarity => {
   const minutes = duration / 60;
-  
+
   if (minutes >= 60) return 'legendary';
   if (minutes >= 30) return 'epic';
   if (minutes >= 15) return 'rare';
@@ -63,19 +62,19 @@ const determineRarity = (duration: number): NFTRarity => {
 };
 
 // Get color for rarity
-export const getRarityColor = (rarity: NFTRarity | string): string => {
+export const getRarityColor = (rarity: string): string => {
   const colors: Record<string, string> = {
-    common: '#9CA3AF',
-    uncommon: '#10B981',
-    rare: '#3B82F6',
-    epic: '#8B5CF6',
+    common: '#94A3B8',
+    uncommon: '#22D3EE', 
+    rare: '#A855F7',
+    epic: '#F59E0B',
     legendary: '#F59E0B'
   };
   return colors[rarity] || colors.common;
 };
 
 // Get power level for rarity
-export const getRarityPower = (rarity: NFTRarity | string): number => {
+export const getRarityPower = (rarity: string): number => {
   const powers: Record<string, number> = {
     common: 1,
     uncommon: 2,
@@ -90,13 +89,13 @@ export const getRarityPower = (rarity: NFTRarity | string): number => {
 // Omikuji (Fortune) NFT Generation
 // =============================================================================
 
-export const dropNFTFromOmikuji = () => {
+export const dropNFTFromOmikuji = (omikujiData?: any): any => {
   const rarities: NFTRarity[] = ['common', 'uncommon', 'rare', 'epic', 'legendary'];
   const weights = [50, 30, 15, 4, 1]; // Drop rates
-  
+
   const totalWeight = weights.reduce((sum, weight) => sum + weight, 0);
   const random = Math.random() * totalWeight;
-  
+
   let currentWeight = 0;
   for (let i = 0; i < rarities.length; i++) {
     currentWeight += weights[i];
@@ -114,7 +113,7 @@ export const dropNFTFromOmikuji = () => {
       };
     }
   }
-  
+
   // Fallback to common
   return {
     id: Date.now().toString(),
@@ -146,7 +145,7 @@ const getFortuneEmoji = (rarity: string): string => {
 export const generateSVGBase64 = (nftData: any): string => {
   const color = getRarityColor(nftData.rarity || 'common');
   const emoji = nftData.pixelData || getPrayerEmoji(nftData.type || 'gratitude');
-  
+
   const svg = `
     <svg width="300" height="300" xmlns="http://www.w3.org/2000/svg">
       <defs>

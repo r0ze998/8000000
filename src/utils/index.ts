@@ -1,4 +1,3 @@
-
 // =============================================================================
 // Utility Functions Index
 // =============================================================================
@@ -52,14 +51,14 @@ const getWeatherEmoji = (weather: string): string => {
 export const getSeasonalEvent = (): string | null => {
   const month = new Date().getMonth() + 1;
   const day = new Date().getDate();
-  
+
   // New Year
   if (month === 1 && day <= 7) return '新年';
   // Spring Festival
   if (month === 3 && day >= 20) return '春分の日';
   // Autumn Festival
   if (month === 9 && day >= 22) return '秋分の日';
-  
+
   return null;
 };
 
@@ -88,7 +87,7 @@ export const getWeatherBonuses = () => {
 // Time-based bonuses
 export const getTimeBonuses = () => {
   const hour = new Date().getHours();
-  
+
   if (hour >= 5 && hour < 8) {
     return { multiplier: 1.3, description: '早朝の清浄な空気' };
   }
@@ -98,7 +97,7 @@ export const getTimeBonuses = () => {
   if (hour >= 22 || hour < 5) {
     return { multiplier: 1.25, description: '深夜の静寂' };
   }
-  
+
   return { multiplier: 1.0, description: '' };
 };
 
@@ -110,9 +109,9 @@ export const calculateCulturalCapital = (
 ): { culturalCapital: number; experience: number } => {
   const baseRate = 10; // Base cultural capital per minute
   const minutes = baseDuration / 60000; // Convert to minutes
-  
+
   let multiplier = 1.0;
-  
+
   // Prayer type multiplier
   const prayerMultipliers: Record<string, number> = {
     gratitude: 1.0,
@@ -121,11 +120,11 @@ export const calculateCulturalCapital = (
     protection: 1.15,
     wisdom: 1.25
   };
-  
+
   multiplier *= prayerMultipliers[prayerType] || 1.0;
   multiplier *= getWeatherBonus(weather);
   multiplier *= getTimeBonuses().multiplier;
-  
+
   const culturalCapital = Math.floor(baseRate * minutes * multiplier);
   const experience = Math.floor(culturalCapital * 0.5);
 
@@ -148,14 +147,14 @@ export const calculateLevelProgress = (experience: number): number => {
   const currentLevel = calculateLevel(experience);
   const currentLevelExp = getExperienceForNextLevel(currentLevel - 1);
   const nextLevelExp = getExperienceForNextLevel(currentLevel);
-  
+
   return ((experience - currentLevelExp) / (nextLevelExp - currentLevelExp)) * 100;
 };
 
 // Achievement system
 export const checkAchievements = (userStats: any) => {
   const achievements = [];
-  
+
   if (userStats.totalPrayers >= 10) {
     achievements.push('devotee');
   }
@@ -165,7 +164,7 @@ export const checkAchievements = (userStats: any) => {
   if (userStats.streak >= 7) {
     achievements.push('consistent');
   }
-  
+
   return achievements;
 };
 
@@ -216,7 +215,7 @@ export const calculateEnhancedReward = (
   const streakBonus = calculateStreakBonus(streak);
   const weatherMultiplier = getWeatherBonus(weather);
   const timeMultiplier = getTimeBonuses().multiplier;
-  
+
   return Math.floor(base * streakBonus * weatherMultiplier * timeMultiplier);
 };
 
@@ -244,7 +243,7 @@ export const getSeasonalEvents = () => {
 export const calculateBaseReward = (duration: number, prayerType?: string) => {
   const baseRate = 10; // Base cultural capital per minute
   const minutes = duration / 60; // Convert seconds to minutes
-  
+
   let multiplier = 1.0;
   if (prayerType) {
     const prayerMultipliers: Record<string, number> = {
@@ -256,10 +255,10 @@ export const calculateBaseReward = (duration: number, prayerType?: string) => {
     };
     multiplier = prayerMultipliers[prayerType] || 1.0;
   }
-  
+
   const culturalCapital = Math.floor(baseRate * minutes * multiplier);
   const experience = Math.floor(culturalCapital * 0.5);
-  
+
   return {
     culturalCapital,
     experience
@@ -290,4 +289,10 @@ export const loadFromLocalStorage = <T>(key: string, defaultValue: T): T => {
     console.error('Error loading from localStorage:', error);
     return defaultValue;
   }
+};
+export const getRandomItem = <T>(array: T[]): T => {
+  if (array.length === 0) {
+    throw new Error('Array is empty');
+  }
+  return array[Math.floor(Math.random() * array.length)] as T;
 };
