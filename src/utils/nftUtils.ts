@@ -1,199 +1,144 @@
-
+import { NFT_RARITIES } from './index';
 
 // =============================================================================
-// NFT Utilities
+// NFT Utility Functions
 // =============================================================================
 
-export type NFTRarity = 'common' | 'rare' | 'epic' | 'legendary';
+// Get prayer emoji based on type
+export const getPrayerEmoji = (type: string): string => {
+  const emojis = {
+    gratitude: '🙏',
+    peace: '☮️',
+    healing: '💚',
+    prosperity: '💰',
+    wisdom: '🧠',
+    love: '❤️',
+    protection: '🛡️'
+  } as const;
 
-export interface NFTMetadata {
-  name: string;
-  description: string;
-  image: string;
-  attributes: Array<{
-    trait_type: string;
-    value: string | number;
-  }>;
-  rarity: NFTRarity;
-  power: number;
-  shrine_id: string;
-  timestamp: number;
-}
-
-// Calculate NFT rarity based on prayer factors
-export const calculateNFTRarity = (factors: {
-  prayerType: string;
-  timeOfDay: string;
-  season?: string;
-  weather?: string;
-}): NFTRarity => {
-  let rarityScore = 0;
-  
-  // Prayer type scoring
-  const prayerScores: Record<string, number> = {
-    'gratitude': 1,
-    'meditation': 2,
-    'blessing': 3,
-    'healing': 4,
-    'protection': 5
-  };
-  
-  rarityScore += prayerScores[factors.prayerType] || 1;
-  
-  // Time of day bonus
-  if (factors.timeOfDay === 'dawn' || factors.timeOfDay === 'dusk') {
-    rarityScore += 2;
-  }
-  
-  // Season bonus
-  if (factors.season === 'spring' || factors.season === 'autumn') {
-    rarityScore += 1;
-  }
-  
-  // Weather bonus
-  if (factors.weather === 'clear' || factors.weather === 'storm') {
-    rarityScore += 1;
-  }
-  
-  // Determine rarity
-  if (rarityScore >= 8) return 'legendary';
-  if (rarityScore >= 6) return 'epic';
-  if (rarityScore >= 4) return 'rare';
-  return 'common';
+  return emojis[type as keyof typeof emojis] || '🙏';
 };
 
-// Generate NFT metadata
-export const generateNFTMetadata = (params: {
-  rarity: NFTRarity;
-  shrineId: string;
-  timestamp: number;
-  prayerType: string;
-}): NFTMetadata => {
-  const { rarity, shrineId, timestamp, prayerType } = params;
-  
-  const rarityNames = {
-    common: '一般',
-    rare: '珍しい',
-    epic: '稀有',
-    legendary: '伝説'
-  };
-  
-  const name = `${rarityNames[rarity]}祈りの証 #${timestamp.toString().slice(-6)}`;
-  const description = `${prayerType}の祈りから生まれた神聖なNFT。神社ID: ${shrineId}`;
-  
-  return {
-    name,
-    description,
-    image: generateNFTImage(rarity, prayerType),
-    attributes: [
-      { trait_type: 'Rarity', value: rarity },
-      { trait_type: 'Prayer Type', value: prayerType },
-      { trait_type: 'Shrine ID', value: shrineId },
-      { trait_type: 'Timestamp', value: timestamp }
-    ],
-    rarity,
-    power: getRarityPower(rarity),
-    shrine_id: shrineId,
-    timestamp
-  };
-};
-
-// Get rarity power value
-export const getRarityPower = (rarity: NFTRarity): number => {
+// Get rarity power based on rarity level
+export const getRarityPower = (rarity: string): number => {
   const powers = {
-    common: 10,
-    rare: 25,
-    epic: 50,
-    legendary: 100
-  };
-  return powers[rarity];
+    common: 1,
+    rare: 2,
+    epic: 3,
+    legendary: 5
+  } as const;
+
+  return powers[rarity as keyof typeof powers] || 1;
 };
 
 // Get rarity color - single declaration only
 export const getRarityColor = (rarity: string): string => {
   const colors = {
     common: '#FFFFFF',
-    rare: '#4FC3F7',
-    epic: '#9C27B0',
+    rare: '#4ECDC4',
+    epic: '#9F7AEA',
     legendary: '#FFD700'
-  };
+  } as const;
+
   return colors[rarity as keyof typeof colors] || colors.common;
 };
 
-// Generate NFT image (SVG)
-export const generateNFTImage = (rarity: NFTRarity, prayerType: string): string => {
-  const color = getRarityColor(rarity);
+// Generate NFT from prayer session
+export const generateNFTFromPrayer = (
+  prayerType: string,
+  duration: number,
+  bonuses: any = {}
+): any => {
+  const rarity = determineRarity(duration, bonuses);
   const emoji = getPrayerEmoji(prayerType);
-  
-  const svg = `
-    <svg width="300" height="300" xmlns="http://www.w3.org/2000/svg">
-      <defs>
-        <radialGradient id="bg" cx="50%" cy="50%" r="50%">
-          <stop offset="0%" style="stop-color:${color};stop-opacity:0.8" />
-          <stop offset="100%" style="stop-color:${color};stop-opacity:0.2" />
-        </radialGradient>
-      </defs>
-      <rect width="300" height="300" fill="url(#bg)" />
-      <text x="150" y="150" text-anchor="middle" font-size="60" fill="${color}">
-        ${emoji}
-      </text>
-      <text x="150" y="250" text-anchor="middle" font-size="16" fill="white">
-        ${rarity.toUpperCase()}
-      </text>
-    </svg>
-  `;
-  return btoa(svg);
+  const color = getRarityColor(rarity);
+  const power = getRarityPower(rarity);
+
+  return {
+    id: `nft_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
+    name: `${prayerType.charAt(0).toUpperCase() + prayerType.slice(1)} Prayer`,
+    description: `A sacred NFT earned through ${duration} seconds of ${prayerType} prayer`,
+    type: prayerType,
+    rarity,
+    power,
+    color,
+    emoji,
+    pixelData: emoji,
+    timestamp: Date.now(),
+    metadata: {
+      duration,
+      bonuses,
+      prayerSession: true
+    }
+  };
 };
 
-// Generate SVG Base64 - new function for compatibility
+// Determine rarity based on various factors
+const determineRarity = (duration: number, bonuses: any): string => {
+  let rarityScore = 0;
+
+  // Base rarity from duration
+  if (duration >= 600) rarityScore += 3; // 10+ minutes
+  else if (duration >= 300) rarityScore += 2; // 5+ minutes
+  else if (duration >= 180) rarityScore += 1; // 3+ minutes
+
+  // Bonus points
+  if (bonuses.seasonal) rarityScore += 1;
+  if (bonuses.weather) rarityScore += 1;
+  if (bonuses.timeOfDay) rarityScore += 1;
+
+  // Random factor
+  const randomBonus = Math.random() < 0.1 ? 2 : 0;
+  rarityScore += randomBonus;
+
+  if (rarityScore >= 6) return 'legendary';
+  if (rarityScore >= 4) return 'epic';
+  if (rarityScore >= 2) return 'rare';
+  return 'common';
+};
+
+// Drop NFT from omikuji (fortune slip)
+export const dropNFTFromOmikuji = (omikujiData: any): any | null => {
+  const { result, duration, prayerType } = omikujiData;
+
+  // Drop rate based on omikuji result
+  const dropRates = {
+    '大吉': 0.8,
+    '中吉': 0.6,
+    '吉': 0.4,
+    '小吉': 0.3,
+    '末吉': 0.2,
+    '凶': 0.1
+  };
+
+  const dropRate = dropRates[result as keyof typeof dropRates] || 0.3;
+
+  if (Math.random() < dropRate) {
+    return generateNFTFromPrayer(prayerType, duration, { omikuji: result });
+  }
+
+  return null;
+};
+
+// Generate SVG image data
 export const generateSVGBase64 = (nftData: any): string => {
   const color = getRarityColor(nftData.rarity || 'common');
   const emoji = getPrayerEmoji(nftData.type || 'gratitude');
-  
+
   const svg = `
-    <svg width="300" height="300" xmlns="http://www.w3.org/2000/svg">
+    <svg width="200" height="200" xmlns="http://www.w3.org/2000/svg">
       <defs>
         <radialGradient id="bg" cx="50%" cy="50%" r="50%">
-          <stop offset="0%" style="stop-color:${color};stop-opacity:0.8" />
-          <stop offset="100%" style="stop-color:${color};stop-opacity:0.2" />
+          <stop offset="0%" style="stop-color:${color};stop-opacity:0.3" />
+          <stop offset="100%" style="stop-color:${color};stop-opacity:0.1" />
         </radialGradient>
       </defs>
-      <rect width="300" height="300" fill="url(#bg)" />
-      <text x="150" y="150" text-anchor="middle" font-size="60" fill="${color}">
-        ${emoji}
-      </text>
-      <text x="150" y="250" text-anchor="middle" font-size="16" fill="white">
-        ${(nftData.rarity || 'common').toUpperCase()}
-      </text>
+      <rect width="200" height="200" fill="url(#bg)" rx="20"/>
+      <circle cx="100" cy="100" r="60" fill="${color}" opacity="0.2"/>
+      <text x="100" y="120" font-size="48" text-anchor="middle" fill="${color}">${emoji}</text>
+      <text x="100" y="160" font-size="12" text-anchor="middle" fill="${color}">${nftData.name}</text>
     </svg>
   `;
+
   return btoa(svg);
-};
-
-// Get prayer emoji
-export const getPrayerEmoji = (prayerType: string): string => {
-  const emojis: Record<string, string> = {
-    gratitude: '🙏',
-    meditation: '🧘',
-    blessing: '✨',
-    healing: '💚',
-    protection: '🛡️'
-  };
-  return emojis[prayerType] || '🙏';
-};
-
-// Drop NFT from Omikuji
-export const dropNFTFromOmikuji = (omikujiData: { result: string; duration: number; prayerType: string }) => {
-  const factors = {
-    prayerType: omikujiData.prayerType,
-    timeOfDay: 'morning'
-  };
-  
-  const rarity = calculateNFTRarity(factors);
-  return generateNFTMetadata({
-    rarity,
-    shrineId: 'virtual-shrine',
-    timestamp: Date.now(),
-    prayerType: omikujiData.prayerType
-  });
 };

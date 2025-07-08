@@ -1,3 +1,4 @@
+
 // =============================================================================
 // Format Utility Functions
 // =============================================================================
@@ -7,11 +8,8 @@ export const formatNumber = (num: number): string => {
   return num.toLocaleString();
 };
 
-// Format cultural capital
+// Format cultural capital with K suffix for large numbers
 export const formatCulturalCapital = (amount: number): string => {
-  if (amount >= 1000000) {
-    return `${(amount / 1000000).toFixed(1)}M`;
-  }
   if (amount >= 1000) {
     return `${(amount / 1000).toFixed(1)}K`;
   }
