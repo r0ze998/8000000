@@ -1,4 +1,3 @@
-
 import { NFTItem } from '../types';
 
 export interface NFTRarity {
@@ -53,7 +52,7 @@ export const getRarityWeight = (rarity: string): number => {
 export const generateNFTMetadata = (shrineId: string, visitCount: number) => {
   const rarity = calculateNFTRarity();
   const timestamp = Date.now();
-  
+
   return {
     id: `${shrineId}_${timestamp}`,
     name: `Goshuin #${visitCount}`,
@@ -80,7 +79,7 @@ const OMIKUJI_NFT_TYPES = [
 export const selectRandomParts = () => {
   const terrainParts = ['🌱', '🌊', '🏔️', '🌸'];
   const structureParts = ['⛩️', '🏛️', '🗼', '🏠'];
-  
+
   return {
     terrain: terrainParts[Math.floor(Math.random() * terrainParts.length)],
     structure: structureParts[Math.floor(Math.random() * structureParts.length)]
@@ -102,18 +101,18 @@ export const dropNFTFromOmikuji = (omikujiResult: string): NFTItem | null => {
   const dropChance = omikujiResult === '大吉' ? 0.8 : 
                    omikujiResult === '中吉' ? 0.6 :
                    omikujiResult === '吉' ? 0.4 : 0.2;
-  
+
   if (Math.random() > dropChance) {
     return null;
   }
-  
+
   const randomType = OMIKUJI_NFT_TYPES[Math.floor(Math.random() * OMIKUJI_NFT_TYPES.length)];
   if (!randomType) {
     return null;
   }
-  
+
   const rarity = calculateNFTRarity();
-  
+
   return {
     id: `omikuji_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
     name: randomType.name,

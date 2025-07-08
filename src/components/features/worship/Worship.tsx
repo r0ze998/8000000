@@ -56,7 +56,7 @@ const Worship: React.FC = () => {
   const mapRef = useRef<HTMLDivElement>(null);
   const meditationTimerRef = useRef<NodeJS.Timeout | null>(null);
   const breathingTimerRef = useRef<NodeJS.Timeout | null>(null);
-  const { isLoaded, error, loadGoogleMapsScript, initializeMap, addMarkers } = useGoogleMaps();
+  const { isLoaded, error, addMarkers } = useGoogleMaps({ lat: 35.6762, lng: 139.6503 }, 15);
 
   // Account Abstractionでのリアルタイムミント
   const mintRealNFT = async (nftData: any) => {
@@ -280,19 +280,10 @@ const Worship: React.FC = () => {
 
   // Google Maps初期化
   useEffect(() => {
-    if (!isLoaded) {
-      loadGoogleMapsScript();
-    }
-  }, [isLoaded, loadGoogleMapsScript]);
-
-  useEffect(() => {
     if (isLoaded && mapRef.current) {
-      const map = initializeMap(mapRef.current);
-      if (map) {
-        addMarkers(map, []);
-      }
+      addMarkers([]);
     }
-  }, [isLoaded, initializeMap, addMarkers]);
+  }, [isLoaded, addMarkers]);
 
   return (
     <div className="worship">
