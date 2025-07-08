@@ -16,43 +16,6 @@ export interface User {
   joinedAt: Date;
 }
 
-export interface UserStats {
-  culturalCapital: number;
-  totalNFTs: number;
-  meditationStreak: number;
-  totalWorshipSessions: number;
-  level: number;
-}
-
-export interface NFTItem {
-  id: string;
-  name: string;
-  type: string;
-  rarity: string;
-  power: number;
-  pixelData: string;
-  color: string;
-  emoji: string;
-  animation?: string;
-  isOwned: boolean;
-  imageUrl?: string;
-  description: string;
-  attributes?: Record<string, any>;
-  timestamp?: number;
-}
-
-export interface Mission {
-  id: string;
-  title: string;
-  description: string;
-  type: string;
-  progress: number;
-  total: number;
-  reward: number;
-  icon: string;
-  completed: boolean;
-}
-
 export interface Shrine {
   id: string;
   name: string;
@@ -62,22 +25,12 @@ export interface Shrine {
     lng: number;
     address: string;
   };
-  lat: number;
-  lng: number;
-  rarity: string;
-  position?: {
-    lat: number;
-    lng: number;
-  };
-  deity?: string;
-  category?: string;
+  deity: string;
+  category: string;
   established?: Date;
   imageUrl?: string;
-  visitCount?: number;
-  blessing?: string[];
-  benefits?: string[];
-  distance?: number;
-  isVisitedToday?: boolean;
+  visitCount: number;
+  blessing: string[];
 }
 
 // =============================================================================

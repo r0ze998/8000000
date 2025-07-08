@@ -142,9 +142,7 @@ export const shuffle = <T>(array: T[]): T[] => {
   const shuffled = [...array];
   for (let i = shuffled.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1));
-    const temp = shuffled[i]!;
-    shuffled[i] = shuffled[j]!;
-    shuffled[j] = temp;
+    [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
   }
   return shuffled;
 };
@@ -158,55 +156,11 @@ export const randomInt = (min: number, max: number): number => {
 };
 
 export const randomChoice = <T>(array: T[]): T => {
-  if (array.length === 0) {
-    throw new Error('Cannot choose from empty array');
-  }
-  return array[randomInt(0, array.length - 1)]!;
+  return array[randomInt(0, array.length - 1)];
 };
 
 export const randomId = (): string => {
-  return Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
-};
-
-// LocalStorage utility functions
-export const saveToLocalStorage = <T>(key: string, value: T): void => {
-  try {
-    localStorage.setItem(key, JSON.stringify(value));
-  } catch (error) {
-    console.error('Failed to save to localStorage:', error);
-  }
-};
-
-export const loadFromLocalStorage = <T>(key: string, defaultValue: T): T => {
-  try {
-    const item = localStorage.getItem(key);
-    return item ? JSON.parse(item) : defaultValue;
-  } catch (error) {
-    console.error('Failed to load from localStorage:', error);
-    return defaultValue;
-  }
-};
-
-// Worship utility functions
-export const calculateBaseReward = (duration: number): number => {
-  return Math.floor(duration / 60) * 10; // 1分あたり10ポイント
-};
-
-export const getCurrentSeasonalEvent = (): string | null => {
-  const now = new Date();
-  const month = now.getMonth() + 1;
-
-  if (month >= 3 && month <= 5) return '春の祭り';
-  if (month >= 6 && month <= 8) return '夏祭り';
-  if (month >= 9 && month <= 11) return '秋の収穫祭';
-  if (month === 12 || month <= 2) return '冬の祈願';
-
-  return null;
-};
-
-export const getRandomWeather = (): string => {
-  const weathers = ['晴れ', '曇り', '雨', '雪', '霧'];
-  return randomChoice(weathers);
+  return `${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
 };
 
 // =============================================================================
