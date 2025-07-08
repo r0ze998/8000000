@@ -1,8 +1,10 @@
+
+
 // =============================================================================
 // Format Utility Functions
 // =============================================================================
 
-// 1) オーバーロード宣言
+// 1) オーバーロード宣言を追加
 export function formatTime(value: number): string;
 export function formatTime(value: string | Date): string;
 
@@ -24,20 +26,18 @@ export function formatTime(
   return d.toLocaleTimeString('ja-JP', { hour: '2-digit', minute: '2-digit' });
 }
 
-// Format currency
+// Format currency (cultural capital)
 export const formatCurrency = (amount: number): string => {
-  return new Intl.NumberFormat('ja-JP', {
-    style: 'currency',
-    currency: 'JPY'
-  }).format(amount);
+  return new Intl.NumberFormat('ja-JP').format(amount);
 };
 
-// Format date
-export const formatDate = (date: Date | string): string => {
+// Format date for display
+export const formatDate = (date: Date | string | number): string => {
   const d = new Date(date);
   return d.toLocaleDateString('ja-JP', {
     year: 'numeric',
     month: 'long',
-    day: 'numeric'
+    day: 'numeric',
+    weekday: 'long'
   });
 };

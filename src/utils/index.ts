@@ -1,6 +1,27 @@
+
+
 // =============================================================================
 // Utility Functions Index
 // =============================================================================
+
+// Local Storage utilities
+export const saveToLocalStorage = (key: string, value: any) => {
+  try {
+    localStorage.setItem(key, JSON.stringify(value));
+  } catch (error) {
+    console.error('Failed to save to localStorage:', error);
+  }
+};
+
+export const loadFromLocalStorage = <T>(key: string, defaultValue: T): T => {
+  try {
+    const item = localStorage.getItem(key);
+    return item ? JSON.parse(item) : defaultValue;
+  } catch (error) {
+    console.error('Failed to load from localStorage:', error);
+    return defaultValue;
+  }
+};
 
 // Debug utility
 export const debugLog = (message: string, data?: any) => {

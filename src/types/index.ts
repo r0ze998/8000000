@@ -1,6 +1,19 @@
 // Core type definitions
 
 // NFT related types
+export interface NFTMetadata {
+  id: string;
+  name: string;
+  type: string;
+  rarity: NFTRarity;
+  description: string;
+  emoji: string;
+  color: string;
+  timestamp: number;
+  shrineId: string;
+  prayerType: string;
+  attributes: Record<string, any>;
+}
 export interface NFTTemplate {
   id: string;
   name: string;
