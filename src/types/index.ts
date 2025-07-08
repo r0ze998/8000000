@@ -25,6 +25,9 @@ export interface UserStats {
   consecutiveDays: number;
   currentStreak: number;
   longestStreak: number;
+  totalNFTs: number;
+  meditationStreak: number;
+  totalWorshipSessions: number;
 }
 
 // =============================================================================
@@ -64,7 +67,7 @@ export interface Shrine {
 // NFT Types
 // =============================================================================
 
-export type NFTRarity = 'common' | 'rare' | 'epic' | 'legendary';
+export type NFTRarity = 'common' | 'uncommon' | 'rare' | 'epic' | 'legendary';
 
 export interface NFTItem {
   id: string;
@@ -75,7 +78,7 @@ export interface NFTItem {
   type?: string;
   svgData?: string;
   pixelData?: string;
-  color?: string;
+  color: string;
   power?: number;
   isOwned?: boolean;
   animation?: string;
@@ -115,6 +118,10 @@ export interface Mission {
   isCompleted: boolean;
   progress: number;
   maxProgress: number;
+  total: number;
+  reward: number;
+  icon: string;
+  completed: boolean;
   expiresAt?: Date;
 }
 

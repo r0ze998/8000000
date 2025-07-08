@@ -1,4 +1,3 @@
-
 // =============================================================================
 // Local Storage Utilities
 // =============================================================================
@@ -120,7 +119,7 @@ export const calculateBaseReward = (duration: number, shrineRarity: string): num
     epic: 1.5,
     legendary: 2.0
   };
-  
+
   const multiplier = rarityMultiplier[shrineRarity as keyof typeof rarityMultiplier] || 1;
   return Math.floor(baseReward * multiplier);
 };
@@ -128,7 +127,7 @@ export const calculateBaseReward = (duration: number, shrineRarity: string): num
 export const getCurrentSeasonalEvent = () => {
   const now = new Date();
   const month = now.getMonth();
-  
+
   // 季節イベントの簡単な実装
   if (month === 0 || month === 1) {
     return {
@@ -170,7 +169,7 @@ export const getRandomWeather = () => {
     { condition: 'rainy', bonus: 1.2, icon: '🌧️' },
     { condition: 'snowy', bonus: 1.3, icon: '❄️' }
   ];
-  
+
   return randomChoice(weathers);
 };
 
@@ -192,10 +191,55 @@ export const validateStarknetAddress = (address: string): boolean => {
 // Debug Utilities
 // =============================================================================
 
-export const debugLog = (message: string, ...args: any[]): void => {
+export const debugLog = (message: string, data?: any) => {
   if (process.env.NODE_ENV === 'development') {
-    console.log(`[DEBUG] ${message}`, ...args);
+    console.log(`🐛 [DEBUG] ${message}`, data || '');
   }
+};
+
+export const calculateBaseReward = (duration: number, prayerType?: string) => {
+  const baseRate = 10; // Base cultural capital per minute
+  const minutes = duration / 60;
+  const culturalCapital = Math.floor(baseRate * minutes);
+  const experience = Math.floor(culturalCapital * 0.5);
+
+  return {
+    culturalCapital,
+    experience
+  };
+};
+
+export const getCurrentSeasonalEvent = () => {
+  // Simple seasonal check - returns true for special periods
+  const now = new Date();
+  const month = now.getMonth();
+  const day = now.getDate();
+
+  // New Year period
+  if ((month === 0 && day <= 3) || (month === 11 && day >= 29)) {
+    return { name: '新年祭', bonus: 50 };
+  }
+
+  return null;
+};
+
+export const getTimeOfDay = () => {
+  const hour = new Date().getHours();
+  if (hour >= 5 && hour < 12) return 'morning';
+  if (hour >= 12 && hour < 17) return 'afternoon';
+  if (hour >= 17 && hour < 21) return 'evening';
+  return 'night';
+};
+
+export const getRandomWeather = () => {
+  const conditions = [
+    { condition: 'sunny', bonus: 10, icon: '☀️' },
+    { condition: 'cloudy', bonus: 5, icon: '☁️' },
+    { condition: 'rainy', bonus: 15, icon: '🌧️' },
+    { condition: 'snowy', bonus: 20, icon: '❄️' }
+  ];
+
+  return conditions[Math.floor(Math.random() * conditions.length)]!;
 };
 
 export const debugWarn = (message: string, ...args: any[]): void => {
