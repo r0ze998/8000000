@@ -1,3 +1,4 @@
+
 // =============================================================================
 // Utility Functions Index
 // =============================================================================
@@ -36,6 +37,10 @@ export const setStoredData = <T>(key: string, value: T): void => {
   }
 };
 
+// Local storage aliases for backward compatibility
+export const loadFromLocalStorage = getStoredData;
+export const saveToLocalStorage = setStoredData;
+
 // Generate unique ID
 export const generateId = (): string => {
   return Date.now().toString(36) + Math.random().toString(36).substr(2);
@@ -43,7 +48,10 @@ export const generateId = (): string => {
 
 // Random utilities
 export const getRandomElement = <T>(array: T[]): T => {
-  return array[Math.floor(Math.random() * array.length)];
+  if (array.length === 0) {
+    throw new Error('Array cannot be empty');
+  }
+  return array[Math.floor(Math.random() * array.length)]!;
 };
 
 export const getRandomWeather = (): string => {
@@ -54,6 +62,16 @@ export const getRandomWeather = (): string => {
 export const getRandomTimeOfDay = (): string => {
   const times = ['dawn', 'morning', 'afternoon', 'evening', 'night'];
   return getRandomElement(times);
+};
+
+// Get current time of day based on hour
+export const getTimeOfDay = (): string => {
+  const hour = new Date().getHours();
+  if (hour >= 5 && hour < 7) return 'dawn';
+  if (hour >= 7 && hour < 12) return 'morning';
+  if (hour >= 12 && hour < 17) return 'afternoon';
+  if (hour >= 17 && hour < 20) return 'evening';
+  return 'night';
 };
 
 // Calculate distance between two points (Haversine formula)
@@ -98,6 +116,24 @@ export const isToday = (date: Date): boolean => {
   return date.toDateString() === today.toDateString();
 };
 
+// Seasonal events
+export const getSeasonalEvents = () => {
+  const month = new Date().getMonth() + 1;
+  const events = [];
+  
+  if (month === 1) events.push({ name: '正月', bonus: 50 });
+  if (month === 3 || month === 4) events.push({ name: '桜', bonus: 30 });
+  if (month === 7) events.push({ name: '七夕', bonus: 40 });
+  if (month === 12) events.push({ name: '年末', bonus: 35 });
+  
+  return events;
+};
+
+export const getCurrentSeasonalEvent = () => {
+  const events = getSeasonalEvents();
+  return events.length > 0 ? events[0] : null;
+};
+
 // Omikuji utilities
 export const getRandomOmikujiResult = (): string => {
   const results = ['大吉', '中吉', '小吉', '末吉', '凶'] as const;
@@ -115,7 +151,7 @@ export const calculateStreakBonus = (streak: number): number => {
 
 export const calculateBaseReward = (duration: number, prayerType?: string) => {
   const baseRate = 10; // Base cultural capital per minute
-  const minutes = duration / 60000; // Convert ms to minutes
+  const minutes = duration / 60; // Convert seconds to minutes
 
   let multiplier = 1;
   if (prayerType === 'gratitude') multiplier = 1.2;

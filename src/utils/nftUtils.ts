@@ -1,4 +1,3 @@
-
 // =============================================================================
 // NFT Utilities
 // =============================================================================
@@ -26,24 +25,24 @@ export const calculateNFTRarity = (factors: {
   prayerType?: string;
 }): NFTRarity => {
   let baseWeight = 0;
-  
+
   // Streak bonus
   if (factors.streak && factors.streak >= 7) baseWeight += 10;
   if (factors.streak && factors.streak >= 30) baseWeight += 20;
-  
+
   // Time bonus (early morning prayers)
   if (factors.timeOfDay === 'dawn') baseWeight += 15;
-  
+
   // Weather bonus
   if (factors.weather === 'rain') baseWeight += 10;
   if (factors.weather === 'snow') baseWeight += 15;
-  
+
   // Prayer type bonus
   if (factors.prayerType === 'gratitude') baseWeight += 5;
-  
+
   const random = Math.random() * 100;
   const adjustedRandom = Math.max(0, random - baseWeight);
-  
+
   if (adjustedRandom < 1) return 'legendary';
   if (adjustedRandom < 5) return 'epic';
   if (adjustedRandom < 20) return 'rare';
