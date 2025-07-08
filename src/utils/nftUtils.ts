@@ -159,7 +159,14 @@ export const dropNFTFromOmikuji = (result: string | { result: string; duration: 
     power: Math.floor(Math.random() * 10) + 1,
     color: getRarityColor(template.rarity),
     obtainedAt: new Date().toISOString(),
-    shrineId: `shrine-${Math.random().toString(36).substr(2, 9)}`
+    shrineId: `shrine-${Math.random().toString(36).substr(2, 9)}`,
+    description: `${template.name} NFT`,
+    timestamp: Date.now(),
+    attributes: {
+      power: Math.floor(Math.random() * 10) + 1,
+      rarity: template.rarity,
+      type: template.type
+    }
   };
 };
 
