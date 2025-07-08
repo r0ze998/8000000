@@ -1,3 +1,4 @@
+
 // =============================================================================
 // NFT Utilities
 // =============================================================================
@@ -127,16 +128,21 @@ export const generateSVGBase64 = (metadata: any): string => {
       </text>
     </svg>
   `;
-  return `data:image/svg+xml;base64,${btoa(svg)}`;
+  return btoa(svg);
 };
 
-// Drop NFT from Omikuji
-export const dropNFTFromOmikuji = (omikujiResult: string, factors: any) => {
+// Drop NFT from Omikuji - updated function signature to match usage
+export const dropNFTFromOmikuji = (omikujiData: { result: string; duration: number; prayerType: string }) => {
+  const factors = {
+    prayerType: omikujiData.prayerType,
+    timeOfDay: 'morning' // Default value
+  };
+  
   const rarity = calculateNFTRarity(factors);
   return generateNFTMetadata({
     rarity,
     shrineId: 'virtual-shrine',
     timestamp: Date.now(),
-    prayerType: 'omikuji'
+    prayerType: omikujiData.prayerType
   });
 };

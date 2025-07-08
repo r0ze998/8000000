@@ -1,4 +1,5 @@
 
+
 // =============================================================================
 // Utility Functions Index
 // =============================================================================
@@ -54,8 +55,13 @@ export const getRandomElement = <T>(array: T[]): T => {
   return array[Math.floor(Math.random() * array.length)]!;
 };
 
-export const getRandomWeather = (): string => {
-  const weathers = ['sunny', 'cloudy', 'rainy', 'snowy'];
+export const getRandomWeather = (): { type: string; description: string } => {
+  const weathers = [
+    { type: 'sunny', description: '晴れ' },
+    { type: 'cloudy', description: '曇り' },
+    { type: 'rainy', description: '雨' },
+    { type: 'snowy', description: '雪' }
+  ];
   return getRandomElement(weathers);
 };
 
