@@ -1,0 +1,44 @@
+Compiled with problems:
+×
+ERROR in ./src/components/features/shrine/MyShrine.tsx 600:31-45
+export 'getRarityColor' (imported as 'getRarityColor') was not found in '../../../utils/nftUtils' (possible exports: calculateNFTRarity, dropNFTFromOmikuji, generateSVGBase64, getRarityWeight, selectRandomParts)
+ERROR in ./src/components/features/shrine/MyShrine.tsx 624:25-39
+export 'getRarityColor' (imported as 'getRarityColor') was not found in '../../../utils/nftUtils' (possible exports: calculateNFTRarity, dropNFTFromOmikuji, generateSVGBase64, getRarityWeight, selectRandomParts)
+ERROR in ./src/components/features/shrine/MyShrine.tsx 838:90-104
+export 'getRarityColor' (imported as 'getRarityColor') was not found in '../../../utils/nftUtils' (possible exports: calculateNFTRarity, dropNFTFromOmikuji, generateSVGBase64, getRarityWeight, selectRandomParts)
+ERROR in ./src/components/features/shrine/MyShrine.tsx 902:25-39
+export 'getRarityColor' (imported as 'getRarityColor') was not found in '../../../utils/nftUtils' (possible exports: calculateNFTRarity, dropNFTFromOmikuji, generateSVGBase64, getRarityWeight, selectRandomParts)
+ERROR in ./src/components/features/shrine/MyShrine.tsx 983:29-43
+export 'getRarityColor' (imported as 'getRarityColor') was not found in '../../../utils/nftUtils' (possible exports: calculateNFTRarity, dropNFTFromOmikuji, generateSVGBase64, getRarityWeight, selectRandomParts)
+ERROR in ./src/components/features/shrine/MyShrine.tsx 1009:25-39
+export 'getRarityColor' (imported as 'getRarityColor') was not found in '../../../utils/nftUtils' (possible exports: calculateNFTRarity, dropNFTFromOmikuji, generateSVGBase64, getRarityWeight, selectRandomParts)
+ERROR in ./src/components/features/shrine/MyShrine.tsx 600:31-45
+export 'getRarityColor' (imported as 'getRarityColor') was not found in '../../../utils/nftUtils' (possible exports: calculateNFTRarity, dropNFTFromOmikuji, generateSVGBase64, getRarityWeight, selectRandomParts)
+ERROR in ./src/components/features/shrine/MyShrine.tsx 624:25-39
+export 'getRarityColor' (imported as 'getRarityColor') was not found in '../../../utils/nftUtils' (possible exports: calculateNFTRarity, dropNFTFromOmikuji, generateSVGBase64, getRarityWeight, selectRandomParts)
+ERROR in ./src/components/features/shrine/MyShrine.tsx 838:90-104
+export 'getRarityColor' (imported as 'getRarityColor') was not found in '../../../utils/nftUtils' (possible exports: calculateNFTRarity, dropNFTFromOmikuji, generateSVGBase64, getRarityWeight, selectRandomParts)
+ERROR in ./src/components/features/shrine/MyShrine.tsx 902:25-39
+export 'getRarityColor' (imported as 'getRarityColor') was not found in '../../../utils/nftUtils' (possible exports: calculateNFTRarity, dropNFTFromOmikuji, generateSVGBase64, getRarityWeight, selectRandomParts)
+ERROR in ./src/components/features/shrine/MyShrine.tsx 983:29-43
+export 'getRarityColor' (imported as 'getRarityColor') was not found in '../../../utils/nftUtils' (possible exports: calculateNFTRarity, dropNFTFromOmikuji, generateSVGBase64, getRarityWeight, selectRandomParts)
+ERROR in ./src/components/features/shrine/MyShrine.tsx 1009:25-39
+export 'getRarityColor' (imported as 'getRarityColor') was not found in '../../../utils/nftUtils' (possible exports: calculateNFTRarity, dropNFTFromOmikuji, generateSVGBase64, getRarityWeight, selectRandomParts)
+ERROR in src/components/features/shrine/MyShrine.tsx:4:10
+TS2305: Module '"../../../utils/nftUtils"' has no exported member 'getRarityColor'.
+    2 | import './MyShrine.css';
+    3 | import { NFTItem } from '../../../types';
+  > 4 | import { getRarityColor } from '../../../utils/nftUtils';
+      |          ^^^^^^^^^^^^^^
+    5 | import { ENHANCED_NFT_PARTS } from '../../../data/nftParts';
+    6 |
+    7 | interface ShrinePixel {
+ERROR in src/utils/nftUtils.ts:105:12
+TS2552: Cannot find name 'getRarityColor'. Did you mean 'RARITY_COLORS'?
+    103 |     pixelData: emoji,
+    104 |     emoji,
+  > 105 |     color: getRarityColor(rarity),
+        |            ^^^^^^^^^^^^^^
+    106 |     power: getRarityWeight(rarity) * 50,
+    107 |     isOwned: true,
+    108 |     animation: rarity === 'legendary' ? 'glow' : 'none',

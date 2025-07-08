@@ -9,21 +9,6 @@ const RARITY_COLORS = {
   legendary: '#FFD700'
 } as const;
 
-export const getRarityColor = (rarity: string): string => {
-  switch (rarity.toLowerCase()) {
-    case 'legendary':
-      return '#FFD700';
-    case 'epic':
-      return '#9F7AEA';
-    case 'rare':
-      return '#3182CE';
-    case 'uncommon':
-      return '#38A169';
-    default:
-      return '#68D391';
-  }
-};
-
 export const getRarityWeight = (rarity: string): number => {
   const weights = {
     common: 1,
