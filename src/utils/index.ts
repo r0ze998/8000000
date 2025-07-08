@@ -1,39 +1,145 @@
+// =============================================================================
+// Utility Functions
+// =============================================================================
 
-// Main utility functions export
+/**
+ * Format currency values
+ */
+export const formatCurrency = (amount: number): string => {
+  return new Intl.NumberFormat('ja-JP').format(amount);
+};
 
-// Re-export utilities
-export * from './formatUtils';
-export * from './nftUtils';
-export * from './starknet';
-
-// Debug logging utility
-export const debugLog = (message: string, data?: any) => {
-  if (process.env.NODE_ENV === 'development') {
-    console.log(`[DEBUG] ${message}`, data || '');
+/**
+ * Format time duration
+ */
+export const formatDuration = (seconds: number): string => {
+  if (seconds < 60) {
+    return `${seconds}秒`;
   }
+
+  const minutes = Math.floor(seconds / 60);
+  const remainingSeconds = seconds % 60;
+
+  if (minutes < 60) {
+    return remainingSeconds > 0 
+      ? `${minutes}分${remainingSeconds}秒`
+      : `${minutes}分`;
+  }
+
+  const hours = Math.floor(minutes / 60);
+  const remainingMinutes = minutes % 60;
+
+  return remainingMinutes > 0
+    ? `${hours}時間${remainingMinutes}分`
+    : `${hours}時間`;
 };
 
-// =============================================================================
-// Prayer & Shrine Calculation Utilities
-// =============================================================================
-
-export const calculatePrayerDuration = (startTime: number, endTime: number): number => {
-  return Math.max(0, endTime - startTime);
+/**
+ * Format date to Japanese format
+ */
+export const formatDate = (date: Date | number): string => {
+  const d = new Date(date);
+  return new Intl.DateTimeFormat('ja-JP', {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+    hour: '2-digit',
+    minute: '2-digit'
+  }).format(d);
 };
 
+/**
+ * Calculate distance between two coordinates
+ */
+export const calculateDistance = (
+  lat1: number,
+  lng1: number,
+  lat2: number,
+  lng2: number
+): number => {
+  const R = 6371; // Earth's radius in kilometers
+  const dLat = (lat2 - lat1) * Math.PI / 180;
+  const dLng = (lng2 - lng1) * Math.PI / 180;
+  const a = 
+    Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+    Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
+    Math.sin(dLng / 2) * Math.sin(dLng / 2);
+  const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+  return R * c;
+};
+
+/**
+ * Generate unique ID
+ */
+export const generateId = (): string => {
+  return `${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
+};
+
+/**
+ * Debounce function
+ */
+export const debounce = <T extends (...args: any[]) => any>(
+  func: T,
+  wait: number
+): ((...args: Parameters<T>) => void) => {
+  let timeout: NodeJS.Timeout;
+  return (...args: Parameters<T>) => {
+    clearTimeout(timeout);
+    timeout = setTimeout(() => func(...args), wait);
+  };
+};
+
+/**
+ * Deep clone object
+ */
+export const deepClone = <T>(obj: T): T => {
+  if (obj === null || typeof obj !== 'object') {
+    return obj;
+  }
+
+  if (obj instanceof Date) {
+    return new Date(obj.getTime()) as T;
+  }
+
+  if (obj instanceof Array) {
+    return obj.map(item => deepClone(item)) as T;
+  }
+
+  const cloned = {} as T;
+  for (const key in obj) {
+    if (obj.hasOwnProperty(key)) {
+      cloned[key] = deepClone(obj[key]);
+    }
+  }
+
+  return cloned;
+};
+
+/**
+ * Calculate base reward for prayer sessions
+ */
 export const calculateBaseReward = (duration: number, prayerType?: string) => {
   const baseRate = 10; // Base cultural capital per minute
-  const minutes = duration / (1000 * 60);
+  const minutes = duration / 60;
 
-  // Prayer type multipliers
-  const multipliers = {
-    meditation: 1.2,
-    gratitude: 1.1,
-    protection: 1.0,
-    prosperity: 1.3
-  };
+  let multiplier = 1;
+  switch (prayerType) {
+    case 'meditation':
+      multiplier = 1.2;
+      break;
+    case 'gratitude':
+      multiplier = 1.1;
+      break;
+    case 'breathing':
+      multiplier = 1.0;
+      break;
+    case 'reflection':
+      multiplier = 1.3;
+      break;
+    default:
+      multiplier = 1.0;
+  }
 
-  const multiplier = prayerType ? multipliers[prayerType as keyof typeof multipliers] || 1.0 : 1.0;
   const culturalCapital = Math.floor(baseRate * minutes * multiplier);
   const experience = Math.floor(culturalCapital * 0.5);
 
@@ -42,6 +148,44 @@ export const calculateBaseReward = (duration: number, prayerType?: string) => {
     experience
   };
 };
+
+/**
+ * Debug logging utility
+ */
+export const debugLog = (message: string, data?: any): void => {
+  if (process.env.NODE_ENV === 'development') {
+    console.log(`[Debug] ${message}`, data || '');
+  }
+};
+
+/**
+ * Validate email format
+ */
+export const isValidEmail = (email: string): boolean => {
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  return emailRegex.test(email);
+};
+
+/**
+ * Get random element from array
+ */
+export const getRandomElement = <T>(array: T[]): T => {
+  return array[Math.floor(Math.random() * array.length)];
+};
+
+/**
+ * Clamp number between min and max
+ */
+export const clamp = (value: number, min: number, max: number): number => {
+  return Math.min(Math.max(value, min), max);
+};
+
+// Main utility functions export
+
+// Re-export utilities
+export * from './formatUtils';
+export * from './nftUtils';
+export * from './starknet';
 
 // Streak calculation
 export const calculateStreak = (lastVisit: Date | null, currentVisit: Date): number => {
@@ -75,24 +219,6 @@ export const getCulturalBelt = (culturalCapital: number): string => {
   if (culturalCapital >= 300) return '橙帯';
   if (culturalCapital >= 100) return '黄帯';
   return '白帯';
-};
-
-// Distance calculation (for shrine proximity)
-export const calculateDistance = (
-  lat1: number, 
-  lon1: number, 
-  lat2: number, 
-  lon2: number
-): number => {
-  const R = 6371; // Earth's radius in km
-  const dLat = (lat2 - lat1) * Math.PI / 180;
-  const dLon = (lon2 - lon1) * Math.PI / 180;
-  const a = 
-    Math.sin(dLat/2) * Math.sin(dLat/2) +
-    Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) * 
-    Math.sin(dLon/2) * Math.sin(dLon/2);
-  const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
-  return R * c;
 };
 
 // =============================================================================
@@ -147,10 +273,6 @@ export const isToday = (date: Date): boolean => {
 // =============================================================================
 // Math & Random Utilities
 // =============================================================================
-
-export const clamp = (value: number, min: number, max: number): number => {
-  return Math.min(Math.max(value, min), max);
-};
 
 export const randomInt = (min: number, max: number): number => {
   return Math.floor(Math.random() * (max - min + 1)) + min;
@@ -221,11 +343,17 @@ export const getRandomWeather = () => {
 // Validation Utilities
 // =============================================================================
 
+/**
+ * Validate email format
+ */
 export const validateEmail = (email: string): boolean => {
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   return emailRegex.test(email);
 };
 
+/**
+ * Validate Starknet address format
+ */
 export const validateStarknetAddress = (address: string): boolean => {
   // StarkNet アドレスの基本的な検証
   return /^0x[0-9a-fA-F]{63,64}$/.test(address);

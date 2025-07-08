@@ -1,3 +1,4 @@
+
 // Core type definitions
 
 export interface Shrine {
@@ -17,6 +18,9 @@ export interface Shrine {
   history?: string;
   deity?: string;
   festivals?: string[];
+  benefits?: string[];
+  distance?: number;
+  isVisitedToday?: boolean;
 }
 
 export interface UserProfile {
@@ -31,6 +35,22 @@ export interface UserProfile {
   achievements: Achievement[];
   nftCollection: NFTItem[];
   preferences: UserPreferences;
+}
+
+export interface User {
+  id: string;
+  name: string;
+  email?: string;
+  profile: UserProfile;
+}
+
+export interface UserStats {
+  level: number;
+  experience: number;
+  culturalCapital: number;
+  streak: number;
+  totalVisits: number;
+  nftCount: number;
 }
 
 export interface UserPreferences {
@@ -53,7 +73,7 @@ export interface Achievement {
 export interface NFTItem {
   id: string;
   name: string;
-  type: 'goshuin' | 'omikuji' | 'spirit' | 'blessing' | 'protection' | 'wisdom' | 'fortune';
+  type: 'goshuin' | 'omikuji' | 'spirit' | 'blessing' | 'protection' | 'wisdom' | 'fortune' | 'terrain' | 'structure' | 'nature' | 'decoration' | 'guardian' | 'sacred';
   rarity: 'common' | 'rare' | 'epic' | 'legendary';
   power?: number;
   description: string;
@@ -62,6 +82,33 @@ export interface NFTItem {
   timestamp: number;
   shrineId?: string;
   attributes: Record<string, any>;
+  // 神社建設用の追加プロパティ
+  pixelData?: string;
+  animation?: 'none' | 'pulse' | 'glow' | 'float' | 'swing' | 'sparkle';
+  isOwned?: boolean;
+}
+
+export interface Mission {
+  id: string;
+  title: string;
+  description: string;
+  type: 'daily' | 'weekly' | 'special';
+  progress: number;
+  total: number;
+  reward: number;
+  icon: string;
+  completed: boolean;
+  requirements: Array<{
+    type: string;
+    target: number;
+    current: number;
+  }>;
+  rewards: Array<{
+    type: string;
+    amount: number;
+  }>;
+  isCompleted: boolean;
+  maxProgress: number;
 }
 
 export interface PrayerSession {

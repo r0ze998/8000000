@@ -1,157 +1,86 @@
-import { useState, useEffect, useCallback, useRef } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { Shrine } from '../types';
 
-interface UseGoogleMapsReturn {
+interface GoogleMapsHookReturn {
+  map: google.maps.Map | null;
   isLoaded: boolean;
   error: string | null;
-  loadGoogleMapsScript: () => Promise<void>;
-  initializeMap: (container: HTMLElement, userLocation?: { lat: number; lng: number }) => google.maps.Map | null;
-  addMarkers: (map: google.maps.Map, shrines: Shrine[]) => void;
+  addMarkers: (shrines: Shrine[]) => void;
+  clearMarkers: () => void;
 }
 
-export const useGoogleMaps = (): UseGoogleMapsReturn => {
+export const useGoogleMaps = (
+  center: { lat: number; lng: number },
+  zoom: number = 15
+): GoogleMapsHookReturn => {
+  const [map, setMap] = useState<google.maps.Map | null>(null);
   const [isLoaded, setIsLoaded] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const scriptLoadedRef = useRef(false);
+  const mapRef = useRef<HTMLDivElement>(null);
+  const markersRef = useRef<google.maps.Marker[]>([]);
 
-  const loadGoogleMapsScript = useCallback(() => {
-    return new Promise<void>((resolve, reject) => {
-      // 既にAPIが読み込まれている場合
-      if (scriptLoadedRef.current || (window.google && window.google.maps)) {
-        setIsLoaded(true);
-        resolve();
-        return;
-      }
+  useEffect(() => {
+    const initializeMap = async () => {
+      try {
+        if (!window.google) {
+          throw new Error('Google Maps API not loaded');
+        }
 
-      const apiKey = process.env.REACT_APP_GOOGLE_MAPS_API_KEY;
-      if (!apiKey) {
-        const errorMsg = 'Google Maps APIキーが設定されていません';
-        setError(errorMsg);
-        reject(new Error(errorMsg));
-        return;
-      }
+        if (!mapRef.current) {
+          throw new Error('Map container not found');
+        }
 
-      // 既存のスクリプトを確認（重複防止）
-      const existingScript = document.querySelector('script[src*="maps.googleapis.com"]');
-      if (existingScript) {
-        existingScript.addEventListener('load', () => {
-          scriptLoadedRef.current = true;
-          setIsLoaded(true);
-          resolve();
+        const mapInstance = new google.maps.Map(mapRef.current, {
+          center,
+          zoom,
+          mapTypeControl: false,
+          streetViewControl: false,
+          fullscreenControl: false,
         });
-        return;
-      }
 
-      const script = document.createElement('script');
-      script.src = `https://maps.googleapis.com/maps/api/js?key=${apiKey}&libraries=places&loading=async`;
-      script.async = true;
-      script.defer = true;
-
-      script.onload = () => {
-        scriptLoadedRef.current = true;
+        setMap(mapInstance);
         setIsLoaded(true);
-        setError(null);
-        resolve();
-      };
+      } catch (err) {
+        setError(err instanceof Error ? err.message : 'Unknown error');
+      }
+    };
 
-      script.onerror = () => {
-        const errorMsg = 'Google Maps APIの読み込みに失敗しました';
-        setError(errorMsg);
-        reject(new Error(errorMsg));
-      };
+    initializeMap();
+  }, [center.lat, center.lng, zoom]);
 
-      document.head.appendChild(script);
-    });
-  }, []);
+  const addMarkers = (shrines: Shrine[]) => {
+    if (!map) return;
 
-  const initializeMap = useCallback((
-    container: HTMLElement, 
-    userLocation: { lat: number; lng: number } = { lat: 35.6812, lng: 139.7671 }
-  ): google.maps.Map | null => {
-    if (!window.google?.maps?.Map || !container) {
-      setError('Google Maps APIが読み込まれていません');
-      return null;
-    }
-
-    try {
-      return new window.google.maps.Map(container, {
-        center: userLocation,
-        zoom: 15,
-        mapTypeControl: false,
-        streetViewControl: false,
-        fullscreenControl: false,
-        styles: [
-          {
-            featureType: 'poi',
-            elementType: 'labels',
-            stylers: [{ visibility: 'off' }]
-          }
-        ]
-      });
-    } catch (err) {
-      setError('地図の初期化に失敗しました');
-      console.error('Map initialization error:', err);
-      return null;
-    }
-  }, []);
-
-  const addMarkers = useCallback((map: google.maps.Map, shrines: Shrine[]) => {
-    if (!window.google?.maps?.marker?.AdvancedMarkerElement && !window.google?.maps?.Marker) return;
+    // Clear existing markers
+    clearMarkers();
 
     shrines.forEach(shrine => {
-      const position = shrine.position || { lat: shrine.location.lat, lng: shrine.location.lng };
+      const position = { lat: shrine.location.lat, lng: shrine.location.lng };
 
       // Use AdvancedMarkerElement if available, fallback to Marker
       let marker: any;
-      if (window.google?.maps?.marker?.AdvancedMarkerElement) {
-        // Create custom marker content
-        const markerElement = document.createElement('div');
-        markerElement.style.cssText = `
-          width: 32px;
-          height: 32px;
-          background: ${getRarityColor(shrine.rarity)};
-          border: 2px solid white;
-          border-radius: 50%;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          font-size: 16px;
-          box-shadow: 0 2px 8px rgba(0,0,0,0.3);
-        `;
-        markerElement.textContent = '⛩️';
 
-        marker = new window.google.maps.marker.AdvancedMarkerElement({
-          position,
+      if (google.maps.marker && google.maps.marker.AdvancedMarkerElement) {
+        marker = new google.maps.marker.AdvancedMarkerElement({
           map,
+          position,
           title: shrine.name,
-          content: markerElement,
         });
       } else {
-        // Fallback to deprecated Marker
-        marker = new window.google.maps.Marker({
-          position,
+        marker = new google.maps.Marker({
           map,
+          position,
           title: shrine.name,
-          icon: {
-            url: `data:image/svg+xml;charset=UTF-8,${encodeURIComponent(`
-              <svg width="32" height="32" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
-                <circle cx="16" cy="16" r="12" fill="${getRarityColor(shrine.rarity)}" stroke="white" stroke-width="2"/>
-                <text x="16" y="20" text-anchor="middle" font-size="14" fill="white">⛩️</text>
-              </svg>
-            `)}`,
-            scaledSize: new window.google.maps.Size(32, 32),
-          },
         });
       }
 
-      const infoWindow = new window.google.maps.InfoWindow({
+      // Add info window
+      const infoWindow = new google.maps.InfoWindow({
         content: `
-          <div style="padding: 8px;">
-            <h3 style="margin: 0 0 8px 0; color: #333;">${shrine.name}</h3>
-            <p style="margin: 0 0 4px 0; color: #666; font-size: 14px;">${shrine.description}</p>
-            <div style="color: ${getRarityColor(shrine.rarity)}; font-weight: bold; font-size: 12px;">
-              ⭐ ${shrine.rarity}
-            </div>
+          <div style="padding: 10px;">
+            <h3 style="margin: 0 0 5px 0;">${shrine.name}</h3>
+            <p style="margin: 0; color: #666;">${shrine.description}</p>
+            <p style="margin: 5px 0 0 0; font-size: 12px; color: #999;">${shrine.location.address}</p>
           </div>
         `,
       });
@@ -159,28 +88,23 @@ export const useGoogleMaps = (): UseGoogleMapsReturn => {
       marker.addListener('click', () => {
         infoWindow.open(map, marker);
       });
-    });
-  }, []);
 
-  useEffect(() => {
-    loadGoogleMapsScript().catch(console.error);
-  }, [loadGoogleMapsScript]);
+      markersRef.current.push(marker);
+    });
+  };
+
+  const clearMarkers = () => {
+    markersRef.current.forEach(marker => {
+      marker.setMap(null);
+    });
+    markersRef.current = [];
+  };
 
   return {
+    map,
     isLoaded,
     error,
-    loadGoogleMapsScript,
-    initializeMap,
     addMarkers,
+    clearMarkers,
   };
-};
-
-const getRarityColor = (rarity: string): string => {
-  switch (rarity) {
-    case 'legendary': return '#FFD700';
-    case 'epic': return '#9F7AEA';
-    case 'rare': return '#4299E1';
-    case 'uncommon': return '#38A169';
-    default: return '#68D391';
-  }
 };

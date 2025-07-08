@@ -1,0 +1,166 @@
+Compiled with problems:
+×
+ERROR in src/components/features/explore/Explore.tsx:13:28
+TS2339: Property 'initializeMap' does not exist on type 'GoogleMapsHookReturn'.
+    11 |
+    12 |   const mapRef = useRef<HTMLDivElement>(null);
+  > 13 |   const { isLoaded, error, initializeMap, addMarkers } = useGoogleMaps();
+       |                            ^^^^^^^^^^^^^
+    14 |
+    15 |   const filteredShrines = shrines.filter(shrine =>
+    16 |     shrine.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+ERROR in src/components/features/explore/Explore.tsx:13:58
+TS2554: Expected 1-2 arguments, but got 0.
+    11 |
+    12 |   const mapRef = useRef<HTMLDivElement>(null);
+  > 13 |   const { isLoaded, error, initializeMap, addMarkers } = useGoogleMaps();
+       |                                                          ^^^^^^^^^^^^^^^
+    14 |
+    15 |   const filteredShrines = shrines.filter(shrine =>
+    16 |     shrine.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+ERROR in src/components/features/explore/Explore.tsx:42:25
+TS2554: Expected 1 arguments, but got 2.
+    40 |       const map = initializeMap(mapRef.current, userLocation);
+    41 |       if (map) {
+  > 42 |         addMarkers(map, filteredShrines);
+       |                         ^^^^^^^^^^^^^^^
+    43 |       }
+    44 |     }
+    45 |   }, [isLoaded, userLocation, filteredShrines, initializeMap, addMarkers]);
+ERROR in src/components/features/worship/UserStatsPanel.tsx:37:51
+TS2339: Property 'totalNFTs' does not exist on type 'UserStats'.
+    35 |             </div>
+    36 |             <div className="stat-item">
+  > 37 |               <span className="stat-value">{stats.totalNFTs}</span>
+       |                                                   ^^^^^^^^^
+    38 |               <span className="stat-label">NFT数</span>
+    39 |             </div>
+    40 |             <div className="stat-item">
+ERROR in src/components/features/worship/UserStatsPanel.tsx:41:51
+TS2339: Property 'meditationStreak' does not exist on type 'UserStats'.
+    39 |             </div>
+    40 |             <div className="stat-item">
+  > 41 |               <span className="stat-value">{stats.meditationStreak}</span>
+       |                                                   ^^^^^^^^^^^^^^^^
+    42 |               <span className="stat-label">連続日数</span>
+    43 |             </div>
+    44 |             <div className="stat-item">
+ERROR in src/components/features/worship/Worship.tsx:36:5
+TS2345: Argument of type '{ culturalCapital: number; totalNFTs: number; meditationStreak: number; totalWorshipSessions: number; level: number; experience: number; visitCount: number; streakDays: number; totalPrayerTime: number; ... 4 more ...; lastVisitDate: null; }' is not assignable to parameter of type 'UserStats | (() => UserStats)'.
+  Object literal may only specify known properties, and 'totalNFTs' does not exist in type 'UserStats | (() => UserStats)'.
+    34 |   const [userStats, setUserStats] = useState<UserStats>({
+    35 |     culturalCapital: 0,
+  > 36 |     totalNFTs: 0,
+       |     ^^^^^^^^^^^^
+    37 |     meditationStreak: 1,
+    38 |     totalWorshipSessions: 0,
+    39 |     level: 1,
+ERROR in src/components/features/worship/Worship.tsx:64:28
+TS2339: Property 'loadGoogleMapsScript' does not exist on type 'GoogleMapsHookReturn'.
+    62 |   const meditationTimerRef = useRef<NodeJS.Timeout | null>(null);
+    63 |   const breathingTimerRef = useRef<NodeJS.Timeout | null>(null);
+  > 64 |   const { isLoaded, error, loadGoogleMapsScript, initializeMap, addMarkers } = useGoogleMaps();
+       |                            ^^^^^^^^^^^^^^^^^^^^
+    65 |
+    66 |   // Account Abstractionでのリアルタイムミント
+    67 |   const mintRealNFT = async (nftData: any) => {
+ERROR in src/components/features/worship/Worship.tsx:64:50
+TS2339: Property 'initializeMap' does not exist on type 'GoogleMapsHookReturn'.
+    62 |   const meditationTimerRef = useRef<NodeJS.Timeout | null>(null);
+    63 |   const breathingTimerRef = useRef<NodeJS.Timeout | null>(null);
+  > 64 |   const { isLoaded, error, loadGoogleMapsScript, initializeMap, addMarkers } = useGoogleMaps();
+       |                                                  ^^^^^^^^^^^^^
+    65 |
+    66 |   // Account Abstractionでのリアルタイムミント
+    67 |   const mintRealNFT = async (nftData: any) => {
+ERROR in src/components/features/worship/Worship.tsx:64:80
+TS2554: Expected 1-2 arguments, but got 0.
+    62 |   const meditationTimerRef = useRef<NodeJS.Timeout | null>(null);
+    63 |   const breathingTimerRef = useRef<NodeJS.Timeout | null>(null);
+  > 64 |   const { isLoaded, error, loadGoogleMapsScript, initializeMap, addMarkers } = useGoogleMaps();
+       |                                                                                ^^^^^^^^^^^^^^^
+    65 |
+    66 |   // Account Abstractionでのリアルタイムミント
+    67 |   const mintRealNFT = async (nftData: any) => {
+ERROR in src/components/features/worship/Worship.tsx:261:36
+TS2339: Property 'totalNFTs' does not exist on type 'UserStats'.
+    259 |       ...prev,
+    260 |       culturalCapital: prev.culturalCapital + totalCulturalCapital,
+  > 261 |       totalNFTs: droppedNFT ? prev.totalNFTs + 1 : prev.totalNFTs,
+        |                                    ^^^^^^^^^
+    262 |       totalWorshipSessions: prev.totalWorshipSessions + 1,
+    263 |       level: Math.floor((prev.culturalCapital + totalCulturalCapital) / 100) + 1
+    264 |     }));
+ERROR in src/components/features/worship/Worship.tsx:261:57
+TS2339: Property 'totalNFTs' does not exist on type 'UserStats'.
+    259 |       ...prev,
+    260 |       culturalCapital: prev.culturalCapital + totalCulturalCapital,
+  > 261 |       totalNFTs: droppedNFT ? prev.totalNFTs + 1 : prev.totalNFTs,
+        |                                                         ^^^^^^^^^
+    262 |       totalWorshipSessions: prev.totalWorshipSessions + 1,
+    263 |       level: Math.floor((prev.culturalCapital + totalCulturalCapital) / 100) + 1
+    264 |     }));
+ERROR in src/components/features/worship/Worship.tsx:262:34
+TS2339: Property 'totalWorshipSessions' does not exist on type 'UserStats'.
+    260 |       culturalCapital: prev.culturalCapital + totalCulturalCapital,
+    261 |       totalNFTs: droppedNFT ? prev.totalNFTs + 1 : prev.totalNFTs,
+  > 262 |       totalWorshipSessions: prev.totalWorshipSessions + 1,
+        |                                  ^^^^^^^^^^^^^^^^^^^^
+    263 |       level: Math.floor((prev.culturalCapital + totalCulturalCapital) / 100) + 1
+    264 |     }));
+    265 |
+ERROR in src/components/features/worship/Worship.tsx:295:25
+TS2554: Expected 1 arguments, but got 2.
+    293 |       const map = initializeMap(mapRef.current);
+    294 |       if (map) {
+  > 295 |         addMarkers(map, []);
+        |                         ^^
+    296 |       }
+    297 |     }
+    298 |   }, [isLoaded, initializeMap, addMarkers]);
+ERROR in src/utils/index.ts:173:3
+TS2322: Type 'T | undefined' is not assignable to type 'T'.
+  'T' could be instantiated with an arbitrary type which could be unrelated to 'T | undefined'.
+    171 |  */
+    172 | export const getRandomElement = <T>(array: T[]): T => {
+  > 173 |   return array[Math.floor(Math.random() * array.length)];
+        |   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    174 | };
+    175 |
+    176 | /**
+ERROR in src/utils/nftUtils.ts:115:11
+TS18048: 'randomType' is possibly 'undefined'.
+    113 |   return {
+    114 |     id: `omikuji_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
+  > 115 |     name: randomType.name,
+        |           ^^^^^^^^^^
+    116 |     type: randomType.type as any,
+    117 |     rarity: rarity as any,
+    118 |     description: `おみくじから授かった${randomType.name}`,
+ERROR in src/utils/nftUtils.ts:116:11
+TS18048: 'randomType' is possibly 'undefined'.
+    114 |     id: `omikuji_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
+    115 |     name: randomType.name,
+  > 116 |     type: randomType.type as any,
+        |           ^^^^^^^^^^
+    117 |     rarity: rarity as any,
+    118 |     description: `おみくじから授かった${randomType.name}`,
+    119 |     emoji: randomType.emoji,
+ERROR in src/utils/nftUtils.ts:118:31
+TS18048: 'randomType' is possibly 'undefined'.
+    116 |     type: randomType.type as any,
+    117 |     rarity: rarity as any,
+  > 118 |     description: `おみくじから授かった${randomType.name}`,
+        |                               ^^^^^^^^^^
+    119 |     emoji: randomType.emoji,
+    120 |     color: getRarityColor(rarity),
+    121 |     timestamp: Date.now(),
+ERROR in src/utils/nftUtils.ts:119:12
+TS18048: 'randomType' is possibly 'undefined'.
+    117 |     rarity: rarity as any,
+    118 |     description: `おみくじから授かった${randomType.name}`,
+  > 119 |     emoji: randomType.emoji,
+        |            ^^^^^^^^^^
+    120 |     color: getRarityColor(rarity),
+    121 |     timestamp: Date.now(),
+    122 |     attributes: {

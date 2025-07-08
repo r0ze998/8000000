@@ -1,45 +1,70 @@
+
 import { Shrine, Mission, NFTItem } from '../types';
 
 export const shrines: Shrine[] = [
   {
     id: 'meiji_jingu',
     name: '明治神宮',
-    location: { lat: 35.6762, lng: 139.6993, address: '東京都渋谷区代々木神園町1-1' },
+    location: { 
+      lat: 35.6762, 
+      lng: 139.6993, 
+      address: '東京都渋谷区代々木神園町1-1',
+      prefecture: '東京都'
+    },
     rarity: 'legendary',
     description: '明治天皇と昭憲皇太后を祀る神社',
     benefits: ['恋愛成就', '家内安全', '厄除け'],
     distance: 0.3,
-    isVisitedToday: false
+    isVisitedToday: false,
+    visitCount: 0
   },
   {
     id: 'yasukuni_jinja',
     name: '靖国神社',
-    location: { lat: 35.6939, lng: 139.7442, address: '東京都千代田区九段北3-1-1' },
+    location: { 
+      lat: 35.6939, 
+      lng: 139.7442, 
+      address: '東京都千代田区九段北3-1-1',
+      prefecture: '東京都'
+    },
     rarity: 'epic',
     description: '戦没者を祀る神社',
     benefits: ['平和祈願', '国家安泰'],
     distance: 0.8,
-    isVisitedToday: true
+    isVisitedToday: true,
+    visitCount: 5
   },
   {
     id: 'hie_jinja',
     name: '日枝神社',
-    location: { lat: 35.6741, lng: 139.7404, address: '東京都千代田区永田町2-10-5' },
+    location: { 
+      lat: 35.6741, 
+      lng: 139.7404, 
+      address: '東京都千代田区永田町2-10-5',
+      prefecture: '東京都'
+    },
     rarity: 'rare',
     description: '江戸三大祭りの一つ、山王祭で有名',
     benefits: ['出世祈願', '縁結び'],
     distance: 1.2,
-    isVisitedToday: false
+    isVisitedToday: false,
+    visitCount: 2
   },
   {
     id: 'sensoji',
     name: '浅草寺',
-    location: { lat: 35.7148, lng: 139.7967, address: '東京都台東区浅草2-3-1' },
+    location: { 
+      lat: 35.7148, 
+      lng: 139.7967, 
+      address: '東京都台東区浅草2-3-1',
+      prefecture: '東京都'
+    },
     rarity: 'epic',
     description: '東京最古の寺院',
     benefits: ['商売繁盛', '学業成就'],
     distance: 0.8,
-    isVisitedToday: false
+    isVisitedToday: false,
+    visitCount: 3
   }
 ];
 
@@ -151,7 +176,9 @@ export const sampleNFTs: NFTItem[] = [
     isOwned: true,
     animation: 'float',
     emoji: '🌱',
-    description: '豊かな緑の草原'
+    description: '豊かな緑の草原',
+    timestamp: Date.now(),
+    attributes: {}
   },
   {
     id: 'water-1',
@@ -164,7 +191,9 @@ export const sampleNFTs: NFTItem[] = [
     isOwned: true,
     animation: 'pulse',
     emoji: '🌊',
-    description: '澄んだ水の流れ'
+    description: '澄んだ水の流れ',
+    timestamp: Date.now(),
+    attributes: {}
   },
   {
     id: 'rock-1',
@@ -177,7 +206,9 @@ export const sampleNFTs: NFTItem[] = [
     isOwned: true,
     animation: 'none',
     emoji: '🪨',
-    description: '風化した岩石'
+    description: '風化した岩石',
+    timestamp: Date.now(),
+    attributes: {}
   },
   {
     id: 'sand-1',
@@ -190,7 +221,9 @@ export const sampleNFTs: NFTItem[] = [
     isOwned: true,
     animation: 'none',
     emoji: '🏖️',
-    description: '柔らかい砂の浜辺'
+    description: '柔らかい砂の浜辺',
+    timestamp: Date.now(),
+    attributes: {}
   },
   {
     id: 'snow-1',
@@ -203,7 +236,9 @@ export const sampleNFTs: NFTItem[] = [
     isOwned: true,
     animation: 'glow',
     emoji: '❄️',
-    description: '雪に覆われた大地'
+    description: '雪に覆われた大地',
+    timestamp: Date.now(),
+    attributes: {}
   },
 
   // 建物・構造物
@@ -219,7 +254,8 @@ export const sampleNFTs: NFTItem[] = [
     animation: 'glow',
     emoji: '⛩️',
     description: '神聖な黄金の鳥居',
-    timestamp: Date.now()
+    timestamp: Date.now(),
+    attributes: {}
   },
   {
     id: 'shrine-1',
@@ -233,7 +269,8 @@ export const sampleNFTs: NFTItem[] = [
     animation: 'pulse',
     emoji: '🏛️',
     description: '神社の中心となる神聖な建物',
-    timestamp: Date.now()
+    timestamp: Date.now(),
+    attributes: {}
   },
   {
     id: 'pagoda-1',
@@ -247,7 +284,8 @@ export const sampleNFTs: NFTItem[] = [
     animation: 'glow',
     emoji: '🗼',
     description: '伝統的な五重の塔',
-    timestamp: Date.now()
+    timestamp: Date.now(),
+    attributes: {}
   },
   {
     id: 'house-1',
@@ -261,7 +299,8 @@ export const sampleNFTs: NFTItem[] = [
     animation: 'none',
     emoji: '🏠',
     description: '昔ながらの茅葺き屋根の家',
-    timestamp: Date.now()
+    timestamp: Date.now(),
+    attributes: {}
   },
   {
     id: 'bridge-1',
@@ -275,7 +314,8 @@ export const sampleNFTs: NFTItem[] = [
     animation: 'swing',
     emoji: '🌉',
     description: '美しいアーチを描く太鼓橋',
-    timestamp: Date.now()
+    timestamp: Date.now(),
+    attributes: {}
   },
 
   // 自然要素
@@ -291,7 +331,8 @@ export const sampleNFTs: NFTItem[] = [
     animation: 'float',
     emoji: '🌸',
     description: '美しく咲く桜の木',
-    timestamp: Date.now()
+    timestamp: Date.now(),
+    attributes: {}
   },
   {
     id: 'pine-1',
@@ -305,7 +346,8 @@ export const sampleNFTs: NFTItem[] = [
     animation: 'swing',
     emoji: '🌲',
     description: '常緑の美しい松の木',
-    timestamp: Date.now()
+    timestamp: Date.now(),
+    attributes: {}
   },
   {
     id: 'bamboo-1',
@@ -319,7 +361,8 @@ export const sampleNFTs: NFTItem[] = [
     animation: 'swing',
     emoji: '🎋',
     description: '風に揺れる竹林',
-    timestamp: Date.now()
+    timestamp: Date.now(),
+    attributes: {}
   },
   {
     id: 'flower-1',
@@ -333,7 +376,8 @@ export const sampleNFTs: NFTItem[] = [
     animation: 'float',
     emoji: '🌺',
     description: '色とりどりの花畑',
-    timestamp: Date.now()
+    timestamp: Date.now(),
+    attributes: {}
   },
   {
     id: 'mountain-1',
@@ -347,7 +391,8 @@ export const sampleNFTs: NFTItem[] = [
     animation: 'glow',
     emoji: '⛰️',
     description: '神聖な霊峰',
-    timestamp: Date.now()
+    timestamp: Date.now(),
+    attributes: {}
   },
 
   // 装飾品
@@ -363,7 +408,8 @@ export const sampleNFTs: NFTItem[] = [
     animation: 'swing',
     emoji: '🏮',
     description: '温かい光を放つ伝統的な提灯',
-    timestamp: Date.now()
+    timestamp: Date.now(),
+    attributes: {}
   },
   {
     id: 'lantern-stone',
@@ -377,7 +423,8 @@ export const sampleNFTs: NFTItem[] = [
     animation: 'glow',
     emoji: '🕯️',
     description: '神聖な石造りの灯籠',
-    timestamp: Date.now()
+    timestamp: Date.now(),
+    attributes: {}
   },
   {
     id: 'bell-1',
@@ -391,7 +438,8 @@ export const sampleNFTs: NFTItem[] = [
     animation: 'swing',
     emoji: '🔔',
     description: '清らかな音色を響かせる神聖な鈴',
-    timestamp: Date.now()
+    timestamp: Date.now(),
+    attributes: {}
   },
   {
     id: 'flag-1',
@@ -405,7 +453,8 @@ export const sampleNFTs: NFTItem[] = [
     animation: 'swing',
     emoji: '🎌',
     description: '風になびく縁起の良い旗',
-    timestamp: Date.now()
+    timestamp: Date.now(),
+    attributes: {}
   },
 
   // 動物・守護者
@@ -421,7 +470,8 @@ export const sampleNFTs: NFTItem[] = [
     animation: 'float',
     emoji: '🦊',
     description: '神の使いとされる賢い狐',
-    timestamp: Date.now()
+    timestamp: Date.now(),
+    attributes: {}
   },
   {
     id: 'dragon-1',
@@ -435,7 +485,8 @@ export const sampleNFTs: NFTItem[] = [
     animation: 'glow',
     emoji: '🐉',
     description: '東方を守護する神聖な龍',
-    timestamp: Date.now()
+    timestamp: Date.now(),
+    attributes: {}
   },
   {
     id: 'turtle-1',
@@ -449,7 +500,8 @@ export const sampleNFTs: NFTItem[] = [
     animation: 'pulse',
     emoji: '🐢',
     description: '北方を守護する神聖な亀',
-    timestamp: Date.now()
+    timestamp: Date.now(),
+    attributes: {}
   },
   {
     id: 'bird-1',
@@ -463,7 +515,8 @@ export const sampleNFTs: NFTItem[] = [
     animation: 'float',
     emoji: '🦅',
     description: '南方を守護する神聖な鳥',
-    timestamp: Date.now()
+    timestamp: Date.now(),
+    attributes: {}
   },
 
   // 特殊オブジェクト
@@ -479,7 +532,8 @@ export const sampleNFTs: NFTItem[] = [
     animation: 'glow',
     emoji: '🗿',
     description: '神が宿る神聖な石',
-    timestamp: Date.now()
+    timestamp: Date.now(),
+    attributes: {}
   },
   {
     id: 'crystal-1',
@@ -493,7 +547,8 @@ export const sampleNFTs: NFTItem[] = [
     animation: 'glow',
     emoji: '💎',
     description: '神秘的な力を秘めた水晶',
-    timestamp: Date.now()
+    timestamp: Date.now(),
+    attributes: {}
   },
   {
     id: 'portal-1',
@@ -507,6 +562,7 @@ export const sampleNFTs: NFTItem[] = [
     animation: 'glow',
     emoji: '🌀',
     description: '異世界への扉を開く神秘の門',
-    timestamp: Date.now()
+    timestamp: Date.now(),
+    attributes: {}
   }
 ];
