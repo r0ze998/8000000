@@ -1,8 +1,6 @@
 
-
-
 // =============================================================================
-// Format Utility Functions
+// Format Utilities
 // =============================================================================
 
 // Format numbers with appropriate suffixes
@@ -16,36 +14,30 @@ export const formatNumber = (num: number): string => {
   return num.toString();
 };
 
-// Format cultural capital with icon
+// Format cultural capital
 export const formatCulturalCapital = (amount: number): string => {
-  return `${formatNumber(amount)} 🏛️`;
+  return `${formatNumber(amount)} 文化資本`;
 };
 
 // Format experience points
 export const formatExperience = (exp: number): string => {
-  return `${formatNumber(exp)} XP`;
-};
-
-// Format level progress as percentage
-export const formatLevelProgress = (progress: number): string => {
-  return `${Math.round(progress)}%`;
+  return `${formatNumber(exp)} EXP`;
 };
 
 // Format percentage
 export const formatPercentage = (value: number): string => {
-  return `${Math.round(value * 100)}%`;
+  return `${Math.round(value)}%`;
 };
 
-// Format rarity with color coding
-export const formatRarity = (rarity: string): string => {
-  const rarityMap: Record<string, string> = {
-    common: 'コモン',
-    uncommon: 'アンコモン',
-    rare: 'レア',
-    epic: 'エピック',
-    legendary: 'レジェンダリー'
-  };
-  return rarityMap[rarity] || rarity;
+// Format level progress
+export const formatLevelProgress = (progress: number): string => {
+  return `${Math.round(progress)}%`;
+};
+
+// Format date
+export const formatDate = (date: Date | string): string => {
+  const d = typeof date === 'string' ? new Date(date) : date;
+  return d.toLocaleDateString('ja-JP');
 };
 
 // Format time in MM:SS format
@@ -56,25 +48,28 @@ export const formatTime = (seconds: number): string => {
 };
 
 // Format duration in human readable format
-export const formatDuration = (milliseconds: number): string => {
-  const totalSeconds = Math.floor(milliseconds / 1000);
-  const minutes = Math.floor(totalSeconds / 60);
-  const seconds = totalSeconds % 60;
+export const formatDuration = (seconds: number): string => {
+  const hours = Math.floor(seconds / 3600);
+  const minutes = Math.floor((seconds % 3600) / 60);
+  const secs = seconds % 60;
   
-  if (minutes > 0) {
-    return `${minutes}分${seconds > 0 ? ` ${seconds}秒` : ''}`;
+  if (hours > 0) {
+    return `${hours}時間${minutes}分`;
   }
-  return `${seconds}秒`;
+  if (minutes > 0) {
+    return `${minutes}分${secs}秒`;
+  }
+  return `${secs}秒`;
 };
 
-// Format date in Japanese format
-export const formatDate = (date: Date | string): string => {
-  const d = new Date(date);
-  return d.toLocaleDateString('ja-JP', {
-    year: 'numeric',
-    month: 'long',
-    day: 'numeric',
-    hour: '2-digit',
-    minute: '2-digit'
-  });
+// Format rarity
+export const formatRarity = (rarity: string): string => {
+  const rarityMap: Record<string, string> = {
+    common: '一般',
+    uncommon: '珍しい',
+    rare: 'レア',
+    epic: 'エピック',
+    legendary: '伝説'
+  };
+  return rarityMap[rarity] || rarity;
 };

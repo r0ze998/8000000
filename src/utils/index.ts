@@ -1,6 +1,4 @@
 
-
-
 // =============================================================================
 // Utility Functions Index
 // =============================================================================
@@ -18,6 +16,9 @@ export type TimeOfDay = 'morning' | 'afternoon' | 'evening' | 'night';
 
 // Generic array utility
 export const getRandomElement = <T>(array: T[]): T => {
+  if (array.length === 0) {
+    throw new Error('Array is empty');
+  }
   return array[Math.floor(Math.random() * array.length)];
 };
 
@@ -34,7 +35,7 @@ export const getTimeOfDay = (): TimeOfDay => {
 export const getRandomWeather = () => {
   const weatherTypes = ['sunny', 'cloudy', 'rainy', 'snowy'];
   const type = weatherTypes[Math.floor(Math.random() * weatherTypes.length)];
-  return { type, emoji: getWeatherEmoji(type) };
+  return { type: type!, emoji: getWeatherEmoji(type!) };
 };
 
 const getWeatherEmoji = (weather: string): string => {
@@ -239,10 +240,10 @@ export const getSeasonalEvents = () => {
   ];
 };
 
-// Base reward calculation for compatibility
+// Base reward calculation - returns object for compatibility
 export const calculateBaseReward = (duration: number, prayerType?: string) => {
   const baseRate = 10; // Base cultural capital per minute
-  const minutes = duration / 60000; // Convert to minutes
+  const minutes = duration / 60; // Convert seconds to minutes
   
   let multiplier = 1.0;
   if (prayerType) {
@@ -256,7 +257,13 @@ export const calculateBaseReward = (duration: number, prayerType?: string) => {
     multiplier = prayerMultipliers[prayerType] || 1.0;
   }
   
-  return Math.floor(baseRate * minutes * multiplier);
+  const culturalCapital = Math.floor(baseRate * minutes * multiplier);
+  const experience = Math.floor(culturalCapital * 0.5);
+  
+  return {
+    culturalCapital,
+    experience
+  };
 };
 
 // =============================================================================

@@ -1,6 +1,4 @@
 
-
-
 // =============================================================================
 // NFT Utilities
 // =============================================================================
@@ -55,7 +53,7 @@ export const generateNFTFromPrayer = (prayerData: {
 
 // Determine rarity based on prayer duration and conditions
 const determineRarity = (duration: number): NFTRarity => {
-  const minutes = duration / 60000;
+  const minutes = duration / 60;
   
   if (minutes >= 60) return 'legendary';
   if (minutes >= 30) return 'epic';
@@ -73,7 +71,7 @@ export const getRarityColor = (rarity: NFTRarity | string): string => {
     epic: '#8B5CF6',
     legendary: '#F59E0B'
   };
-  return colors[rarity as string] || colors.common;
+  return colors[rarity] || colors.common;
 };
 
 // Get power level for rarity
@@ -85,7 +83,7 @@ export const getRarityPower = (rarity: NFTRarity | string): number => {
     epic: 8,
     legendary: 16
   };
-  return powers[rarity as string] || 1;
+  return powers[rarity] || 1;
 };
 
 // =============================================================================
