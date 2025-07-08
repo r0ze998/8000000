@@ -32,3 +32,6 @@ externalPort = 3000
 [[ports]]
 localPort = 36755
 externalPort = 3002
+
+[nix]
+packages = ["azure-functions-core-tools"]
