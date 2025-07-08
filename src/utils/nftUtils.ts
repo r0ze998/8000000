@@ -9,6 +9,11 @@ const RARITY_COLORS = {
   legendary: '#FFD700'
 } as const;
 
+export const getRarityColor = (rarity: string): string => {
+  const normalizedRarity = rarity.toLowerCase() as keyof typeof RARITY_COLORS;
+  return RARITY_COLORS[normalizedRarity] || RARITY_COLORS.common;
+};
+
 export const getRarityWeight = (rarity: string): number => {
   const weights = {
     common: 1,
