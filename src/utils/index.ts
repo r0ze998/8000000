@@ -1,3 +1,4 @@
+
 // =============================================================================
 // Utility Functions
 // =============================================================================
@@ -24,6 +25,29 @@ export const getExperienceToNextLevel = (culturalCapital: number): number => {
   const currentLevel = calculateLevel(culturalCapital);
   const requiredForNextLevel = currentLevel * 100;
   return requiredForNextLevel - culturalCapital;
+};
+
+// =============================================================================
+// Local Storage Functions
+// =============================================================================
+
+export const saveToLocalStorage = <T>(key: string, value: T): void => {
+  try {
+    const serializedValue = JSON.stringify(value);
+    localStorage.setItem(key, serializedValue);
+  } catch (error) {
+    console.error('Error saving to localStorage:', error);
+  }
+};
+
+export const loadFromLocalStorage = <T>(key: string, defaultValue: T): T => {
+  try {
+    const item = localStorage.getItem(key);
+    return item ? JSON.parse(item) : defaultValue;
+  } catch (error) {
+    console.error('Error loading from localStorage:', error);
+    return defaultValue;
+  }
 };
 
 // =============================================================================
