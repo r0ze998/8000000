@@ -1,3 +1,4 @@
+
 // =============================================================================
 // NFT Generation and Utility Functions
 // =============================================================================
@@ -53,14 +54,18 @@ export const dropNFTFromOmikuji = (omikujiResult: string): NFTItem | null => {
   }
 
   const nftTemplates = [
-    { type: 'sacred', name: '神聖な石', emoji: '🪨', color: '#8B7355', rarity: 'common' },
-    { type: 'nature', name: '桜の木', emoji: '🌸', color: '#FFB6C1', rarity: 'rare' },
-    { type: 'guardian', name: '狛犬', emoji: '🦁', color: '#8B4513', rarity: 'epic' },
-    { type: 'decoration', name: '提灯', emoji: '🏮', color: '#FF6B6B', rarity: 'common' },
-    { type: 'structure', name: '鳥居', emoji: '⛩️', color: '#DC143C', rarity: 'legendary' }
+    { type: 'sacred' as const, name: '神聖な石', emoji: '🪨', color: '#8B7355', rarity: 'common' as const },
+    { type: 'nature' as const, name: '桜の木', emoji: '🌸', color: '#FFB6C1', rarity: 'rare' as const },
+    { type: 'guardian' as const, name: '狛犬', emoji: '🦁', color: '#8B4513', rarity: 'epic' as const },
+    { type: 'decoration' as const, name: '提灯', emoji: '🏮', color: '#FF6B6B', rarity: 'common' as const },
+    { type: 'structure' as const, name: '鳥居', emoji: '⛩️', color: '#DC143C', rarity: 'legendary' as const }
   ];
 
   const template = nftTemplates[Math.floor(Math.random() * nftTemplates.length)];
+
+  if (!template) {
+    return null;
+  }
 
   return {
     id: `nft-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
@@ -70,7 +75,7 @@ export const dropNFTFromOmikuji = (omikujiResult: string): NFTItem | null => {
     color: template.color,
     rarity: template.rarity,
     power: Math.floor(Math.random() * 100) + 1,
-    pixelData: new Array(256).fill(0),
+    pixelData: template.emoji,
     animation: 'none',
     isOwned: true,
     description: `${template.name} - ${omikujiResult}の結果で獲得`
