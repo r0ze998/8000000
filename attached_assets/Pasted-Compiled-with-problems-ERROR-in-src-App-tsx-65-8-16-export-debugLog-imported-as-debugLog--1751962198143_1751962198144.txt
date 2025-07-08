@@ -1,0 +1,174 @@
+Compiled with problems:
+×
+ERROR in ./src/App.tsx 65:8-16
+export 'debugLog' (imported as 'debugLog') was not found in './utils' (possible exports: NFT_RARITIES, NFT_TYPES, PRAYER_MULTIPLIERS, STARKNET_TESTNET_CONFIG, calculateBaseReward, calculateEnhancedReward, calculateLevelProgress, calculateNFTValue, clamp, debounce, deepClone, dropNFTFromOmikuji, formatCulturalCapital, formatCurrency, formatDate, formatDateTime, formatDuration, formatNumber, formatTime, generateSVGBase64, getBeltRequirements, getDistance, getNFTDisplayProps, getRarityColor, getSeasonalEvents, getTimeBonus, isEmpty, isNearShrine, isValidEmail, isValidPhoneNumber, randomBetween, sanitizeHTML, shuffleArray, validateStarkNetConnection)
+ERROR in ./src/App.tsx 69:8-16
+export 'debugLog' (imported as 'debugLog') was not found in './utils' (possible exports: NFT_RARITIES, NFT_TYPES, PRAYER_MULTIPLIERS, STARKNET_TESTNET_CONFIG, calculateBaseReward, calculateEnhancedReward, calculateLevelProgress, calculateNFTValue, clamp, debounce, deepClone, dropNFTFromOmikuji, formatCulturalCapital, formatCurrency, formatDate, formatDateTime, formatDuration, formatNumber, formatTime, generateSVGBase64, getBeltRequirements, getDistance, getNFTDisplayProps, getRarityColor, getSeasonalEvents, getTimeBonus, isEmpty, isNearShrine, isValidEmail, isValidPhoneNumber, randomBetween, sanitizeHTML, shuffleArray, validateStarkNetConnection)
+ERROR in ./src/components/features/worship/Worship.tsx 202:26-49
+export 'getCurrentSeasonalEvent' (imported as 'getCurrentSeasonalEvent') was not found in '../../../utils' (possible exports: NFT_RARITIES, NFT_TYPES, PRAYER_MULTIPLIERS, STARKNET_TESTNET_CONFIG, calculateBaseReward, calculateEnhancedReward, calculateLevelProgress, calculateNFTValue, clamp, debounce, deepClone, dropNFTFromOmikuji, formatCulturalCapital, formatCurrency, formatDate, formatDateTime, formatDuration, formatNumber, formatTime, generateSVGBase64, getBeltRequirements, getDistance, getNFTDisplayProps, getRarityColor, getSeasonalEvents, getTimeBonus, isEmpty, isNearShrine, isValidEmail, isValidPhoneNumber, randomBetween, sanitizeHTML, shuffleArray, validateStarkNetConnection)
+ERROR in ./src/components/features/worship/Worship.tsx 203:20-36
+export 'getRandomWeather' (imported as 'getRandomWeather') was not found in '../../../utils' (possible exports: NFT_RARITIES, NFT_TYPES, PRAYER_MULTIPLIERS, STARKNET_TESTNET_CONFIG, calculateBaseReward, calculateEnhancedReward, calculateLevelProgress, calculateNFTValue, clamp, debounce, deepClone, dropNFTFromOmikuji, formatCulturalCapital, formatCurrency, formatDate, formatDateTime, formatDuration, formatNumber, formatTime, generateSVGBase64, getBeltRequirements, getDistance, getNFTDisplayProps, getRarityColor, getSeasonalEvents, getTimeBonus, isEmpty, isNearShrine, isValidEmail, isValidPhoneNumber, randomBetween, sanitizeHTML, shuffleArray, validateStarkNetConnection)
+ERROR in ./src/components/features/worship/Worship.tsx 204:22-34
+export 'getTimeOfDay' (imported as 'getTimeOfDay') was not found in '../../../utils' (possible exports: NFT_RARITIES, NFT_TYPES, PRAYER_MULTIPLIERS, STARKNET_TESTNET_CONFIG, calculateBaseReward, calculateEnhancedReward, calculateLevelProgress, calculateNFTValue, clamp, debounce, deepClone, dropNFTFromOmikuji, formatCulturalCapital, formatCurrency, formatDate, formatDateTime, formatDuration, formatNumber, formatTime, generateSVGBase64, getBeltRequirements, getDistance, getNFTDisplayProps, getRarityColor, getSeasonalEvents, getTimeBonus, isEmpty, isNearShrine, isValidEmail, isValidPhoneNumber, randomBetween, sanitizeHTML, shuffleArray, validateStarkNetConnection)
+ERROR in ./src/hooks/useLocalStorage.ts 9:11-31
+export 'loadFromLocalStorage' (imported as 'loadFromLocalStorage') was not found in '../utils' (possible exports: NFT_RARITIES, NFT_TYPES, PRAYER_MULTIPLIERS, STARKNET_TESTNET_CONFIG, calculateBaseReward, calculateEnhancedReward, calculateLevelProgress, calculateNFTValue, clamp, debounce, deepClone, dropNFTFromOmikuji, formatCulturalCapital, formatCurrency, formatDate, formatDateTime, formatDuration, formatNumber, formatTime, generateSVGBase64, getBeltRequirements, getDistance, getNFTDisplayProps, getRarityColor, getSeasonalEvents, getTimeBonus, isEmpty, isNearShrine, isValidEmail, isValidPhoneNumber, randomBetween, sanitizeHTML, shuffleArray, validateStarkNetConnection)
+ERROR in ./src/hooks/useLocalStorage.ts 12:4-22
+export 'saveToLocalStorage' (imported as 'saveToLocalStorage') was not found in '../utils' (possible exports: NFT_RARITIES, NFT_TYPES, PRAYER_MULTIPLIERS, STARKNET_TESTNET_CONFIG, calculateBaseReward, calculateEnhancedReward, calculateLevelProgress, calculateNFTValue, clamp, debounce, deepClone, dropNFTFromOmikuji, formatCulturalCapital, formatCurrency, formatDate, formatDateTime, formatDuration, formatNumber, formatTime, generateSVGBase64, getBeltRequirements, getDistance, getNFTDisplayProps, getRarityColor, getSeasonalEvents, getTimeBonus, isEmpty, isNearShrine, isValidEmail, isValidPhoneNumber, randomBetween, sanitizeHTML, shuffleArray, validateStarkNetConnection)
+ERROR in ./src/hooks/useOnboarding.ts 11:35-55
+export 'loadFromLocalStorage' (imported as 'loadFromLocalStorage') was not found in '../utils' (possible exports: NFT_RARITIES, NFT_TYPES, PRAYER_MULTIPLIERS, STARKNET_TESTNET_CONFIG, calculateBaseReward, calculateEnhancedReward, calculateLevelProgress, calculateNFTValue, clamp, debounce, deepClone, dropNFTFromOmikuji, formatCulturalCapital, formatCurrency, formatDate, formatDateTime, formatDuration, formatNumber, formatTime, generateSVGBase64, getBeltRequirements, getDistance, getNFTDisplayProps, getRarityColor, getSeasonalEvents, getTimeBonus, isEmpty, isNearShrine, isValidEmail, isValidPhoneNumber, randomBetween, sanitizeHTML, shuffleArray, validateStarkNetConnection)
+ERROR in ./src/hooks/useOnboarding.ts 16:4-22
+export 'saveToLocalStorage' (imported as 'saveToLocalStorage') was not found in '../utils' (possible exports: NFT_RARITIES, NFT_TYPES, PRAYER_MULTIPLIERS, STARKNET_TESTNET_CONFIG, calculateBaseReward, calculateEnhancedReward, calculateLevelProgress, calculateNFTValue, clamp, debounce, deepClone, dropNFTFromOmikuji, formatCulturalCapital, formatCurrency, formatDate, formatDateTime, formatDuration, formatNumber, formatTime, generateSVGBase64, getBeltRequirements, getDistance, getNFTDisplayProps, getRarityColor, getSeasonalEvents, getTimeBonus, isEmpty, isNearShrine, isValidEmail, isValidPhoneNumber, randomBetween, sanitizeHTML, shuffleArray, validateStarkNetConnection)
+ERROR in ./src/index.ts 16:0-28
+The requested module './constants' contains conflicting star exports for the name 'NFT_RARITIES' with the previous requested module './utils'
+ERROR in ./src/App.tsx 65:8-16
+export 'debugLog' (imported as 'debugLog') was not found in './utils' (possible exports: NFT_RARITIES, NFT_TYPES, PRAYER_MULTIPLIERS, STARKNET_TESTNET_CONFIG, calculateBaseReward, calculateEnhancedReward, calculateLevelProgress, calculateNFTValue, clamp, debounce, deepClone, dropNFTFromOmikuji, formatCulturalCapital, formatCurrency, formatDate, formatDateTime, formatDuration, formatNumber, formatTime, generateSVGBase64, getBeltRequirements, getDistance, getNFTDisplayProps, getRarityColor, getSeasonalEvents, getTimeBonus, isEmpty, isNearShrine, isValidEmail, isValidPhoneNumber, randomBetween, sanitizeHTML, shuffleArray, validateStarkNetConnection)
+ERROR in ./src/App.tsx 69:8-16
+export 'debugLog' (imported as 'debugLog') was not found in './utils' (possible exports: NFT_RARITIES, NFT_TYPES, PRAYER_MULTIPLIERS, STARKNET_TESTNET_CONFIG, calculateBaseReward, calculateEnhancedReward, calculateLevelProgress, calculateNFTValue, clamp, debounce, deepClone, dropNFTFromOmikuji, formatCulturalCapital, formatCurrency, formatDate, formatDateTime, formatDuration, formatNumber, formatTime, generateSVGBase64, getBeltRequirements, getDistance, getNFTDisplayProps, getRarityColor, getSeasonalEvents, getTimeBonus, isEmpty, isNearShrine, isValidEmail, isValidPhoneNumber, randomBetween, sanitizeHTML, shuffleArray, validateStarkNetConnection)
+ERROR in ./src/components/features/worship/Worship.tsx 202:26-49
+export 'getCurrentSeasonalEvent' (imported as 'getCurrentSeasonalEvent') was not found in '../../../utils' (possible exports: NFT_RARITIES, NFT_TYPES, PRAYER_MULTIPLIERS, STARKNET_TESTNET_CONFIG, calculateBaseReward, calculateEnhancedReward, calculateLevelProgress, calculateNFTValue, clamp, debounce, deepClone, dropNFTFromOmikuji, formatCulturalCapital, formatCurrency, formatDate, formatDateTime, formatDuration, formatNumber, formatTime, generateSVGBase64, getBeltRequirements, getDistance, getNFTDisplayProps, getRarityColor, getSeasonalEvents, getTimeBonus, isEmpty, isNearShrine, isValidEmail, isValidPhoneNumber, randomBetween, sanitizeHTML, shuffleArray, validateStarkNetConnection)
+ERROR in ./src/components/features/worship/Worship.tsx 203:20-36
+export 'getRandomWeather' (imported as 'getRandomWeather') was not found in '../../../utils' (possible exports: NFT_RARITIES, NFT_TYPES, PRAYER_MULTIPLIERS, STARKNET_TESTNET_CONFIG, calculateBaseReward, calculateEnhancedReward, calculateLevelProgress, calculateNFTValue, clamp, debounce, deepClone, dropNFTFromOmikuji, formatCulturalCapital, formatCurrency, formatDate, formatDateTime, formatDuration, formatNumber, formatTime, generateSVGBase64, getBeltRequirements, getDistance, getNFTDisplayProps, getRarityColor, getSeasonalEvents, getTimeBonus, isEmpty, isNearShrine, isValidEmail, isValidPhoneNumber, randomBetween, sanitizeHTML, shuffleArray, validateStarkNetConnection)
+ERROR in ./src/components/features/worship/Worship.tsx 204:22-34
+export 'getTimeOfDay' (imported as 'getTimeOfDay') was not found in '../../../utils' (possible exports: NFT_RARITIES, NFT_TYPES, PRAYER_MULTIPLIERS, STARKNET_TESTNET_CONFIG, calculateBaseReward, calculateEnhancedReward, calculateLevelProgress, calculateNFTValue, clamp, debounce, deepClone, dropNFTFromOmikuji, formatCulturalCapital, formatCurrency, formatDate, formatDateTime, formatDuration, formatNumber, formatTime, generateSVGBase64, getBeltRequirements, getDistance, getNFTDisplayProps, getRarityColor, getSeasonalEvents, getTimeBonus, isEmpty, isNearShrine, isValidEmail, isValidPhoneNumber, randomBetween, sanitizeHTML, shuffleArray, validateStarkNetConnection)
+ERROR in ./src/hooks/useLocalStorage.ts 9:11-31
+export 'loadFromLocalStorage' (imported as 'loadFromLocalStorage') was not found in '../utils' (possible exports: NFT_RARITIES, NFT_TYPES, PRAYER_MULTIPLIERS, STARKNET_TESTNET_CONFIG, calculateBaseReward, calculateEnhancedReward, calculateLevelProgress, calculateNFTValue, clamp, debounce, deepClone, dropNFTFromOmikuji, formatCulturalCapital, formatCurrency, formatDate, formatDateTime, formatDuration, formatNumber, formatTime, generateSVGBase64, getBeltRequirements, getDistance, getNFTDisplayProps, getRarityColor, getSeasonalEvents, getTimeBonus, isEmpty, isNearShrine, isValidEmail, isValidPhoneNumber, randomBetween, sanitizeHTML, shuffleArray, validateStarkNetConnection)
+ERROR in ./src/hooks/useLocalStorage.ts 12:4-22
+export 'saveToLocalStorage' (imported as 'saveToLocalStorage') was not found in '../utils' (possible exports: NFT_RARITIES, NFT_TYPES, PRAYER_MULTIPLIERS, STARKNET_TESTNET_CONFIG, calculateBaseReward, calculateEnhancedReward, calculateLevelProgress, calculateNFTValue, clamp, debounce, deepClone, dropNFTFromOmikuji, formatCulturalCapital, formatCurrency, formatDate, formatDateTime, formatDuration, formatNumber, formatTime, generateSVGBase64, getBeltRequirements, getDistance, getNFTDisplayProps, getRarityColor, getSeasonalEvents, getTimeBonus, isEmpty, isNearShrine, isValidEmail, isValidPhoneNumber, randomBetween, sanitizeHTML, shuffleArray, validateStarkNetConnection)
+ERROR in ./src/hooks/useOnboarding.ts 11:35-55
+export 'loadFromLocalStorage' (imported as 'loadFromLocalStorage') was not found in '../utils' (possible exports: NFT_RARITIES, NFT_TYPES, PRAYER_MULTIPLIERS, STARKNET_TESTNET_CONFIG, calculateBaseReward, calculateEnhancedReward, calculateLevelProgress, calculateNFTValue, clamp, debounce, deepClone, dropNFTFromOmikuji, formatCulturalCapital, formatCurrency, formatDate, formatDateTime, formatDuration, formatNumber, formatTime, generateSVGBase64, getBeltRequirements, getDistance, getNFTDisplayProps, getRarityColor, getSeasonalEvents, getTimeBonus, isEmpty, isNearShrine, isValidEmail, isValidPhoneNumber, randomBetween, sanitizeHTML, shuffleArray, validateStarkNetConnection)
+ERROR in ./src/hooks/useOnboarding.ts 16:4-22
+export 'saveToLocalStorage' (imported as 'saveToLocalStorage') was not found in '../utils' (possible exports: NFT_RARITIES, NFT_TYPES, PRAYER_MULTIPLIERS, STARKNET_TESTNET_CONFIG, calculateBaseReward, calculateEnhancedReward, calculateLevelProgress, calculateNFTValue, clamp, debounce, deepClone, dropNFTFromOmikuji, formatCulturalCapital, formatCurrency, formatDate, formatDateTime, formatDuration, formatNumber, formatTime, generateSVGBase64, getBeltRequirements, getDistance, getNFTDisplayProps, getRarityColor, getSeasonalEvents, getTimeBonus, isEmpty, isNearShrine, isValidEmail, isValidPhoneNumber, randomBetween, sanitizeHTML, shuffleArray, validateStarkNetConnection)
+ERROR in ./src/index.ts 16:0-28
+The requested module './constants' contains conflicting star exports for the name 'NFT_RARITIES' with the previous requested module './utils'
+ERROR in src/App.tsx:24:10
+TS2305: Module '"./utils"' has no exported member 'debugLog'.
+    22 |
+    23 | // Utils
+  > 24 | import { debugLog } from './utils';
+       |          ^^^^^^^^
+    25 |
+    26 | // =============================================================================
+    27 | // Types & Constants
+ERROR in src/components/features/worship/Worship.tsx:8:3
+TS2724: '"../../../utils"' has no exported member named 'getCurrentSeasonalEvent'. Did you mean 'getSeasonalEvents'?
+     6 | import { 
+     7 |   calculateBaseReward, 
+  >  8 |   getCurrentSeasonalEvent,
+       |   ^^^^^^^^^^^^^^^^^^^^^^^
+     9 |   getTimeOfDay,
+    10 |   getRandomWeather
+    11 | } from '../../../utils';
+ERROR in src/components/features/worship/Worship.tsx:9:3
+TS2305: Module '"../../../utils"' has no exported member 'getTimeOfDay'.
+     7 |   calculateBaseReward, 
+     8 |   getCurrentSeasonalEvent,
+  >  9 |   getTimeOfDay,
+       |   ^^^^^^^^^^^^
+    10 |   getRandomWeather
+    11 | } from '../../../utils';
+    12 | import { dropNFTFromOmikuji, generateSVGBase64 } from '../../../utils/nftUtils';
+ERROR in src/components/features/worship/Worship.tsx:10:3
+TS2305: Module '"../../../utils"' has no exported member 'getRandomWeather'.
+     8 |   getCurrentSeasonalEvent,
+     9 |   getTimeOfDay,
+  > 10 |   getRandomWeather
+       |   ^^^^^^^^^^^^^^^^
+    11 | } from '../../../utils';
+    12 | import { dropNFTFromOmikuji, generateSVGBase64 } from '../../../utils/nftUtils';
+    13 | import { formatTime } from '../../../utils/formatUtils';
+ERROR in src/hooks/useLocalStorage.ts:3:10
+TS2305: Module '"../utils"' has no exported member 'saveToLocalStorage'.
+    1 |
+    2 | import { useState, useEffect } from 'react';
+  > 3 | import { saveToLocalStorage, loadFromLocalStorage } from '../utils';
+      |          ^^^^^^^^^^^^^^^^^^
+    4 |
+    5 | export function useLocalStorage<T>(key: string, defaultValue: T) {
+    6 |   const [value, setValue] = useState<T>(() => {
+ERROR in src/hooks/useLocalStorage.ts:3:30
+TS2305: Module '"../utils"' has no exported member 'loadFromLocalStorage'.
+    1 |
+    2 | import { useState, useEffect } from 'react';
+  > 3 | import { saveToLocalStorage, loadFromLocalStorage } from '../utils';
+      |                              ^^^^^^^^^^^^^^^^^^^^
+    4 |
+    5 | export function useLocalStorage<T>(key: string, defaultValue: T) {
+    6 |   const [value, setValue] = useState<T>(() => {
+ERROR in src/hooks/useOnboarding.ts:3:10
+TS2305: Module '"../utils"' has no exported member 'loadFromLocalStorage'.
+    1 |
+    2 | import { useState, useEffect } from 'react';
+  > 3 | import { loadFromLocalStorage, saveToLocalStorage } from '../utils';
+      |          ^^^^^^^^^^^^^^^^^^^^
+    4 |
+    5 | export const useOnboarding = () => {
+    6 |   const [needsOnboarding, setNeedsOnboarding] = useState<boolean>(true);
+ERROR in src/hooks/useOnboarding.ts:3:32
+TS2305: Module '"../utils"' has no exported member 'saveToLocalStorage'.
+    1 |
+    2 | import { useState, useEffect } from 'react';
+  > 3 | import { loadFromLocalStorage, saveToLocalStorage } from '../utils';
+      |                                ^^^^^^^^^^^^^^^^^^
+    4 |
+    5 | export const useOnboarding = () => {
+    6 |   const [needsOnboarding, setNeedsOnboarding] = useState<boolean>(true);
+ERROR in src/index.ts:15:1
+TS2308: Module './utils' has already exported a member named 'NFT_RARITIES'. Consider explicitly re-exporting to resolve the ambiguity.
+    13 |
+    14 | // Constants
+  > 15 | export * from './constants';
+       | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    16 |
+ERROR in src/utils/index.ts:35:6
+TS2322: Type 'T | undefined' is not assignable to type 'T'.
+  'T' could be instantiated with an arbitrary type which could be unrelated to 'T | undefined'.
+    33 |   for (let i = shuffled.length - 1; i > 0; i--) {
+    34 |     const j = Math.floor(Math.random() * (i + 1));
+  > 35 |     [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+       |      ^^^^^^^^^^^
+    36 |   }
+    37 |   return shuffled;
+    38 | };
+ERROR in src/utils/index.ts:35:19
+TS2322: Type 'T | undefined' is not assignable to type 'T'.
+  'T' could be instantiated with an arbitrary type which could be unrelated to 'T | undefined'.
+    33 |   for (let i = shuffled.length - 1; i > 0; i--) {
+    34 |     const j = Math.floor(Math.random() * (i + 1));
+  > 35 |     [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+       |                   ^^^^^^^^^^^
+    36 |   }
+    37 |   return shuffled;
+    38 | };
+ERROR in src/utils/nftUtils.ts:70:3
+TS2739: Type '{ id: string; name: string; type: "structure" | "nature" | "guardian" | "decoration" | "sacred"; emoji: string; color: string; rarity: "common" | "rare" | "epic" | "legendary"; power: number; pixelData: string; animation: "none"; isOwned: true; description: string; }' is missing the following properties from type 'NFTItem': timestamp, attributes
+    68 |   }
+    69 |
+  > 70 |   return {
+       |   ^^^^^^^^
+  > 71 |     id: `nft-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
+       | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  > 72 |     name: template.name,
+       | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  > 73 |     type: template.type,
+       | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  > 74 |     emoji: template.emoji,
+       | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  > 75 |     color: template.color,
+       | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  > 76 |     rarity: template.rarity,
+       | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  > 77 |     power: Math.floor(Math.random() * 100) + 1,
+       | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  > 78 |     pixelData: template.emoji,
+       | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  > 79 |     animation: 'none',
+       | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  > 80 |     isOwned: true,
+       | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  > 81 |     description: `${template.name} - ${omikujiResult}の結果で獲得`
+       | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  > 82 |   };
+       | ^^^^^
+    83 | };
+    84 |
+    85 | // Get rarity color for display
