@@ -1,5 +1,7 @@
-// NFT生成ユーティリティ関数
 
+import { NFTItem } from '../types';
+
+// NFT生成ユーティリティ関数
 export const dropNFTFromOmikuji = (omikujiResult: string) => {
   const dropRates = {
     '大吉': 0.8,
@@ -20,7 +22,7 @@ export const dropNFTFromOmikuji = (omikujiResult: string) => {
   return null;
 };
 
-export const generateRandomNFT = (omikujiResult: string) => {
+export const generateRandomNFT = (omikujiResult: string): NFTItem => {
   const nftTypes = [
     { 
       type: 'torii', 
@@ -61,20 +63,22 @@ export const generateRandomNFT = (omikujiResult: string) => {
     '凶': 'common'
   };
 
-  const selectedType = nftTypes[Math.floor(Math.random() * nftTypes.length)];
+  const selectedType = nftTypes[Math.floor(Math.random() * nftTypes.length)]!;
   const rarity = rarityMap[omikujiResult as keyof typeof rarityMap] || 'common';
-  const color = selectedType?.colors[Math.floor(Math.random() * selectedType.colors.length)] || '#FFD700';
+  const color = selectedType.colors[Math.floor(Math.random() * selectedType.colors.length)]!;
 
   return {
-    id: Date.now(),
-    name: selectedType?.name || 'NFT',
-    type: selectedType?.type || 'decoration',
-    emoji: selectedType?.emoji || '🌸',
+    id: Date.now().toString(),
+    name: selectedType.name,
+    type: selectedType.type,
+    emoji: selectedType.emoji,
     rarity: rarity,
     color: color,
     power: Math.floor(Math.random() * 50) + 10,
-    description: selectedType?.description || '美しいNFT',
-    timestamp: new Date().toISOString()
+    pixelData: selectedType.emoji,
+    isOwned: true,
+    description: selectedType.description,
+    timestamp: Date.now()
   };
 };
 
@@ -93,16 +97,6 @@ export const generateSVGBase64 = (nftData: any): string => {
   return btoa(svg);
 };
 
-export const getRarityColor = (rarity: string) => {
-  const colors = {
-    common: '#94a3b8',
-    uncommon: '#22d3ee', 
-    rare: '#a855f7',
-    epic: '#f59e0b',
-    legendary: '#ef4444'
-  };
-  return colors[rarity as keyof typeof colors] || colors.common;
-};
 export const getRarityColor = (rarity: string): string => {
   switch (rarity.toLowerCase()) {
     case 'legendary':

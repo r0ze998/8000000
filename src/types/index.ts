@@ -22,6 +22,7 @@ export interface UserStats {
   visitCount: number;
   streakDays: number;
   totalPrayerTime: number;
+  totalWorshipSessions: number;
   level: number;
 }
 
@@ -46,7 +47,11 @@ export interface Mission {
   id: string;
   title: string;
   description: string;
+  type: string;
+  progress: number;
+  total: number;
   reward: number;
+  icon: string;
   completed: boolean;
 }
 

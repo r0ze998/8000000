@@ -142,8 +142,8 @@ export const shuffle = <T>(array: T[]): T[] => {
   const shuffled = [...array];
   for (let i = shuffled.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1));
-    const temp = shuffled[i];
-    shuffled[i] = shuffled[j];
+    const temp = shuffled[i]!;
+    shuffled[i] = shuffled[j]!;
     shuffled[j] = temp;
   }
   return shuffled;
@@ -161,7 +161,7 @@ export const randomChoice = <T>(array: T[]): T => {
   if (array.length === 0) {
     throw new Error('Cannot choose from empty array');
   }
-  return array[randomInt(0, array.length - 1)];
+  return array[randomInt(0, array.length - 1)]!;
 };
 
 export const randomId = (): string => {
