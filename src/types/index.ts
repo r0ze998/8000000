@@ -1,245 +1,168 @@
-
-// =============================================================================
-// Core Types
-// =============================================================================
-
-export interface User {
-  id: string;
-  name: string;
-  level: number;
-  experience: number;
-  culturalCapital: number;
-  visitCount: number;
-  streakDays: number;
-  totalPrayerTime: number;
-  joinedAt: Date;
-}
-
-export interface UserStats {
-  level: number;
-  experience: number;
-  culturalCapital: number;
-  visitCount: number;
-  streakDays: number;
-  totalPrayerTime: number;
-  consecutiveDays: number;
-  currentStreak: number;
-  longestStreak: number;
-  totalNFTs: number;
-  meditationStreak: number;
-  totalWorshipSessions: number;
-  achievements: Achievement[];
-  lastVisitDate: Date | null;
-}
-
-// =============================================================================
-// Location & Geography
-// =============================================================================
-
-export interface Location {
-  lat: number;
-  lng: number;
-  address: string;
-}
-
-export interface Position {
-  lat: number;
-  lng: number;
-}
-
-// =============================================================================
-// Shrine Types
-// =============================================================================
-
-export type ShrineRarity = 'common' | 'rare' | 'epic' | 'legendary';
+// Core type definitions
 
 export interface Shrine {
   id: string;
   name: string;
-  location: Location;
-  rarity: ShrineRarity;
   description: string;
-  benefits: string[];
-  distance: number;
-  isVisitedToday: boolean;
-  position?: Position;
+  location: {
+    lat: number;
+    lng: number;
+    address: string;
+    prefecture: string;
+  };
+  rarity: 'common' | 'rare' | 'epic' | 'legendary';
+  visitCount: number;
+  lastVisit?: Date;
+  image?: string;
+  history?: string;
+  deity?: string;
+  festivals?: string[];
 }
 
-// =============================================================================
-// NFT Types
-// =============================================================================
-
-export type NFTRarity = 'common' | 'uncommon' | 'rare' | 'epic' | 'legendary';
-
-export interface NFTItem {
+export interface UserProfile {
   id: string;
   name: string;
-  description: string;
-  rarity: NFTRarity;
-  category?: string;
-  type?: string;
-  svgData?: string;
-  pixelData?: string;
-  color: string;
-  power?: number;
-  isOwned?: boolean;
-  animation?: string;
-  emoji?: string;
-  timestamp?: number;
-  obtainedAt?: Date;
-  shrineId?: string;
-  traits?: NFTTrait[];
-}
-
-export interface NFTTrait {
-  trait_type: string;
-  value: string;
-  rarity?: NFTRarity;
-}
-
-export interface NFTPart {
-  id: string;
-  name: string;
-  category: string;
-  rarity: NFTRarity;
-  svgPath: string;
-  color?: string;
-}
-
-// =============================================================================
-// Mission & Reward Types
-// =============================================================================
-
-export interface Mission {
-  id: string;
-  title: string;
-  description: string;
-  type: 'daily' | 'weekly' | 'monthly' | 'special';
-  requirements: MissionRequirement[];
-  rewards: Reward[];
-  isCompleted: boolean;
-  progress: number;
-  maxProgress: number;
-  total: number;
-  reward: number;
-  icon: string;
-  completed: boolean;
-  expiresAt?: Date;
-}
-
-export interface MissionRequirement {
-  type: 'visit_shrine' | 'pray_duration' | 'consecutive_days' | 'collect_nft';
-  target: number;
-  current: number;
-}
-
-export interface Reward {
-  type: 'experience' | 'cultural_capital' | 'nft' | 'item';
-  amount?: number;
-  itemId?: string;
-}
-
-// =============================================================================
-// Prayer & Worship Types
-// =============================================================================
-
-export interface PrayerSession {
-  id: string;
-  shrineId: string;
-  duration: number;
-  type: string;
-  startTime: Date;
-  endTime: Date;
-  rewards: Reward[];
-}
-
-export interface WorshipSession {
-  id: string;
-  userId: string;
-  shrineId: string;
-  duration: number;
-  prayerType: string;
-  startedAt: Date;
-  completedAt?: Date;
-  rewards?: Reward[];
+  level: number;
   experience: number;
   culturalCapital: number;
+  streak: number;
+  lastVisit?: Date;
+  belt: string;
+  achievements: Achievement[];
+  nftCollection: NFTItem[];
+  preferences: UserPreferences;
 }
 
-// =============================================================================
-// Event & Season Types
-// =============================================================================
-
-export interface SeasonalEvent {
-  id: string;
-  name: string;
-  description: string;
-  startDate: Date;
-  endDate: Date;
-  bonusMultiplier: number;
-  specialRewards: Reward[];
-  isActive: boolean;
+export interface UserPreferences {
+  notifications: boolean;
+  soundEnabled: boolean;
+  preferredPrayerDuration: number;
+  favoriteDeities: string[];
+  theme: 'light' | 'dark' | 'auto';
 }
-
-export interface Weather {
-  condition: 'sunny' | 'cloudy' | 'rainy' | 'snowy';
-  temperature: number;
-  bonus: number;
-}
-
-// =============================================================================
-// Game Mechanics Types
-// =============================================================================
 
 export interface Achievement {
   id: string;
   name: string;
   description: string;
   icon: string;
-  rarity: 'bronze' | 'silver' | 'gold' | 'platinum';
-  unlockedAt?: Date;
-  progress: number;
-  maxProgress: number;
+  unlockedAt: Date;
+  rarity: 'common' | 'rare' | 'epic' | 'legendary';
 }
 
-export interface CulturalBelt {
-  name: string;
-  minCapital: number;
-  maxCapital: number;
-  color: string;
-  benefits: string[];
-}
-
-// =============================================================================
-// UI & Component Types
-// =============================================================================
-
-export interface TabConfig {
+export interface NFTItem {
   id: string;
-  icon: string;
-  label: string;
-  component: React.ComponentType;
+  name: string;
+  type: 'goshuin' | 'omikuji' | 'spirit' | 'blessing' | 'protection' | 'wisdom' | 'fortune';
+  rarity: 'common' | 'rare' | 'epic' | 'legendary';
+  power?: number;
+  description: string;
+  emoji: string;
+  color: string;
+  timestamp: number;
+  shrineId?: string;
+  attributes: Record<string, any>;
 }
 
+export interface PrayerSession {
+  id: string;
+  type: string;
+  duration: number;
+  startTime: number;
+  endTime: number;
+  shrineId: string;
+  rewards: {
+    culturalCapital: number;
+    experience: number;
+    specialBonus?: {
+      type: string;
+      value: number;
+      description: string;
+    };
+  };
+  nftDrops?: NFTItem[];
+}
+
+export interface OmikujiResult {
+  id: string;
+  result: '大吉' | '中吉' | '吉' | '小吉' | '末吉' | '凶';
+  message: string;
+  advice: string;
+  timestamp: number;
+  shrineId: string;
+  nftDrop?: NFTItem;
+}
+
+export interface VisitRecord {
+  id: string;
+  shrineId: string;
+  timestamp: number;
+  duration?: number;
+  prayerType?: string;
+  rewards: {
+    culturalCapital: number;
+    experience: number;
+  };
+  weather?: string;
+  timeOfDay: 'morning' | 'afternoon' | 'evening' | 'night';
+}
+
+export interface GameState {
+  userProfile: UserProfile;
+  visitHistory: VisitRecord[];
+  omikujiHistory: OmikujiResult[];
+  currentStreak: number;
+  seasonalEvents: Array<{
+    name: string;
+    bonus: number;
+    icon?: string;
+    description?: string;
+  }>;
+}
+
+// StarkNet related types
+export interface StarkNetConfig {
+  rpcUrl: string;
+  chainId: string;
+  contractAddress?: string;
+}
+
+export interface ContractInteraction {
+  functionName: string;
+  parameters: any[];
+  gasLimit?: number;
+}
+
+// Component prop types
 export interface ModalProps {
   isOpen: boolean;
   onClose: () => void;
+  title?: string;
   children: React.ReactNode;
 }
 
-// =============================================================================
-// API & Service Types
-// =============================================================================
+export interface ButtonProps {
+  variant?: 'primary' | 'secondary' | 'danger';
+  size?: 'small' | 'medium' | 'large';
+  disabled?: boolean;
+  loading?: boolean;
+  onClick?: () => void;
+  children: React.ReactNode;
+}
 
-export interface APIResponse<T> {
+// API response types
+export interface ApiResponse<T> {
   success: boolean;
   data?: T;
   error?: string;
   message?: string;
 }
 
-export interface ShrineAPIData {
-  shrines: Shrine[];
-  userLocation: Position;
-  lastUpdated: Date;
+export interface GeolocationPosition {
+  coords: {
+    latitude: number;
+    longitude: number;
+    accuracy: number;
+  };
+  timestamp: number;
 }

@@ -1,0 +1,467 @@
+Compiled with problems:
+×
+ERROR in src/App.tsx:21:15
+TS2305: Module '"./types"' has no exported member 'User'.
+    19 |
+    20 | // Types
+  > 21 | import type { User } from './types';
+       |               ^^^^
+    22 |
+    23 | // Utils
+    24 | import { debugLog } from './utils';
+ERROR in src/components/features/shrine/MyShrine.tsx:254:46
+TS2339: Property 'isOwned' does not exist on type 'NFTItem'.
+    252 |   const getFilteredNFTs = () => {
+    253 |     if (selectedCategory === 'all') {
+  > 254 |       return nftCollection.filter(nft => nft.isOwned);
+        |                                              ^^^^^^^
+    255 |     }
+    256 |     return nftCollection.filter(nft => nft.isOwned && nft.type === selectedCategory);
+    257 |   };
+ERROR in src/components/features/shrine/MyShrine.tsx:256:44
+TS2339: Property 'isOwned' does not exist on type 'NFTItem'.
+    254 |       return nftCollection.filter(nft => nft.isOwned);
+    255 |     }
+  > 256 |     return nftCollection.filter(nft => nft.isOwned && nft.type === selectedCategory);
+        |                                            ^^^^^^^
+    257 |   };
+    258 |
+    259 |   const getUniqueCategories = (): string[] => {
+ERROR in src/components/features/shrine/MyShrine.tsx:330:58
+TS2339: Property 'animation' does not exist on type 'NFTItem'.
+    328 |                   <div
+    329 |                     key={nft.id}
+  > 330 |                     className={`nft-selection-card ${nft.animation || ''}`}
+        |                                                          ^^^^^^^^^
+    331 |                     onClick={() => handleNFTPlaceFromModal(nft)}
+    332 |                   >
+    333 |                     <div 
+ERROR in src/components/features/shrine/MyShrine.tsx:340:62
+TS2339: Property 'pixelData' does not exist on type 'NFTItem'.
+    338 |                       }}
+    339 |                     >
+  > 340 |                       <span className="nft-emoji-small">{nft.pixelData || nft.emoji}</span>
+        |                                                              ^^^^^^^^^
+    341 |                     </div>
+    342 |                     <div className="nft-name-small">{nft.name}</div>
+    343 |                     <div 
+ERROR in src/components/features/shrine/MyShrine.tsx:419:101
+TS2339: Property 'animation' does not exist on type 'NFTItem'.
+    417 |                           key={`${x}-${y}`}
+    418 |                           data-coord={`${x}-${y}`}
+  > 419 |                           className={`pixel ${isBuilding ? 'buildable' : 'selectable'} ${data?.nft?.animation || ''}`}
+        |                                                                                                     ^^^^^^^^^
+    420 |                           style={{ 
+    421 |                             backgroundColor: data?.pixel?.color || 'transparent',
+    422 |                             border: data?.pixel ? `1px solid ${getRarityColor(data?.nft?.rarity || 'common')}` : '1px solid rgba(255,255,255,0.1)'
+ERROR in src/components/features/shrine/MyShrine.tsx:426:39
+TS2339: Property 'pixelData' does not exist on type 'NFTItem'.
+    424 |                           onClick={() => handlePixelPlace(x, y)}
+    425 |                         >
+  > 426 |                           {data?.nft?.pixelData && (
+        |                                       ^^^^^^^^^
+    427 |                             <span className="pixel-emoji">{data.nft.pixelData}</span>
+    428 |                           )}
+    429 |                           {!isBuilding && !data?.pixel && (
+ERROR in src/components/features/shrine/MyShrine.tsx:427:69
+TS2339: Property 'pixelData' does not exist on type 'NFTItem'.
+    425 |                         >
+    426 |                           {data?.nft?.pixelData && (
+  > 427 |                             <span className="pixel-emoji">{data.nft.pixelData}</span>
+        |                                                                     ^^^^^^^^^
+    428 |                           )}
+    429 |                           {!isBuilding && !data?.pixel && (
+    430 |                             <div className="pixel-placeholder">+</div>
+ERROR in src/components/features/shrine/MyShrine.tsx:448:34
+TS2339: Property 'pixelData' does not exist on type 'NFTItem'.
+    446 |                     style={{ backgroundColor: selectedNFT.color }}
+    447 |                   >
+  > 448 |                     {selectedNFT.pixelData}
+        |                                  ^^^^^^^^^
+    449 |                   </div>
+    450 |                   <div className="nft-details">
+    451 |                     <div className="nft-name">{selectedNFT.name}</div>
+ERROR in src/components/features/shrine/MyShrine.tsx:476:50
+TS2339: Property 'isOwned' does not exist on type 'NFTItem'.
+    474 |               <h3>🎁 NFTコレクション</h3>
+    475 |               <div className="collection-stats">
+  > 476 |                 {nftCollection.filter(nft => nft.isOwned).length}/{nftCollection.length} 所持
+        |                                                  ^^^^^^^
+    477 |               </div>
+    478 |             </div>
+    479 |
+ERROR in src/components/features/shrine/MyShrine.tsx:503:94
+TS2339: Property 'animation' does not exist on type 'NFTItem'.
+    501 |                 <div
+    502 |                   key={nft.id}
+  > 503 |                   className={`nft-card ${selectedNFT?.id === nft.id ? 'selected' : ''} ${nft.animation || ''}`}
+        |                                                                                              ^^^^^^^^^
+    504 |                   onClick={() => setSelectedNFT(nft)}
+    505 |                 >
+    506 |                   <div 
+ERROR in src/components/features/shrine/MyShrine.tsx:513:54
+TS2339: Property 'pixelData' does not exist on type 'NFTItem'.
+    511 |                     }}
+    512 |                   >
+  > 513 |                     <span className="nft-emoji">{nft.pixelData}</span>
+        |                                                      ^^^^^^^^^
+    514 |                   </div>
+    515 |                   <div className="nft-info">
+    516 |                     <div className="nft-name">{nft.name}</div>
+ERROR in src/components/features/shrine/MyShrine.tsx:550:80
+TS2339: Property 'isOwned' does not exist on type 'NFTItem'.
+    548 |                 <div className="stat-content">
+    549 |                   <div className="stat-label">所持NFT</div>
+  > 550 |                   <div className="stat-value">{nftCollection.filter(nft => nft.isOwned).length}</div>
+        |                                                                                ^^^^^^^
+    551 |                 </div>
+    552 |               </div>
+    553 |
+ERROR in src/components/features/shrine/MyShrine.tsx:595:76
+TS2339: Property 'isOwned' does not exist on type 'NFTItem'.
+    593 |                   <span className="achievement-text">レベルマスター</span>
+    594 |                 </div>
+  > 595 |                 <div className={`achievement ${nftCollection.filter(n => n.isOwned).length >= 5 ? 'unlocked' : ''}`}>
+        |                                                                            ^^^^^^^
+    596 |                   <span className="achievement-icon">🎁</span>
+    597 |                   <span className="achievement-text">コレクター</span>
+    598 |                 </div>
+ERROR in src/components/features/worship/UserStatsPanel.tsx:3:10
+TS2305: Module '"../../../types"' has no exported member 'UserStats'.
+    1 | import React from 'react';
+    2 | import "./UserStatsPanel.css";
+  > 3 | import { UserStats as UserStatsType } from '../../../types';
+      |          ^^^^^^^^^
+    4 |
+    5 | interface UserStatsProps {
+    6 |   stats: UserStatsType;
+ERROR in src/components/features/worship/Worship.tsx:2:10
+TS2305: Module '"../../../types"' has no exported member 'UserStats'.
+    1 | import React, { useState, useEffect, useRef } from 'react';
+  > 2 | import { UserStats } from '../../../types';
+      |          ^^^^^^^^^
+    3 | import './Worship.css';
+    4 | import { useAccountAbstraction } from '../../../hooks/useAccountAbstraction';
+    5 | import { useGoogleMaps } from '../../../hooks/useGoogleMaps';
+ERROR in src/data/nftParts.ts:49:5
+TS2322: Type '"terrain"' is not assignable to type '"goshuin" | "omikuji" | "spirit" | "blessing" | "protection" | "wisdom" | "fortune"'.
+    47 |     id: 'grass-1',
+    48 |     name: '草原',
+  > 49 |     type: 'terrain',
+       |     ^^^^
+    50 |     rarity: 'common',
+    51 |     power: 20,
+    52 |     pixelData: '🌱',
+ERROR in src/data/nftParts.ts:62:5
+TS2322: Type '"terrain"' is not assignable to type '"goshuin" | "omikuji" | "spirit" | "blessing" | "protection" | "wisdom" | "fortune"'.
+    60 |     id: 'water-1',
+    61 |     name: '水辺',
+  > 62 |     type: 'terrain',
+       |     ^^^^
+    63 |     rarity: 'common',
+    64 |     power: 25,
+    65 |     pixelData: '🌊',
+ERROR in src/data/nftParts.ts:75:5
+TS2322: Type '"structure"' is not assignable to type '"goshuin" | "omikuji" | "spirit" | "blessing" | "protection" | "wisdom" | "fortune"'.
+    73 |     id: 'torii-1',
+    74 |     name: '黄金の鳥居',
+  > 75 |     type: 'structure',
+       |     ^^^^
+    76 |     rarity: 'legendary',
+    77 |     power: 500,
+    78 |     pixelData: '⛩️',
+ERROR in src/data/nftParts.ts:91:52
+TS2367: This comparison appears to be unintentional because the types '"common" | "rare" | "epic" | "legendary"' and '"uncommon"' have no overlap.
+    89 | export const NFT_DROP_TABLE = {
+    90 |   COMMON_DROPS: ENHANCED_NFT_PARTS.filter(nft => nft.rarity === 'common'),
+  > 91 |   UNCOMMON_DROPS: ENHANCED_NFT_PARTS.filter(nft => nft.rarity === 'uncommon'),
+       |                                                    ^^^^^^^^^^^^^^^^^^^^^^^^^
+    92 |   RARE_DROPS: ENHANCED_NFT_PARTS.filter(nft => nft.rarity === 'rare'),
+    93 |   EPIC_DROPS: ENHANCED_NFT_PARTS.filter(nft => nft.rarity === 'epic'),
+    94 |   LEGENDARY_DROPS: ENHANCED_NFT_PARTS.filter(nft => nft.rarity === 'legendary')
+ERROR in src/data/shrines.ts:1:18
+TS2305: Module '"../types"' has no exported member 'Mission'.
+  > 1 | import { Shrine, Mission, NFTItem } from '../types';
+      |                  ^^^^^^^
+    2 |
+    3 | export const shrines: Shrine[] = [
+    4 |   {
+ERROR in src/data/shrines.ts:7:5
+TS2741: Property 'prefecture' is missing in type '{ lat: number; lng: number; address: string; }' but required in type '{ lat: number; lng: number; address: string; prefecture: string; }'.
+     5 |     id: 'meiji_jingu',
+     6 |     name: '明治神宮',
+  >  7 |     location: { lat: 35.6762, lng: 139.6993, address: '東京都渋谷区代々木神園町1-1' },
+       |     ^^^^^^^^
+     8 |     rarity: 'legendary',
+     9 |     description: '明治天皇と昭憲皇太后を祀る神社',
+    10 |     benefits: ['恋愛成就', '家内安全', '厄除け'],
+ERROR in src/data/shrines.ts:17:5
+TS2741: Property 'prefecture' is missing in type '{ lat: number; lng: number; address: string; }' but required in type '{ lat: number; lng: number; address: string; prefecture: string; }'.
+    15 |     id: 'yasukuni_jinja',
+    16 |     name: '靖国神社',
+  > 17 |     location: { lat: 35.6939, lng: 139.7442, address: '東京都千代田区九段北3-1-1' },
+       |     ^^^^^^^^
+    18 |     rarity: 'epic',
+    19 |     description: '戦没者を祀る神社',
+    20 |     benefits: ['平和祈願', '国家安泰'],
+ERROR in src/data/shrines.ts:27:5
+TS2741: Property 'prefecture' is missing in type '{ lat: number; lng: number; address: string; }' but required in type '{ lat: number; lng: number; address: string; prefecture: string; }'.
+    25 |     id: 'hie_jinja',
+    26 |     name: '日枝神社',
+  > 27 |     location: { lat: 35.6741, lng: 139.7404, address: '東京都千代田区永田町2-10-5' },
+       |     ^^^^^^^^
+    28 |     rarity: 'rare',
+    29 |     description: '江戸三大祭りの一つ、山王祭で有名',
+    30 |     benefits: ['出世祈願', '縁結び'],
+ERROR in src/data/shrines.ts:37:5
+TS2741: Property 'prefecture' is missing in type '{ lat: number; lng: number; address: string; }' but required in type '{ lat: number; lng: number; address: string; prefecture: string; }'.
+    35 |     id: 'sensoji',
+    36 |     name: '浅草寺',
+  > 37 |     location: { lat: 35.7148, lng: 139.7967, address: '東京都台東区浅草2-3-1' },
+       |     ^^^^^^^^
+    38 |     rarity: 'epic',
+    39 |     description: '東京最古の寺院',
+    40 |     benefits: ['商売繁盛', '学業成就'],
+ERROR in src/data/shrines.ts:146:5
+TS2322: Type '"terrain"' is not assignable to type '"goshuin" | "omikuji" | "spirit" | "blessing" | "protection" | "wisdom" | "fortune"'.
+    144 |     id: 'grass-1',
+    145 |     name: '草原',
+  > 146 |     type: 'terrain',
+        |     ^^^^
+    147 |     rarity: 'common',
+    148 |     power: 20,
+    149 |     pixelData: '🌱',
+ERROR in src/data/shrines.ts:159:5
+TS2322: Type '"terrain"' is not assignable to type '"goshuin" | "omikuji" | "spirit" | "blessing" | "protection" | "wisdom" | "fortune"'.
+    157 |     id: 'water-1',
+    158 |     name: '水辺',
+  > 159 |     type: 'terrain',
+        |     ^^^^
+    160 |     rarity: 'common',
+    161 |     power: 25,
+    162 |     pixelData: '🌊',
+ERROR in src/data/shrines.ts:172:5
+TS2322: Type '"terrain"' is not assignable to type '"goshuin" | "omikuji" | "spirit" | "blessing" | "protection" | "wisdom" | "fortune"'.
+    170 |     id: 'rock-1',
+    171 |     name: '岩石',
+  > 172 |     type: 'terrain',
+        |     ^^^^
+    173 |     rarity: 'common',
+    174 |     power: 15,
+    175 |     pixelData: '🪨',
+ERROR in src/data/shrines.ts:185:5
+TS2322: Type '"terrain"' is not assignable to type '"goshuin" | "omikuji" | "spirit" | "blessing" | "protection" | "wisdom" | "fortune"'.
+    183 |     id: 'sand-1',
+    184 |     name: '砂浜',
+  > 185 |     type: 'terrain',
+        |     ^^^^
+    186 |     rarity: 'common',
+    187 |     power: 18,
+    188 |     pixelData: '🏖️',
+ERROR in src/data/shrines.ts:198:5
+TS2322: Type '"terrain"' is not assignable to type '"goshuin" | "omikuji" | "spirit" | "blessing" | "protection" | "wisdom" | "fortune"'.
+    196 |     id: 'snow-1',
+    197 |     name: '雪原',
+  > 198 |     type: 'terrain',
+        |     ^^^^
+    199 |     rarity: 'rare',
+    200 |     power: 60,
+    201 |     pixelData: '❄️',
+ERROR in src/data/shrines.ts:213:5
+TS2322: Type '"structure"' is not assignable to type '"goshuin" | "omikuji" | "spirit" | "blessing" | "protection" | "wisdom" | "fortune"'.
+    211 |     id: 'torii-1',
+    212 |     name: '黄金の鳥居',
+  > 213 |     type: 'structure',
+        |     ^^^^
+    214 |     rarity: 'legendary',
+    215 |     power: 500,
+    216 |     pixelData: '⛩️',
+ERROR in src/data/shrines.ts:227:5
+TS2322: Type '"structure"' is not assignable to type '"goshuin" | "omikuji" | "spirit" | "blessing" | "protection" | "wisdom" | "fortune"'.
+    225 |     id: 'shrine-1',
+    226 |     name: '本殿',
+  > 227 |     type: 'structure',
+        |     ^^^^
+    228 |     rarity: 'epic',
+    229 |     power: 300,
+    230 |     pixelData: '🏛️',
+ERROR in src/data/shrines.ts:241:5
+TS2322: Type '"structure"' is not assignable to type '"goshuin" | "omikuji" | "spirit" | "blessing" | "protection" | "wisdom" | "fortune"'.
+    239 |     id: 'pagoda-1',
+    240 |     name: '五重塔',
+  > 241 |     type: 'structure',
+        |     ^^^^
+    242 |     rarity: 'legendary',
+    243 |     power: 600,
+    244 |     pixelData: '🗼',
+ERROR in src/data/shrines.ts:255:5
+TS2322: Type '"structure"' is not assignable to type '"goshuin" | "omikuji" | "spirit" | "blessing" | "protection" | "wisdom" | "fortune"'.
+    253 |     id: 'house-1',
+    254 |     name: '茅葺き屋根',
+  > 255 |     type: 'structure',
+        |     ^^^^
+    256 |     rarity: 'rare',
+    257 |     power: 150,
+    258 |     pixelData: '🏠',
+ERROR in src/data/shrines.ts:269:5
+TS2322: Type '"structure"' is not assignable to type '"goshuin" | "omikuji" | "spirit" | "blessing" | "protection" | "wisdom" | "fortune"'.
+    267 |     id: 'bridge-1',
+    268 |     name: '太鼓橋',
+  > 269 |     type: 'structure',
+        |     ^^^^
+    270 |     rarity: 'epic',
+    271 |     power: 250,
+    272 |     pixelData: '🌉',
+ERROR in src/data/shrines.ts:285:5
+TS2322: Type '"nature"' is not assignable to type '"goshuin" | "omikuji" | "spirit" | "blessing" | "protection" | "wisdom" | "fortune"'.
+    283 |     id: 'sakura-1',
+    284 |     name: '桜の木',
+  > 285 |     type: 'nature',
+        |     ^^^^
+    286 |     rarity: 'epic',
+    287 |     power: 120,
+    288 |     pixelData: '🌸',
+ERROR in src/data/shrines.ts:299:5
+TS2322: Type '"nature"' is not assignable to type '"goshuin" | "omikuji" | "spirit" | "blessing" | "protection" | "wisdom" | "fortune"'.
+    297 |     id: 'pine-1',
+    298 |     name: '松の木',
+  > 299 |     type: 'nature',
+        |     ^^^^
+    300 |     rarity: 'rare',
+    301 |     power: 80,
+    302 |     pixelData: '🌲',
+ERROR in src/data/shrines.ts:313:5
+TS2322: Type '"nature"' is not assignable to type '"goshuin" | "omikuji" | "spirit" | "blessing" | "protection" | "wisdom" | "fortune"'.
+    311 |     id: 'bamboo-1',
+    312 |     name: '竹林',
+  > 313 |     type: 'nature',
+        |     ^^^^
+    314 |     rarity: 'rare',
+    315 |     power: 75,
+    316 |     pixelData: '🎋',
+ERROR in src/data/shrines.ts:327:5
+TS2322: Type '"nature"' is not assignable to type '"goshuin" | "omikuji" | "spirit" | "blessing" | "protection" | "wisdom" | "fortune"'.
+    325 |     id: 'flower-1',
+    326 |     name: '花畑',
+  > 327 |     type: 'nature',
+        |     ^^^^
+    328 |     rarity: 'common',
+    329 |     power: 30,
+    330 |     pixelData: '🌺',
+ERROR in src/data/shrines.ts:341:5
+TS2322: Type '"nature"' is not assignable to type '"goshuin" | "omikuji" | "spirit" | "blessing" | "protection" | "wisdom" | "fortune"'.
+    339 |     id: 'mountain-1',
+    340 |     name: '霊峰',
+  > 341 |     type: 'nature',
+        |     ^^^^
+    342 |     rarity: 'legendary',
+    343 |     power: 400,
+    344 |     pixelData: '⛰️',
+ERROR in src/data/shrines.ts:357:5
+TS2322: Type '"decoration"' is not assignable to type '"goshuin" | "omikuji" | "spirit" | "blessing" | "protection" | "wisdom" | "fortune"'.
+    355 |     id: 'lantern-1',
+    356 |     name: '提灯',
+  > 357 |     type: 'decoration',
+        |     ^^^^
+    358 |     rarity: 'common',
+    359 |     power: 25,
+    360 |     pixelData: '🏮',
+ERROR in src/data/shrines.ts:371:5
+TS2322: Type '"decoration"' is not assignable to type '"goshuin" | "omikuji" | "spirit" | "blessing" | "protection" | "wisdom" | "fortune"'.
+    369 |     id: 'lantern-stone',
+    370 |     name: '石灯籠',
+  > 371 |     type: 'decoration',
+        |     ^^^^
+    372 |     rarity: 'rare',
+    373 |     power: 60,
+    374 |     pixelData: '🕯️',
+ERROR in src/data/shrines.ts:385:5
+TS2322: Type '"decoration"' is not assignable to type '"goshuin" | "omikuji" | "spirit" | "blessing" | "protection" | "wisdom" | "fortune"'.
+    383 |     id: 'bell-1',
+    384 |     name: '神社の鈴',
+  > 385 |     type: 'decoration',
+        |     ^^^^
+    386 |     rarity: 'epic',
+    387 |     power: 50,
+    388 |     pixelData: '🔔',
+ERROR in src/data/shrines.ts:399:5
+TS2322: Type '"decoration"' is not assignable to type '"goshuin" | "omikuji" | "spirit" | "blessing" | "protection" | "wisdom" | "fortune"'.
+    397 |     id: 'flag-1',
+    398 |     name: '祈願旗',
+  > 399 |     type: 'decoration',
+        |     ^^^^
+    400 |     rarity: 'common',
+    401 |     power: 20,
+    402 |     pixelData: '🎌',
+ERROR in src/data/shrines.ts:415:5
+TS2322: Type '"guardian"' is not assignable to type '"goshuin" | "omikuji" | "spirit" | "blessing" | "protection" | "wisdom" | "fortune"'.
+    413 |     id: 'fox-1',
+    414 |     name: '稲荷狐',
+  > 415 |     type: 'guardian',
+        |     ^^^^
+    416 |     rarity: 'rare',
+    417 |     power: 80,
+    418 |     pixelData: '🦊',
+ERROR in src/data/shrines.ts:429:5
+TS2322: Type '"guardian"' is not assignable to type '"goshuin" | "omikuji" | "spirit" | "blessing" | "protection" | "wisdom" | "fortune"'.
+    427 |     id: 'dragon-1',
+    428 |     name: '青龍',
+  > 429 |     type: 'guardian',
+        |     ^^^^
+    430 |     rarity: 'legendary',
+    431 |     power: 200,
+    432 |     pixelData: '🐉',
+ERROR in src/data/shrines.ts:443:5
+TS2322: Type '"guardian"' is not assignable to type '"goshuin" | "omikuji" | "spirit" | "blessing" | "protection" | "wisdom" | "fortune"'.
+    441 |     id: 'turtle-1',
+    442 |     name: '玄武',
+  > 443 |     type: 'guardian',
+        |     ^^^^
+    444 |     rarity: 'epic',
+    445 |     power: 150,
+    446 |     pixelData: '🐢',
+ERROR in src/data/shrines.ts:457:5
+TS2322: Type '"guardian"' is not assignable to type '"goshuin" | "omikuji" | "spirit" | "blessing" | "protection" | "wisdom" | "fortune"'.
+    455 |     id: 'bird-1',
+    456 |     name: '朱雀',
+  > 457 |     type: 'guardian',
+        |     ^^^^
+    458 |     rarity: 'epic',
+    459 |     power: 150,
+    460 |     pixelData: '🦅',
+ERROR in src/data/shrines.ts:473:5
+TS2322: Type '"sacred"' is not assignable to type '"goshuin" | "omikuji" | "spirit" | "blessing" | "protection" | "wisdom" | "fortune"'.
+    471 |     id: 'stone-sacred',
+    472 |     name: '御神体',
+  > 473 |     type: 'sacred',
+        |     ^^^^
+    474 |     rarity: 'legendary',
+    475 |     power: 250,
+    476 |     pixelData: '🗿',
+ERROR in src/data/shrines.ts:487:5
+TS2322: Type '"sacred"' is not assignable to type '"goshuin" | "omikuji" | "spirit" | "blessing" | "protection" | "wisdom" | "fortune"'.
+    485 |     id: 'crystal-1',
+    486 |     name: '神秘の水晶',
+  > 487 |     type: 'sacred',
+        |     ^^^^
+    488 |     rarity: 'legendary',
+    489 |     power: 300,
+    490 |     pixelData: '💎',
+ERROR in src/data/shrines.ts:501:5
+TS2322: Type '"sacred"' is not assignable to type '"goshuin" | "omikuji" | "spirit" | "blessing" | "protection" | "wisdom" | "fortune"'.
+    499 |     id: 'portal-1',
+    500 |     name: '異界の門',
+  > 501 |     type: 'sacred',
+        |     ^^^^
+    502 |     rarity: 'legendary',
+    503 |     power: 350,
+    504 |     pixelData: '🌀',
+ERROR in src/hooks/useGoogleMaps.ts:102:31
+TS2339: Property 'position' does not exist on type 'Shrine'.
+    100 |
+    101 |     shrines.forEach(shrine => {
+  > 102 |       const position = shrine.position || { lat: shrine.location.lat, lng: shrine.location.lng };
+        |                               ^^^^^^^^
+    103 |
+    104 |       // Use AdvancedMarkerElement if available, fallback to Marker
+    105 |       let marker: any;

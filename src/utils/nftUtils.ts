@@ -1,3 +1,4 @@
+
 export interface NFTRarity {
   name: string;
   probability: number;
@@ -11,7 +12,14 @@ export const RARITY_TYPES: NFTRarity[] = [
   { name: 'legendary', probability: 0.03, color: '#FFD700' }
 ];
 
-export const calculateRarity = (): string => {
+export const RARITY_COLORS = {
+  common: '#9CA3AF',
+  rare: '#3B82F6', 
+  epic: '#9F7AEA',
+  legendary: '#FFD700'
+} as const;
+
+export const calculateNFTRarity = (): string => {
   const random = Math.random();
   let cumulativeProbability = 0;
 
@@ -26,18 +34,22 @@ export const calculateRarity = (): string => {
 };
 
 export const getRarityColor = (rarity: string): string => {
-  const colors = {
-    common: '#9CA3AF',
-    rare: '#3B82F6', 
-    epic: '#9F7AEA',
-    legendary: '#FFD700'
-  };
+  const normalizedRarity = rarity.toLowerCase() as keyof typeof RARITY_COLORS;
+  return RARITY_COLORS[normalizedRarity] || RARITY_COLORS.common;
+};
 
-  return colors[rarity as keyof typeof colors] || colors.common;
+export const getRarityWeight = (rarity: string): number => {
+  const weights = {
+    common: 1,
+    rare: 2,
+    epic: 4,
+    legendary: 8
+  };
+  return weights[rarity.toLowerCase() as keyof typeof weights] || 1;
 };
 
 export const generateNFTMetadata = (shrineId: string, visitCount: number) => {
-  const rarity = calculateRarity();
+  const rarity = calculateNFTRarity();
   const timestamp = Date.now();
 
   return {
@@ -65,7 +77,6 @@ const NFT_TYPES = [
 ];
 
 export const dropNFTFromOmikuji = (omikujiResult: string) => {
-  // Drop rate based on omikuji result
   const dropRates = {
     '大吉': 0.8,
     '中吉': 0.6,
@@ -79,7 +90,7 @@ export const dropNFTFromOmikuji = (omikujiResult: string) => {
   
   if (Math.random() < dropRate) {
     const nftType = NFT_TYPES[Math.floor(Math.random() * NFT_TYPES.length)];
-    const rarity = calculateRarity();
+    const rarity = calculateNFTRarity();
     const timestamp = Date.now();
 
     return {
@@ -110,4 +121,8 @@ export const generateSVGBase64 = (nftData: any): string => {
   `;
   
   return btoa(svg);
+};
+
+export const selectRandomParts = (parts: any[]) => {
+  return parts[Math.floor(Math.random() * parts.length)];
 };

@@ -1,3 +1,4 @@
+
 // Main utility functions export
 
 // Re-export utilities
@@ -12,7 +13,10 @@ export const debugLog = (message: string, data?: any) => {
   }
 };
 
-// Prayer calculation utilities
+// =============================================================================
+// Prayer & Shrine Calculation Utilities
+// =============================================================================
+
 export const calculatePrayerDuration = (startTime: number, endTime: number): number => {
   return Math.max(0, endTime - startTime);
 };
@@ -73,13 +77,6 @@ export const getCulturalBelt = (culturalCapital: number): string => {
   return '白帯';
 };
 
-// Time formatting
-export const formatTime = (seconds: number): string => {
-  const mins = Math.floor(seconds / 60);
-  const secs = seconds % 60;
-  return `${mins}:${secs.toString().padStart(2, '0')}`;
-};
-
 // Distance calculation (for shrine proximity)
 export const calculateDistance = (
   lat1: number, 
@@ -133,14 +130,6 @@ export const removeFromLocalStorage = (key: string): void => {
 // =============================================================================
 // Date & Time Utilities
 // =============================================================================
-
-export const formatDate = (date: Date): string => {
-  return new Intl.DateTimeFormat('ja-JP', {
-    year: 'numeric',
-    month: 'long',
-    day: 'numeric'
-  }).format(date);
-};
 
 export const getTimeOfDay = (): 'morning' | 'afternoon' | 'evening' | 'night' => {
   const hour = new Date().getHours();
@@ -205,7 +194,6 @@ export const randomId = (): string => {
 // =============================================================================
 
 export const getCurrentSeasonalEvent = () => {
-  // Simple seasonal check - returns true for special periods
   const now = new Date();
   const month = now.getMonth();
   const day = now.getDate();
