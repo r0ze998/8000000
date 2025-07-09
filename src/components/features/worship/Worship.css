@@ -40,6 +40,43 @@
   color: rgba(255, 255, 255, 0.7);
 }
 
+.shrine-name-section {
+  margin-top: 0.5rem;
+}
+
+.shrine-name-display {
+  cursor: pointer;
+  transition: all 0.3s ease;
+  padding: 0.25rem 0.5rem;
+  border-radius: 8px;
+  display: inline-block;
+}
+
+.shrine-name-display:hover {
+  background: rgba(255, 255, 255, 0.1);
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.shrine-name-input {
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  color: white;
+  padding: 0.5rem;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  width: 200px;
+  outline: none;
+}
+
+.shrine-name-input:focus {
+  border-color: rgba(139, 92, 246, 0.8);
+  box-shadow: 0 0 0 2px rgba(139, 92, 246, 0.2);
+}
+
+.shrine-name-input::placeholder {
+  color: rgba(255, 255, 255, 0.5);
+}
+
 .stats-row {
   display: flex;
   gap: 1rem;

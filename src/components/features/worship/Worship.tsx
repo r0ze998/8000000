@@ -319,12 +319,7 @@ const Worship: React.FC = () => {
       <div className="worship-container">
         {/* ヘッダー */}
         <div className="worship-header">
-          <div className="header-content">
-            <div className="title-section">
-              <h1>🙏 神社参拝</h1>
-              <p className="subtitle">瞑想を通じて心を清め、神聖なNFTを獲得しよう</p>
-            </div>
-          </div>
+          
         </div>
 
         {/* 完了画面オーバーレイ */}

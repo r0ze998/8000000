@@ -24,3 +24,17 @@ export const useShrineName = () => {
     updateShrineName
   };
 };
+import { useState } from 'react';
+import { useLocalStorage } from './useLocalStorage';
+
+export const useShrineName = () => {
+  const [shrineName, setShrineName] = useLocalStorage('shrineName', 'マイ神社');
+  const [isEditing, setIsEditing] = useState(false);
+
+  return {
+    shrineName,
+    setShrineName,
+    isEditing,
+    setIsEditing
+  };
+};
