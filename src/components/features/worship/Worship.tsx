@@ -53,11 +53,8 @@ const Worship: React.FC = () => {
   const [selectedPrayerType, setSelectedPrayerType] = useState<string>('');
   const [currentPrayerTimer, setCurrentPrayerTimer] = useState(0);
   const [isPrayerActive, setIsPrayerActive] = useState(false);
-  const [isEditingShrineName, setIsEditingShrineName] = useState(false);
+  const { shrineName, setShrineName, isEditing, setIsEditing, updateShrineName } = useShrineName();
   const [tempShrineName, setTempShrineName] = useState('');
-
-  // Local Storage
-  const [shrineName, updateShrineName] = useLocalStorage('shrineName', 'デフォルト神社'); // デフォルト値を設定
 
   // Google Maps関連
   const mapRef = useRef<HTMLDivElement>(null);
@@ -293,18 +290,18 @@ const Worship: React.FC = () => {
   // 神社名編集ハンドラー
   const startEditingShrineName = () => {
     setTempShrineName(shrineName);
-    setIsEditingShrineName(true);
+    setIsEditing(true);
   };
 
   const saveShrineName = () => {
     if (tempShrineName.trim()) {
       updateShrineName(tempShrineName);
-      setIsEditingShrineName(false);
+      setIsEditing(false);
     }
   };
 
   const cancelEditingShrineName = () => {
-    setIsEditingShrineName(false);
+    setIsEditing(false);
     setTempShrineName('');
   };
 
@@ -405,20 +402,28 @@ const Worship: React.FC = () => {
             <div className="shrine-section">
               <h2>⛩️ あなたの神社</h2>
               <div className="shrine-preview">
-                {isEditingShrineName ? (
-                  <div>
+                {isEditing ? (
+                  <div className="shrine-name-edit">
                     <input
                       type="text"
                       value={tempShrineName}
                       onChange={(e) => setTempShrineName(e.target.value)}
+                      className="shrine-name-input"
+                      placeholder="神社名を入力"
                     />
-                    <button onClick={saveShrineName}>保存</button>
-                    <button onClick={cancelEditingShrineName}>キャンセル</button>
+                    <div className="edit-buttons">
+                      <button onClick={saveShrineName} className="save-btn">保存</button>
+                      <button onClick={cancelEditingShrineName} className="cancel-btn">キャンセル</button>
+                    </div>
                   </div>
                 ) : (
                   <div>
-                    <h3>{shrineName}</h3>
-                    <button onClick={startEditingShrineName}>神社名を編集</button>
+                    <div className="shrine-header">
+                      <h3>{shrineName}</h3>
+                      <button onClick={startEditingShrineName} className="edit-shrine-name-btn">
+                        ✏️ 編集
+                      </button>
+                    </div>
                     <ReadOnlyShrine />
                   </div>
                 )}
