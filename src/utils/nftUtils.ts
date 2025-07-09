@@ -64,27 +64,27 @@ const determineRarity = (duration: number): NFTRarity => {
 };
 
 // Get color for rarity
-export const getRarityColor = (rarity: string): string => {
-  const colors: Record<string, string> = {
+export const getRarityColor = (rarity: NFTRarity): string => {
+  const colors: Record<NFTRarity, string> = {
     common: '#9CA3AF',
     uncommon: '#10B981',
     rare: '#3B82F6',
     epic: '#8B5CF6',
     legendary: '#F59E0B'
   };
-  return colors[rarity] ?? colors.common;
+  return colors[rarity];
 };
 
 // Get power level for rarity
-export const getRarityPower = (rarity: string): number => {
-  const powers: Record<string, number> = {
+export const getRarityPower = (rarity: NFTRarity): number => {
+  const powers: Record<NFTRarity, number> = {
     common: 1,
     uncommon: 2,
     rare: 4,
     epic: 8,
     legendary: 16
   };
-  return powers[rarity] || 1;
+  return powers[rarity];
 };
 
 // =============================================================================
@@ -134,15 +134,15 @@ export const dropNFTFromOmikuji = (omikujiData?: any): any => {
   };
 };
 
-const getFortuneEmoji = (rarity: string): string => {
-  const emojis: Record<string, string> = {
+const getFortuneEmoji = (rarity: NFTRarity): string => {
+  const emojis: Record<NFTRarity, string> = {
     common: '🍀',
     uncommon: '🌸',
     rare: '💎',
     epic: '🌟',
     legendary: '👑'
   };
-  return emojis[rarity] || '🍀';
+  return emojis[rarity];
 };
 
 // =============================================================================
