@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import './ReadOnlyShrine.css';
+import { useShrineName } from '../../../hooks/useShrineName';
 
 interface ReadOnlyShrineProps {
   className?: string;
@@ -7,6 +8,7 @@ interface ReadOnlyShrineProps {
 
 const ReadOnlyShrine: React.FC<ReadOnlyShrineProps> = ({ className = '' }) => {
   const [shrineCanvas, setShrineCanvas] = useState<any[]>([]);
+  const { shrineName } = useShrineName();
 
   useEffect(() => {
     // ローカルストレージから神社データを読み込み
@@ -33,7 +35,7 @@ const ReadOnlyShrine: React.FC<ReadOnlyShrineProps> = ({ className = '' }) => {
   return (
     <div className={`readonly-shrine ${className}`}>
       <div className="shrine-canvas-display">
-        <h3>🏛️ あなたの神社</h3>
+        <h3>🏛️ {shrineName}</h3>
         <div className="pixel-canvas-readonly">
           {Array.from({ length: 12 }, (_, y) => (
             <div key={y} className="pixel-row">

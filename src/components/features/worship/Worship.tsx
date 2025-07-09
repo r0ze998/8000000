@@ -12,6 +12,7 @@ import {
 import { dropNFTFromOmikuji, generateSVGBase64 } from '../../../utils/nftUtils';
 import { formatTime } from '../../../utils/formatUtils';
 import { PRAYER_TYPES, PrayerType } from '../../../constants/prayerTypes';
+import { useLocalStorage } from '../../../hooks/useLocalStorage';
 
 // 分割されたコンポーネントのインポート
 import ReadOnlyShrine from './ReadOnlyShrine';
@@ -51,6 +52,11 @@ const Worship: React.FC = () => {
   const [selectedPrayerType, setSelectedPrayerType] = useState<string>('');
   const [currentPrayerTimer, setCurrentPrayerTimer] = useState(0);
   const [isPrayerActive, setIsPrayerActive] = useState(false);
+  const [isEditingShrineName, setIsEditingShrineName] = useState(false);
+  const [tempShrineName, setTempShrineName] = useState('');
+
+  // Local Storage
+  const [shrineName, updateShrineName] = useLocalStorage('shrineName', 'デフォルト神社'); // デフォルト値を設定
 
   // Google Maps関連
   const mapRef = useRef<HTMLDivElement>(null);
@@ -283,6 +289,24 @@ const Worship: React.FC = () => {
     }
   };
 
+  // 神社名編集ハンドラー
+  const startEditingShrineName = () => {
+    setTempShrineName(shrineName);
+    setIsEditingShrineName(true);
+  };
+
+  const saveShrineName = () => {
+    if (tempShrineName.trim()) {
+      updateShrineName(tempShrineName);
+      setIsEditingShrineName(false);
+    }
+  };
+
+  const cancelEditingShrineName = () => {
+    setIsEditingShrineName(false);
+    setTempShrineName('');
+  };
+
   // Google Maps初期化
   useEffect(() => {
     if (isLoaded && mapRef.current) {
@@ -385,7 +409,23 @@ const Worship: React.FC = () => {
             <div className="shrine-section">
               <h2>⛩️ あなたの神社</h2>
               <div className="shrine-preview">
-                <ReadOnlyShrine />
+                {isEditingShrineName ? (
+                  <div>
+                    <input
+                      type="text"
+                      value={tempShrineName}
+                      onChange={(e) => setTempShrineName(e.target.value)}
+                    />
+                    <button onClick={saveShrineName}>保存</button>
+                    <button onClick={cancelEditingShrineName}>キャンセル</button>
+                  </div>
+                ) : (
+                  <div>
+                    <h3>{shrineName}</h3>
+                    <button onClick={startEditingShrineName}>神社名を編集</button>
+                    <ReadOnlyShrine />
+                  </div>
+                )}
               </div>
             </div>
 
