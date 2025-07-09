@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import './ReadOnlyShrine.css';
 import { useShrineName } from '../../../hooks/useShrineName';
@@ -8,12 +9,15 @@ interface ReadOnlyShrineProps {
 
 const ReadOnlyShrine: React.FC<ReadOnlyShrineProps> = ({ className = '' }) => {
   const [shrineCanvas, setShrineCanvas] = useState<any[]>([]);
+  const [shrineNFTs, setShrineNFTs] = useState<any[]>([]);
   const { shrineName } = useShrineName();
 
   useEffect(() => {
     // ローカルストレージから神社データを読み込み
     const savedCanvas = JSON.parse(localStorage.getItem('shrineCanvas') || '[]');
+    const savedNFTs = JSON.parse(localStorage.getItem('shrineNFTs') || '[]');
     setShrineCanvas(savedCanvas);
+    setShrineNFTs(savedNFTs);
   }, []);
 
   const getRarityColor = (rarity: string) => {
@@ -29,42 +33,74 @@ const ReadOnlyShrine: React.FC<ReadOnlyShrineProps> = ({ className = '' }) => {
 
   const getPixelData = (x: number, y: number) => {
     const pixel = shrineCanvas.find((p: any) => p.x === x && p.y === y);
-    return pixel;
+    return pixel || null;
   };
+
+  const renderPixel = (x: number, y: number) => {
+    const pixelData = getPixelData(x, y);
+    
+    if (pixelData && pixelData.nft) {
+      return (
+        <div
+          key={`${x}-${y}`}
+          className="pixel has-nft"
+          style={{
+            backgroundColor: getRarityColor(pixelData.nft.rarity),
+            color: 'white',
+            textShadow: '0 0 2px rgba(0,0,0,0.8)'
+          }}
+          title={`${pixelData.nft.name} (${pixelData.nft.rarity})`}
+        >
+          {pixelData.nft.emoji}
+        </div>
+      );
+    }
+
+    return (
+      <div
+        key={`${x}-${y}`}
+        className="pixel"
+      />
+    );
+  };
+
+  const renderCanvas = () => {
+    const canvas = [];
+    for (let y = 0; y < 15; y++) {
+      for (let x = 0; x < 20; x++) {
+        canvas.push(renderPixel(x, y));
+      }
+    }
+    return canvas;
+  };
+
+  const totalNFTs = shrineNFTs.length;
+  const uniqueRarities = [...new Set(shrineNFTs.map(nft => nft.rarity))].length;
+  const placedNFTs = shrineCanvas.filter(pixel => pixel.nft).length;
 
   return (
     <div className={`readonly-shrine ${className}`}>
-      <div className="shrine-canvas-display">
-        <h3>🏛️ {shrineName}</h3>
-        <div className="pixel-canvas-readonly">
-          {Array.from({ length: 12 }, (_, y) => (
-            <div key={y} className="pixel-row">
-              {Array.from({ length: 12 }, (_, x) => {
-                const pixelData = getPixelData(x, y);
-                return (
-                  <div
-                    key={`${x}-${y}`}
-                    className="pixel readonly"
-                    style={{ 
-                      backgroundColor: pixelData?.color || 'rgba(255,255,255,0.1)',
-                      border: pixelData ? `1px solid ${getRarityColor(pixelData.rarity || 'common')}` : '1px solid rgba(255,255,255,0.1)'
-                    }}
-                  >
-                    {pixelData?.pixelData && (
-                      <span className="pixel-emoji">{pixelData.pixelData}</span>
-                    )}
-                  </div>
-                );
-              })}
-            </div>
-          ))}
+      <div className="shrine-info">
+        <h4>🏛️ {shrineName}</h4>
+        <p>あなたの神聖な場所</p>
+      </div>
+      
+      <div className="pixel-canvas-readonly">
+        {renderCanvas()}
+      </div>
+
+      <div className="shrine-stats">
+        <div className="shrine-stat">
+          <span className="shrine-stat-value">{totalNFTs}</span>
+          <span className="shrine-stat-label">所持NFT</span>
         </div>
-        <div className="shrine-info">
-          <p>瞑想中、あなたの神社が心の支えとなります</p>
-          <div className="shrine-stats">
-            <span>配置済み: {shrineCanvas.length}個</span>
-            <span>神力: {shrineCanvas.length * 10}</span>
-          </div>
+        <div className="shrine-stat">
+          <span className="shrine-stat-value">{placedNFTs}</span>
+          <span className="shrine-stat-label">配置済み</span>
+        </div>
+        <div className="shrine-stat">
+          <span className="shrine-stat-value">{uniqueRarities}</span>
+          <span className="shrine-stat-label">レア度種類</span>
         </div>
       </div>
     </div>
