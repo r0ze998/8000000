@@ -64,13 +64,13 @@ const determineRarity = (duration: number): NFTRarity => {
 // Get color for rarity
 export const getRarityColor = (rarity: string): string => {
   const colors: Record<string, string> = {
-    common: '#94A3B8',
-    uncommon: '#22D3EE', 
-    rare: '#A855F7',
-    epic: '#F59E0B',
+    common: '#9CA3AF',
+    uncommon: '#10B981',
+    rare: '#3B82F6',
+    epic: '#8B5CF6',
     legendary: '#F59E0B'
   };
-  return colors[rarity] || colors.common;
+  return colors[rarity] ?? colors.common;
 };
 
 // Get power level for rarity

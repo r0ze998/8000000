@@ -18,7 +18,11 @@ export const getRandomElement = <T>(array: T[]): T => {
   if (array.length === 0) {
     throw new Error('Array is empty');
   }
-  return array[Math.floor(Math.random() * array.length)];
+  const element = array[Math.floor(Math.random() * array.length)];
+  if (element === undefined) {
+    throw new Error('Selected element is undefined');
+  }
+  return element;
 };
 
 // Time of day detector
