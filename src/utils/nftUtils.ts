@@ -72,8 +72,7 @@ export const getRarityColor = (rarity: string): string => {
     epic: '#8B5CF6',
     legendary: '#F59E0B'
   };
-  const color = colors[rarity];
-  return color !== undefined ? color : colors.common;
+  return colors[rarity] ?? colors.common;
 };
 
 // Get power level for rarity
