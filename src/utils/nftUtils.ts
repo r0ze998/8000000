@@ -189,7 +189,7 @@ export const getPrayerEmoji = (prayerType: string): string => {
 };
 
 export const generateRandomNFT = (): NFTItem => {
-  const rarities = ['common', 'uncommon', 'rare', 'epic', 'legendary'];
+  const rarities: NFTRarity[] = ['common', 'uncommon', 'rare', 'epic', 'legendary'];
   const weights = [50, 25, 15, 8, 2]; // 確率の重み
 
   const random = Math.random() * 100;
@@ -206,13 +206,13 @@ export const generateRandomNFT = (): NFTItem => {
       return {
         id: Date.now().toString(),
         name: `Fortune ${rarity.charAt(0).toUpperCase() + rarity.slice(1)}`,
-        rarity: rarity as NFTRarity,
-        color: getRarityColor(rarity as NFTRarity),
-        pixelData: getFortuneEmoji(rarity as NFTRarity),
+        rarity: rarity,
+        color: getRarityColor(rarity),
+        pixelData: getFortuneEmoji(rarity),
         type: 'fortune' as any,
-        power: getRarityPower(rarity as NFTRarity),
+        power: getRarityPower(rarity),
         isOwned: true,
-        emoji: getFortuneEmoji(rarity as NFTRarity),
+        emoji: getFortuneEmoji(rarity),
         description: `Fortune ${rarity}`,
         timestamp: Date.now(),
         attributes: {}
@@ -224,7 +224,7 @@ export const generateRandomNFT = (): NFTItem => {
   return {
     id: Date.now().toString(),
     name: 'Fortune Common',
-    rarity: 'common' as NFTRarity,
+    rarity: 'common',
     color: getRarityColor('common'),
     pixelData: getFortuneEmoji('common'),
     type: 'fortune' as any,
