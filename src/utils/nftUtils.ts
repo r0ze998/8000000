@@ -180,3 +180,44 @@ export const getPrayerEmoji = (prayerType: string): string => {
   };
   return emojis[prayerType] || '🙏';
 };
+
+export const generateRandomNFT = (): NFTItem => {
+  const rarities = ['common', 'uncommon', 'rare', 'epic', 'legendary'];
+  const weights = [50, 25, 15, 8, 2]; // 確率の重み
+
+  const random = Math.random() * 100;
+  let currentWeight = 0;
+  for (let i = 0; i < rarities.length; i++) {
+    const weight = weights[i];
+    if (weight === undefined) continue;
+
+    currentWeight += weight;
+    if (random <= currentWeight) {
+      const rarity = rarities[i];
+      if (!rarity) continue;
+
+      return {
+        id: Date.now().toString(),
+        name: `Fortune ${rarity.charAt(0).toUpperCase() + rarity.slice(1)}`,
+        rarity,
+        color: getRarityColor(rarity),
+        pixelData: getFortuneEmoji(rarity),
+        type: 'fortune',
+        createdAt: new Date().toISOString(),
+        powerLevel: getPowerLevel(rarity)
+      };
+    }
+  }
+
+  // フォールバック（到達することは稀）
+  return {
+    id: Date.now().toString(),
+    name: 'Fortune Common',
+    rarity: 'common',
+    color: getRarityColor('common'),
+    pixelData: getFortuneEmoji('common'),
+    type: 'fortune',
+    createdAt: new Date().toISOString(),
+    powerLevel: getPowerLevel('common')
+  };
+};
