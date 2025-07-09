@@ -319,7 +319,7 @@ const Worship: React.FC = () => {
       <div className="worship-container">
         {/* ヘッダー */}
         <div className="worship-header">
-          
+
         </div>
 
         {/* 完了画面オーバーレイ */}

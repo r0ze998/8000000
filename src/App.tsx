@@ -15,7 +15,7 @@ import {
 } from './components';
 
 // Hooks
-import { useOnboarding } from './hooks';
+import { useOnboarding, useShrineName } from './hooks';
 
 // Types
 import type { User } from './types';
@@ -36,12 +36,16 @@ interface TabConfig {
   component: React.ComponentType;
 }
 
-const TABS: TabConfig[] = [
-  { id: 'worship', icon: '🙏', label: '参拝', component: Worship },
-  { id: 'explore', icon: '🗺️', label: '探索', component: Explore },
-  { id: 'myshrine', icon: '⛩️', label: 'マイ神社', component: MyShrine },
-  { id: 'profile', icon: '👤', label: 'プロフィール', component: Profile }
-];
+const useTabs = () => {
+  const { shrineName } = useShrineName();
+  
+  return [
+    { id: 'worship', icon: '🙏', label: shrineName, component: Worship },
+    { id: 'explore', icon: '🗺️', label: '探索', component: Explore },
+    { id: 'myshrine', icon: '⛩️', label: 'マイ神社', component: MyShrine },
+    { id: 'profile', icon: '👤', label: 'プロフィール', component: Profile }
+  ];
+};
 
 // =============================================================================
 // Main Component
@@ -53,6 +57,7 @@ const App: React.FC = () => {
   const [hasError, setHasError] = useState(false);
   
   const { needsOnboarding, isLoading, completeOnboarding } = useOnboarding();
+  const tabs = useTabs();
 
   // Initialize application
   useEffect(() => {
@@ -75,7 +80,7 @@ const App: React.FC = () => {
   }, []);
 
   // Get active component
-  const ActiveComponent = TABS.find(tab => tab.id === activeTab)?.component || Worship;
+  const ActiveComponent = tabs.find(tab => tab.id === activeTab)?.component || Worship;
 
   // Loading state during onboarding check
   if (isLoading) {
@@ -118,7 +123,7 @@ const App: React.FC = () => {
         
         {/* Tab Navigation */}
         <TabNavigation 
-          tabs={TABS}
+          tabs={tabs}
           activeTab={activeTab}
           onTabChange={setActiveTab}
         />
