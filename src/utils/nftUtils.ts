@@ -2,6 +2,8 @@
 // NFT Utilities
 // =============================================================================
 
+import { NFTItem } from '../types';
+
 export const NFT_RARITIES = ['common', 'uncommon', 'rare', 'epic', 'legendary'] as const;
 export type NFTRarity = typeof NFT_RARITIES[number];
 
@@ -70,7 +72,7 @@ export const getRarityColor = (rarity: string): string => {
     epic: '#8B5CF6',
     legendary: '#F59E0B'
   };
-  return colors[rarity] ?? colors.common;
+  return colors[rarity] || colors.common;
 };
 
 // Get power level for rarity
@@ -98,9 +100,14 @@ export const dropNFTFromOmikuji = (omikujiData?: any): any => {
 
   let currentWeight = 0;
   for (let i = 0; i < rarities.length; i++) {
-    currentWeight += weights[i];
+    const weight = weights[i];
+    if (weight === undefined) continue;
+    
+    currentWeight += weight;
     if (random <= currentWeight) {
       const rarity = rarities[i];
+      if (!rarity) continue;
+      
       return {
         id: Date.now().toString(),
         name: `Fortune ${rarity.charAt(0).toUpperCase() + rarity.slice(1)}`,
@@ -199,12 +206,17 @@ export const generateRandomNFT = (): NFTItem => {
       return {
         id: Date.now().toString(),
         name: `Fortune ${rarity.charAt(0).toUpperCase() + rarity.slice(1)}`,
-        rarity,
+        rarity: rarity as NFTRarity,
         color: getRarityColor(rarity),
         pixelData: getFortuneEmoji(rarity),
-        type: 'fortune',
+        type: 'fortune' as any,
         createdAt: new Date().toISOString(),
-        powerLevel: getPowerLevel(rarity)
+        power: getRarityPower(rarity),
+        isOwned: true,
+        emoji: getFortuneEmoji(rarity),
+        description: `Fortune ${rarity}`,
+        timestamp: Date.now(),
+        attributes: {}
       };
     }
   }
@@ -213,11 +225,16 @@ export const generateRandomNFT = (): NFTItem => {
   return {
     id: Date.now().toString(),
     name: 'Fortune Common',
-    rarity: 'common',
+    rarity: 'common' as NFTRarity,
     color: getRarityColor('common'),
     pixelData: getFortuneEmoji('common'),
-    type: 'fortune',
+    type: 'fortune' as any,
     createdAt: new Date().toISOString(),
-    powerLevel: getPowerLevel('common')
+    power: getRarityPower('common'),
+    isOwned: true,
+    emoji: getFortuneEmoji('common'),
+    description: 'Fortune common',
+    timestamp: Date.now(),
+    attributes: {}
   };
 };
