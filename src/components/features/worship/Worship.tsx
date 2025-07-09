@@ -19,7 +19,7 @@ import PrayerSelector from './PrayerSelector';
 import BreathingGuide from './BreathingGuide';
 import CompletionModal from './CompletionModal';
 import UserStatsPanel from './UserStatsPanel';
-import { ReadOnlyShrine } from './ReadOnlyShrine';
+import ReadOnlyShrine from './ReadOnlyShrine';
 import { useShrineName } from '../../../hooks/useShrineName';
 
 const Worship: React.FC = () => {
