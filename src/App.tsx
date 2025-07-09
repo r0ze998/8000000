@@ -50,6 +50,7 @@ const TABS: TabConfig[] = [
 const App: React.FC = () => {
   const [activeTab, setActiveTab] = useState<TabType>('worship');
   const [isInitialized, setIsInitialized] = useState(false);
+  const [hasError, setHasError] = useState(false);
   
   const { needsOnboarding, isLoading, completeOnboarding } = useOnboarding();
 
@@ -65,6 +66,7 @@ const App: React.FC = () => {
         debugLog('Application initialized successfully');
       } catch (error) {
         console.error('アプリケーション初期化エラー:', error);
+        setHasError(true);
         setIsInitialized(true); // Continue even with errors
       }
     };
@@ -88,6 +90,21 @@ const App: React.FC = () => {
   // Loading state during app initialization
   if (!isInitialized) {
     return <LoadingScreen message="アカウントを準備中..." />;
+  }
+
+  // Error state
+  if (hasError) {
+    return (
+      <div className="app-error">
+        <div className="error-container">
+          <h2>⚠️ エラーが発生しました</h2>
+          <p>アプリケーションの読み込み中にエラーが発生しました。</p>
+          <button onClick={() => window.location.reload()}>
+            🔄 再読み込み
+          </button>
+        </div>
+      </div>
+    );
   }
 
   return (
