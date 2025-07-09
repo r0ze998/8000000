@@ -1,18 +1,28 @@
+
 modules = ["nodejs-20"]
 
 [workflows]
 runButton = "Development Server"
 
-[[workflows.workflow]]
+[workflows.workflow.development]
+name = "Development Server"
+author = 38270576
+mode = "sequential"
+
+[[workflows.workflow.development.tasks]]
+task = "shell.exec"
+args = "npm start"
+
+[workflows.workflow.build]
 name = "Build and Preview"
 author = 38270576
 mode = "sequential"
 
-[[workflows.workflow.tasks]]
+[[workflows.workflow.build.tasks]]
 task = "shell.exec"
 args = "npm run build"
 
-[[workflows.workflow.tasks]]
+[[workflows.workflow.build.tasks]]
 task = "shell.exec"
 args = "npm exec -y serve -- -s build -l 5000"
 

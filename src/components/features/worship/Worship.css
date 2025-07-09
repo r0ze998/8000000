@@ -183,6 +183,10 @@
   border-color: #FFD700;
 }
 
+.shrine-name-input::placeholder {
+  color: rgba(255, 255, 255, 0.5);
+}
+
 .edit-buttons {
   display: flex;
   gap: 1rem;
@@ -363,6 +367,8 @@
   0% { transform: rotate(0deg); }
   100% { transform: rotate(360deg); }
 }
+
+.seasonal-bonus {
   color: #FFD700;
   text-align: center;
 }
