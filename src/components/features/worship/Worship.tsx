@@ -15,11 +15,12 @@ import { PRAYER_TYPES, PrayerType } from '../../../constants/prayerTypes';
 import { useLocalStorage } from '../../../hooks/useLocalStorage';
 
 // 分割されたコンポーネントのインポート
-import ReadOnlyShrine from './ReadOnlyShrine';
 import PrayerSelector from './PrayerSelector';
 import BreathingGuide from './BreathingGuide';
 import CompletionModal from './CompletionModal';
 import UserStatsPanel from './UserStatsPanel';
+import { ReadOnlyShrine } from './ReadOnlyShrine';
+import { useShrineName } from '../../../hooks/useShrineName';
 
 const Worship: React.FC = () => {
   // Account Abstraction状態

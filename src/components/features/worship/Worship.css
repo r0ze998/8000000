@@ -1083,120 +1083,124 @@
   margin-top: 1rem;
 }
 
-/* 神社名編集スタイル */
-.shrine-header-edit {
-  margin-bottom: 1rem;
-}
-
-.shrine-name-display {
+/* Main container */
+.worship-container {
   display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  margin-bottom: 0;
-}
-
-.shrine-name-display h2 {
-  margin: 0;
-  flex: 1;
-}
-
-.edit-name-btn {
-  background: rgba(255, 255, 255, 0.2);
-  border: 1px solid rgba(255, 255, 255, 0.3);
-  color: rgba(255, 255, 255, 0.8);
-  border-radius: 8px;
-  padding: 0.5rem;
-  cursor: pointer;
-  font-size: 1rem;
-  transition: all 0.3s ease;
-  backdrop-filter: blur(10px);
-}
-
-.edit-name-btn:hover {
-  background: rgba(255, 255, 255, 0.3);
+  flex-direction: column;
+  height: 100vh;
+  background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
   color: white;
-  transform: translateY(-1px);
+  position: relative;
+  overflow: hidden;
 }
 
-.shrine-name-edit {
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-  background: rgba(255, 255, 255, 0.1);
+/* Shrine name header */
+.worship-header {
   padding: 1rem;
-  border-radius: 12px;
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  backdrop-filter: blur(20px);
+  text-align: center;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
 
-.edit-input-group {
+.shrine-name-header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.shrine-name-title {
+  margin: 0;
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #FFD700;
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  flex: 1;
 }
 
-.shrine-emoji {
-  font-size: 1.5rem;
+.edit-shrine-name-btn {
+  background: none;
+  border: none;
+  font-size: 0.8rem;
+  cursor: pointer;
+  opacity: 0.7;
+  transition: all 0.3s ease;
+  padding: 0.25rem;
+  border-radius: 4px;
+}
+
+.edit-shrine-name-btn:hover {
+  opacity: 1;
+  background: rgba(255, 215, 0, 0.1);
+}
+
+/* Shrine name editing modal */
+.shrine-name-modal {
+  background: rgba(20, 20, 40, 0.95);
+  backdrop-filter: blur(20px);
+  border-radius: 15px;
+  padding: 2rem;
+  max-width: 400px;
+  width: 90%;
+  border: 1px solid rgba(255, 215, 0, 0.3);
+}
+
+.shrine-name-modal h3 {
+  margin: 0 0 1.5rem 0;
+  color: #FFD700;
+  text-align: center;
 }
 
 .shrine-name-input {
-  flex: 1;
-  background: rgba(255, 255, 255, 0.9);
-  border: 2px solid rgba(255, 255, 255, 0.3);
-  border-radius: 8px;
+  width: 100%;
   padding: 0.75rem;
-  font-size: 1.1rem;
-  font-weight: 600;
-  color: #333;
-  transition: all 0.3s ease;
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.1);
+  color: white;
+  font-size: 1rem;
+  margin-bottom: 1.5rem;
+  transition: border-color 0.3s ease;
 }
 
 .shrine-name-input:focus {
   outline: none;
   border-color: #FFD700;
-  box-shadow: 0 0 0 3px rgba(255, 215, 0, 0.2);
 }
 
-.edit-actions {
+.shrine-name-input::placeholder {
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.modal-buttons {
   display: flex;
-  gap: 0.5rem;
+  gap: 1rem;
+  justify-content: center;
 }
 
-.save-btn, .cancel-btn {
-  background: rgba(255, 255, 255, 0.2);
-  border: 1px solid rgba(255, 255, 255, 0.3);
-  color: white;
-  border-radius: 8px;
-  padding: 0.5rem 0.75rem;
+.cancel-btn, .save-btn {
+  padding: 0.75rem 1.5rem;
+  border: none;
+  border-radius: 10px;
+  font-weight: 600;
   cursor: pointer;
-  font-size: 1rem;
   transition: all 0.3s ease;
-  backdrop-filter: blur(10px);
-  min-width: 40px;
-}
-
-.save-btn {
-  background: rgba(34, 197, 94, 0.3);
-  border-color: rgba(34, 197, 94, 0.5);
-}
-
-.save-btn:hover:not(:disabled) {
-  background: rgba(34, 197, 94, 0.5);
-  transform: translateY(-1px);
-}
-
-.save-btn:disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
 }
 
 .cancel-btn {
-  background: rgba(239, 68, 68, 0.3);
-  border-color: rgba(239, 68, 68, 0.5);
+  background: rgba(255, 255, 255, 0.1);
+  color: white;
 }
 
 .cancel-btn:hover {
-  background: rgba(239, 68, 68, 0.5);
-  transform: translateY(-1px);
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.save-btn {
+  background: linear-gradient(45deg, #FFD700, #FFA500);
+  color: #333;
+}
+
+.save-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(255, 215, 0, 0.4);
 }
