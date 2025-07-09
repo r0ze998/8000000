@@ -4,24 +4,6 @@ run = "npm exec -y serve -- -s build"
 [workflows]
 runButton = "Development Server"
 
-[[workflows.workflow]]
-name = "Start Development Server"
-author = 38270576
-mode = "sequential"
-
-[[workflows.workflow.tasks]]
-task = "shell.exec"
-args = "npm start"
-
-[[workflows.workflow]]
-name = "Development Server"
-author = 38270576
-mode = "sequential"
-
-[[workflows.workflow.tasks]]
-task = "shell.exec"
-args = "PORT=5000 npm start"
-
 [[ports]]
 localPort = 3000
 externalPort = 80
