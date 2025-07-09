@@ -36,14 +36,14 @@ interface TabConfig {
   component: React.ComponentType;
 }
 
-const useTabs = () => {
+const useTabs = (): TabConfig[] => {
   const { shrineName } = useShrineName();
   
   return [
-    { id: 'worship', icon: '🙏', label: shrineName, component: Worship },
-    { id: 'explore', icon: '🗺️', label: '探索', component: Explore },
-    { id: 'myshrine', icon: '⛩️', label: 'マイ神社', component: MyShrine },
-    { id: 'profile', icon: '👤', label: 'プロフィール', component: Profile }
+    { id: 'worship' as TabType, icon: '🙏', label: shrineName, component: Worship },
+    { id: 'explore' as TabType, icon: '🗺️', label: '探索', component: Explore },
+    { id: 'myshrine' as TabType, icon: '⛩️', label: 'マイ神社', component: MyShrine },
+    { id: 'profile' as TabType, icon: '👤', label: 'プロフィール', component: Profile }
   ];
 };
 
