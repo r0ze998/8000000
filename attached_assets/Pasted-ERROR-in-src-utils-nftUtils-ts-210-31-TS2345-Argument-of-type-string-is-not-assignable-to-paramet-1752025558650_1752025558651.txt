@@ -1,0 +1,36 @@
+ERROR in src/utils/nftUtils.ts:210:31
+TS2345: Argument of type 'string' is not assignable to parameter of type '"common" | "uncommon" | "rare" | "epic" | "legendary"'.
+    208 |         name: `Fortune ${rarity.charAt(0).toUpperCase() + rarity.slice(1)}`,
+    209 |         rarity: rarity as NFTRarity,
+  > 210 |         color: getRarityColor(rarity),
+        |                               ^^^^^^
+    211 |         pixelData: getFortuneEmoji(rarity),
+    212 |         type: 'fortune' as any,
+    213 |         power: getRarityPower(rarity),
+ERROR in src/utils/nftUtils.ts:211:36
+TS2345: Argument of type 'string' is not assignable to parameter of type '"common" | "uncommon" | "rare" | "epic" | "legendary"'.
+    209 |         rarity: rarity as NFTRarity,
+    210 |         color: getRarityColor(rarity),
+  > 211 |         pixelData: getFortuneEmoji(rarity),
+        |                                    ^^^^^^
+    212 |         type: 'fortune' as any,
+    213 |         power: getRarityPower(rarity),
+    214 |         isOwned: true,
+ERROR in src/utils/nftUtils.ts:213:31
+TS2345: Argument of type 'string' is not assignable to parameter of type '"common" | "uncommon" | "rare" | "epic" | "legendary"'.
+    211 |         pixelData: getFortuneEmoji(rarity),
+    212 |         type: 'fortune' as any,
+  > 213 |         power: getRarityPower(rarity),
+        |                               ^^^^^^
+    214 |         isOwned: true,
+    215 |         emoji: getFortuneEmoji(rarity),
+    216 |         description: `Fortune ${rarity}`,
+ERROR in src/utils/nftUtils.ts:215:32
+TS2345: Argument of type 'string' is not assignable to parameter of type '"common" | "uncommon" | "rare" | "epic" | "legendary"'.
+    213 |         power: getRarityPower(rarity),
+    214 |         isOwned: true,
+  > 215 |         emoji: getFortuneEmoji(rarity),
+        |                                ^^^^^^
+    216 |         description: `Fortune ${rarity}`,
+    217 |         timestamp: Date.now(),
+    218 |         attributes: {}
