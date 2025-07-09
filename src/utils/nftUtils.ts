@@ -72,7 +72,8 @@ export const getRarityColor = (rarity: string): string => {
     epic: '#8B5CF6',
     legendary: '#F59E0B'
   };
-  return colors[rarity] || colors.common;
+  const color = colors[rarity];
+  return color !== undefined ? color : colors.common;
 };
 
 // Get power level for rarity
@@ -210,7 +211,6 @@ export const generateRandomNFT = (): NFTItem => {
         color: getRarityColor(rarity),
         pixelData: getFortuneEmoji(rarity),
         type: 'fortune' as any,
-        createdAt: new Date().toISOString(),
         power: getRarityPower(rarity),
         isOwned: true,
         emoji: getFortuneEmoji(rarity),
@@ -229,7 +229,6 @@ export const generateRandomNFT = (): NFTItem => {
     color: getRarityColor('common'),
     pixelData: getFortuneEmoji('common'),
     type: 'fortune' as any,
-    createdAt: new Date().toISOString(),
     power: getRarityPower('common'),
     isOwned: true,
     emoji: getFortuneEmoji('common'),
