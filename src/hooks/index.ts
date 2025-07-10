@@ -1,7 +1,7 @@
 
-export { default as useOnboarding } from './useOnboarding';
-export { default as useShrineName } from './useShrineName';
-export { default as useAccountAbstraction } from './useAccountAbstraction';
-export { default as useLocalStorage } from './useLocalStorage';
-export { default as useDebounce } from './useDebounce';
-export { default as useGoogleMaps } from './useGoogleMaps';
+export { useOnboarding } from './useOnboarding';
+export { useShrineName } from './useShrineName';
+export { useAccountAbstraction } from './useAccountAbstraction';
+export { useLocalStorage } from './useLocalStorage';
+export { useDebounce } from './useDebounce';
+export { useGoogleMaps } from './useGoogleMaps';
