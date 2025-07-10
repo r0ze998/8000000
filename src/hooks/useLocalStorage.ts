@@ -1,21 +1,23 @@
 import { useState, useEffect } from 'react';
 
+/**
+ * React + localStorage Hook
+ * @returns [value, setValue]
+ */
 export function useLocalStorage<T>(key: string, initialValue: T): [T, (value: T) => void] {
-  // Get from local storage then parse stored json or return initialValue
+  // 1️⃣ 初期値のロード
   const [storedValue, setStoredValue] = useState<T>(() => {
     try {
       const item = window.localStorage.getItem(key);
       return item ? JSON.parse(item) : initialValue;
-    } catch (error) {
-      console.error(`Error reading localStorage key "${key}":`, error);
+    } catch {
       return initialValue;
     }
   });
 
-  // Return a wrapped version of useState's setter function that persists the new value to localStorage
+  // 2️⃣ setter ラッパー ― localStorage へも保存
   const setValue = (value: T) => {
     try {
-      // Allow value to be a function so we have the same API as useState
       const valueToStore = value instanceof Function ? value(storedValue) : value;
       setStoredValue(valueToStore);
       window.localStorage.setItem(key, JSON.stringify(valueToStore));
@@ -24,7 +26,13 @@ export function useLocalStorage<T>(key: string, initialValue: T): [T, (value: T)
     }
   };
 
-  return [storedValue, setValue] as const;
+  // 3️⃣ 値が変わった時に同期（他タブ対策は必要なら追加）
+  useEffect(() => {
+    window.localStorage.setItem(key, JSON.stringify(storedValue));
+  }, [key, storedValue]);
+
+  // ★ const 付けず可変タプルで返す
+  return [storedValue, setValue];
 }
 
 export default useLocalStorage;

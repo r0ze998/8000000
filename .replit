@@ -1,23 +1,19 @@
-modules = ["nodejs-18"]
+modules = ["nodejs-20"]
+run = "npm exec -y serve -- -s build"  
 
 [[ports]]
-localPort = 3000
+localPort = 3001
+externalPort = 3001
+
+[[ports]]
+localPort = 41869
 externalPort = 80
 
 [workflows]
-runButton = "Development Server"
+runButton = "Dev Server"
 
 [[workflows.workflow]]
-name = "Development Server"
-author = 38270576
-mode = "sequential"
-
-[[workflows.workflow.tasks]]
-task = "shell.exec"
-args = "npm start"
-
-[[workflows.workflow]]
-name = "Development Server"
+name = "Dev Server"
 author = 38270576
 mode = "sequential"
 
