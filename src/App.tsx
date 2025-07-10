@@ -17,8 +17,7 @@ import {
 // Hooks
 import { useOnboarding, useShrineName } from './hooks';
 
-// Types
-import type { User } from './types';
+// Types (unused imports removed)
 
 // Utils
 import { debugLog } from './utils';
