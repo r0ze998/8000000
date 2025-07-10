@@ -1,28 +1,29 @@
 
 modules = ["nodejs-20"]
 
+[nix]
+channel = "stable-23_05"
+
 [workflows]
 runButton = "Development Server"
 
-[workflows.workflow.development]
+[workflows.workflow]
 name = "Development Server"
 author = 38270576
-mode = "sequential"
 
-[[workflows.workflow.development.tasks]]
+[[workflows.workflow.tasks]]
 task = "shell.exec"
 args = "npm start"
 
-[workflows.workflow.build]
+[workflows.build]
 name = "Build and Preview"
 author = 38270576
-mode = "sequential"
 
-[[workflows.workflow.build.tasks]]
+[[workflows.build.tasks]]
 task = "shell.exec"
 args = "npm run build"
 
-[[workflows.workflow.build.tasks]]
+[[workflows.build.tasks]]
 task = "shell.exec"
 args = "npm exec -y serve -- -s build -l 5000"
 
@@ -34,5 +35,6 @@ externalPort = 80
 localPort = 5000
 externalPort = 5000
 
-[nix]
-packages = ["psmisc"]
+[deployment]
+run = ["npm", "exec", "-y", "serve", "--", "-s", "build", "-l", "5000"]
+deploymentTarget = "cloudrun"
