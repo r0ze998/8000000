@@ -1,31 +1,27 @@
 modules = ["nodejs-20"]
 
-[nix]
-channel = "stable-23_05"
-
 [[ports]]
 localPort = 3000
 externalPort = 80
-
-[[ports]]
-localPort = 5000
-externalPort = 5000
-
-[deployment]
-run = ["npm", "start"]
-deploymentTarget = "cloudrun"
+exposeLocalhost = true
 
 [workflows]
+runButton = "Development Server"
 
 [[workflows.workflow]]
-name = "Build and Preview"
+name = "Start Development Server"
 author = 38270576
 mode = "sequential"
 
 [[workflows.workflow.tasks]]
 task = "shell.exec"
-args = "npm run build"
+args = "npm start"
+
+[[workflows.workflow]]
+name = "Development Server"
+author = 38270576
+mode = "sequential"
 
 [[workflows.workflow.tasks]]
 task = "shell.exec"
-args = "npm exec -y serve -- -s build -l 5000"
+args = "npm start"
