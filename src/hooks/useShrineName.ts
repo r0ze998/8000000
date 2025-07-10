@@ -2,7 +2,7 @@
 import { useState } from 'react';
 import { useLocalStorage } from './useLocalStorage';
 
-export const useShrineName = () => {
+export function useShrineName() {
   const [shrineName, setShrineName] = useLocalStorage('shrineName', 'マイ神社');
   const [isEditing, setIsEditing] = useState(false);
 
@@ -20,4 +20,6 @@ export const useShrineName = () => {
     setIsEditing,
     updateShrineName
   };
-};
+}
+
+export default useShrineName;

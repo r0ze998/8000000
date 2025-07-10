@@ -9,10 +9,7 @@ interface GoogleMapsHookReturn {
   clearMarkers: () => void;
 }
 
-export const useGoogleMaps = (
-  center: { lat: number; lng: number },
-  zoom: number = 15
-): GoogleMapsHookReturn => {
+export function useGoogleMaps(center: { lat: number; lng: number }, zoom: number = 15) {
   const [map, setMap] = useState<google.maps.Map | null>(null);
   const [isLoaded, setIsLoaded] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -107,4 +104,6 @@ export const useGoogleMaps = (
     addMarkers,
     clearMarkers,
   };
-};
+}
+
+export default useGoogleMaps;

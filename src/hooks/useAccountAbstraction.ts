@@ -25,19 +25,19 @@ export const useAccountAbstraction = () => {
       // ローカルストレージからセッション情報を取得
       const storedSession = localStorage.getItem('shrine_session');
       const storedSessionTime = localStorage.getItem('shrine_session_time');
-      
+
       let sessionId: string | null = null;
-      
+
       if (storedSession && storedSessionTime) {
         const sessionTime = parseInt(storedSessionTime);
         const now = Date.now();
-        
+
         // セッションが有効期限内かチェック
         if (now - sessionTime < SESSION_DURATION) {
           sessionId = storedSession;
         }
       }
-      
+
       // 新しいセッションを作成
       if (!sessionId) {
         sessionId = `session_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
@@ -122,3 +122,5 @@ export const useAccountAbstraction = () => {
     endSession
   };
 };
+
+export default useAccountAbstraction;

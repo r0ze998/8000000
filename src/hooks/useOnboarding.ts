@@ -2,7 +2,7 @@
 import { useState, useEffect } from 'react';
 import { loadFromLocalStorage, saveToLocalStorage } from '../utils';
 
-export const useOnboarding = () => {
+export function useOnboarding() {
   const [needsOnboarding, setNeedsOnboarding] = useState<boolean>(true);
   const [isLoading, setIsLoading] = useState<boolean>(true);
 
@@ -22,4 +22,6 @@ export const useOnboarding = () => {
     isLoading,
     completeOnboarding
   };
-};
+}
+
+export default useOnboarding;
