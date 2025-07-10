@@ -207,7 +207,7 @@ const Worship: React.FC = () => {
       experience: baseReward.experience,
       bonus: {
         seasonal: seasonalEvent ? 20 : 0,
-        weather: weather.type === 'sunny' ? 10 : 0,
+        weather: weather?.type === 'sunny' ? 10 : 0,
         timeOfDay: timeOfDay === 'morning' ? 15 : 0
       }
     };
