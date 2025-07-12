@@ -6,7 +6,8 @@ import './Explore.css';
 
 const Explore: React.FC = () => {
   const [selectedShrine, setSelectedShrine] = useState<Shrine | null>(null);
-  const [userLocation, setUserLocation] = useState<{ lat: number; lng: number } | null>(null);
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const [_userLocation, setUserLocation] = useState<{ lat: number; lng: number } | null>(null);
   const [searchQuery, setSearchQuery] = useState('');
 
   const mapRef = useRef<HTMLDivElement>(null);

@@ -27,7 +27,8 @@ const Worship: React.FC = () => {
   // UI状態
   const [isActive, setIsActive] = useState(false);
   const [selectedDuration, setSelectedDuration] = useState(300);
-  const [selectedSound, setSelectedSound] = useState('bell');
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const [selectedSound, _setSelectedSound] = useState('bell');
   const [timeRemaining, setTimeRemaining] = useState(0);
   const [showCompletion, setShowCompletion] = useState(false);
   const [completionRewards, setCompletionRewards] = useState<any>(null);
@@ -49,8 +50,10 @@ const Worship: React.FC = () => {
   const [showPrayerSelectionModal, setShowPrayerSelectionModal] = useState(false);
   const [showPrayerModal, setShowPrayerModal] = useState(false);
   const [selectedPrayerType, setSelectedPrayerType] = useState<string>('');
-  const [currentPrayerTimer, setCurrentPrayerTimer] = useState(0);
-  const [isPrayerActive, setIsPrayerActive] = useState(false);
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const [_currentPrayerTimer, setCurrentPrayerTimer] = useState(0);
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const [_isPrayerActive, setIsPrayerActive] = useState(false);
 
   // Google Maps関連
   const mapRef = useRef<HTMLDivElement>(null);
