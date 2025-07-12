@@ -12,6 +12,7 @@ import {
 import { dropNFTFromOmikuji, generateSVGBase64 } from '../../../utils/nftUtils';
 import { formatTime } from '../../../utils/formatUtils';
 import { PRAYER_TYPES, PrayerType } from '../../../constants/prayerTypes';
+import PlaceholderMap from '../../common/PlaceholderMap';
 
 // 分割されたコンポーネントのインポート
 import ReadOnlyShrine from './ReadOnlyShrine';
@@ -432,7 +433,12 @@ const Worship: React.FC = () => {
         <div className="shrine-map-section">
           <h3>🗾 近くの神社を探す</h3>
           <div className="map-container">
-            {error ? (
+            {error && error.includes('API key not configured') ? (
+              <PlaceholderMap 
+                shrines={[]} 
+                className="worship-placeholder-map"
+              />
+            ) : error ? (
               <div className="map-error">
                 マップの読み込みに失敗しました: {error}
               </div>

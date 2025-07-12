@@ -3,6 +3,7 @@
 export { default as StarkNetDebug } from './common/StarkNetDebug';
 export { default as WelcomeOnboarding } from './common/WelcomeOnboarding';
 export { default as AccountStatus } from './common/AccountStatus';
+export { default as PlaceholderMap } from './common/PlaceholderMap';
 
 // Feature Components
 export { default as Explore } from './features/explore/Explore';

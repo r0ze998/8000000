@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { useGoogleMaps } from '../../../hooks/useGoogleMaps';
 import { shrines } from '../../../data/shrines';
 import { Shrine } from '../../../types';
+import PlaceholderMap from '../../common/PlaceholderMap';
 import './Explore.css';
 
 const Explore: React.FC = () => {
@@ -66,7 +67,13 @@ const Explore: React.FC = () => {
       </div>
 
       <div className="map-container">
-        {error ? (
+        {error && error.includes('API key not configured') ? (
+          <PlaceholderMap 
+            shrines={filteredShrines} 
+            center={userLocation || undefined}
+            className="explore-placeholder-map"
+          />
+        ) : error ? (
           <div className="error-message">
             <p>{error}</p>
           </div>
