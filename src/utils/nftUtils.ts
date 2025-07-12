@@ -70,7 +70,7 @@ export const getRarityColor = (rarity: string): string => {
     epic: '#F59E0B',
     legendary: '#F59E0B'
   };
-  return colors[rarity] || colors.common;
+  return (colors[rarity] || colors.common) as string;
 };
 
 // Get power level for rarity
@@ -98,9 +98,9 @@ export const dropNFTFromOmikuji = (omikujiData?: any): any => {
 
   let currentWeight = 0;
   for (let i = 0; i < rarities.length; i++) {
-    currentWeight += weights[i];
+    currentWeight += weights[i]!;
     if (random <= currentWeight) {
-      const rarity = rarities[i];
+      const rarity = rarities[i]!;
       return {
         id: Date.now().toString(),
         name: `Fortune ${rarity.charAt(0).toUpperCase() + rarity.slice(1)}`,
