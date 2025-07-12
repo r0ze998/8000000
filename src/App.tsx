@@ -17,8 +17,8 @@ import {
 // Hooks
 import { useOnboarding } from './hooks';
 
-// Types
-import type { User } from './types';
+// Types (commented out until needed)
+// import type { User } from './types';
 
 // Utils
 import { debugLog } from './utils';

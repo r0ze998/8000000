@@ -29,14 +29,7 @@ const BreathingGuide: React.FC<BreathingGuideProps> = ({
     }
   };
 
-  const getBreathingText = (phase: string) => {
-    switch (phase) {
-      case 'inhale': return '息を吸って';
-      case 'hold': return '息を止めて';
-      case 'exhale': return '息を吐いて';
-      default: return '';
-    }
-  };
+
 
   return (
     <div className="prayer-circle">

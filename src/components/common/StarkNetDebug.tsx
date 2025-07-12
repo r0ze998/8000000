@@ -1,5 +1,5 @@
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { useAccountAbstraction } from '../../hooks/useAccountAbstraction';
 import { validateStarkNetConnection, STARKNET_TESTNET_CONFIG } from '../../utils/starknet';
 
@@ -8,7 +8,7 @@ const StarkNetDebug: React.FC = () => {
   const [connectionStatus, setConnectionStatus] = useState<any>(null);
   const [isLoading, setIsLoading] = useState(false);
 
-  const checkConnection = async () => {
+  const checkConnection = useCallback(async () => {
     setIsLoading(true);
     try {
       const status = await validateStarkNetConnection(provider);
@@ -18,11 +18,11 @@ const StarkNetDebug: React.FC = () => {
     } finally {
       setIsLoading(false);
     }
-  };
+  }, [provider]);
 
   useEffect(() => {
     checkConnection();
-  }, [provider]);
+  }, [provider, checkConnection]);
 
   return (
     <div style={{ 

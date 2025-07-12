@@ -46,7 +46,7 @@ export const useGoogleMaps = (
     };
 
     initializeMap();
-  }, [center.lat, center.lng, zoom]);
+  }, [center, zoom]);
 
   const addMarkers = (shrines: Shrine[]) => {
     if (!map) return;
