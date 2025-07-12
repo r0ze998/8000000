@@ -1,29 +1,27 @@
+/* =============================================================================
+   Profile Page Styles
+============================================================================= */
+
 .profile-page {
-  padding: 20px;
-  max-width: 600px;
+  max-width: 800px;
   margin: 0 auto;
-  color: white;
+  padding: 24px;
 }
 
 .profile-header {
   text-align: center;
-  margin-bottom: 30px;
+  margin-bottom: 32px;
 }
 
 .profile-header h2 {
-  margin: 0 0 8px 0;
   font-size: 28px;
-  font-weight: 700;
-  background: linear-gradient(135deg, #fbbf24, #f59e0b);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+  margin-bottom: 8px;
+  color: #1a1a1a;
 }
 
 .profile-subtitle {
-  color: rgba(255, 255, 255, 0.7);
+  color: #666;
   font-size: 16px;
-  margin: 0;
 }
 
 .profile-content {
@@ -33,62 +31,247 @@
 }
 
 .profile-section {
-  background: rgba(255, 255, 255, 0.1);
-  backdrop-filter: blur(20px);
+  background: rgba(255, 255, 255, 0.95);
   border-radius: 16px;
-  padding: 20px;
-  border: 1px solid rgba(255, 255, 255, 0.15);
+  padding: 24px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+  border: 1px solid rgba(0, 0, 0, 0.05);
 }
 
 .profile-section h3 {
-  margin: 0 0 16px 0;
   font-size: 20px;
-  font-weight: 600;
-  color: #fbbf24;
+  margin-bottom: 20px;
+  color: #1a1a1a;
+  display: flex;
+  align-items: center;
+  gap: 8px;
 }
 
-/* 設定グリッド */
+/* =============================================================================
+   Belt Ranking Section
+============================================================================= */
+
+.belt-section {
+  background: linear-gradient(to bottom, rgba(255, 255, 255, 0.95), rgba(249, 250, 251, 0.95));
+}
+
+.belt-display {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.current-belt {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  padding: 20px;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.belt-icon {
+  font-size: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background: rgba(0, 0, 0, 0.05);
+}
+
+.belt-info h4 {
+  font-size: 24px;
+  margin-bottom: 4px;
+  color: #1a1a1a;
+}
+
+.cultural-capital {
+  font-size: 18px;
+  color: #666;
+  font-weight: 500;
+}
+
+.belt-progress {
+  padding: 0 10px;
+}
+
+.progress-bar {
+  height: 24px;
+  background: rgba(0, 0, 0, 0.1);
+  border-radius: 12px;
+  overflow: hidden;
+  margin-bottom: 8px;
+}
+
+.progress-fill {
+  height: 100%;
+  transition: width 0.3s ease;
+  border-radius: 12px;
+  background: linear-gradient(90deg, currentColor, currentColor);
+}
+
+.progress-text {
+  text-align: center;
+  color: #666;
+  font-size: 14px;
+}
+
+/* =============================================================================
+   Stats Section
+============================================================================= */
+
+.stats-section {
+  background: linear-gradient(135deg, rgba(99, 102, 241, 0.05), rgba(139, 92, 246, 0.05));
+}
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 16px;
+}
+
+.stat-card {
+  background: white;
+  border-radius: 12px;
+  padding: 20px;
+  text-align: center;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.stat-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+}
+
+.stat-icon {
+  font-size: 32px;
+  margin-bottom: 12px;
+}
+
+.stat-value {
+  font-size: 28px;
+  font-weight: bold;
+  color: #1a1a1a;
+  margin-bottom: 4px;
+}
+
+.stat-label {
+  font-size: 14px;
+  color: #666;
+}
+
+/* =============================================================================
+   Achievements Section
+============================================================================= */
+
+.achievements-section {
+  background: linear-gradient(135deg, rgba(251, 191, 36, 0.05), rgba(245, 158, 11, 0.05));
+}
+
+.achievements-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 16px;
+}
+
+.achievement-card {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 16px;
+  background: white;
+  border-radius: 12px;
+  border: 2px solid transparent;
+  transition: all 0.3s ease;
+}
+
+.achievement-card.unlocked {
+  border-color: #22c55e;
+  box-shadow: 0 2px 8px rgba(34, 197, 94, 0.1);
+}
+
+.achievement-card.locked {
+  opacity: 0.6;
+  filter: grayscale(1);
+}
+
+.achievement-icon {
+  font-size: 36px;
+  width: 60px;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.05);
+  border-radius: 50%;
+}
+
+.achievement-card.unlocked .achievement-icon {
+  background: rgba(34, 197, 94, 0.1);
+}
+
+.achievement-info {
+  flex: 1;
+}
+
+.achievement-name {
+  font-weight: 600;
+  color: #1a1a1a;
+  margin-bottom: 4px;
+}
+
+.achievement-desc {
+  font-size: 14px;
+  color: #666;
+}
+
+/* =============================================================================
+   Settings Section
+============================================================================= */
+
 .settings-grid {
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 16px;
 }
 
 .setting-item {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 12px 0;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-}
-
-.setting-item:last-child {
-  border-bottom: none;
+  padding: 16px;
+  background: #f9fafb;
+  border-radius: 8px;
 }
 
 .setting-label {
   font-size: 16px;
-  color: rgba(255, 255, 255, 0.9);
+  color: #1a1a1a;
 }
 
 .setting-button {
-  background: linear-gradient(135deg, #8b5cf6, #06b6d4);
-  color: white;
-  border: none;
   padding: 8px 16px;
-  border-radius: 8px;
-  font-size: 14px;
-  font-weight: 500;
+  background: white;
+  border: 1px solid #e5e7eb;
+  border-radius: 6px;
+  color: #1a1a1a;
   cursor: pointer;
   transition: all 0.2s ease;
 }
 
 .setting-button:hover {
-  transform: translateY(-1px);
-  box-shadow: 0 4px 12px rgba(139, 92, 246, 0.4);
+  background: #f3f4f6;
+  border-color: #d1d5db;
 }
 
-/* サポートグリッド */
+/* =============================================================================
+   Support Grid
+============================================================================= */
+
 .support-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
@@ -96,35 +279,37 @@
 }
 
 .support-item {
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 12px;
-  padding: 16px;
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 8px;
+  padding: 20px;
+  background: #f9fafb;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
   cursor: pointer;
   transition: all 0.2s ease;
-  color: white;
 }
 
 .support-item:hover {
-  background: rgba(255, 255, 255, 0.1);
+  background: white;
+  border-color: #d1d5db;
   transform: translateY(-2px);
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
 }
 
 .support-icon {
-  font-size: 24px;
+  font-size: 32px;
 }
 
 .support-text {
   font-size: 14px;
-  font-weight: 500;
+  color: #1a1a1a;
 }
 
-/* アプリ情報 */
+/* =============================================================================
+   App Info
+============================================================================= */
+
 .app-info {
   display: flex;
   flex-direction: column;
@@ -134,9 +319,8 @@
 .info-item {
   display: flex;
   justify-content: space-between;
-  align-items: center;
-  padding: 10px 0;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 12px 0;
+  border-bottom: 1px solid #e5e7eb;
 }
 
 .info-item:last-child {
@@ -144,41 +328,43 @@
 }
 
 .info-label {
-  font-size: 14px;
-  color: rgba(255, 255, 255, 0.7);
+  color: #666;
 }
 
 .info-value {
-  font-size: 14px;
-  color: rgba(255, 255, 255, 0.9);
+  color: #1a1a1a;
   font-weight: 500;
-  font-family: 'Monaco', 'Menlo', 'Consolas', monospace;
-  background: rgba(255, 255, 255, 0.1);
-  padding: 4px 8px;
-  border-radius: 6px;
 }
 
-/* レスポンシブデザイン */
+/* =============================================================================
+   Responsive Design
+============================================================================= */
+
 @media (max-width: 768px) {
   .profile-page {
     padding: 16px;
   }
-  
+
   .profile-section {
     padding: 16px;
   }
-  
-  .support-grid {
+
+  .stats-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .achievements-grid {
     grid-template-columns: 1fr;
   }
-  
-  .setting-item {
+
+  .current-belt {
     flex-direction: column;
-    align-items: flex-start;
-    gap: 8px;
+    text-align: center;
   }
-  
-  .setting-button {
-    align-self: flex-end;
+
+  .belt-icon {
+    width: 60px;
+    height: 60px;
+    font-size: 36px;
   }
 }

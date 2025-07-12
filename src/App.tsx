@@ -23,6 +23,9 @@ import type { User } from './types';
 // Utils
 import { debugLog } from './utils';
 
+// Services
+import { setupHabitTriggers } from './services/notificationService';
+
 // =============================================================================
 // Types & Constants
 // =============================================================================
@@ -58,6 +61,9 @@ const App: React.FC = () => {
     const initializeApp = async () => {
       try {
         debugLog('Initializing application...');
+        
+        // Initialize habit formation triggers (notifications)
+        setupHabitTriggers();
         
         // Initialize user data (will be loaded from context/state management later)
         setIsInitialized(true);
