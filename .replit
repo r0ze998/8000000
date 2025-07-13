@@ -5,3 +5,8 @@ run = "npm exec -y serve -- -s build -l 3000"
 [[ports]]
 localPort = 3000
 externalPort = 80
+
+[deployment]
+build = ["npm", "run", "build"]
+run = ["npm", "exec", "-y", "serve", "--", "-s", "build", "-l", "3000"]
+deploymentTarget = "cloudrun"
