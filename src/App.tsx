@@ -38,12 +38,12 @@ interface TabConfig {
 const useTabs = (): TabConfig[] => {
   const { shrineName } = useShrineName();
   
-  return [
+  return React.useMemo(() => [
     { id: 'worship' as TabType, icon: '🙏', label: shrineName, component: Worship },
     { id: 'explore' as TabType, icon: '🗺️', label: '探索', component: Explore },
     { id: 'myshrine' as TabType, icon: '⛩️', label: 'マイ神社', component: MyShrine },
     { id: 'profile' as TabType, icon: '👤', label: 'プロフィール', component: Profile }
-  ];
+  ], [shrineName]);
 };
 
 // =============================================================================
@@ -57,6 +57,10 @@ const App: React.FC = () => {
   
   const { needsOnboarding, isLoading, completeOnboarding } = useOnboarding();
   const tabs = useTabs();
+  
+  const handleTabChange = React.useCallback((tab: TabType) => {
+    setActiveTab(tab);
+  }, []);
 
   // Initialize application
   useEffect(() => {
@@ -79,7 +83,10 @@ const App: React.FC = () => {
   }, []);
 
   // Get active component
-  const ActiveComponent = tabs.find(tab => tab.id === activeTab)?.component || Worship;
+  const ActiveComponent = React.useMemo(() => 
+    tabs.find(tab => tab.id === activeTab)?.component || Worship, 
+    [tabs, activeTab]
+  );
 
   // Loading state during onboarding check
   if (isLoading) {
@@ -124,7 +131,7 @@ const App: React.FC = () => {
         <TabNavigation 
           tabs={tabs}
           activeTab={activeTab}
-          onTabChange={setActiveTab}
+          onTabChange={handleTabChange}
         />
         
         {/* Main Content */}
@@ -173,7 +180,7 @@ interface TabNavigationProps {
   onTabChange: (tab: TabType) => void;
 }
 
-const TabNavigation: React.FC<TabNavigationProps> = ({ 
+const TabNavigation = React.memo<TabNavigationProps>(({ 
   tabs, 
   activeTab, 
   onTabChange 
@@ -192,6 +199,6 @@ const TabNavigation: React.FC<TabNavigationProps> = ({
       ))}
     </div>
   </nav>
-);
+));
 
 export default App;

@@ -26,10 +26,7 @@ export function useLocalStorage<T>(key: string, initialValue: T): [T, (value: T)
     }
   };
 
-  // 3️⃣ 値が変わった時に同期（他タブ対策は必要なら追加）
-  useEffect(() => {
-    window.localStorage.setItem(key, JSON.stringify(storedValue));
-  }, [key, storedValue]);
+  // useEffectを削除 - setValueで既に同期しているため不要
 
   // ★ const 付けず可変タプルで返す
   return [storedValue, setValue];
