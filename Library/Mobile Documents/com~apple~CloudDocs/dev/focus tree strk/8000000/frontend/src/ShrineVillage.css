@@ -1,0 +1,33 @@
+.shrine-village {
+  position: relative;
+  overflow: hidden;
+}
+
+.my-shrine-area {
+  margin: 20px 0;
+  padding: 20px;
+  background: rgba(255,255,255,0.1);
+  border-radius: 12px;
+}
+
+.activity-buttons {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 15px;
+  margin: 20px 0;
+  padding: 0 20px;
+}
+
+.activity-button {
+  padding: 15px;
+  background: linear-gradient(45deg, #FF6B6B, #FF8E8E);
+  border: none;
+  border-radius: 10px;
+  color: white;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.activity-button:hover {
+  transform: translateY(-2px);
+}
