@@ -58,11 +58,3 @@ coverage/
 # Temporary
 .tmp/
 .temp/
-
-# Playwright / local QA
-test-results/
-playwright-report/
-/.before-build/
-/.before-build-mounted/
-/.claude/
-/release/
