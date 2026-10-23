@@ -1,215 +1,61 @@
-# 8000000 - 神社参拝習慣化アプリ
+# 8000000 — やおよろず帳
 
-習慣化を軸とした神社参拝アプリ。Hooked モデルとOctalysis フレームワークに基づき、毎日の参拝習慣を楽しく継続できるよう設計されています。日本の文化活動（神社参拝、寺院訪問、祭り参加など）をブロックチェーン上で永続的に記録し、文化資本として可視化するシステムです。
+神社の境内で、鳥居の形・狛犬の口元・社殿のかたちを**見分けて**、自分の帳面に記していく野帳（フィールドノート）アプリです。
 
-## 🎯 コンセプト
+- **おうちで**：図鑑と「見分け稽古」で違いの見どころを覚え、次に探すものを3つまで選ぶ
+- **境内で**：着いたら記録を始め、見つけたものに印を付け、一言メモを残す
+- **帳面に綴じる**：初めて見たものに印が押され、図鑑が埋まり、次に探すものが見えてくる
 
-### Hooked Model (習慣化サイクル)
-- **Trigger**: 朝の通知、近くの神社検出
-- **Action**: ワンタップ参拝（位置情報またはQR）
-- **Variable Reward**: レア御朱印、祈願カード、特別な加護
-- **Investment**: NFT御朱印収集、連続記録、村の発展
+順位・連続日数・毎日の通知・ポイントはありません。帳面は端末内だけに保存されます。
 
-### 三方良しの設計思想
-- **参拝者**: ゲーミフィケーションによる文化体験向上
-- **神社**: デジタル参拝記録による訪問促進
-- **地域社会**: 観光統合による地域活性化
+> 2026-10 に全体を作り直しました（v3）。経緯と判断は [docs/redesign/REDESIGN.md](docs/redesign/REDESIGN.md) を見てください。
+> 旧版（v2：Create React App・Starknet のモック）は `main` ブランチにそのまま残っています。
 
-## 機能
+## すぐ遊ぶ
 
-### 🔥 習慣化システム
-- ワンタップ参拝（GPS/QR対応）
-- 連続記録とストリーク追跡
-- 朝の参拝リマインダー
-- 近くの神社への自動通知
+必要なもの：Node.js 20 以上（確認済み：20.19.4）
 
-### 🎲 可変報酬システム
-- レアリティ別御朱印（Common〜Legendary）
-- 季節限定デザイン（桜、紅葉、満月）
-- 祈願カード収集（特殊効果付き）
-- 特別な時間・天候ボーナス
-
-### ⛩️ 参拝体験
-- GPS位置情報による神社検出
-- QRコードスキャンでリモート参拝
-- ガチャ風報酬演出
-- リアルタイム天候・月齢反映
-
-### 📱 村システム
-- 守護神ストーリー
-- 村ランキング
-- NFT奉納システム
-- コミュニティ機能
-
-### 🥋 文化帯ランキング
-- 白帯 (0-99 文化資本)
-- 黄帯 (100-299)
-- 橙帯 (300-499)
-- 緑帯 (500-999)
-- 青帯 (1000-1999)
-- 紫帯 (2000-3999)
-- 茶帯 (4000-5999)
-- 黒帯 (6000-7999)
-- 赤帯 (8000-9999)
-- 金帯 (10000+)
-
-## セットアップ
-
-### インストール
-
-1. リポジトリのクローン
 ```bash
-git clone https://github.com/r0ze998/cultural-shrine-village-starknet.git 8000000
-cd 8000000
-```
-
-2. 依存関係のインストール
-```bash
-cd frontend
 npm install
+npm run dev
 ```
 
-### アプリケーションの起動
+ブラウザで http://localhost:5173 を開きます。スマホで試す場合は、PC のブラウザの開発者ツールでスマホ表示にするか、
+同じネットワークの端末から `npm run dev -- --host` で表示された URL を開いてください
+（位置情報は https か localhost でしか使えないため、LAN 越しの http では「位置を使わずに始める」かデモモードで試せます）。
 
-```bash
-npm start
-```
+### 神社に行かずに試す（デモモード）
 
-アプリは http://localhost:3000 で起動します。
+最初の画面の「デモで境内の記録を試す」、または「設定とデータ」→「デモモード」をオンにします。
+位置は選んだ神社の近くにいる**模擬位置**になり、その間の記録には「デモ」と表示されます。
+「デモの記録をすべて消す」で、デモの記録だけを消せます。
 
-## 使い方
+外部 API キーや認証情報は不要です（地図は OpenStreetMap を新しいタブで開くだけ）。
 
-### 基本的な参拝フロー
-1. **アプリ起動** - 位置情報を許可
-2. **神社検出** - 近くの神社で⛩️ボタンが光る
-3. **ワンタップ参拝** - ボタンをタップして参拝完了
-4. **報酬獲得** - 御朱印や祈願カードをゲット
-5. **連続記録更新** - 毎日続けてストリークを伸ばす
+## コマンド
 
-### リモート参拝
-- 神社のQRコードをスキャン
-- 手動で神社コードを入力
-- 特別イベント参加
+| コマンド | 内容 |
+|---|---|
+| `npm run dev` | 開発サーバー（http://localhost:5173） |
+| `npm run build` | 型チェック＋本番ビルド（`dist/`） |
+| `npm run preview` | 本番ビルドを http://localhost:4173 で配信 |
+| `npm test` | 単体テスト（Vitest） |
+| `npm run test:e2e` | E2E テスト（Playwright。スマホ・PC の2構成） |
+| `npm run test:all` | 上のすべて |
 
-### タブ構成
-- 🏠 **ホーム**: 今日の参拝状況、近くの神社
-- 🗺️ **探索**: 神社マップ、発見した神社
-- ⛩️ **参拝**: 参拝履歴、御朱印帳
-- 📚 **学び**: 守護神の物語、神社の歴史
-- 👤 **プロフィール**: ストリーク、実績、コレクション
+E2E を初めて動かす環境では `npx playwright install chromium` が必要です。
 
-## デプロイ
+## 構成
 
-### Vercelでのデプロイ
+- React 18 + TypeScript + Vite、React Router（HashRouter。静的ホスティングでそのまま動く）
+- 状態は `useReducer` ＋ localStorage（`yaoyorozu.notebook.v1`）。壊れたデータは消さずに退避
+- 図鑑・神社・出典のデータは `src/data/`。事実の文には必ず出典 id が付く（テストで検査）
 
-```bash
-vercel --prod
-```
+詳しくは [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md)。
 
-Root Directory: `frontend`
-Framework: `Create React App`
+## 事実と創作について
 
-## 🛠️ 技術スタック
-
-### Frontend
-- **Framework**: React 18+ with Hooks
-- **Mobile**: Capacitor (iOS/Android対応)
-- **State Management**: React Context API
-- **Location**: Geolocation API
-- **Camera**: MediaDevices API (QRスキャン)
-- **Audio**: Web Audio API (BGMシステム)
-- **Notifications**: Notification API + Service Workers
-- **Graphics**: SVG + Canvas API
-- **Styling**: CSS3 + Animations, CSS Modules
-- **PWA**: Service Worker, Manifest.json
-
-### Backend & Blockchain
-- **Blockchain**: Starknet (Cairo 2.6.0+)
-- **Wallet**: StarkNet React (ArgentX, Braavos)
-- **NFT**: ERC-721 御朱印コントラクト
-- **Storage**: LocalStorage + IPFS (NFTメタデータ)
-
-### Services & APIs
-- **位置情報**: GPS + 神社データベース
-- **天候**: Weather API連携
-- **月齢**: 天文計算アルゴリズム
-- **画像生成**: Canvas API (御朱印デザイン)
-- **アニメーション**: カスタムパーティクルエフェクト（桜の花びら）
-
-### Architecture
-- **Design Pattern**: Hooked Model + Octalysis Framework
-- **Core Services**: VisitService, RewardService, NotificationService
-- **Habit Loop**: useHabitLoop custom hook
-- **Deployment**: Vercel (Static Site Generation)
-
-## 🏛️ 収録神社・寺院
-
-- 伊勢神宮（三重県）- 神話級
-- 清水寺（京都府）- 伝説級
-- 明治神宮（東京都）- 伝説級
-- 出雲大社（島根県）- 伝説級
-- 東大寺（奈良県）- 伝説級
-- 日光東照宮（栃木県）- 史跡級
-- 厳島神社（広島県）- 史跡級
-- 善光寺（長野県）- 史跡級
-- 金閣寺（京都府）- 史跡級
-- 浅草寺（東京都）- 史跡級
-- 八坂神社（京都府）- 希少級
-- 東福寺（京都府）- 希少級
-- 川崎大師（神奈川県）- 一般級
-- 成田山新勝寺（千葉県）- 一般級
-- 武蔵一宮氷川神社（埼玉県）- 一般級
-- 地元の小さな神社（全国）- 一般級
-
-## 📱 モバイルアプリ
-
-### iOS/Android対応
-```bash
-# Capacitorの初期化
-npx cap init
-
-# iOS用ビルド
-npm run build
-npx cap add ios
-npx cap copy ios
-npx cap open ios
-
-# Android用ビルド
-npx cap add android
-npx cap copy android
-npx cap open android
-```
-
-### PWA対応
-- オフライン機能
-- ホームスクリーン追加
-- プッシュ通知（将来実装）
-
-## 📝 環境変数
-
-```
-REACT_APP_API_URL=<APIエンドポイント>
-REACT_APP_STARKNET_NETWORK=<ネットワーク>
-```
-
-## 🔄 最新の変更
-
-### v2.0.0 (2024年5月)
-- タブベースナビゲーションの実装
-- おみくじシステムの統合
-- 三方良しの設計思想の適用
-- iOS PWA対応の強化
-- アプリ名を「8000000」に変更
-
-## 📝 ライセンス
-
-MIT License
-
-## 🤝 作者
-
-8000000 Development Team
-
----
-
-🌸 日本の伝統文化をデジタルで未来へ 🌸
-🤖 このプロジェクトは Claude Code を使用して開発されました。
+- 「事実」の印が付いた文は、Wikipedia 日本語版・神社本庁・各神社の公式サイトの記述を要約したもので、出典へのリンクがあります。
+- 「案内」の印は、このアプリからの探し方の提案です。「俗説・諸説」は根拠が確かでないとされる説です。
+- 挿絵はこのリポジトリで描いた模式図で、実在の建物を写したものではありません。
+- 非公式の個人制作アプリで、掲載している神社を含め、いずれの神社・団体とも提携・公認の関係にありません。
