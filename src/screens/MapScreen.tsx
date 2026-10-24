@@ -32,7 +32,7 @@ export function MapScreen() {
   useEffect(() => {
     if (!mapEl.current || mapRef.current) return;
     try {
-      const map = L.map(mapEl.current, { zoomControl: true, attributionControl: true }).setView([35.4, 136.2], 5);
+      const map = L.map(mapEl.current, { zoomControl: true, attributionControl: true, fadeAnimation: false }).setView([35.4, 136.2], 5);
       const tiles = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
         maxZoom: 18,
         attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',

@@ -4,6 +4,11 @@ import { Illustration } from './Illustration';
 import { PART_BY_ID } from '../data/parts';
 import { canPlace, cellKey, levelOf, type Game } from '../state/model';
 
+/** 横にはみ出すときは、本殿が真ん中に来るようにスクロールしておく */
+const centerOnMount = (el: HTMLDivElement | null) => {
+  if (el && el.scrollWidth > el.clientWidth && el.scrollLeft === 0) el.scrollLeft = (el.scrollWidth - el.clientWidth) / 2;
+};
+
 interface Props {
   game: Game;
   selected?: string | null;
@@ -64,11 +69,11 @@ export function ShrinePlot({ game, selected, onCell, compact, highlight }: Props
   }
 
   return (
-    <div className={`plot${compact ? ' plot--compact' : ''}${selected ? ' plot--placing' : ''}`}>
+    <div className={`plot${compact ? ' plot--compact' : ''}${selected ? ' plot--placing' : ''}`} ref={centerOnMount}>
       <div
         className="plot__grid"
-        // 広くなっても指で押せるよう、1マス 36px より小さくしない（はみ出す分は横にスクロール）
-        style={{ gridTemplateColumns: `repeat(${size}, 1fr)`, minWidth: compact ? undefined : size * 36 }}
+        // 広くなっても指で押せるよう、1マス 30px より小さくしない（はみ出す分は横にスクロール）
+        style={{ gridTemplateColumns: `repeat(${size}, 1fr)`, minWidth: compact ? undefined : size * 30 }}
         role={onCell ? 'group' : 'img'}
         aria-label={`${game.name}の境内（${level.size}×${level.size}）`}
       >

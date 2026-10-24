@@ -7,7 +7,8 @@ import { ShrinePlot } from '../components/ShrinePlot';
 import { Sheet } from '../components/Sheet';
 import { useGame } from '../state/GameContext';
 import { canPlace, canRemove, cellKey, inventory, levelOf, LEVELS, type Game } from '../state/model';
-import { PART_BY_ID, PARTS } from '../data/parts';
+import { PART_BY_ID, PARTS, signatureParts } from '../data/parts';
+import { SHRINES } from '../data/shrines';
 
 function GrowthCard({ game }: { game: Game }) {
   const level = levelOf(game);
@@ -31,6 +32,34 @@ function GrowthCard({ game }: { game: Game }) {
           ? `あと ${level.toNext} 社に参拝すると、境内が ${level.next.size}×${level.next.size}（${level.next.name}）に広がります。`
           : `境内はいちばん広い「${LEVELS[LEVELS.length - 1]!.name}」になりました。`}
       </p>
+    </section>
+  );
+}
+
+/** まだ持っていない「ゆかりの部品」と、それが手に入る神社 */
+function WantedParts({ game }: { game: Game }) {
+  const owned = new Set(game.visits.flatMap((v) => v.rewards));
+  const visited = new Set(game.visits.map((v) => v.placeId));
+  const wanted = SHRINES.filter((s) => !visited.has(s.id))
+    .flatMap((s) => signatureParts(s.id).filter((p) => !owned.has(p)).map((p) => ({ part: PART_BY_ID[p]!, shrine: s })))
+    .filter((w, i, all) => all.findIndex((x) => x.part.id === w.part.id) === i)
+    .slice(0, 4);
+  if (wanted.length === 0) return null;
+  return (
+    <section className="stack-s" aria-labelledby="wanted-title">
+      <h3 id="wanted-title">まだ持っていない、ゆかりの部品</h3>
+      <ul className="reward-grid">
+        {wanted.map(({ part, shrine }) => (
+          <li key={part.id}>
+            <Link to={`/places/${shrine.id}`} className="reward reward--wanted">
+              <Illustration id={part.art} label={part.name} />
+              <span className="reward__name">{part.name}</span>
+              <span className="tiny muted">{shrine.name}</span>
+            </Link>
+          </li>
+        ))}
+      </ul>
+      <p className="tiny muted">どの神社に参拝しても境内は広がります。近所の神社でも部品はもらえます。</p>
     </section>
   );
 }
@@ -157,6 +186,8 @@ export function Home() {
         )}
 
         {!fresh && <GrowthCard game={game} />}
+
+        {!fresh && <WantedParts game={game} />}
 
         {!fresh && (
           <Link to="/places" className="btn btn--primary btn--block">
