@@ -3,8 +3,9 @@ import { FEATURES, FEATURE_BY_ID } from './features';
 import { SHRINES, SHRINE_SOURCE } from './shrines';
 import { SOURCES } from './sources';
 import { ETIQUETTE_FACTS } from './etiquette';
-import { buildRound, groupMembers } from '../lib/drill';
+import { COMMON_PARTS, PARTS, PART_BY_ID, signatureParts } from './parts';
 import { distanceM, formatDistance } from '../lib/geo';
+import { decodeByteArray, encodeByteArray, encodeShortId, decodeShortId, jstDay } from '../chain/codec';
 
 describe('事実と出典の整合', () => {
   const allFacts = [
@@ -38,21 +39,36 @@ describe('事実と出典の整合', () => {
   });
 });
 
-describe('見分け稽古', () => {
-  it('問題の組はそれぞれ3つ以上の選択肢を持つ', () => {
-    for (const g of ['torii', 'style', 'shinshi']) expect(groupMembers(g).length).toBeGreaterThanOrEqual(3);
+describe('部品', () => {
+  it('部品の解説は図鑑の項目を指し、挿絵がある', () => {
+    for (const p of PARTS) if (p.featureId) expect(FEATURE_BY_ID[p.featureId], p.id).toBeDefined();
+    for (const id of COMMON_PARTS) expect(PART_BY_ID[id], id).toBeDefined();
   });
 
-  it('組を指定すると、その組の全項目が1回ずつ出る', () => {
-    const round = buildRound({ group: 'torii' });
-    expect(round.map((q) => q.answer.id).sort()).toEqual(['torii-myojin', 'torii-ryobu', 'torii-shinmei']);
-    for (const q of round) expect(q.options.map((o) => o.id)).toContain(q.answer.id);
+  it('ゆかりの部品は、出典で確かめられる見どころからだけ決まる', () => {
+    expect(signatureParts('kasuga-taisha').sort()).toEqual(['shika', 'style-kasuga', 'toro']);
+    expect(signatureParts('kanda-myojin')).toEqual([]);
+    expect(signatureParts('c-unknown')).toEqual([]);
+  });
+});
+
+describe('チェーン用の変換', () => {
+  it('日本語の ByteArray を往復できる（31バイトの区切りをまたいでも）', () => {
+    for (const s of ['', 'abc', '坂の上八幡神社', '本殿の屋根を修復中でした。参道は通れます。'.repeat(3)]) {
+      const felts = encodeByteArray(s);
+      expect(decodeByteArray(felts, 0)).toEqual({ value: s, next: felts.length });
+    }
   });
 
-  it('まだ知らないものを優先して出す', () => {
-    const known = new Set(FEATURES.filter((f) => f.drillGroup).map((f) => f.id).slice(0, 5));
-    const round = buildRound({ known, size: 5 });
-    expect(round.every((q) => !known.has(q.answer.id))).toBe(true);
+  it('神社の id を felt に変換でき、長すぎる・ASCII 以外は断る', () => {
+    expect(decodeShortId(encodeShortId('kasuga-taisha'))).toBe('kasuga-taisha');
+    expect(() => encodeShortId('x'.repeat(32))).toThrow();
+    expect(() => encodeShortId('春日')).toThrow();
+  });
+
+  it('日付の区切りは日本時間の0時', () => {
+    expect(jstDay(Date.parse('2026-10-24T23:59:00+09:00'))).toBe(jstDay(Date.parse('2026-10-24T00:00:00+09:00')));
+    expect(jstDay(Date.parse('2026-10-25T00:00:00+09:00'))).toBe(jstDay(Date.parse('2026-10-24T00:00:00+09:00')) + 1);
   });
 });
 

@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
-import { emptyNotebook } from './model';
-import { BACKUP_PREFIX, loadNotebook, parseNotebook, saveNotebook, STORAGE_KEY } from './storage';
+import { emptyGame, reduce } from './model';
+import { BACKUP_PREFIX, loadGame, parseGame, saveGame, STORAGE_KEY } from './storage';
 
 class MemoryStorage implements Storage {
   private m = new Map<string, string>();
@@ -25,19 +25,35 @@ class MemoryStorage implements Storage {
 }
 
 describe('保存と復元', () => {
-  it('保存した帳面をそのまま復元できる', () => {
+  it('保存したデータをそのまま復元できる', () => {
     const s = new MemoryStorage();
-    const nb = { ...emptyNotebook(), title: 'テスト' };
-    expect(saveNotebook(nb, s)).toBe(true);
-    const r = loadNotebook(s);
+    let g = reduce(emptyGame(), {
+      type: 'addVisit',
+      visit: { id: 'v1', placeId: 'kasuga-taisha', placeName: '春日大社', at: '2026-10-01T10:00:00+09:00', check: 'gps', demo: false, chain: { status: 'confirmed', txHash: '0x1' } },
+    });
+    g = reduce(g, { type: 'place', x: 1, y: 0, partId: 'path' });
+    expect(saveGame(g, s)).toBe(true);
+    const r = loadGame(s);
     expect(r.status).toBe('restored');
-    expect(r.notebook).toEqual(nb);
+    expect(r.game).toEqual(g);
   });
 
-  it('壊れたデータは退避して新しい帳面で始める（元の値は残す）', () => {
+  it('送信中のまま閉じた記録は「確認が必要」に戻す', () => {
+    const s = new MemoryStorage();
+    const g = reduce(emptyGame(), {
+      type: 'addVisit',
+      visit: { id: 'v1', placeId: 'hie-jinja', placeName: '日枝神社', at: '2026-10-01T10:00:00+09:00', check: 'gps', demo: false, chain: { status: 'sending', txHash: '0xabc' } },
+    });
+    saveGame(g, s);
+    const v = loadGame(s).game.visits[0]!;
+    expect(v.chain.status).toBe('failed');
+    expect(v.chain.txHash).toBe('0xabc');
+  });
+
+  it('壊れたデータは退避して新しく始める（元の値は残す）', () => {
     const s = new MemoryStorage();
     s.setItem(STORAGE_KEY, '{oops');
-    const r = loadNotebook(s, new Date(1000));
+    const r = loadGame(s, new Date(1000));
     expect(r.status).toBe('recovered');
     expect(s.getItem(`${BACKUP_PREFIX}1000`)).toBe('{oops');
     expect(s.getItem(STORAGE_KEY)).toBe('{oops');
@@ -46,13 +62,12 @@ describe('保存と復元', () => {
   it('旧アプリの神社名を引き継ぐ。既定名「マイ神社」は引き継がない', () => {
     const a = new MemoryStorage();
     a.setItem('shrineName', JSON.stringify('森の社'));
-    const r = loadNotebook(a);
-    expect(r.status === 'fresh' && r.importedTitle).toBe(true);
-    expect(r.notebook.title).toBe('森の社の帳面');
-
+    const r = loadGame(a);
+    expect(r.status === 'fresh' && r.importedName).toBe(true);
+    expect(r.game.name).toBe('森の社');
     const b = new MemoryStorage();
     b.setItem('shrineName', JSON.stringify('マイ神社'));
-    expect(loadNotebook(b).notebook.title).toBe('わたしの帳面');
+    expect(loadGame(b).game.name).toBe('わたしの神社');
   });
 
   it('使えないストレージでは unavailable を返す', () => {
@@ -60,25 +75,22 @@ describe('保存と復元', () => {
     s.setItem = () => {
       throw new Error('quota');
     };
-    expect(loadNotebook(s).status).toBe('unavailable');
+    expect(loadGame(s).status).toBe('unavailable');
   });
 
-  it('記録のない見つけた印や不正な項目は取り除く', () => {
+  it('持っていない部品の配置や、不正な項目は取り除く', () => {
     const raw = {
-      ...emptyNotebook(),
-      visits: [{ id: 'v1', placeId: 'p', placeName: 'P', startedAt: 'x' }, { id: 3 }],
-      sightings: [
-        { id: 's1', featureId: 'toro', visitId: 'v1', at: 'x' },
-        { id: 's2', featureId: 'toro', visitId: 'gone', at: 'x' },
+      ...emptyGame(),
+      visits: [{ id: 'v1', placeId: 'p', placeName: 'P', at: '2026-10-01T10:00:00+09:00', day: 20362, rewards: ['path'] }, { id: 3 }],
+      placements: [
+        { x: 1, y: 0, partId: 'path' },
+        { x: 2, y: 0, partId: 'shika' },
+        { x: 'a', y: 0, partId: 'path' },
       ],
-      pinned: ['a', 'b', 'c', 'd', 5],
     };
-    const nb = parseNotebook(raw)!;
-    expect(nb.visits).toHaveLength(1);
-    expect(nb.visits[0]).toMatchObject({ memo: '', demo: false, check: 'self' });
-    expect(nb.sightings.map((s) => s.id)).toEqual(['s1']);
-    expect(nb.pinned).toEqual(['a', 'b', 'c']);
-    expect(parseNotebook({ version: 2 })).toBeNull();
-    expect(parseNotebook(null)).toBeNull();
+    const g = parseGame(raw)!;
+    expect(g.visits).toHaveLength(1);
+    expect(g.placements).toEqual([{ x: 1, y: 0, partId: 'path' }]);
+    expect(parseGame({ version: 2 })).toBeNull();
   });
 });

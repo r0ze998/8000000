@@ -9,6 +9,8 @@ yarn-error.log*
 # Production builds
 /build
 /dist
+/dist-e2e
+/dist-offline
 /out
 
 # Development
@@ -22,6 +24,11 @@ yarn-error.log*
 .env.development.local
 .env.test.local
 .env.production.local
+.env*.local
+
+# Cairo
+/contracts/target/
+/contracts/.snfoundry_cache/
 
 # IDE
 .vscode/

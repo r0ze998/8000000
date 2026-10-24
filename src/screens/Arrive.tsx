@@ -1,83 +1,122 @@
+import { useState } from 'react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import { Screen } from '../components/Screen';
 import { Icon } from '../components/Icon';
-import { useNotebook } from '../state/NotebookContext';
-import { activeVisit, newId, type LocationCheck } from '../state/model';
+import { FactList } from '../components/Facts';
+import { useGame } from '../state/GameContext';
+import { useCommunity } from '../chain/useCommunity';
+import { newId, visitedToday, visitsAt, type LocationCheck } from '../state/model';
 import { findPlace } from '../lib/places';
 import { distanceM, formatDistance, NEAR_RADIUS_M, POSITION_ERROR_TEXT } from '../lib/geo';
 import { useLocate } from '../lib/useLocate';
 import { isDarkHours } from '../lib/time';
-import { VISIT_GUIDANCE } from '../data/etiquette';
+import { ETIQUETTE_FACTS, VISIT_GUIDANCE } from '../data/etiquette';
 import { NotFound } from './NotFound';
 
 export function Arrive() {
   const { placeId = '' } = useParams();
-  const { nb, dispatch } = useNotebook();
+  const { game, dispatch } = useGame();
   const navigate = useNavigate();
   const { state, locate } = useLocate();
-  const place = findPlace(nb, placeId);
+  const [check, setCheck] = useState<LocationCheck | null>(null);
+  const community = useCommunity();
+  const place = findPlace(game, placeId, community.shrines);
   if (!place) return <NotFound what="神社" back="/places" />;
 
-  const current = activeVisit(nb);
-  const demo = nb.settings.demo;
-  const demoHere = demo && nb.settings.demoPlaceId === place.id;
+  const demo = game.settings.demo;
   const distance = state.phase === 'ok' && place.coords ? distanceM(state.coords, place.coords) : undefined;
   const near = distance !== undefined && distance <= NEAR_RADIUS_M;
+  const today = visitedToday(game, place.id);
 
-  const start = (check: LocationCheck) => {
+  const worship = () => {
+    if (!check) return;
+    const id = newId('visit');
     dispatch({
-      type: 'startVisit',
+      type: 'addVisit',
       visit: {
-        id: newId('visit'),
+        id,
         placeId: place.id,
         placeName: place.name,
-        startedAt: new Date().toISOString(),
+        at: new Date().toISOString(),
         check,
         distanceM: check === 'self' || distance === undefined ? undefined : Math.round(distance),
-        memo: '',
         demo,
+        chain: { status: demo ? 'skipped' : 'local' },
       },
     });
-    dispatch({ type: 'completeOnboarding' });
-    navigate('/visit', { replace: true });
+    navigate(`/visits/${id}?new=1`, { replace: true });
   };
 
-  if (current) {
+  if (today) {
+    const last = visitsAt(game, place.id)[0];
     return (
-      <Screen title="記録を始める" back={`/places/${place.id}`} tabs={false}>
-        <div className="notice stack-s" role="status">
-          <strong>{current.placeName}の記録が途中です</strong>
-          <span>一度にひとつの神社だけ記録できます。先に綴じるか、破棄してください。</span>
-          <Link to="/visit" className="btn btn--primary">
-            記録中の頁へ
+      <Screen title="参拝" back={`/places/${place.id}`} tabs={false}>
+        <div className="empty" style={{ marginTop: 16 }}>
+          <p>{place.name}には、今日もう参拝を記録しました。同じ神社は1日1回までです。</p>
+          {last && (
+            <Link to={`/visits/${last.id}`} className="btn btn--primary">
+              今日の記録を見る
+            </Link>
+          )}
+          <Link to="/places" className="btn btn--quiet">
+            ほかの神社をさがす
           </Link>
         </div>
       </Screen>
     );
   }
 
+  // 位置の確認が済んだら、参拝の一手間
+  if (check) {
+    return (
+      <Screen
+        title="参拝"
+        back={`/places/${place.id}`}
+        tabs={false}
+        dock={
+          <button type="button" className="btn btn--primary btn--block" onClick={worship}>
+            参拝した
+          </button>
+        }
+      >
+        <div className="stack-l">
+          <header className="stack-s">
+            <span className="eyebrow">{place.area}</span>
+            <h2 style={{ fontSize: '1.45rem' }}>{place.name}</h2>
+            <p className="small muted">画面を閉じて、ゆっくり参拝してください。終わったら「参拝した」を押します。</p>
+          </header>
+          <section className="stack-s" aria-labelledby="etq">
+            <h3 id="etq">参拝の作法</h3>
+            <FactList facts={ETIQUETTE_FACTS.slice(0, 2)} />
+            {place.kind === 'shrine' && place.shrine.id === 'izumo-taisha' && <FactList facts={place.shrine.facts} />}
+          </section>
+        </div>
+      </Screen>
+    );
+  }
+
   return (
-    <Screen title="記録を始める" back={`/places/${place.id}`} tabs={false}>
+    <Screen title="参拝" back={`/places/${place.id}`} tabs={false}>
       <div className="stack-l">
         <header className="stack-s">
           <span className="eyebrow">{place.area}</span>
-          <h2 style={{ fontSize: '1.4rem' }}>{place.name}</h2>
+          <h2 style={{ fontSize: '1.45rem' }}>{place.name}</h2>
         </header>
 
         {isDarkHours() && (
           <div className="notice notice--gold" role="note">
             <strong>暗い時間です</strong>
-            <span>境内は足元が見えにくく、閉門している神社もあります。無理をせず、明るい時間にあらためても大丈夫です。</span>
+            <span>境内は足元が見えにくく、閉門している神社もあります。無理をせず、明るい時間にあらためても大丈夫です。夜に参拝しても、もらえる部品は同じです。</span>
           </div>
         )}
 
         {place.coords ? (
           <section className="card stack" aria-labelledby="loc-title">
-            <h3 id="loc-title">境内の近くにいますか？</h3>
+            <h3 id="loc-title">境内にいますか？</h3>
             {state.phase === 'idle' && (
               <>
                 <p className="small">
-                  位置情報で一度だけ確かめます。座標は保存も送信もせず、帳面には「約何m」という概数だけを残します。
+                  位置情報で一度だけ確かめます。座標は保存も送信もしません。チェーンに記録するのは「どの神社に、いつ（日付）」だけです。
                 </p>
                 <button type="button" className="btn btn--primary btn--block" onClick={locate}>
                   <Icon name="locate" />
@@ -102,23 +141,28 @@ export function Arrive() {
                 </span>
               </div>
             )}
-            {state.phase === 'ok' && distance !== undefined && (
-              near ? (
-                <div className={`notice ${state.simulated ? 'notice--gold' : 'notice--ok'}`} role="status">
-                  <strong>
-                    境内付近です（{formatDistance(distance)}）{state.simulated && '・模擬位置'}
-                  </strong>
-                  <span>登録している座標は概略なので、多少の誤差があります。</span>
-                </div>
+            {state.phase === 'ok' &&
+              distance !== undefined &&
+              (near ? (
+                <>
+                  <div className={`notice ${state.simulated ? 'notice--gold' : 'notice--ok'}`} role="status">
+                    <strong>
+                      境内付近です（{formatDistance(distance)}）{state.simulated && '・模擬位置'}
+                    </strong>
+                  </div>
+                  <button type="button" className="btn btn--primary btn--block" onClick={() => setCheck(state.simulated ? 'demo' : 'gps')}>
+                    参拝する
+                  </button>
+                </>
               ) : (
                 <div className="notice notice--warn" role="status">
                   <strong>
                     {place.name}から{formatDistance(distance)}離れているようです{state.simulated && '（模擬位置）'}
                   </strong>
                   <span>
-                    {demo && !demoHere
-                      ? `デモの模擬位置は別の神社に設定されています。設定から変えるか、位置を使わずに始められます。`
-                      : '着いてからもう一度確かめるか、位置を使わずに記録できます。'}
+                    {demo
+                      ? 'デモの模擬位置は別の神社に設定されています。設定から変えられます。'
+                      : '着いてからもう一度確かめてください。参拝の記録は、神社にいるときだけです。'}
                   </span>
                   <span>
                     <button type="button" className="link" onClick={locate}>
@@ -126,31 +170,29 @@ export function Arrive() {
                     </button>
                   </span>
                 </div>
-              )
-            )}
-            {state.phase === 'ok' && near && (
-              <button type="button" className="btn btn--primary btn--block" onClick={() => start(state.simulated ? 'demo' : 'gps')}>
-                記録を始める
-              </button>
+              ))}
+            {state.phase === 'error' && (
+              <div className="stack-s">
+                <button type="button" className="btn btn--block" onClick={() => setCheck(demo ? 'demo' : 'self')}>
+                  位置を使わずに参拝する
+                </button>
+                <p className="tiny muted">
+                  位置を確かめていない参拝には「位置未確認」と付きます。チェーンに記録するときも、記録の画面に同じ印が出ます。
+                </p>
+              </div>
             )}
           </section>
         ) : (
-          <section className="notice">
-            <strong>位置を保存していない神社です</strong>
-            <span>位置の確認はせずに記録します。</span>
+          <section className="stack-s">
+            <div className="notice">
+              <strong>位置を保存していない神社です</strong>
+              <span>位置の確認はせずに参拝を記録します（「位置未確認」と付きます）。</span>
+            </div>
+            <button type="button" className="btn btn--primary btn--block" onClick={() => setCheck(demo ? 'demo' : 'self')}>
+              参拝する
+            </button>
           </section>
         )}
-
-        <section className="stack-s">
-          <button
-            type="button"
-            className={`btn btn--block ${place.coords ? '' : 'btn--primary'}`}
-            onClick={() => start(demo ? 'demo' : 'self')}
-          >
-            {place.coords ? '位置を使わずに始める' : '記録を始める'}
-          </button>
-          <p className="tiny muted center">位置を使わない記録には「位置未確認」と付きます。帳面はあなただけのものなので、それで困ることはありません。</p>
-        </section>
 
         <section className="stack-s" aria-labelledby="guide-title">
           <h3 id="guide-title">境内でのお願い</h3>

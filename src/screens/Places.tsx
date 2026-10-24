@@ -3,15 +3,20 @@ import { Link, useNavigate } from 'react-router-dom';
 import { Screen } from '../components/Screen';
 import { Icon } from '../components/Icon';
 import { Sheet } from '../components/Sheet';
-import { useNotebook } from '../state/NotebookContext';
-import { newId, placeVisits } from '../state/model';
+import { useGame } from '../state/GameContext';
+import { useCommunity } from '../chain/useCommunity';
+import { useChainActions } from '../chain/useChainActions';
+import { utf8Length } from '../chain/codec';
+import { visitsAt } from '../state/model';
 import { allPlaces, sortByDistance, type Place } from '../lib/places';
 import { formatDistance, NEAR_RADIUS_M, POSITION_ERROR_TEXT, roundCoord } from '../lib/geo';
 import { useLocate } from '../lib/useLocate';
 
-function PlaceRow({ place, distance }: { place: Place; distance?: number }) {
-  const { nb } = useNotebook();
-  const visits = placeVisits(nb, place.id).length;
+const newPlaceId = () => `c-${Date.now().toString(36)}${Math.random().toString(36).slice(2, 6)}`;
+
+function PlaceRow({ place, distance, visits }: { place: Place; distance?: number; visits?: number }) {
+  const { game } = useGame();
+  const mine = visitsAt(game, place.id).length;
   const near = distance !== undefined && distance <= NEAR_RADIUS_M;
   return (
     <li>
@@ -20,7 +25,8 @@ function PlaceRow({ place, distance }: { place: Place; distance?: number }) {
           <span className="list-item__title">{place.name}</span>
           <span className="list-item__sub">
             {place.area}
-            {visits > 0 && ` ・ 帳面に ${visits} 頁`}
+            {mine > 0 && ` ・ 参拝 ${mine} 回`}
+            {visits !== undefined && visits > 0 && ` ・ みんなの参拝 ${visits}`}
           </span>
         </span>
         {distance !== undefined && Number.isFinite(distance) && (
@@ -35,35 +41,34 @@ function PlaceRow({ place, distance }: { place: Place; distance?: number }) {
 }
 
 export function Places() {
-  const { nb, dispatch } = useNotebook();
+  const { game, dispatch } = useGame();
+  const community = useCommunity();
+  const { block } = useChainActions();
   const navigate = useNavigate();
   const { state, locate } = useLocate();
   const [query, setQuery] = useState('');
   const [adding, setAdding] = useState(false);
 
-  const places = useMemo(() => allPlaces(nb), [nb]);
+  const places = useMemo(() => allPlaces(game, community.shrines), [game, community.shrines]);
   const q = query.trim();
   const filtered = q ? places.filter((p) => `${p.name}${p.area}${p.kind === 'shrine' ? p.shrine.kana : ''}`.includes(q)) : places;
   const sorted = state.phase === 'ok' ? sortByDistance(filtered, state.coords) : filtered.map((place) => ({ place, d: undefined }));
   const nearest = state.phase === 'ok' ? sorted[0] : undefined;
+  const realCoords = state.phase === 'ok' && !state.simulated ? state.coords : undefined;
 
   return (
-    <Screen title="さがす">
+    <Screen title="参拝">
       <div className="stack-l">
         <section className="stack">
           <div className="stack-s">
-            <h2>神社をさがす</h2>
-            <p className="muted small">
-              着いた神社を選んで記録を始めます。収録していない神社は、自分で帳面に加えられます。
-            </p>
+            <h2>参拝する神社をえらぶ</h2>
+            <p className="muted small">神社に着いたら選んで参拝します。どの神社でも部品がもらえます。リストにない神社は加えられます。</p>
           </div>
 
           {state.phase === 'idle' && (
             <div className="card card--flat stack-s">
               <strong>近い順に並べますか？</strong>
-              <p className="small muted">
-                位置情報は並べ替えのためにこの場で一度だけ使い、保存も送信もしません。
-              </p>
+              <p className="small muted">位置情報は並べ替えのためにこの場で一度だけ使い、保存も送信もしません。</p>
               <button type="button" className="btn btn--primary" onClick={locate}>
                 <Icon name="locate" />
                 位置情報で近い順にする
@@ -91,42 +96,35 @@ export function Places() {
             <div className={`notice ${state.simulated ? 'notice--gold' : 'notice--ok'}`} role="status">
               <strong>{state.simulated ? '模擬位置（デモ）で並べています' : '現在地から近い順に並べています'}</strong>
               {nearest && nearest.d !== undefined && nearest.d > NEAR_RADIUS_M && (
-                <span>近くに収録済みの神社はありません。近所の神社なら、下の「帳面に加える」から記録できます。</span>
+                <span>近くに登録済みの神社はありません。いる神社を「神社を加える」から登録できます。</span>
               )}
             </div>
           )}
 
           <label className="field">
             <span className="visually-hidden">神社名・地名で絞り込む</span>
-            <input
-              type="search"
-              placeholder="神社名・地名で絞り込む"
-              value={query}
-              onChange={(e) => setQuery(e.target.value)}
-            />
+            <input type="search" placeholder="神社名・地名で絞り込む" value={query} onChange={(e) => setQuery(e.target.value)} />
           </label>
 
           {sorted.length === 0 ? (
             <div className="empty">
-              <p>「{q}」に当てはまる神社は収録されていません。</p>
+              <p>「{q}」に当てはまる神社はありません。</p>
               <button type="button" className="btn" onClick={() => setAdding(true)}>
-                「{q}」を帳面に加える
+                「{q}」を加える
               </button>
             </div>
           ) : (
             <ul className="list">
               {sorted.map(({ place, d }) => (
-                <PlaceRow key={place.id} place={place} distance={d} />
+                <PlaceRow key={place.id} place={place} distance={d} visits={community.stats[place.id]?.visits} />
               ))}
             </ul>
           )}
         </section>
 
         <section className="card card--flat stack-s">
-          <h3>近所の神社を帳面に加える</h3>
-          <p className="small muted">
-            収録は代表的な {places.filter((p) => p.kind === 'shrine').length} 社だけです。図鑑の見どころは、どの神社でも探せます。
-          </p>
+          <h3>リストにない神社を加える</h3>
+          <p className="small muted">近所の神社も参拝できます。位置を確かめた神社は、チェーンに登録してみんなの地図に載せられます。</p>
           <button type="button" className="btn" onClick={() => setAdding(true)}>
             <Icon name="plus" />
             神社を加える
@@ -137,22 +135,24 @@ export function Places() {
       {adding && (
         <AddPlaceSheet
           initialName={q}
-          coords={state.phase === 'ok' && !state.simulated ? state.coords : undefined}
+          coords={realCoords}
+          canRegister={block(false).kind === 'ready'}
+          onLocate={locate}
           onClose={() => setAdding(false)}
-          onAdd={(name, keepCoords) => {
-            const id = newId('place');
-            const coords = keepCoords && state.phase === 'ok' && !state.simulated ? state.coords : undefined;
+          onAdd={(name, keep, register) => {
+            const id = newPlaceId();
             dispatch({
               type: 'addCustomPlace',
               place: {
                 id,
                 name,
                 createdAt: new Date().toISOString(),
-                ...(coords ? { lat: roundCoord(coords.lat), lng: roundCoord(coords.lng) } : {}),
+                ...(keep && realCoords ? { lat: roundCoord(realCoords.lat), lng: roundCoord(realCoords.lng) } : {}),
+                chain: { status: 'local' },
               },
             });
             setAdding(false);
-            navigate(`/places/${id}`);
+            navigate(`/places/${id}${register ? '?register=1' : ''}`);
           }}
         />
       )}
@@ -163,48 +163,63 @@ export function Places() {
 function AddPlaceSheet({
   initialName,
   coords,
+  canRegister,
+  onLocate,
   onClose,
   onAdd,
 }: {
   initialName: string;
   coords?: { lat: number; lng: number };
+  canRegister: boolean;
+  onLocate: () => void;
   onClose: () => void;
-  onAdd: (name: string, keepCoords: boolean) => void;
+  onAdd: (name: string, keepCoords: boolean, register: boolean) => void;
 }) {
   const [name, setName] = useState(initialName);
-  const [keep, setKeep] = useState(false);
+  const [keep, setKeep] = useState(Boolean(coords));
   const trimmed = name.trim();
+  const tooLong = utf8Length(trimmed) > 120;
   return (
-    <Sheet title="神社を帳面に加える" onClose={onClose}>
+    <Sheet title="神社を加える" onClose={onClose}>
       <form
         className="stack"
         onSubmit={(e) => {
           e.preventDefault();
-          if (trimmed) onAdd(trimmed.slice(0, 40), keep);
+          if (trimmed && !tooLong) onAdd(trimmed, keep, keep && Boolean(coords) && canRegister);
         }}
       >
         <label className="field">
           神社の名前
-          <input type="text" value={name} onChange={(e) => setName(e.target.value)} maxLength={40} placeholder="例：○○八幡神社" required />
+          <input type="text" value={name} onChange={(e) => setName(e.target.value)} placeholder="例：○○八幡神社" required />
         </label>
+        {tooLong && <p className="tiny error-text">名前が長すぎます（日本語で40文字まで）。</p>}
         {coords ? (
           <label className="row small" style={{ alignItems: 'flex-start' }}>
             <input type="checkbox" checked={keep} onChange={(e) => setKeep(e.target.checked)} style={{ width: 22, height: 22, marginTop: 2 }} />
             <span>
-              おおよその位置（約100m単位）もこの端末に保存する
+              いまいる場所を、この神社の位置にする（約100m単位）
               <br />
-              <span className="muted">次に来たとき、近い順に並ぶようになります。</span>
+              <span className="muted">
+                {canRegister
+                  ? '神社の名前と位置をチェーンに登録し、みんなの地図に載せます（公開されます）。'
+                  : '位置はこの端末に保存します。加えたあと、神社のページからチェーンに登録してみんなの地図に載せることもできます。'}
+              </span>
             </span>
           </label>
         ) : (
-          <p className="small muted">位置は保存しません。次に来たときは名前から選べます。</p>
+          <div className="stack-s">
+            <p className="small muted">位置を確かめていないので、神社の位置は保存しません（みんなの地図には載りません）。</p>
+            <button type="button" className="btn btn--quiet" onClick={onLocate}>
+              <Icon name="locate" />
+              いまの位置を確かめる
+            </button>
+          </div>
         )}
-        <p className="tiny muted">追加した神社の情報は、あなたの帳面の中だけにあります。</p>
         <div className="row">
           <button type="button" className="btn btn--quiet" onClick={onClose} style={{ flex: 1 }}>
             やめる
           </button>
-          <button type="submit" className="btn btn--primary" disabled={!trimmed} style={{ flex: 2 }}>
+          <button type="submit" className="btn btn--primary" disabled={!trimmed || tooLong} style={{ flex: 2 }}>
             加える
           </button>
         </div>

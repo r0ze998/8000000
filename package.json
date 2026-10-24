@@ -1,13 +1,19 @@
 {
   "name": "8000000",
-  "version": "3.0.0",
-  "description": "やおよろず帳 — 神社の境内で「見分ける目」を育てる野帳アプリ",
+  "version": "3.1.0",
+  "description": "8000000 — 実在の神社に参拝して自分の神社を育て、参拝の記録がみんなの神社の地図になる DePIN",
   "private": true,
   "type": "module",
   "scripts": {
     "dev": "vite",
     "start": "vite",
+    "contracts:build": "cd contracts && scarb build",
+    "contracts:test": "cd contracts && snforge test",
+    "devnet": "node scripts/devnet.mjs --port 5050",
+    "dev:chain": "vite --mode devnet",
+    "deploy:sepolia": "node scripts/deploy-sepolia.mjs",
     "build": "tsc --noEmit && vite build",
+    "build:sepolia": "tsc --noEmit && vite build --mode sepolia",
     "preview": "vite preview --port 4173 --strictPort",
     "typecheck": "tsc --noEmit",
     "test": "vitest run",
@@ -15,19 +21,25 @@
     "test:all": "npm run typecheck && npm test && npm run build && npm run test:e2e"
   },
   "dependencies": {
+    "@starknet-io/get-starknet": "4.0.8",
+    "leaflet": "1.9.4",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
-    "react-router-dom": "^6.28.0"
+    "react-router-dom": "^6.28.0",
+    "starknet": "10.8.0"
   },
   "devDependencies": {
+    "@noble/hashes": "1.6.1",
     "@playwright/test": "1.58.2",
     "@testing-library/dom": "^10.4.0",
     "@testing-library/react": "^16.1.0",
+    "@types/leaflet": "1.9.22",
     "@types/node": "^20.17.6",
     "@types/react": "^18.3.12",
     "@types/react-dom": "^18.3.1",
     "@vitejs/plugin-react": "^4.4.1",
     "jsdom": "^25.0.1",
+    "starknet-devnet": "0.8.2",
     "typescript": "^5.6.3",
     "vite": "^6.3.5",
     "vitest": "^3.1.4"

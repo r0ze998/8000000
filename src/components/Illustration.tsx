@@ -22,6 +22,15 @@ const seal = (chars: string[]) => (
 );
 
 const DRAWINGS: Record<string, ReactNode> = {
+  path: (
+    <g className="ill-thin">
+      {[
+        [22, 22], [46, 18], [74, 24], [98, 20], [30, 44], [58, 40], [86, 46], [16, 66], [44, 62], [70, 68], [100, 64], [28, 86], [56, 84], [84, 88],
+      ].map(([x, y]) => (
+        <ellipse key={`${x}-${y}`} cx={x} cy={y} rx="7" ry="4.5" />
+      ))}
+    </g>
+  ),
   'torii-shinmei': (
     <g>
       {ground}

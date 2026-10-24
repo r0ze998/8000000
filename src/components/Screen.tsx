@@ -1,20 +1,17 @@
 import { useEffect, type ReactNode } from 'react';
 import { Link, NavLink, useNavigate } from 'react-router-dom';
 import { Icon } from './Icon';
-import { useNotebook } from '../state/NotebookContext';
-import { activeVisit } from '../state/model';
+import { useGame } from '../state/GameContext';
 import { SHRINE_BY_ID } from '../data/shrines';
 
 const TABS = [
-  { to: '/', label: 'きょう', icon: 'today', end: true },
-  { to: '/places', label: 'さがす', icon: 'places', end: false },
-  { to: '/guide', label: '図鑑', icon: 'guide', end: false },
-  { to: '/notebook', label: '帳面', icon: 'notebook', end: false },
+  { to: '/', label: '神社', icon: 'shrine', end: true },
+  { to: '/places', label: '参拝', icon: 'places', end: false },
+  { to: '/map', label: '地図', icon: 'map', end: false },
+  { to: '/visits', label: '記録', icon: 'notebook', end: false },
 ];
 
 function TabBar() {
-  const { nb } = useNotebook();
-  const recording = Boolean(activeVisit(nb));
   return (
     <nav className="tabbar" aria-label="メインメニュー">
       <ul className="tabbar__list">
@@ -23,7 +20,6 @@ function TabBar() {
             <NavLink to={t.to} end={t.end} className={({ isActive }) => `tabbar__link${isActive ? ' active' : ''}`}>
               <Icon name={t.icon} />
               <span>{t.label}</span>
-              {t.to === '/' && recording && <span className="tabbar__badge" aria-label="記録中" />}
             </NavLink>
           </li>
         ))}
@@ -43,15 +39,15 @@ export function useBack(fallback: string) {
 }
 
 function Banners() {
-  const { nb, health, loadStatus, backupKey, dismissLoadNotice } = useNotebook();
-  const demoShrine = SHRINE_BY_ID[nb.settings.demoPlaceId];
+  const { game, health, loadStatus, backupKey, dismissLoadNotice } = useGame();
+  const demoShrine = SHRINE_BY_ID[game.settings.demoPlaceId];
   return (
     <div className="banner-stack" aria-live="polite">
-      {nb.settings.demo && (
+      {game.settings.demo && (
         <div className="banner banner--demo" role="status">
           <div className="banner__body">
             <span className="banner__title">デモモード</span>
-            {`：模擬位置（${demoShrine?.name ?? '—'}）で動いています。記録には「デモ」と付きます。`}{' '}
+            {`：模擬位置（${demoShrine?.name ?? '—'}）で動いています。デモの参拝はチェーンに記録されません。`}{' '}
             <Link to="/settings#demo">切り替え</Link>
           </div>
         </div>
@@ -61,7 +57,7 @@ function Banners() {
           <div className="banner__body">
             <span className="banner__title">この端末に保存できません</span>
             <br />
-            プライベートブラウズ等で保存が制限されています。閉じると記録は消えます。
+            プライベートブラウズ等で保存が制限されています。閉じると、チェーンに記録していない参拝と配置は消えます。
           </div>
         </div>
       )}
@@ -70,7 +66,7 @@ function Banners() {
           <div className="banner__body">
             <span className="banner__title">保存に失敗しました</span>
             <br />
-            端末の空き容量が足りない可能性があります。<Link to="/settings#data">帳面を書き出す</Link>と安全です。
+            端末の空き容量が足りない可能性があります。<Link to="/settings#data">データを書き出す</Link>と安全です。
           </div>
         </div>
       )}
@@ -79,7 +75,7 @@ function Banners() {
           <div className="banner__body">
             <span className="banner__title">保存データを読み込めませんでした</span>
             <br />
-            元のデータは消さずに退避しました（{backupKey}）。新しい帳面で始めています。
+            元のデータは消さずに退避しました（{backupKey}）。新しく始めています。
             <br />
             <button type="button" className="link" onClick={dismissLoadNotice}>
               わかった
@@ -93,23 +89,22 @@ function Banners() {
 
 interface ScreenProps {
   title: string;
-  /** 戻るボタンを出す場合の、履歴がないときの戻り先 */
   back?: string;
   tabs?: boolean;
-  /** 画面下に固定する主操作 */
   dock?: ReactNode;
   actions?: ReactNode;
   children: ReactNode;
   brand?: boolean;
+  wide?: boolean;
 }
 
-export function Screen({ title, back, tabs = true, dock, actions, children, brand }: ScreenProps) {
+export function Screen({ title, back, tabs = true, dock, actions, children, brand, wide }: ScreenProps) {
   const goBack = useBack(back ?? '/');
   useEffect(() => {
-    document.title = `${title} | やおよろず帳`;
+    document.title = `${title} | 8000000`;
   }, [title]);
   return (
-    <div className={`shell${tabs ? ' shell--tabs' : ''}`}>
+    <div className={`shell${tabs ? ' shell--tabs' : ''}${wide ? ' shell--wide' : ''}`}>
       <header className="topbar">
         <div className="topbar__inner">
           {back !== undefined && (
@@ -120,7 +115,7 @@ export function Screen({ title, back, tabs = true, dock, actions, children, bran
           {brand ? (
             <Link to="/" className="topbar__brand topbar__title">
               <img src="./icon.svg" alt="" />
-              <span>やおよろず帳</span>
+              <span>8000000</span>
             </Link>
           ) : (
             <h1 className="topbar__title">{title}</h1>

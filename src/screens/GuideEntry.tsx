@@ -1,87 +1,45 @@
+// 部品のもとになった実際の見どころの解説（事実は出典つき、探し方はアプリの案内）。
+
 import { Link, useParams } from 'react-router-dom';
 import { Screen } from '../components/Screen';
 import { Illustration } from '../components/Illustration';
 import { FactList, GuideBox } from '../components/Facts';
-import { Stamp } from '../components/Progress';
 import { Icon } from '../components/Icon';
-import { useNotebook } from '../state/NotebookContext';
-import { featureStatus, firstSighting, MAX_PINNED } from '../state/model';
+import { useGame } from '../state/GameContext';
+import { inventory } from '../state/model';
 import { CATEGORY_LABEL, FEATURE_BY_ID } from '../data/features';
+import { PARTS } from '../data/parts';
 import { SHRINES } from '../data/shrines';
-import { formatDate } from '../lib/time';
 import { NotFound } from './NotFound';
 
 export function GuideEntry() {
   const { featureId = '' } = useParams();
-  const { nb, dispatch } = useNotebook();
+  const { game } = useGame();
   const f = FEATURE_BY_ID[featureId];
-  if (!f) return <NotFound what="図鑑の項目" back="/guide" />;
+  if (!f) return <NotFound what="解説" back="/" />;
 
-  const status = featureStatus(nb, f.id);
-  const first = firstSighting(nb, f.id);
-  const firstVisit = first ? nb.visits.find((v) => v.id === first.visitId) : undefined;
-  const pinned = nb.pinned.includes(f.id);
-  const pinFull = !pinned && nb.pinned.length >= MAX_PINNED;
+  const part = PARTS.find((p) => p.featureId === f.id);
+  const owned = part ? (inventory(game)[part.id] ?? 0) + game.placements.filter((p) => p.partId === part.id).length + (game.honden === part.id ? 1 : 0) : 0;
   const examples = SHRINES.filter((s) => s.known.some((k) => k.featureId === f.id));
 
   return (
-    <Screen title={f.name} back="/guide">
+    <Screen title={f.name} back="/">
       <div className="stack-l">
         <header className="stack">
-          <div className="ill-frame" style={{ position: 'relative' }}>
+          <div className="ill-frame">
             <Illustration id={f.id} label={`${f.name}の模式図`} />
-            {status === 'seen' && (
-              <span style={{ position: 'absolute', top: 10, right: 10 }}>
-                <Stamp large />
-              </span>
-            )}
           </div>
           <div className="stack-s">
             <span className="eyebrow">{CATEGORY_LABEL[f.category]}</span>
             <h2 style={{ fontSize: '1.55rem' }}>{f.name}</h2>
             <p className="muted small">{f.kana}</p>
             <p>{f.gist}</p>
-          </div>
-
-          {status === 'seen' && firstVisit ? (
-            <div className="notice notice--ok">
-              <strong>
-                {formatDate(first!.at)}、{firstVisit.placeName}で初めて見た
-                {firstVisit.demo && '（デモ）'}
-              </strong>
-              {first!.note && <span>「{first!.note}」</span>}
-              <Link to={`/notebook/${firstVisit.id}`} className="small">
-                その日の頁を見る
-              </Link>
-            </div>
-          ) : (
-            <div className="stack-s">
-              <button
-                type="button"
-                className={`btn btn--block ${pinned ? '' : 'btn--primary'}`}
-                aria-pressed={pinned}
-                disabled={pinFull}
-                onClick={() => dispatch({ type: 'togglePin', featureId: f.id })}
-              >
-                <Icon name="pin" />
-                {pinned ? '探し物から外す' : '探し物に加える'}
-              </button>
-              <p className="tiny muted center">
-                {pinFull
-                  ? `探し物は${MAX_PINNED}つまでです。ほかを外すと加えられます。`
-                  : `探し物は境内の記録で先頭に並びます（${nb.pinned.length}/${MAX_PINNED}）。`}
+            {part && (
+              <p className="small muted">
+                ゲームの部品「{part.name}」のもとになった、実際の境内の見どころです。{owned > 0 ? `いま ${owned} つ持っています。` : ''}
               </p>
-              {status === 'unknown' && (
-                <button
-                  type="button"
-                  className="btn btn--quiet"
-                  onClick={() => dispatch({ type: 'learn', featureIds: [f.id], via: 'read', at: new Date().toISOString() })}
-                >
-                  見分け方を覚えた
-                </button>
-              )}
-            </div>
-          )}
+            )}
+          </div>
         </header>
 
         <section className="stack" aria-labelledby="facts-title">
@@ -89,11 +47,11 @@ export function GuideEntry() {
           <FactList facts={f.facts} />
         </section>
 
-        <GuideBox items={f.look} />
+        <GuideBox title="参拝のときに見てみる（アプリの案内）" items={f.look} />
 
         {examples.length > 0 && (
           <section className="stack-s" aria-labelledby="ex-title">
-            <h3 id="ex-title">出典で確かめられる例</h3>
+            <h3 id="ex-title">この部品がゆかりの部品になる神社</h3>
             <ul className="list">
               {examples.map((s) => (
                 <li key={s.id}>
@@ -111,6 +69,8 @@ export function GuideEntry() {
             </ul>
           </section>
         )}
+
+        <p className="tiny muted">挿絵はこのアプリのために描いた模式図で、実在の特定の建物を写したものではありません。</p>
       </div>
     </Screen>
   );

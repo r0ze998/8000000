@@ -1,66 +1,96 @@
-// 帳面の保存と復元。壊れたデータは消さずに退避し、旧バージョンのキーには触れない。
+// 保存と復元。壊れたデータは消さずに退避し、旧バージョンのキーには触れない。
 
-import { emptyNotebook, type Notebook } from './model';
+import { emptyGame, normalize, type ChainRecord, type Game } from './model';
 
-export const STORAGE_KEY = 'yaoyorozu.notebook.v1';
-export const BACKUP_PREFIX = 'yaoyorozu.notebook.corrupt.';
+export const STORAGE_KEY = '8000000.shrine.v1';
+export const BACKUP_PREFIX = '8000000.shrine.corrupt.';
 /** 旧アプリ（v2）が使っていたキー。読むだけで、書き換えも削除もしない */
 export const LEGACY_SHRINE_NAME_KEY = 'shrineName';
 
 export type LoadResult =
-  | { status: 'fresh'; notebook: Notebook; importedTitle: boolean }
-  | { status: 'restored'; notebook: Notebook }
-  | { status: 'recovered'; notebook: Notebook; backupKey: string }
-  | { status: 'unavailable'; notebook: Notebook };
+  | { status: 'fresh'; game: Game; importedName: boolean }
+  | { status: 'restored'; game: Game }
+  | { status: 'recovered'; game: Game; backupKey: string }
+  | { status: 'unavailable'; game: Game };
 
 const isObj = (v: unknown): v is Record<string, unknown> => typeof v === 'object' && v !== null && !Array.isArray(v);
 const isStr = (v: unknown): v is string => typeof v === 'string';
-const isArr = Array.isArray;
+const isNum = (v: unknown): v is number => typeof v === 'number' && Number.isFinite(v);
+const CHAIN_STATUSES = ['local', 'sending', 'confirmed', 'failed', 'skipped'];
 
-/** 形が正しいかを確かめ、足りない項目は既定値で補う。直せないほど壊れていれば null */
-export function parseNotebook(raw: unknown): Notebook | null {
-  if (!isObj(raw) || raw.version !== 1) return null;
-  const base = emptyNotebook();
-  if (!isArr(raw.visits) || !isArr(raw.sightings)) return null;
+function parseChain(v: unknown): ChainRecord {
+  if (!isObj(v) || !CHAIN_STATUSES.includes(v.status as string)) return { status: 'local' };
+  // 送信中のまま閉じられた記録は、結果がわからないので「失敗（確認が必要）」に戻す
+  if (v.status === 'sending') return { ...(v as unknown as ChainRecord), status: 'failed', reason: '送信中にアプリが閉じられました。記録の画面で確かめてください。' };
+  return v as unknown as ChainRecord;
+}
 
-  const visits = raw.visits.filter(
-    (v): v is Notebook['visits'][number] =>
-      isObj(v) && isStr(v.id) && isStr(v.placeId) && isStr(v.placeName) && isStr(v.startedAt),
-  ).map((v) => ({ ...v, memo: isStr(v.memo) ? v.memo : '', demo: v.demo === true, check: v.check ?? 'self' }));
+/** 形を確かめ、足りない項目は既定値で補う。直せないほど壊れていれば null */
+export function parseGame(raw: unknown): Game | null {
+  if (!isObj(raw) || raw.version !== 1 || !Array.isArray(raw.visits)) return null;
+  const base = emptyGame();
+  const visits = raw.visits
+    .filter((v): v is Record<string, unknown> => isObj(v) && isStr(v.id) && isStr(v.placeId) && isStr(v.placeName) && isStr(v.at) && isNum(v.day))
+    .map((v) => ({
+      id: v.id as string,
+      placeId: v.placeId as string,
+      placeName: v.placeName as string,
+      at: v.at as string,
+      day: v.day as number,
+      check: (['gps', 'self', 'demo'].includes(v.check as string) ? v.check : 'self') as Game['visits'][number]['check'],
+      distanceM: isNum(v.distanceM) ? v.distanceM : undefined,
+      demo: v.demo === true,
+      rewards: Array.isArray(v.rewards) ? v.rewards.filter(isStr) : [],
+      chain: parseChain(v.chain),
+    }));
   const visitIds = new Set(visits.map((v) => v.id));
-  const sightings = raw.sightings.filter(
-    (s): s is Notebook['sightings'][number] =>
-      isObj(s) && isStr(s.id) && isStr(s.featureId) && isStr(s.visitId) && visitIds.has(s.visitId) && isStr(s.at),
-  ).map((s) => ({ ...s, note: isStr(s.note) ? s.note : '' }));
-
+  const reports = (Array.isArray(raw.reports) ? raw.reports : [])
+    .filter((r): r is Record<string, unknown> => isObj(r) && isStr(r.id) && isStr(r.visitId) && visitIds.has(r.visitId) && isStr(r.placeId) && isNum(r.status))
+    .map((r) => ({
+      id: r.id as string,
+      visitId: r.visitId as string,
+      placeId: r.placeId as string,
+      status: r.status as number,
+      note: isStr(r.note) ? r.note : '',
+      at: isStr(r.at) ? r.at : base.createdAt,
+      chain: parseChain(r.chain),
+    }));
+  const placements = (Array.isArray(raw.placements) ? raw.placements : []).filter(
+    (p): p is Game['placements'][number] => isObj(p) && Number.isInteger(p.x) && Number.isInteger(p.y) && isStr(p.partId),
+  );
+  const customPlaces = (Array.isArray(raw.customPlaces) ? raw.customPlaces : [])
+    .filter((p): p is Record<string, unknown> => isObj(p) && isStr(p.id) && isStr(p.name))
+    .map((p) => ({
+      id: p.id as string,
+      name: p.name as string,
+      lat: isNum(p.lat) ? p.lat : undefined,
+      lng: isNum(p.lng) ? p.lng : undefined,
+      createdAt: isStr(p.createdAt) ? p.createdAt : base.createdAt,
+      chain: p.chain ? parseChain(p.chain) : undefined,
+    }));
   const settings = isObj(raw.settings) ? raw.settings : {};
-  const drill = isObj(raw.drill) ? raw.drill : {};
-  const num = (v: unknown) => (typeof v === 'number' && Number.isFinite(v) ? v : 0);
-
-  return {
+  return normalize({
     ...base,
     createdAt: isStr(raw.createdAt) ? raw.createdAt : base.createdAt,
-    title: isStr(raw.title) && raw.title.trim() ? raw.title : base.title,
+    name: isStr(raw.name) && raw.name.trim() ? raw.name : base.name,
     onboarded: raw.onboarded === true,
-    knowledge: isObj(raw.knowledge) ? (raw.knowledge as Notebook['knowledge']) : {},
-    pinned: isArr(raw.pinned) ? raw.pinned.filter(isStr).slice(0, 3) : [],
     visits,
-    sightings,
-    customPlaces: isArr(raw.customPlaces)
-      ? (raw.customPlaces.filter((p) => isObj(p) && isStr(p.id) && isStr(p.name)) as Notebook['customPlaces'])
-      : [],
-    drill: { rounds: num(drill.rounds), answered: num(drill.answered), correct: num(drill.correct) },
+    reports,
+    placements,
+    honden: isStr(raw.honden) ? raw.honden : 'hokora',
+    customPlaces,
     settings: {
       demo: settings.demo === true,
       demoPlaceId: isStr(settings.demoPlaceId) ? settings.demoPlaceId : base.settings.demoPlaceId,
+      chainConsent: typeof settings.chainConsent === 'boolean' ? settings.chainConsent : null,
     },
-  };
+  });
 }
 
 export function storageAvailable(storage: Storage | undefined = globalThis.localStorage): storage is Storage {
   try {
     if (!storage) return false;
-    const probe = '__yaoyorozu_probe__';
+    const probe = '__8000000_probe__';
     storage.setItem(probe, '1');
     storage.removeItem(probe);
     return true;
@@ -69,31 +99,27 @@ export function storageAvailable(storage: Storage | undefined = globalThis.local
   }
 }
 
-export function loadNotebook(storage: Storage | undefined = globalThis.localStorage, now = new Date()): LoadResult {
-  if (!storageAvailable(storage)) return { status: 'unavailable', notebook: emptyNotebook(now) };
-
+export function loadGame(storage: Storage | undefined = globalThis.localStorage, now = new Date()): LoadResult {
+  if (!storageAvailable(storage)) return { status: 'unavailable', game: emptyGame(now) };
   const raw = storage.getItem(STORAGE_KEY);
   if (raw === null) {
-    const nb = emptyNotebook(now);
-    const legacy = storage.getItem(LEGACY_SHRINE_NAME_KEY);
-    let importedTitle = false;
-    if (legacy) {
-      try {
-        const name = JSON.parse(legacy);
-        if (isStr(name) && name.trim() && name !== 'マイ神社') {
-          nb.title = `${name.trim().slice(0, 24)}の帳面`;
-          importedTitle = true;
-        }
-      } catch {
-        /* 旧データが読めなくても気にしない */
+    const game = emptyGame(now);
+    let importedName = false;
+    try {
+      const legacy = storage.getItem(LEGACY_SHRINE_NAME_KEY);
+      const name = legacy ? JSON.parse(legacy) : null;
+      if (isStr(name) && name.trim() && name !== 'マイ神社') {
+        game.name = name.trim().slice(0, 30);
+        importedName = true;
       }
+    } catch {
+      /* 旧データが読めなくても気にしない */
     }
-    return { status: 'fresh', notebook: nb, importedTitle };
+    return { status: 'fresh', game, importedName };
   }
-
   try {
-    const parsed = parseNotebook(JSON.parse(raw));
-    if (parsed) return { status: 'restored', notebook: parsed };
+    const parsed = parseGame(JSON.parse(raw));
+    if (parsed) return { status: 'restored', game: parsed };
   } catch {
     /* 下で退避する */
   }
@@ -103,13 +129,13 @@ export function loadNotebook(storage: Storage | undefined = globalThis.localStor
   } catch {
     /* 退避できなくても、元のキーは上書きするまで残っている */
   }
-  return { status: 'recovered', notebook: emptyNotebook(now), backupKey };
+  return { status: 'recovered', game: emptyGame(now), backupKey };
 }
 
-export function saveNotebook(nb: Notebook, storage: Storage | undefined = globalThis.localStorage): boolean {
+export function saveGame(g: Game, storage: Storage | undefined = globalThis.localStorage): boolean {
   try {
     if (!storage) return false;
-    storage.setItem(STORAGE_KEY, JSON.stringify(nb));
+    storage.setItem(STORAGE_KEY, JSON.stringify(g));
     return true;
   } catch {
     return false;

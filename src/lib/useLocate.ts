@@ -1,6 +1,6 @@
 import { useCallback, useState } from 'react';
 import { getPosition, type LatLng, type PositionResult } from './geo';
-import { useNotebook } from '../state/NotebookContext';
+import { useGame } from '../state/GameContext';
 import { SHRINE_BY_ID } from '../data/shrines';
 
 export type LocateState =
@@ -11,7 +11,7 @@ export type LocateState =
 
 /** 位置を一度だけ取得する。デモモードでは、選んだ神社の約110m南の模擬位置を返す */
 export function useLocate() {
-  const { nb } = useNotebook();
+  const { game: nb } = useGame();
   const [state, setState] = useState<LocateState>({ phase: 'idle' });
 
   const locate = useCallback(async () => {
