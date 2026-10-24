@@ -9,9 +9,9 @@ for (const url of process.argv.slice(2)) {
   page.on('pageerror', (e) => errors.push(e.message));
   try {
     await page.goto(url, { waitUntil: 'networkidle', timeout: 30000 });
-    const hero = await page.getByRole('heading', { name: /境内は、見分けられると/ }).isVisible();
-    await page.goto(`${url.replace(/\/$/, '')}/#/guide/torii-myojin`, { waitUntil: 'networkidle' });
-    const entry = await page.getByRole('heading', { name: '明神鳥居', level: 2 }).isVisible();
+    const hero = await page.getByRole('heading', { name: /神社に参拝すると、あなたの神社が育つ/ }).isVisible();
+    await page.goto(`${url.replace(/\/$/, '')}/#/places/kasuga-taisha`, { waitUntil: 'networkidle' });
+    const entry = await page.getByRole('heading', { name: '春日大社', level: 2 }).isVisible();
     const ok = hero && entry && errors.length === 0;
     if (!ok) failed++;
     console.log(`${ok ? 'OK  ' : 'FAIL'} ${url} hero=${hero} deepLink=${entry} title="${await page.title()}" errors=${errors.length}`);
